@@ -1,0 +1,10 @@
+services:
+
+    casebox_core.service_vocabulary.country_phone_codes_vocabulary:
+        class: Casebox\CoreBundle\Service\Vocabulary\CountryPhoneCodesVocabulary
+
+    casebox_core.service_vocabulary.timezone_vocabulary:
+        class: Casebox\CoreBundle\Service\Vocabulary\TimezoneVocabulary
+
+    casebox_core.service_vocabulary.language_vocabulary:
+        class: Casebox\CoreBundle\Service\Vocabulary\LanguageVocabulary

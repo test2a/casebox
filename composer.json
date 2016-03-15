@@ -1,0 +1,75 @@
+{
+  "name": "caseboxdev/core-bundle",
+  "type": "symfony-bundle",
+  "description": "This bundle provides Casebox integration with with Symfony CMF.",
+  "keywords": [
+    "casebox",
+    "symfony",
+    "core"
+  ],
+  "homepage": "https://casebox.org",
+  "license": "AGPL3.0",
+  "authors": [
+    {
+      "name": "Oleg Burlaca",
+      "email": "oleg@burlaca.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Vitalie Turcanu",
+      "email": "vitalie.turcanu@gmail.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Ghenadie Bulgac",
+      "email": "bulgac@gmail.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Vladimir Melnic",
+      "email": "win32hack@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^5.5|~7.0",
+    "symfony/symfony": "3.0.*",
+    "sensio/framework-extra-bundle": "~3.0",
+    "doctrine/orm": "^2.5",
+    "doctrine/doctrine-bundle": "^1.6",
+    "doctrine/doctrine-cache-bundle": "^1.2",
+    "symfony/swiftmailer-bundle": "^2.3",
+    "symfony/monolog-bundle": "^2.8",
+    "symfony/translation": "*",
+    "sensio/distribution-bundle": "^5.0",
+    "symfony/doctrine-bridge": "^3.0",
+    "phpunit/php-code-coverage": "^2.0",
+    "sensio/generator-bundle": "^3.0",
+    "incenteev/composer-parameter-handler": "^2.0",
+    "predis/predis": "~1.0",
+    "php-curl-class/php-curl-class": "^3.5",
+    "satooshi/php-coveralls": "^0.7.1",
+    "league/oauth2-google": "^1.0.1",
+    "ezyang/htmlpurifier": "^4.7",
+    "php-imap/php-imap": "^2.0",
+    "sabre/dav": "^3.1",
+    "mrclay/minify": "^2.2",
+    "mistic100/randomcolor": "1.0.3",
+    "reprovinci/solr-php-client": "1.0.3",
+    "kwi/urllinker": "@dev"
+  },
+  "suggest": {
+    "caseboxdev/rpc-bundle": "Add support for Casebox ExtJS UI and RPC API.",
+    "caseboxdev/rest-bundle": "Add support for Casebox REST API."
+  },
+  "autoload": {
+    "psr-4": {
+      "Casebox\\CoreBundle\\": "src/"
+    }
+  },
+  "scripts": {
+    "post-update-cmd": [
+      "Casebox\\CoreBundle\\Composer\\ScriptHandler::buildAssets"
+    ]
+  }
+}

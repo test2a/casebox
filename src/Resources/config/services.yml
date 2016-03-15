@@ -1,0 +1,26 @@
+services:
+
+    casebox_core.service_auth.authentication:
+        class: Casebox\CoreBundle\Service\Auth\CaseboxAuth
+        arguments: [ "@service_container" ]
+
+    casebox_core.service.user:
+        class: Casebox\CoreBundle\Service\User
+        arguments: [ "@service_container" ]
+
+    casebox_core.service.db:
+        class: Casebox\CoreBundle\Service\DBService
+        calls:
+            - [setContainer, [ "@service_container" ]]
+
+    casebox_core.service_state.dbprovider:
+        class: Casebox\CoreBundle\Service\State\DBProvider
+
+    casebox_core.service.redis_service:
+        class: Casebox\CoreBundle\Service\RedisService
+        arguments: [ "@service_container" ]
+
+    casebox_core.service_auth.two_step_auth:
+        class: Casebox\CoreBundle\Service\Auth\TwoStepAuth
+        calls:
+            - [ setContainer, [ "@service_container" ] ]

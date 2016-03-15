@@ -1,0 +1,31 @@
+services:
+
+    casebox_core.event_subscriber.access_subscriber:
+        class: Casebox\CoreBundle\EventSubscriber\AccessSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+    casebox_core.event_subscriber.log_subscriber:
+        class: Casebox\CoreBundle\EventSubscriber\LogSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+    casebox_core.event_subscriber.object_subscriber:
+        class: Casebox\CoreBundle\EventSubscriber\ObjectSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+    casebox_core.event_subscriber.preview_subscriber:
+        class: Casebox\CoreBundle\EventSubscriber\PreviewSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+    casebox_core.event_subscriber.solr_subscriber:
+        class: Casebox\CoreBundle\EventSubscriber\SolrSubscriber
+        tags:
+            - { name: kernel.event_subscriber }
+
+    casebox_core.event_subscriber.tree_initialize_subscriber:
+        class: Casebox\CoreBundle\EventSubscriber\TreeInitializeSubscriber
+        tags:
+            - { name: kernel.event_subscriber }

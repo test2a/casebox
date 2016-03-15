@@ -1,0 +1,993 @@
+/* Minify_CSS_UriRewriter::$debugText
+
+docRoot    : D:\devel\www\casebox2\web
+currentDir : D:\devel\www\casebox2\web\css\default
+symlinks : array (
+  'D:\\devel\\www\\casebox2\\web\\generate.php' => 'D:\\devel\\www\\casebox2\\web\\min',
+)
+
+*/
+
+/* ribbon.css */
+
+/* 1  */ /* buttons general changes */
+/* 2  */ .x-btn-icon > .x-btn-icon-el {
+/* 3  */     opacity: .55;
+/* 4  */ }
+/* 5  */ .x-btn-over .x-btn-icon > .x-btn-icon-el {
+/* 6  */     opacity: 1;
+/* 7  */ }
+/* 8  */ 
+/* 9  */ .x-btn-over.x-btn-default-toolbar-medium,
+/* 10 */ .x-btn-over.x-btn-default-toolbar-large,
+/* 11 */ .x-btn-over.x-btn-default-large,
+/* 12 */ .x-btn.x-btn-menu-active.x-btn-default-toolbar-large,
+/* 13 */ .x-btn.x-btn-pressed.x-btn-default-large {
+/* 14 */     background-image: none;
+/* 15 */     /*border-color: #2f2f2f;*/
+/* 16 */ }
+/* 17 */ /* end of buttons general changes */
+/* 18 */ 
+/* 19 */ .ribbon-black {
+/* 20 */     background: #151515;
+/* 21 */ }
+/* 22 */ 
+/* 23 */ .ribbon-black .x-btn.x-btn-default-large,
+/* 24 */ .ribbon-black .x-btn.x-btn-pressed.x-btn-default-large {
+/* 25 */     background-image: none;
+/* 26 */     background-color: transparent;
+/* 27 */     border-color: transparent;
+/* 28 */ }
+/* 29 */ 
+/* 30 */ .ribbon-black .x-btn.x-btn-pressed.x-btn-default-toolbar-large {
+/* 31 */     background-color: #5f5f5f;
+/* 32 */     border-color: #5f5f5f;
+/* 33 */ }
+/* 34 */ 
+/* 35 */ .ribbon-black .x-btn-over.x-btn-default-toolbar-medium,
+/* 36 */ .ribbon-black .x-btn-over.x-btn-default-toolbar-large,
+/* 37 */ .ribbon-black .x-btn-over.x-btn-default-large,
+/* 38 */ .ribbon-black .x-btn.x-btn-menu-active.x-btn-default-toolbar-large,
+/* 39 */ .ribbon-black .x-btn.x-btn-over.x-btn-default-large,
+/* 40 */ .ribbon-black .x-btn.x-btn-pressed.x-btn-default-large {
+/* 41 */     background-color: #2f2f2f;
+/* 42 */     border-color: #2f2f2f;
+/* 43 */ }
+/* 44 */ 
+/* 45 */ /*.ribbon-black .x-btn-icon > .x-btn-icon-el,
+/* 46 *| .x-btn-over>.x-btn-wrap-default-toolbar-large.x-btn-split-bottom:after {
+/* 47 *|     -webkit-filter: invert(100%) grayscale();
+/* 48 *| }
+/* 49 *| */
+/* 50 */ .ribbon-black .user-menu-button .x-btn-icon > .x-btn-icon-el {
+
+/* ribbon.css */
+
+/* 51 */     -webkit-filter: none
+/* 52 */ }
+/* 53 */ 
+/* 54 */ .ribbon-black .x-btn-over.x-btn-default-toolbar-large,
+/* 55 */ .ribbon-black .x-btn-over.x-btn-default-large{
+/* 56 */     background-color: #2f2f2f;
+/* 57 */     transition: all .3s ease-out 0s;
+/* 58 */ }
+/* 59 */ 
+/* 60 */ .ribbon-black .x-btn-default-toolbar-large,
+/* 61 */ .ribbon-black .x-btn-default-large {
+/* 62 */     border-radius: 0;
+/* 63 */     webkit-border-radius: 0
+/* 64 */ }
+/* 65 */ 
+/* Minify_CSS_UriRewriter::$debugText
+
+docRoot    : D:\devel\www\casebox2\web
+currentDir : D:\devel\www\casebox2\web\css\default
+symlinks : array (
+  'D:\\devel\\www\\casebox2\\web\\generate.php' => 'D:\\devel\\www\\casebox2\\web\\min',
+)
+
+file-relative URI  : b/apps.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\apps.png
+docroot stripped   : \css\default\b\apps.png
+traversals removed : /css/default/b/apps.png
+
+file-relative URI  : b/arr_l.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\arr_l.png
+docroot stripped   : \css\default\b\arr_l.png
+traversals removed : /css/default/b/arr_l.png
+
+file-relative URI  : b/arr_r.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\arr_r.png
+docroot stripped   : \css\default\b\arr_r.png
+traversals removed : /css/default/b/arr_r.png
+
+file-relative URI  : b/attach.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\attach.png
+docroot stripped   : \css\default\b\attach.png
+traversals removed : /css/default/b/attach.png
+
+file-relative URI  : b/back.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\back.png
+docroot stripped   : \css\default\b\back.png
+traversals removed : /css/default/b/back.png
+
+file-relative URI  : b/browse.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\browse.png
+docroot stripped   : \css\default\b\browse.png
+traversals removed : /css/default/b/browse.png
+
+file-relative URI  : b/cal-day.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\cal-day.png
+docroot stripped   : \css\default\b\cal-day.png
+traversals removed : /css/default/b/cal-day.png
+
+file-relative URI  : b/cal-month.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\cal-month.png
+docroot stripped   : \css\default\b\cal-month.png
+traversals removed : /css/default/b/cal-month.png
+
+file-relative URI  : b/today.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\today.png
+docroot stripped   : \css\default\b\today.png
+traversals removed : /css/default/b/today.png
+
+file-relative URI  : b/cal-week.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\cal-week.png
+docroot stripped   : \css\default\b\cal-week.png
+traversals removed : /css/default/b/cal-week.png
+
+file-relative URI  : b/prev.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\prev.png
+docroot stripped   : \css\default\b\prev.png
+traversals removed : /css/default/b/prev.png
+
+file-relative URI  : b/next.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\next.png
+docroot stripped   : \css\default\b\next.png
+traversals removed : /css/default/b/next.png
+
+file-relative URI  : b/cancel.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\cancel.png
+docroot stripped   : \css\default\b\cancel.png
+traversals removed : /css/default/b/cancel.png
+
+file-relative URI  : b/ic_add_circle_black_36dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_add_circle_black_36dp.png
+docroot stripped   : \css\default\b\ic_add_circle_black_36dp.png
+traversals removed : /css/default/b/ic_add_circle_black_36dp.png
+
+file-relative URI  : b/delete.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\delete.png
+docroot stripped   : \css\default\b\delete.png
+traversals removed : /css/default/b/delete.png
+
+file-relative URI  : b/ic_done_black_36dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_done_black_36dp.png
+docroot stripped   : \css\default\b\ic_done_black_36dp.png
+traversals removed : /css/default/b/ic_done_black_36dp.png
+
+file-relative URI  : b/ic_done_all_black_36dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_done_all_black_36dp.png
+docroot stripped   : \css\default\b\ic_done_all_black_36dp.png
+traversals removed : /css/default/b/ic_done_all_black_36dp.png
+
+file-relative URI  : b/download.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\download.png
+docroot stripped   : \css\default\b\download.png
+traversals removed : /css/default/b/download.png
+
+file-relative URI  : b/clipboard.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\clipboard.png
+docroot stripped   : \css\default\b\clipboard.png
+traversals removed : /css/default/b/clipboard.png
+
+file-relative URI  : b/edit.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\edit.png
+docroot stripped   : \css\default\b\edit.png
+traversals removed : /css/default/b/edit.png
+
+file-relative URI  : b/cal-event-new.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\cal-event-new.png
+docroot stripped   : \css\default\b\cal-event-new.png
+traversals removed : /css/default/b/cal-event-new.png
+
+file-relative URI  : b/expand.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\expand.png
+docroot stripped   : \css\default\b\expand.png
+traversals removed : /css/default/b/expand.png
+
+file-relative URI  : b/export.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\export.png
+docroot stripped   : \css\default\b\export.png
+traversals removed : /css/default/b/export.png
+
+file-relative URI  : b/external.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\external.png
+docroot stripped   : \css\default\b\external.png
+traversals removed : /css/default/b/external.png
+
+file-relative URI  : b/ic_filter_list_black_36dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_filter_list_black_36dp.png
+docroot stripped   : \css\default\b\ic_filter_list_black_36dp.png
+traversals removed : /css/default/b/ic_filter_list_black_36dp.png
+
+file-relative URI  : b/filter-on.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\filter-on.png
+docroot stripped   : \css\default\b\filter-on.png
+traversals removed : /css/default/b/filter-on.png
+
+file-relative URI  : b/fit.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\fit.png
+docroot stripped   : \css\default\b\fit.png
+traversals removed : /css/default/b/fit.png
+
+file-relative URI  : b/open.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\open.png
+docroot stripped   : \css\default\b\open.png
+traversals removed : /css/default/b/open.png
+
+file-relative URI  : b/points.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\points.png
+docroot stripped   : \css\default\b\points.png
+traversals removed : /css/default/b/points.png
+
+file-relative URI  : b/preview.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\preview.png
+docroot stripped   : \css\default\b\preview.png
+traversals removed : /css/default/b/preview.png
+
+file-relative URI  : b/properties.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\properties.png
+docroot stripped   : \css\default\b\properties.png
+traversals removed : /css/default/b/properties.png
+
+file-relative URI  : b/refresh.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\refresh.png
+docroot stripped   : \css\default\b\refresh.png
+traversals removed : /css/default/b/refresh.png
+
+file-relative URI  : b/restore.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\restore.png
+docroot stripped   : \css\default\b\restore.png
+traversals removed : /css/default/b/restore.png
+
+file-relative URI  : b/ic_reorder_black_36dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_reorder_black_36dp.png
+docroot stripped   : \css\default\b\ic_reorder_black_36dp.png
+traversals removed : /css/default/b/ic_reorder_black_36dp.png
+
+file-relative URI  : b/ic_repeat_black_36dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_repeat_black_36dp.png
+docroot stripped   : \css\default\b\ic_repeat_black_36dp.png
+traversals removed : /css/default/b/ic_repeat_black_36dp.png
+
+file-relative URI  : b/save.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\save.png
+docroot stripped   : \css\default\b\save.png
+traversals removed : /css/default/b/save.png
+
+file-relative URI  : b/ic_search_black_36dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_search_black_36dp.png
+docroot stripped   : \css\default\b\ic_search_black_36dp.png
+traversals removed : /css/default/b/ic_search_black_36dp.png
+
+file-relative URI  : b/ic_search_black_36dp_negative.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_search_black_36dp_negative.png
+docroot stripped   : \css\default\b\ic_search_black_36dp_negative.png
+traversals removed : /css/default/b/ic_search_black_36dp_negative.png
+
+file-relative URI  : b/ic_settings_applications_grey600_36dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_settings_applications_grey600_36dp.png
+docroot stripped   : \css\default\b\ic_settings_applications_grey600_36dp.png
+traversals removed : /css/default/b/ic_settings_applications_grey600_36dp.png
+
+file-relative URI  : b/table.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\table.png
+docroot stripped   : \css\default\b\table.png
+traversals removed : /css/default/b/table.png
+
+file-relative URI  : b/task-complete.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\task-complete.png
+docroot stripped   : \css\default\b\task-complete.png
+traversals removed : /css/default/b/task-complete.png
+
+file-relative URI  : b/task-new.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\task-new.png
+docroot stripped   : \css\default\b\task-new.png
+traversals removed : /css/default/b/task-new.png
+
+file-relative URI  : b/trash.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\trash.png
+docroot stripped   : \css\default\b\trash.png
+traversals removed : /css/default/b/trash.png
+
+file-relative URI  : b/upload.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\upload.png
+docroot stripped   : \css\default\b\upload.png
+traversals removed : /css/default/b/upload.png
+
+file-relative URI  : b/ic_autorenew_black_36dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\ic_autorenew_black_36dp.png
+docroot stripped   : \css\default\b\ic_autorenew_black_36dp.png
+traversals removed : /css/default/b/ic_autorenew_black_36dp.png
+
+file-relative URI  : b/list.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\list.png
+docroot stripped   : \css\default\b\list.png
+traversals removed : /css/default/b/list.png
+
+file-relative URI  : b/tasks.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\tasks.png
+docroot stripped   : \css\default\b\tasks.png
+traversals removed : /css/default/b/tasks.png
+
+file-relative URI  : b/calendar.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\calendar.png
+docroot stripped   : \css\default\b\calendar.png
+traversals removed : /css/default/b/calendar.png
+
+file-relative URI  : b/charts.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\charts.png
+docroot stripped   : \css\default\b\charts.png
+traversals removed : /css/default/b/charts.png
+
+file-relative URI  : b/chart-area.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\chart-area.png
+docroot stripped   : \css\default\b\chart-area.png
+traversals removed : /css/default/b/chart-area.png
+
+file-relative URI  : b/chart-bar.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\chart-bar.png
+docroot stripped   : \css\default\b\chart-bar.png
+traversals removed : /css/default/b/chart-bar.png
+
+file-relative URI  : b/chart-bar-stacked.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\chart-bar-stacked.png
+docroot stripped   : \css\default\b\chart-bar-stacked.png
+traversals removed : /css/default/b/chart-bar-stacked.png
+
+file-relative URI  : b/chart-column.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\chart-column.png
+docroot stripped   : \css\default\b\chart-column.png
+traversals removed : /css/default/b/chart-column.png
+
+file-relative URI  : b/chart-column-stacked.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\chart-column-stacked.png
+docroot stripped   : \css\default\b\chart-column-stacked.png
+traversals removed : /css/default/b/chart-column-stacked.png
+
+file-relative URI  : b/chart-line.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\chart-line.png
+docroot stripped   : \css\default\b\chart-line.png
+traversals removed : /css/default/b/chart-line.png
+
+file-relative URI  : b/chart-pie.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\chart-pie.png
+docroot stripped   : \css\default\b\chart-pie.png
+traversals removed : /css/default/b/chart-pie.png
+
+file-relative URI  : b/chart-table.png
+path prepended     : D:\devel\www\casebox2\web\css\default\b\chart-table.png
+docroot stripped   : \css\default\b\chart-table.png
+traversals removed : /css/default/b/chart-table.png
+
+file-relative URI  : m/ic_apps_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_apps_black_24dp.png
+docroot stripped   : \css\default\m\ic_apps_black_24dp.png
+traversals removed : /css/default/m/ic_apps_black_24dp.png
+
+file-relative URI  : m/ic_chevron_left_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_chevron_left_black_24dp.png
+docroot stripped   : \css\default\m\ic_chevron_left_black_24dp.png
+traversals removed : /css/default/m/ic_chevron_left_black_24dp.png
+
+file-relative URI  : m/ic_chevron_right_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_chevron_right_black_24dp.png
+docroot stripped   : \css\default\m\ic_chevron_right_black_24dp.png
+traversals removed : /css/default/m/ic_chevron_right_black_24dp.png
+
+file-relative URI  : m/ic_assignment_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_assignment_black_24dp.png
+docroot stripped   : \css\default\m\ic_assignment_black_24dp.png
+traversals removed : /css/default/m/ic_assignment_black_24dp.png
+
+file-relative URI  : m/ic_attach_file_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_attach_file_black_24dp.png
+docroot stripped   : \css\default\m\ic_attach_file_black_24dp.png
+traversals removed : /css/default/m/ic_attach_file_black_24dp.png
+
+file-relative URI  : m/ic_clear_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_clear_black_24dp.png
+docroot stripped   : \css\default\m\ic_clear_black_24dp.png
+traversals removed : /css/default/m/ic_clear_black_24dp.png
+
+file-relative URI  : m/ic_add_circle_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_add_circle_black_24dp.png
+docroot stripped   : \css\default\m\ic_add_circle_black_24dp.png
+traversals removed : /css/default/m/ic_add_circle_black_24dp.png
+
+file-relative URI  : m/ic_add_circle_black_24dp_negative.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_add_circle_black_24dp_negative.png
+docroot stripped   : \css\default\m\ic_add_circle_black_24dp_negative.png
+traversals removed : /css/default/m/ic_add_circle_black_24dp_negative.png
+
+file-relative URI  : m/ic_file_download_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_file_download_black_24dp.png
+docroot stripped   : \css\default\m\ic_file_download_black_24dp.png
+traversals removed : /css/default/m/ic_file_download_black_24dp.png
+
+file-relative URI  : m/ic_control_point_duplicate_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_control_point_duplicate_black_24dp.png
+docroot stripped   : \css\default\m\ic_control_point_duplicate_black_24dp.png
+traversals removed : /css/default/m/ic_control_point_duplicate_black_24dp.png
+
+file-relative URI  : m/ic_edit_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_edit_black_24dp.png
+docroot stripped   : \css\default\m\ic_edit_black_24dp.png
+traversals removed : /css/default/m/ic_edit_black_24dp.png
+
+file-relative URI  : m/ic_launch_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_launch_black_24dp.png
+docroot stripped   : \css\default\m\ic_launch_black_24dp.png
+traversals removed : /css/default/m/ic_launch_black_24dp.png
+
+file-relative URI  : m/ic_open_with_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_open_with_black_24dp.png
+docroot stripped   : \css\default\m\ic_open_with_black_24dp.png
+traversals removed : /css/default/m/ic_open_with_black_24dp.png
+
+file-relative URI  : m/ic_filter_list_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_filter_list_black_24dp.png
+docroot stripped   : \css\default\m\ic_filter_list_black_24dp.png
+traversals removed : /css/default/m/ic_filter_list_black_24dp.png
+
+file-relative URI  : m/ic_filter_list_black_24dp_negative.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_filter_list_black_24dp_negative.png
+docroot stripped   : \css\default\m\ic_filter_list_black_24dp_negative.png
+traversals removed : /css/default/m/ic_filter_list_black_24dp_negative.png
+
+file-relative URI  : m/ic_email_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_email_black_18dp.png
+docroot stripped   : \css\default\m\ic_email_black_18dp.png
+traversals removed : /css/default/m/ic_email_black_18dp.png
+
+file-relative URI  : m/ic_notifications_none_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_notifications_none_black_18dp.png
+docroot stripped   : \css\default\m\ic_notifications_none_black_18dp.png
+traversals removed : /css/default/m/ic_notifications_none_black_18dp.png
+
+file-relative URI  : m/ic_menu_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_menu_black_24dp.png
+docroot stripped   : \css\default\m\ic_menu_black_24dp.png
+traversals removed : /css/default/m/ic_menu_black_24dp.png
+
+file-relative URI  : m/ic_menu_black_24dp_negative.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_menu_black_24dp_negative.png
+docroot stripped   : \css\default\m\ic_menu_black_24dp_negative.png
+traversals removed : /css/default/m/ic_menu_black_24dp_negative.png
+
+file-relative URI  : m/ic_notifications_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_notifications_black_24dp.png
+docroot stripped   : \css\default\m\ic_notifications_black_24dp.png
+traversals removed : /css/default/m/ic_notifications_black_24dp.png
+
+file-relative URI  : m/ic_notifications_black_24dp_negative.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_notifications_black_24dp_negative.png
+docroot stripped   : \css\default\m\ic_notifications_black_24dp_negative.png
+traversals removed : /css/default/m/ic_notifications_black_24dp_negative.png
+
+file-relative URI  : m/ic_more_vert_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_more_vert_black_24dp.png
+docroot stripped   : \css\default\m\ic_more_vert_black_24dp.png
+traversals removed : /css/default/m/ic_more_vert_black_24dp.png
+
+file-relative URI  : m/ic_visibility_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_visibility_black_24dp.png
+docroot stripped   : \css\default\m\ic_visibility_black_24dp.png
+traversals removed : /css/default/m/ic_visibility_black_24dp.png
+
+file-relative URI  : m/ic_refresh_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_refresh_black_24dp.png
+docroot stripped   : \css\default\m\ic_refresh_black_24dp.png
+traversals removed : /css/default/m/ic_refresh_black_24dp.png
+
+file-relative URI  : m/ic_reorder_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_reorder_black_24dp.png
+docroot stripped   : \css\default\m\ic_reorder_black_24dp.png
+traversals removed : /css/default/m/ic_reorder_black_24dp.png
+
+file-relative URI  : m/ic_undo_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_undo_black_24dp.png
+docroot stripped   : \css\default\m\ic_undo_black_24dp.png
+traversals removed : /css/default/m/ic_undo_black_24dp.png
+
+file-relative URI  : m/ic_search_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_search_black_24dp.png
+docroot stripped   : \css\default\m\ic_search_black_24dp.png
+traversals removed : /css/default/m/ic_search_black_24dp.png
+
+file-relative URI  : m/ic_done_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_done_black_24dp.png
+docroot stripped   : \css\default\m\ic_done_black_24dp.png
+traversals removed : /css/default/m/ic_done_black_24dp.png
+
+file-relative URI  : m/ic_settings_applications_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_settings_applications_black_24dp.png
+docroot stripped   : \css\default\m\ic_settings_applications_black_24dp.png
+traversals removed : /css/default/m/ic_settings_applications_black_24dp.png
+
+file-relative URI  : m/ic_settings_white_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_settings_white_24dp.png
+docroot stripped   : \css\default\m\ic_settings_white_24dp.png
+traversals removed : /css/default/m/ic_settings_white_24dp.png
+
+file-relative URI  : m/ic_sort_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_sort_black_24dp.png
+docroot stripped   : \css\default\m\ic_sort_black_24dp.png
+traversals removed : /css/default/m/ic_sort_black_24dp.png
+
+file-relative URI  : m/ic_star_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_star_black_18dp.png
+docroot stripped   : \css\default\m\ic_star_black_18dp.png
+traversals removed : /css/default/m/ic_star_black_18dp.png
+
+file-relative URI  : ic_star_outline_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\ic_star_outline_black_18dp.png
+docroot stripped   : \css\default\ic_star_outline_black_18dp.png
+traversals removed : /css/default/ic_star_outline_black_18dp.png
+
+file-relative URI  : m/ic_tune_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_tune_black_24dp.png
+docroot stripped   : \css\default\m\ic_tune_black_24dp.png
+traversals removed : /css/default/m/ic_tune_black_24dp.png
+
+file-relative URI  : m/ic_file_upload_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_file_upload_black_24dp.png
+docroot stripped   : \css\default\m\ic_file_upload_black_24dp.png
+traversals removed : /css/default/m/ic_file_upload_black_24dp.png
+
+file-relative URI  : m/ic_delete_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_delete_black_24dp.png
+docroot stripped   : \css\default\m\ic_delete_black_24dp.png
+traversals removed : /css/default/m/ic_delete_black_24dp.png
+
+file-relative URI  : m/ic_notifications_active_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\m\ic_notifications_active_black_18dp.png
+docroot stripped   : \css\default\m\ic_notifications_active_black_18dp.png
+traversals removed : /css/default/m/ic_notifications_active_black_18dp.png
+
+file-relative URI  : s/folder-horizontal-open.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\folder-horizontal-open.png
+docroot stripped   : \css\default\s\folder-horizontal-open.png
+traversals removed : /css/default/s/folder-horizontal-open.png
+
+file-relative URI  : s/cross-script.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\cross-script.png
+docroot stripped   : \css\default\s\cross-script.png
+traversals removed : /css/default/s/cross-script.png
+
+file-relative URI  : s/calendar-blue.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\calendar-blue.png
+docroot stripped   : \css\default\s\calendar-blue.png
+traversals removed : /css/default/s/calendar-blue.png
+
+file-relative URI  : s/folder-open.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\folder-open.png
+docroot stripped   : \css\default\s\folder-open.png
+traversals removed : /css/default/s/folder-open.png
+
+file-relative URI  : s/task.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\task.png
+docroot stripped   : \css\default\s\task.png
+traversals removed : /css/default/s/task.png
+
+file-relative URI  : s/ic_keyboard_arrow_right_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_keyboard_arrow_right_black_18dp.png
+docroot stripped   : \css\default\s\ic_keyboard_arrow_right_black_18dp.png
+traversals removed : /css/default/s/ic_keyboard_arrow_right_black_18dp.png
+
+file-relative URI  : s/ic_attach_file_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_attach_file_black_18dp.png
+docroot stripped   : \css\default\s\ic_attach_file_black_18dp.png
+traversals removed : /css/default/s/ic_attach_file_black_18dp.png
+
+file-relative URI  : s/refresh.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\refresh.png
+docroot stripped   : \css\default\s\refresh.png
+traversals removed : /css/default/s/refresh.png
+
+file-relative URI  : s/points-gray.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\points-gray.png
+docroot stripped   : \css\default\s\points-gray.png
+traversals removed : /css/default/s/points-gray.png
+
+file-relative URI  : s/flag.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\flag.png
+docroot stripped   : \css\default\s\flag.png
+traversals removed : /css/default/s/flag.png
+
+file-relative URI  : s/flag-small.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\flag-small.png
+docroot stripped   : \css\default\s\flag-small.png
+traversals removed : /css/default/s/flag-small.png
+
+file-relative URI  : s/magnifier.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\magnifier.png
+docroot stripped   : \css\default\s\magnifier.png
+traversals removed : /css/default/s/magnifier.png
+
+file-relative URI  : s/building.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\building.png
+docroot stripped   : \css\default\s\building.png
+traversals removed : /css/default/s/building.png
+
+file-relative URI  : s/book-open.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\book-open.png
+docroot stripped   : \css\default\s\book-open.png
+traversals removed : /css/default/s/book-open.png
+
+file-relative URI  : s/bullet_arrow_down.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\bullet_arrow_down.png
+docroot stripped   : \css\default\s\bullet_arrow_down.png
+traversals removed : /css/default/s/bullet_arrow_down.png
+
+file-relative URI  : s/ic_chat_bubble_black_18dp_1x_gray.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_chat_bubble_black_18dp_1x_gray.png
+docroot stripped   : \css\default\s\ic_chat_bubble_black_18dp_1x_gray.png
+traversals removed : /css/default/s/ic_chat_bubble_black_18dp_1x_gray.png
+
+file-relative URI  : s/check-alt.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\check-alt.png
+docroot stripped   : \css\default\s\check-alt.png
+traversals removed : /css/default/s/check-alt.png
+
+file-relative URI  : s/cancel.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\cancel.png
+docroot stripped   : \css\default\s\cancel.png
+traversals removed : /css/default/s/cancel.png
+
+file-relative URI  : s/ic_edit_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_edit_black_18dp.png
+docroot stripped   : \css\default\s\ic_edit_black_18dp.png
+traversals removed : /css/default/s/ic_edit_black_18dp.png
+
+file-relative URI  : s/ic_info_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_info_black_18dp.png
+docroot stripped   : \css\default\s\ic_info_black_18dp.png
+traversals removed : /css/default/s/ic_info_black_18dp.png
+
+file-relative URI  : s/ic_list_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_list_black_18dp.png
+docroot stripped   : \css\default\s\ic_list_black_18dp.png
+traversals removed : /css/default/s/ic_list_black_18dp.png
+
+file-relative URI  : s/trash.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\trash.png
+docroot stripped   : \css\default\s\trash.png
+traversals removed : /css/default/s/trash.png
+
+file-relative URI  : s/table-export-gray.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\table-export-gray.png
+docroot stripped   : \css\default\s\table-export-gray.png
+traversals removed : /css/default/s/table-export-gray.png
+
+file-relative URI  : s/cross.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\cross.png
+docroot stripped   : \css\default\s\cross.png
+traversals removed : /css/default/s/cross.png
+
+file-relative URI  : s/plus.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\plus.png
+docroot stripped   : \css\default\s\plus.png
+traversals removed : /css/default/s/plus.png
+
+file-relative URI  : s/ic_reply_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_reply_black_18dp.png
+docroot stripped   : \css\default\s\ic_reply_black_18dp.png
+traversals removed : /css/default/s/ic_reply_black_18dp.png
+
+file-relative URI  : s/ic_settings_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_settings_black_18dp.png
+docroot stripped   : \css\default\s\ic_settings_black_18dp.png
+traversals removed : /css/default/s/ic_settings_black_18dp.png
+
+file-relative URI  : s/ic_play_arrow_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_play_arrow_black_18dp.png
+docroot stripped   : \css\default\s\ic_play_arrow_black_18dp.png
+traversals removed : /css/default/s/ic_play_arrow_black_18dp.png
+
+file-relative URI  : s/ic_stop_black_18dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_stop_black_18dp.png
+docroot stripped   : \css\default\s\ic_stop_black_18dp.png
+traversals removed : /css/default/s/ic_stop_black_18dp.png
+
+file-relative URI  : s/shortcut-overlay.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\shortcut-overlay.png
+docroot stripped   : \css\default\s\shortcut-overlay.png
+traversals removed : /css/default/s/shortcut-overlay.png
+
+file-relative URI  : s/calendar-mono.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\calendar-mono.png
+docroot stripped   : \css\default\s\calendar-mono.png
+traversals removed : /css/default/s/calendar-mono.png
+
+file-relative URI  : s/document-copy.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\document-copy.png
+docroot stripped   : \css\default\s\document-copy.png
+traversals removed : /css/default/s/document-copy.png
+
+file-relative URI  : s/document--arrow.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\document--arrow.png
+docroot stripped   : \css\default\s\document--arrow.png
+traversals removed : /css/default/s/document--arrow.png
+
+file-relative URI  : s/external.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\external.png
+docroot stripped   : \css\default\s\external.png
+traversals removed : /css/default/s/external.png
+
+file-relative URI  : l/word.png
+path prepended     : D:\devel\www\casebox2\web\css\default\l\word.png
+docroot stripped   : \css\default\l\word.png
+traversals removed : /css/default/l/word.png
+
+file-relative URI  : l/pdf.png
+path prepended     : D:\devel\www\casebox2\web\css\default\l\pdf.png
+docroot stripped   : \css\default\l\pdf.png
+traversals removed : /css/default/l/pdf.png
+
+file-relative URI  : d/loader.gif
+path prepended     : D:\devel\www\casebox2\web\css\default\d\loader.gif
+docroot stripped   : \css\default\d\loader.gif
+traversals removed : /css/default/d/loader.gif
+
+file-relative URI  : d/loader.gif
+path prepended     : D:\devel\www\casebox2\web\css\default\d\loader.gif
+docroot stripped   : \css\default\d\loader.gif
+traversals removed : /css/default/d/loader.gif
+
+file-relative URI  : s/ic_arrow_drop_up_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_arrow_drop_up_black_24dp.png
+docroot stripped   : \css\default\s\ic_arrow_drop_up_black_24dp.png
+traversals removed : /css/default/s/ic_arrow_drop_up_black_24dp.png
+
+file-relative URI  : s/ic_arrow_drop_down_black_24dp.png
+path prepended     : D:\devel\www\casebox2\web\css\default\s\ic_arrow_drop_down_black_24dp.png
+docroot stripped   : \css\default\s\ic_arrow_drop_down_black_24dp.png
+traversals removed : /css/default/s/ic_arrow_drop_down_black_24dp.png
+
+*/
+
+/* theme.css */
+
+/* 1   */ /* ib stands for icon big */
+/* 2   */ .ib-apps{background-image: url(/css/default/b/apps.png); min-width: 38px}
+/* 3   */ .ib-arr-l{background-image: url(/css/default/b/arr_l.png); min-width: 38px}
+/* 4   */ .ib-arr-r{background-image: url(/css/default/b/arr_r.png); min-width: 38px}
+/* 5   */ .ib-attach{background-image: url(/css/default/b/attach.png); min-width: 38px}
+/* 6   */ .ib-back{background-image: url(/css/default/b/back.png); min-width: 38px}
+/* 7   */ .ib-browse{background-image: url(/css/default/b/browse.png); min-width: 38px}
+/* 8   */ .ib-cal-day{background-image: url(/css/default/b/cal-day.png); min-width: 38px}
+/* 9   */ .ib-cal-month{background-image: url(/css/default/b/cal-month.png); min-width: 38px}
+/* 10  */ .ib-cal-today{background-image: url(/css/default/b/today.png); min-width: 38px}
+/* 11  */ .ib-cal-week{background-image: url(/css/default/b/cal-week.png); min-width: 38px}
+/* 12  */ .ib-cal-prev,.ib-prev{background-image: url(/css/default/b/prev.png); min-width: 38px}
+/* 13  */ .ib-cal-next, .ib-next{background-image: url(/css/default/b/next.png); min-width: 38px}
+/* 14  */ .ib-cancel{background-image: url(/css/default/b/cancel.png); min-width: 38px}
+/* 15  */ .ib-create{background-image: url(/css/default/b/ic_add_circle_black_36dp.png); min-width: 38px}
+/* 16  */ .ib-del{background-image: url(/css/default/b/delete.png); min-width: 38px}
+/* 17  */ .ib-done, .ib-complete{background-image: url(/css/default/b/ic_done_black_36dp.png); min-width: 38px}
+/* 18  */ .ib-done-all, .ib-close{background-image: url(/css/default/b/ic_done_all_black_36dp.png); min-width: 38px}
+/* 19  */ .ib-download{background-image: url(/css/default/b/download.png); min-width: 38px}
+/* 20  */ .ib-edit{background-image: url(/css/default/b/clipboard.png); min-width: 38px}
+/* 21  */ .ib-edit-obj{background-image: url(/css/default/b/edit.png); min-width: 38px}
+/* 22  */ .ib-event-new{background-image: url(/css/default/b/cal-event-new.png); min-width: 38px}
+/* 23  */ .ib-expand{background-image: url(/css/default/b/expand.png); min-width: 38px}
+/* 24  */ .ib-export{background-image: url(/css/default/b/export.png); min-width: 38px}
+/* 25  */ .ib-external{background-image: url(/css/default/b/external.png); min-width: 38px}
+/* 26  */ .ib-filter{background-image: url(/css/default/b/ic_filter_list_black_36dp.png); min-width: 38px}
+/* 27  */ .ib-filter-on{background-image: url(/css/default/b/filter-on.png); min-width: 38px}
+/* 28  */ .ib-fit{background-image: url(/css/default/b/fit.png); min-width: 38px}
+/* 29  */ .ib-open{background-image: url(/css/default/b/open.png); min-width: 38px}
+/* 30  */ .ib-points{background-image: url(/css/default/b/points.png); min-width: 20px}
+/* 31  */ .ib-preview{background-image: url(/css/default/b/preview.png); min-width: 38px}
+/* 32  */ .ib-properties{background-image: url(/css/default/b/properties.png); min-width: 38px}
+/* 33  */ .ib-refresh{background-image: url(/css/default/b/refresh.png); min-width: 38px}
+/* 34  */ .ib-restore{background-image: url(/css/default/b/restore.png); min-width: 38px}
+/* 35  */ .ib-reorder{background-image: url(/css/default/b/ic_reorder_black_36dp.png); min-width: 38px}
+/* 36  */ .ib-repeat, .ib-reopen{background-image: url(/css/default/b/ic_repeat_black_36dp.png); min-width: 38px}
+/* 37  */ .ib-save{background-image: url(/css/default/b/save.png); min-width: 38px}
+/* 38  */ .ib-search{background-image: url(/css/default/b/ic_search_black_36dp.png); min-width: 38px}
+/* 39  */ .ib-search-negative{background-image: url(/css/default/b/ic_search_black_36dp_negative.png); min-width: 38px}
+/* 40  */ .ib-settings{background-image: url(/css/default/b/ic_settings_applications_grey600_36dp.png); min-width: 38px}
+/* 41  */ .ib-table{background-image: url(/css/default/b/table.png); min-width: 38px}
+/* 42  */ .ib-task-complete{background-image: url(/css/default/b/task-complete.png); min-width: 38px}
+/* 43  */ .ib-task-new{background-image: url(/css/default/b/task-new.png); min-width: 38px}
+/* 44  */ .ib-trash{background-image: url(/css/default/b/trash.png); min-width: 38px}
+/* 45  */ .ib-upload{background-image: url(/css/default/b/upload.png); min-width: 38px}
+/* 46  */ .ib-updateSolrData{background-image: url(/css/default/b/ic_autorenew_black_36dp.png); min-width: 38px}
+/* 47  */ .ib-view-list{background-image: url(/css/default/b/list.png); min-width: 38px}
+/* 48  */ .ib-view-tasks{background-image: url(/css/default/b/tasks.png); min-width: 38px}
+/* 49  */ .ib-view-calendar{background-image: url(/css/default/b/calendar.png); min-width: 38px}
+/* 50  */ .ib-view-charts{background-image: url(/css/default/b/charts.png); min-width: 38px}
+
+/* theme.css */
+
+/* 51  */ .ib-chart-area{background-image: url(/css/default/b/chart-area.png); min-width: 38px}
+/* 52  */ .ib-chart-bar{background-image: url(/css/default/b/chart-bar.png); min-width: 38px}
+/* 53  */ .ib-chart-bar-stacked{background-image: url(/css/default/b/chart-bar-stacked.png); min-width: 38px}
+/* 54  */ .ib-chart-column{background-image: url(/css/default/b/chart-column.png); min-width: 38px}
+/* 55  */ .ib-chart-column-stacked{background-image: url(/css/default/b/chart-column-stacked.png); min-width: 38px}
+/* 56  */ .ib-chart-line{background-image: url(/css/default/b/chart-line.png); min-width: 38px}
+/* 57  */ .ib-chart-pie{background-image: url(/css/default/b/chart-pie.png); min-width: 38px}
+/* 58  */ .ib-chart-table{background-image: url(/css/default/b/chart-table.png); min-width: 38px}
+/* 59  */ 
+/* 60  */ .im-apps{background-image: url(/css/default/m/ic_apps_black_24dp.png); min-width: 24px}
+/* 61  */ .im-arr-l{background-image: url(/css/default/m/ic_chevron_left_black_24dp.png); min-width: 24px}
+/* 62  */ .im-arr-r{background-image: url(/css/default/m/ic_chevron_right_black_24dp.png); min-width: 24px}
+/* 63  */ .im-assignment{background-image: url(/css/default/m/ic_assignment_black_24dp.png); min-width: 24px}
+/* 64  */ .im-attach{background-image: url(/css/default/m/ic_attach_file_black_24dp.png); min-width: 24px}
+/* 65  */ .im-cancel{background-image: url(/css/default/m/ic_clear_black_24dp.png); min-width: 24px}
+/* 66  */ .im-create{background-image: url(/css/default/m/ic_add_circle_black_24dp.png); min-width: 24px}
+/* 67  */ .im-create-negative{background-image: url(/css/default/m/ic_add_circle_black_24dp_negative.png); min-width: 24px}
+/* 68  */ .im-download{background-image: url(/css/default/m/ic_file_download_black_24dp.png); min-width: 24px}
+/* 69  */ .im-duplicate{background-image: url(/css/default/m/ic_control_point_duplicate_black_24dp.png); min-width: 24px}
+/* 70  */ .im-edit-obj{background-image: url(/css/default/m/ic_edit_black_24dp.png); min-width: 24px}
+/* 71  */ .im-external{background-image: url(/css/default/m/ic_launch_black_24dp.png); min-width: 24px}
+/* 72  */ .im-fit{background-image: url(/css/default/m/ic_open_with_black_24dp.png); min-width: 24px}
+/* 73  */ .im-filter{background-image: url(/css/default/m/ic_filter_list_black_24dp.png); min-width: 24px}
+/* 74  */ .im-filter-negative{background-image: url(/css/default/m/ic_filter_list_black_24dp_negative.png); min-width: 24px}
+/* 75  */ .im-follow, .i-follow{background-image: url(/css/default/m/ic_email_black_18dp.png); min-width: 24px}
+/* 76  */ .im-ignore, .i-ignore{background-image: url(/css/default/m/ic_notifications_none_black_18dp.png); min-width: 24px}
+/* 77  */ .im-menu{background-image: url(/css/default/m/ic_menu_black_24dp.png); min-width: 24px}
+/* 78  */ .im-menu-negative{background-image: url(/css/default/m/ic_menu_black_24dp_negative.png); min-width: 24px}
+/* 79  */ .im-notifications{background-image: url(/css/default/m/ic_notifications_black_24dp.png); min-width: 24px}
+/* 80  */ .im-notifications-negative{background-image: url(/css/default/m/ic_notifications_black_24dp_negative.png); min-width: 24px}
+/* 81  */ .im-points{background-image: url(/css/default/m/ic_more_vert_black_24dp.png); min-width: 24px}
+/* 82  */ .im-preview{background-image: url(/css/default/m/ic_visibility_black_24dp.png); min-width: 24px}
+/* 83  */ .im-refresh{background-image: url(/css/default/m/ic_refresh_black_24dp.png); min-width: 24px}
+/* 84  */ .im-reorder{background-image: url(/css/default/m/ic_reorder_black_24dp.png); min-width: 24px}
+/* 85  */ .im-restore{background-image: url(/css/default/m/ic_undo_black_24dp.png); min-width: 24px}
+/* 86  */ .im-search{background-image: url(/css/default/m/ic_search_black_24dp.png); min-width: 24px}
+/* 87  */ .im-save, .im-task-complete{background-image: url(/css/default/m/ic_done_black_24dp.png); min-width: 24px}
+/* 88  */ .im-settings{background-image: url(/css/default/m/ic_settings_applications_black_24dp.png); min-width: 24px}
+/* 89  */ .im-settings-negative{background-image: url(/css/default/m/ic_settings_white_24dp.png); min-width: 24px}
+/* 90  */ .im-sort{background-image: url(/css/default/m/ic_sort_black_24dp.png); min-width: 24px}
+/* 91  */ .im-star{background-image: url(/css/default/m/ic_star_black_18dp.png); min-width: 24px}
+/* 92  */ .im-unstar{background-image: url(/css/default/ic_star_outline_black_18dp.png); min-width: 24px}
+/* 93  */ .im-tune{background-image: url(/css/default/m/ic_tune_black_24dp.png); min-width: 24px}
+/* 94  */ .im-upload{background-image: url(/css/default/m/ic_file_upload_black_24dp.png); min-width: 24px}
+/* 95  */ .im-trash{background-image: url(/css/default/m/ic_delete_black_24dp.png); min-width: 24px}
+/* 96  */ .im-watch, .i-watch{background-image: url(/css/default/m/ic_notifications_active_black_18dp.png); min-width: 24px}
+/* 97  */ 
+/* 98  */ .x-menu-item .ib-browse{background-image: url(/css/default/s/folder-horizontal-open.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 99  */ .x-menu-item .ib-del{background-image: url(/css/default/s/cross-script.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 100 */ .x-menu-item .ib-event-new{background-image: url(/css/default/s/calendar-blue.png); background-position: 0 50%; background-repeat: no-repeat}
+
+/* theme.css */
+
+/* 101 */ .x-menu-item .ib-open{background-image: url(/css/default/s/folder-open.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 102 */ .x-menu-item .ib-task-new{background-image: url(/css/default/s/task.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 103 */ 
+/* 104 */ 
+/* 105 */ .i-arrow-right {background-image: url(/css/default/s/ic_keyboard_arrow_right_black_18dp.png); background-position: 0 50%; background-repeat: no-repeat; min-height: 18px;}
+/* 106 */ .i-attach {background-image: url(/css/default/s/ic_attach_file_black_18dp.png); background-position: 0 50%; background-repeat: no-repeat; min-height: 18px;}
+/* 107 */ .i-refresh {background-image: url(/css/default/s/refresh.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 108 */ .i-points, .x-tool-points {background-image: url(/css/default/s/points-gray.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 109 */ 
+/* 110 */ .i-flag, .x-grid-tree-node-expanded .i-flag{background-image: url(/css/default/s/flag.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 111 */ .is-flag, .x-grid-tree-node-expanded .is-flag{background-image: url(/css/default/s/flag-small.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 112 */ .i-magnifier, .x-grid-tree-node-expanded .i-magnifier{background-image: url(/css/default/s/magnifier.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 113 */ .i-building, .x-grid-tree-node-expanded .i-building{background-image: url(/css/default/s/building.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 114 */ .i-book-open, .x-grid-tree-node-expanded .i-book-open{background-image: url(/css/default/s/book-open.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 115 */ .i-bullet-arrow-down{background-image: url(/css/default/s/bullet_arrow_down.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 116 */ .i-chat-bubble{background-image: url(/css/default/s/ic_chat_bubble_black_18dp_1x_gray.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 117 */ .i-check-alt{background-image: url(/css/default/s/check-alt.png)}
+/* 118 */ .i-cancel{background-image: url(/css/default/s/cancel.png)}
+/* 119 */ .i-edit-obj{background-image: url(/css/default/s/ic_edit_black_18dp.png)}
+/* 120 */ .i-info{background-image: url(/css/default/s/ic_info_black_18dp.png)}
+/* 121 */ .i-list{background-image: url(/css/default/s/ic_list_black_18dp.png)}
+/* 122 */ .i-trash{background-image: url(/css/default/s/trash.png)}
+/* 123 */ .i-table-export{background-image: url(/css/default/s/table-export-gray.png)}
+/* 124 */ .i-cross{background-image: url(/css/default/s/cross.png)}
+/* 125 */ .i-plus{background-image: url(/css/default/s/plus.png)}
+/* 126 */ .i-restore{background-image: url(/css/default/s/ic_reply_black_18dp.png)}
+/* 127 */ .i-settings{background-image: url(/css/default/s/ic_settings_black_18dp.png)}
+/* 128 */ .i-start{background-image: url(/css/default/s/ic_play_arrow_black_18dp.png)}
+/* 129 */ .i-stop{background-image: url(/css/default/s/ic_stop_black_18dp.png)}
+/* 130 */ .i-shortcut{background-image: url(/css/default/s/shortcut-overlay.png)}
+/* 131 */ 
+/* 132 */ 
+/* 133 */ .calendar-mono, .x-tool-period {background-image: url(/css/default/s/calendar-mono.png); background-position: 0 50%; background-repeat: no-repeat}
+/* 134 */ /* drag drop classes */
+/* 135 */ .drag-drop-copy .x-dd-drop-icon{background-image:url(/css/default/s/document-copy.png)}
+/* 136 */ .drag-drop-move .x-dd-drop-icon{background-image:url(/css/default/s/document--arrow.png)}
+/* 137 */ .drag-drop-shortcut .x-dd-drop-icon{background-image:url(/css/default/s/external.png)}
+/* 138 */ 
+/* 139 */ .pr-th-doc, .pr-th-docx {background-image: url(/css/default/l/word.png) }
+/* 140 */ .pr-th-pdf {background-image: url(/css/default/l/pdf.png) }
+/* 141 */ 
+/* 142 */ .d-loader {
+/* 143 */     background-image: url(/css/default/d/loader.gif);
+/* 144 */     background-position: 0 50%;
+/* 145 */     background-repeat: no-repeat;
+/* 146 */ }
+/* 147 */ .x-mask-loading .x-mask-msg-text {
+/* 148 */     background-image: url(/css/default/d/loader.gif);
+/* 149 */     background-position: 6px 50%;
+/* 150 */     background-repeat: no-repeat;
+
+/* theme.css */
+
+/* 151 */ }
+/* 152 */ .x-mask-loading .x-mask-msg-text{
+/* 153 */     padding-left: 30px;
+/* 154 */ }
+/* 155 */ .msg-load{
+/* 156 */     vertical-align: middle;
+/* 157 */     width: 100% !important;
+/* 158 */     display: block;
+/* 159 */ }
+/* 160 */ 
+/* 161 */ .msg-load div {
+/* 162 */     display: inline-block;
+/* 163 */     padding: 4px 28px;
+/* 164 */ }
+/* 165 */ .webdav .x-window-body {background: white}
+/* 166 */ 
+/* 167 */ /** data sorter widget rules */
+/* 168 */ .x-grid-cell-inner .order-arrows {
+/* 169 */   float: right;
+/* 170 */   display: none
+/* 171 */ }
+/* 172 */ .x-grid-item-selected .x-grid-cell-inner .order-arrows {
+/* 173 */     display: block
+/* 174 */ }
+/* 175 */ 
+/* 176 */ span.order-arrows b {
+/* 177 */   width: 16px;
+/* 178 */   height: 16px;
+/* 179 */   display: inline-block;
+/* 180 */   margin: 0 3px;
+/* 181 */   opacity: 0.5
+/* 182 */ }
+/* 183 */ span.order-arrows b:hover {
+/* 184 */     text-decoration: none;
+/* 185 */     opacity: 1;
+/* 186 */ }
+/* 187 */ 
+/* 188 */ span.order-arrows b.arrow-up {
+/* 189 */   background-image: url(/css/default/s/ic_arrow_drop_up_black_24dp.png);
+/* 190 */   background-position: -5px;
+/* 191 */ }
+/* 192 */ 
+/* 193 */ span.order-arrows b.arrow-down {
+/* 194 */   background-image: url(/css/default/s/ic_arrow_drop_down_black_24dp.png);
+/* 195 */   background-position: -5px;
+/* 196 */ }
+/* 197 */ 
+/* 198 */ /* notifications view */
+/* 199 */ .notification-record-unread {
+/* 200 */   background-color: rgba(237,239,245,.98);
+
+/* theme.css */
+
+/* 201 */   /*border-bottom: 1px solid #CCC;*/
+/* 202 */ 
+/* 203 */ }
+/* 204 */ .x-grid-item-over .notification-record-unread{
+/* 205 */   background-color: rgba(227,229,235,.98);;
+/* 206 */ }
+/* 207 */ 
+/* 208 */ .notif {
+/* 209 */   color: #9197a3;
+/* 210 */ }
+/* 211 */ 
+/* 212 */ .notif a {
+/* 213 */   color: #3b5998;
+/* 214 */ }
+/* 215 */ 
+/* 216 */ .notif a.user {
+/* 217 */   font-weight: bold;
+/* 218 */ }
+/* 219 */ 

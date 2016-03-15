@@ -1,0 +1,13 @@
+services:
+
+    casebox_core.event_listener.request_listener:
+        class: Casebox\CoreBundle\EventListener\RequestListener
+        arguments: [ "@service_container" ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }
+
+    casebox_core.event_listener.exception_listener:
+        class: Casebox\CoreBundle\EventListener\ExceptionListener
+        arguments: [ "@service_container" ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }

@@ -1,0 +1,32 @@
+{% extends 'CaseboxCoreBundle::login.html.twig' %}
+
+{% block form %}
+    <script type="text/javascript">
+        //<--
+        String.prototype.trim = function () {
+            return this.replace(/^\s+|\s+$/g, "");
+        };
+        function editChanged() {
+            s = document.getElementById('s');
+            s.disabled = (document.getElementById('c').value.trim() == '');
+            if (s.disabled)
+                setTimeout(editChanged, 500)
+        }
+        //-->
+    </script>
+
+    <form method="post" action="/c/{{ coreName }}/login/2step" class="standart_form tal" autocomplete="off">
+        <label>{{ 'TSV'|trans }}</label>
+        <label>
+            <input type="text" name="c" id="c" placeholder="{{ 'EnterCode'|trans }}">
+            {% for flash_message in app.session.flashbag.get('notice') %}
+                <div class="alert alert-error">
+                    {{ flash_message }}
+                </div>
+            {% endfor %}
+            <span class="icon-lock"></span>
+        </label>
+        <a style="margin-top: 30px;" class="pull-right" href="/c/{{ coreName }}/recover/forgot-password">{{ 'ForgotPassword'|trans }}</a>
+        <input type="submit" name="s" id="s" value="{{ 'Verify'|trans }}" class="btn btn-info" style="margin-top: 26px;" disabled>
+    </form>
+{% endblock %}

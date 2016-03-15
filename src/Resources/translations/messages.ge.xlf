@@ -1,0 +1,4093 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="ge" datatype="plaintext" original="en.xlf">
+        <body>
+            <trans-unit id="1">
+                <source>Auth</source>
+                <target>ავტორიზაცია</target>
+            </trans-unit>
+            <trans-unit id="2">
+                <source>Username</source>
+                <target>მომხმარებლის სახელი</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Password</source>
+                <target>პაროლი</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Login</source>
+                <target>სისტემაში შესვლა</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Reset</source>
+                <target>გადატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Loading_CSS</source>
+                <target>CSS-ისა და სურათების ჩამოტვირთვა</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>Loading_ExtJS_Core</source>
+                <target>ExtJS core API-ის ჩამოტვირთვა</target>
+            </trans-unit>
+            <trans-unit id="8">
+                <source>Loading_ExtJS_UI</source>
+                <target>ExtJS UI-ის კომპონენტების ჩამოტვირთვა</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Initialization</source>
+                <target>საწყის პირობებზე დაბრუნება</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Error</source>
+                <target>შეცდომა</target>
+            </trans-unit>
+            <trans-unit id="11">
+                <source>Error_occured</source>
+                <target>მოხდა შეცდომა</target>
+            </trans-unit>
+            <trans-unit id="12">
+                <source>Solr_connection_error</source>
+                <target>ვერ უკავშირდება SOLR-ს</target>
+            </trans-unit>
+            <trans-unit id="13">
+                <source>Specify_username</source>
+                <target>მიუთითეთ მომხმარებლის სახელი</target>
+            </trans-unit>
+            <trans-unit id="14">
+                <source>Specify_password</source>
+                <target>შეიყვანეთ პაროლი</target>
+            </trans-unit>
+            <trans-unit id="15">
+                <source>Auth_fail</source>
+                <target>არასწორი სახელი ან პაროლი</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>hour</source>
+                <target>საათი</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>hours</source>
+                <target>საათები</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>ofHours</source>
+                <target>საათები</target>
+            </trans-unit>
+            <trans-unit id="19">
+                <source>min</source>
+                <target>წთ</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>minute</source>
+                <target>წუთი</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>minutes</source>
+                <target>წუთები</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>ofMinutes</source>
+                <target>წუთები</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>yes</source>
+                <target>დიახ</target>
+            </trans-unit>
+            <trans-unit id="25">
+                <source>DearMs</source>
+                <target>პატივცემულო ქ-ნო</target>
+            </trans-unit>
+            <trans-unit id="26">
+                <source>DearMr</source>
+                <target>პატივცემულო ბ-ნო</target>
+            </trans-unit>
+            <trans-unit id="27">
+                <source>Casebox_notifications</source>
+                <target>casebox-ის შეტყობინებები</target>
+            </trans-unit>
+            <trans-unit id="28">
+                <source>casebox_new_notifications</source>
+                <target>თქვენ გაქვთ ახალი შეტყობინებები</target>
+            </trans-unit>
+            <trans-unit id="30">
+                <source>Notification_for_task_message</source>
+                <target>"შეტყობინებამ საკითხის "{task_name}" დავალებისთვის "{case_name}" მიაღწია თავის დროს"</target>
+            </trans-unit>
+            <trans-unit id="31">
+                <source>User_exists</source>
+                <target>"მომხმარებელი ასეთი სახელით უკვე არსებობს, გთხოვთ, მიუთითოთ სხვა სახელი"</target>
+            </trans-unit>
+            <trans-unit id="32">
+                <source>Case_card</source>
+                <target>"ბარათი, ანკეტა"</target>
+            </trans-unit>
+            <trans-unit id="33">
+                <source>stage</source>
+                <target>ეტაპი</target>
+            </trans-unit>
+            <trans-unit id="34">
+                <source>spent_time</source>
+                <target>დახარჯული დრო</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>Property</source>
+                <target>ქონება</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Value</source>
+                <target>ღირებულება</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>Additionally</source>
+                <target>დამატებით</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>Files</source>
+                <target>"დოკუმენტები, ფაილები"</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>Author</source>
+                <target>ავტორი</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>Date</source>
+                <target>თარიღი</target>
+            </trans-unit>
+            <trans-unit id="42">
+                <source>Save_object_before_adding_files</source>
+                <target>შეინახე მიმდინარე ობიექტი ცვლილებების შეტანამდე</target>
+            </trans-unit>
+            <trans-unit id="43">
+                <source>Save_object_before_working_with_files</source>
+                <target>შეინახე მიმდინარე ობიექტი დოკუმენტებთან მუშაობამდე</target>
+            </trans-unit>
+            <trans-unit id="44">
+                <source>Object_not_found</source>
+                <target>ობიექტი ვერ მოიძებნა</target>
+            </trans-unit>
+            <trans-unit id="45">
+                <source>Error_loading_file</source>
+                <target>შეცდომაა დოკუმენტის ჩატვირთვისას</target>
+            </trans-unit>
+            <trans-unit id="46">
+                <source>Cannot_move_file</source>
+                <target>შეუძლებელია დოკუმენტის გადაადგილება</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>Status</source>
+                <target>სტატუსი</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>Offices</source>
+                <target>ოფისები</target>
+            </trans-unit>
+            <trans-unit id="55">
+                <source>Wrong_input_data</source>
+                <target>მონაცემები შეცდომით არის შეყვანილი</target>
+            </trans-unit>
+            <trans-unit id="56">
+                <source>No_access_for_this_action</source>
+                <target>თქვენ არ ხართ უფლებამოსილი რომ განახორციელოთ ეს ქმედება</target>
+            </trans-unit>
+            <trans-unit id="57">
+                <source>Case_already_in_office</source>
+                <target>ეს საქმე უკვე არის ამ ოფისში.</target>
+            </trans-unit>
+            <trans-unit id="58">
+                <source>Wrong_user_assigned</source>
+                <target>დაევალა არასწორ მომხმარებელს</target>
+            </trans-unit>
+            <trans-unit id="59">
+                <source>No_access_to_close_task</source>
+                <target>თქვენ არ ხართ უფლებამოსილი რომ შეასრულოთ ეს დავალება</target>
+            </trans-unit>
+            <trans-unit id="60">
+                <source>Users_without_group</source>
+                <target>მომხმარებლები ჯგუფის გარეშე</target>
+            </trans-unit>
+            <trans-unit id="61">
+                <source>No_manage_access_for_office</source>
+                <target>თქვენ არ გაგაჩნიათ ადმინისტრაციული უპირატესობები ამ ოფისში</target>
+            </trans-unit>
+            <trans-unit id="62">
+                <source>Other_offices</source>
+                <target>სხვა ოფისები</target>
+            </trans-unit>
+            <trans-unit id="63">
+                <source>Access_denied</source>
+                <target>წვდომა აკრძალულია</target>
+            </trans-unit>
+            <trans-unit id="64">
+                <source>Cannot_give_higher_access</source>
+                <target>თქვენ ვერ მიანიჭებთ სხვა მომხმარებლებს იმაზე მეტ წვდომას ვიდრე თავად გაქვთ</target>
+            </trans-unit>
+            <trans-unit id="65">
+                <source>Wrong_id</source>
+                <target>არასწორი იდენტიფიკაცია (ID)</target>
+            </trans-unit>
+            <trans-unit id="66">
+                <source>Missing_required_fields</source>
+                <target>ყველა სავალდებულო ველი შევსებული არ არის</target>
+            </trans-unit>
+            <trans-unit id="67">
+                <source>Failed_creating_office</source>
+                <target>ოფისის შექმნა ვერ მოხერხდა</target>
+            </trans-unit>
+            <trans-unit id="68">
+                <source>Group_exists</source>
+                <target>ამ სახელით ჯგუფი უკვე არსებობს</target>
+            </trans-unit>
+            <trans-unit id="69">
+                <source>User_not_found</source>
+                <target>მომხმარებელის პოვნა ვერ მოხერხდა</target>
+            </trans-unit>
+            <trans-unit id="70">
+                <source>Template_not_found</source>
+                <target>ნიმუშის პოვნა ვერ მოხერხდა</target>
+            </trans-unit>
+            <trans-unit id="71">
+                <source>Error_creating_object</source>
+                <target>შეცდომაა ობიექტის შექმნისას</target>
+            </trans-unit>
+            <trans-unit id="72">
+                <source>Out_of_office</source>
+                <target>გასულია ოფისიდან</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>pages</source>
+                <target>გვერდები</target>
+            </trans-unit>
+            <trans-unit id="80">
+                <source>WrongCurrentPassword</source>
+                <target>არსებული პაროლი არასწორია</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>at</source>
+                <target>ზე; კონტექსტი ჭირდება</target>
+            </trans-unit>
+            <trans-unit id="82">
+                <source>in</source>
+                <target>ში</target>
+            </trans-unit>
+            <trans-unit id="83">
+                <source>day</source>
+                <target>დღე</target>
+            </trans-unit>
+            <trans-unit id="84">
+                <source>days</source>
+                <target>დღეები</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>ofDays</source>
+                <target>დღეები</target>
+            </trans-unit>
+            <trans-unit id="86">
+                <source>beforeYesterday</source>
+                <target>გუშინწინ</target>
+            </trans-unit>
+            <trans-unit id="87">
+                <source>yesterday</source>
+                <target>გუშინ</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>today</source>
+                <target>დღეს</target>
+            </trans-unit>
+            <trans-unit id="89">
+                <source>tomorow</source>
+                <target>ხვალ</target>
+            </trans-unit>
+            <trans-unit id="90">
+                <source>todayAt</source>
+                <target>დღეს ...ზე</target>
+            </trans-unit>
+            <trans-unit id="91">
+                <source>yesterdayAt</source>
+                <target>გუშინ ...ზე</target>
+            </trans-unit>
+            <trans-unit id="92">
+                <source>beforeYesterdayAt</source>
+                <target>გუშინწინ ...ზე</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>Tasks</source>
+                <target>დავალებები</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>Created</source>
+                <target>შექმნილია</target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>Deadline</source>
+                <target>ბოლო ვადა</target>
+            </trans-unit>
+            <trans-unit id="97">
+                <source>Accomplished_date</source>
+                <target>შესრულების თარიღი</target>
+            </trans-unit>
+            <trans-unit id="98">
+                <source>TaskNotActive</source>
+                <target>დავალება არ არის მოქმედი</target>
+            </trans-unit>
+            <trans-unit id="99">
+                <source>heLoggedOn</source>
+                <target>შესულია სისტემაში</target>
+            </trans-unit>
+            <trans-unit id="100">
+                <source>sheLoggedOn</source>
+                <target>შესულია სისტემაში</target>
+            </trans-unit>
+            <trans-unit id="101">
+                <source>heLoggedOut</source>
+                <target>გამოსულია სისტემიდან</target>
+            </trans-unit>
+            <trans-unit id="102">
+                <source>sheLoggedOut</source>
+                <target>გამოსულია სისტემიდან</target>
+            </trans-unit>
+            <trans-unit id="103">
+                <source>heAdded</source>
+                <target>დამატებულია</target>
+            </trans-unit>
+            <trans-unit id="104">
+                <source>sheAdded</source>
+                <target>დამატებულია</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>Case</source>
+                <target>"საქმე, საკითხი"</target>
+            </trans-unit>
+            <trans-unit id="106">
+                <source>heUpdated</source>
+                <target>განახლებულია</target>
+            </trans-unit>
+            <trans-unit id="107">
+                <source>sheUpdated</source>
+                <target>განახლებულია</target>
+            </trans-unit>
+            <trans-unit id="108">
+                <source>theCase</source>
+                <target>"საქმე, საკითხი"</target>
+            </trans-unit>
+            <trans-unit id="109">
+                <source>heDeleted</source>
+                <target>წაშლილია</target>
+            </trans-unit>
+            <trans-unit id="110">
+                <source>sheDeleted</source>
+                <target>წაშლილია</target>
+            </trans-unit>
+            <trans-unit id="111">
+                <source>heOpened</source>
+                <target>გახსნილია</target>
+            </trans-unit>
+            <trans-unit id="112">
+                <source>sheOpened</source>
+                <target>გახსნილია</target>
+            </trans-unit>
+            <trans-unit id="113">
+                <source>heClosed</source>
+                <target>დახურულია</target>
+            </trans-unit>
+            <trans-unit id="114">
+                <source>sheClosed</source>
+                <target>დახურულია</target>
+            </trans-unit>
+            <trans-unit id="115">
+                <source>toCase</source>
+                <target>"საქმეს, საკითხს, კონტექსტი ჭირდება"</target>
+                    <note> Used for logging: when a file is added to a case for ex, a log entry is added like "New file added for the case", this term doesn't appear in UI for now </note>
+            </trans-unit>
+            <trans-unit id="116">
+                <source>inCase</source>
+                <target>"შემთხვევაში, კონტექსტი ჭირდება"</target>
+                    <note> same as above </note>
+            </trans-unit>
+            <trans-unit id="117">
+                <source>fromCase</source>
+                <target>"შემთხვევიდან, კონტექსტი ჭირდება"</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>ofCase</source>
+                <target>"შემთხვევაზე, კონტექსტი ჭირდება"</target>
+            </trans-unit>
+            <trans-unit id="119">
+                <source>heViewed</source>
+                <target>ნანახია</target>
+            </trans-unit>
+            <trans-unit id="120">
+                <source>sheViewed</source>
+                <target>ნანახია</target>
+            </trans-unit>
+            <trans-unit id="121">
+                <source>File</source>
+                <target>დოკუმენტი</target>
+            </trans-unit>
+            <trans-unit id="122">
+                <source>to</source>
+                <target>კენ</target>
+            </trans-unit>
+            <trans-unit id="123">
+                <source>heDownloaded</source>
+                <target>გადმოწერილია</target>
+            </trans-unit>
+            <trans-unit id="124">
+                <source>sheDownloaded</source>
+                <target>გადმოწერილია</target>
+            </trans-unit>
+            <trans-unit id="125">
+                <source>theFile</source>
+                <target>დოკუმენტი</target>
+            </trans-unit>
+            <trans-unit id="126">
+                <source>securityRights</source>
+                <target>უსაფრთხოების უფლებები</target>
+            </trans-unit>
+            <trans-unit id="127">
+                <source>forCase</source>
+                <target>"შემთხვევისთვის, კონტექსტი ჭირდება"</target>
+            </trans-unit>
+            <trans-unit id="128">
+                <source>task</source>
+                <target>დავალება</target>
+            </trans-unit>
+            <trans-unit id="129">
+                <source>forUser</source>
+                <target>მომხმარებლისთვის</target>
+            </trans-unit>
+            <trans-unit id="130">
+                <source>forUsers</source>
+                <target>მომხმარებლებისთვის</target>
+            </trans-unit>
+            <trans-unit id="132">
+                <source>for</source>
+                <target>"თვის, კონტექსტი ჭირდება"</target>
+                    <note> used for logging, example "User1 changed password FOR User2" </note>
+            </trans-unit>
+            <trans-unit id="133">
+                <source>heCompleted</source>
+                <target>შესრულებულია</target>
+                    <note> Task completion by a male user </note>
+            </trans-unit>
+            <trans-unit id="134">
+                <source>sheCompleted</source>
+                <target>შესრულებულია</target>
+                    <note> Task completion by a female user </note>
+            </trans-unit>
+            <trans-unit id="135">
+                <source>remindersForTask</source>
+                <target>დავალების შეხსენებები</target>
+            </trans-unit>
+            <trans-unit id="136">
+                <source>fromTheSystem</source>
+                <target>სისტემიდან</target>
+            </trans-unit>
+            <trans-unit id="137">
+                <source>CaseBoxNotification</source>
+                <target>casebox-ის შეტყობინება</target>
+            </trans-unit>
+            <trans-unit id="138">
+                <source>aboutNewCase</source>
+                <target>"ახალი საქმის, საკითხის თაობაზე"</target>
+            </trans-unit>
+            <trans-unit id="139">
+                <source>aboutCaseUpdate</source>
+                <target>"საქმის, საკითხის განახლება"</target>
+            </trans-unit>
+            <trans-unit id="140">
+                <source>aboutCaseClose</source>
+                <target>"საქმის, საკითხის დახურვა"</target>
+            </trans-unit>
+            <trans-unit id="141">
+                <source>aboutTaskCreated</source>
+                <target>ახალი დავალება: {owner}: {name} ({path})</target>
+            </trans-unit>
+            <trans-unit id="142">
+                <source>aboutTaskComplete</source>
+                <target>დავალება შესრულებულია: {name} ({path})</target>
+            </trans-unit>
+            <trans-unit id="143">
+                <source>aboutTaskDelete</source>
+                <target>დავალების შესახებ წაშლა (?) კონტექსტი ჭირდება</target>
+            </trans-unit>
+            <trans-unit id="144">
+                <source>Administrator</source>
+                <target>ადმინისტრატორი</target>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>Manager</source>
+                <target>მენეჯერი</target>
+            </trans-unit>
+            <trans-unit id="148">
+                <source>User</source>
+                <target>მომხმარებელი</target>
+            </trans-unit>
+            <trans-unit id="149">
+                <source>LoginName</source>
+                <target>შესვლა</target>
+            </trans-unit>
+            <trans-unit id="150">
+                <source>UserAlreadyInOffice</source>
+                <target>მომხმარებელი უკვე დაკავშირებულია ამ ოფისთან</target>
+            </trans-unit>
+            <trans-unit id="151">
+                <source>pagesAbr</source>
+                <target>გვ.</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>Task_already_completed</source>
+                <target>დავალება უკვე შესრულებულია</target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>Pending</source>
+                <target>მიმდინარე</target>
+            </trans-unit>
+            <trans-unit id="154">
+                <source>Closed</source>
+                <target>დახურული</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>missed</source>
+                <target>"გადაცილებული, გასული"</target>
+            </trans-unit>
+            <trans-unit id="156">
+                <source>MissedDeadlines</source>
+                <target>ბოლო ვადას გადაცილებული</target>
+            </trans-unit>
+            <trans-unit id="157">
+                <source>Next7Days</source>
+                <target>შემდეგი 7 დღე</target>
+            </trans-unit>
+            <trans-unit id="158">
+                <source>WithoutDeadlines</source>
+                <target>ბოლო ვადის გარეშე</target>
+            </trans-unit>
+            <trans-unit id="159">
+                <source>Cases</source>
+                <target>შემთხვევები</target>
+            </trans-unit>
+            <trans-unit id="160">
+                <source>male</source>
+                <target>მამრობითი</target>
+            </trans-unit>
+            <trans-unit id="161">
+                <source>female</source>
+                <target>მდედრობითი</target>
+            </trans-unit>
+            <trans-unit id="162">
+                <source>no</source>
+                <target>არა</target>
+            </trans-unit>
+            <trans-unit id="656">
+                <source>Access</source>
+                <target>წვდომა</target>
+            </trans-unit>
+            <trans-unit id="657">
+                <source>AccessControl</source>
+                <target>წვდომის კონტროლი</target>
+            </trans-unit>
+            <trans-unit id="658">
+                <source>AccessControlHistory</source>
+                <target>საქმეების წვდომის მოვლენათა ისტორია - კონტექსტი ჭირდება</target>
+            </trans-unit>
+            <trans-unit id="659">
+                <source>Accomplishing</source>
+                <target>შესრულების პროცესში</target>
+            </trans-unit>
+            <trans-unit id="660">
+                <source>AccomplishedDate</source>
+                <target>შესრულების თარიღი</target>
+            </trans-unit>
+            <trans-unit id="661">
+                <source>Action</source>
+                <target>ქმედება</target>
+                    <note> from old Casebox (Action means a letter to court, a decision, i.e. any document) </note>
+            </trans-unit>
+            <trans-unit id="667">
+                <source>Active2</source>
+                <target>მოქმედი</target>
+            </trans-unit>
+            <trans-unit id="668">
+                <source>ActiveWithDeadlines</source>
+                <target>მოქმედი ბოლო ვადით</target>
+            </trans-unit>
+            <trans-unit id="669">
+                <source>Activities</source>
+                <target>ქმედებები</target>
+            </trans-unit>
+            <trans-unit id="670">
+                <source>Add</source>
+                <target>დამატება</target>
+            </trans-unit>
+            <trans-unit id="671">
+                <source>AddCaseTask</source>
+                <target>საკითხისთვის დავალების დამატება</target>
+            </trans-unit>
+            <trans-unit id="674">
+                <source>addedByUser</source>
+                <target>დამატებულია ... მიერ</target>
+                    <note> In Administrative UI, shows by whom a user was created </note>
+            </trans-unit>
+            <trans-unit id="675">
+                <source>AddedDate</source>
+                <target>დამატების თარიღი</target>
+            </trans-unit>
+            <trans-unit id="676">
+                <source>addFile</source>
+                <target>ფაილის/დოკუმენტის დამატება</target>
+            </trans-unit>
+            <trans-unit id="677">
+                <source>AddFolder</source>
+                <target>საქაღალდის დამატება</target>
+            </trans-unit>
+            <trans-unit id="680">
+                <source>addReminder</source>
+                <target>შეხსენების დამატება</target>
+            </trans-unit>
+            <trans-unit id="681">
+                <source>Address</source>
+                <target>მისამართი</target>
+            </trans-unit>
+            <trans-unit id="682">
+                <source>AddRow</source>
+                <target>მწკრივის დამატება</target>
+            </trans-unit>
+            <trans-unit id="683">
+                <source>AddTag</source>
+                <target>თეგის დამატება</target>
+            </trans-unit>
+            <trans-unit id="684">
+                <source>AddTagGroup</source>
+                <target>თეგის ჯგუფის დამატება</target>
+            </trans-unit>
+            <trans-unit id="685">
+                <source>AddTemplate</source>
+                <target>ნიმუშის დამატება</target>
+            </trans-unit>
+            <trans-unit id="686">
+                <source>AddTask</source>
+                <target>დავალების დამატება</target>
+            </trans-unit>
+            <trans-unit id="687">
+                <source>AddToFavorites</source>
+                <target>ფავორიტებში დამატება</target>
+            </trans-unit>
+            <trans-unit id="688">
+                <source>AddUser</source>
+                <target>მომხმარებლის დამატება</target>
+            </trans-unit>
+            <trans-unit id="689">
+                <source>AddUserErrorMessage</source>
+                <target>შეცდომა წარმოიშვა ახალი მომხმარებლის ანგარიშის შექმნისას</target>
+            </trans-unit>
+            <trans-unit id="691">
+                <source>Adjudicated</source>
+                <target>განაჩენი გამოტანილია</target>
+            </trans-unit>
+            <trans-unit id="692">
+                <source>Advanced</source>
+                <target>განვითარებული/გაუმჯობესებული - კონტექსტი ჭირდება</target>
+            </trans-unit>
+            <trans-unit id="693">
+                <source>AdvancedMode</source>
+                <target>გაუმჯობესებული რეჟიმი - კონტექსტი ჭირდება</target>
+            </trans-unit>
+            <trans-unit id="694">
+                <source>All</source>
+                <target>ყველა</target>
+            </trans-unit>
+            <trans-unit id="695">
+                <source>allCaseFiles</source>
+                <target>ყველა საკითხის დოკუმენტი</target>
+            </trans-unit>
+            <trans-unit id="698">
+                <source>AllWithDeadlines</source>
+                <target>ყველაფერი რასაც ბოლო ვადა აქვს</target>
+            </trans-unit>
+            <trans-unit id="699">
+                <source>and</source>
+                <target>და</target>
+                    <note> Probably in search queries, to switch to boolean mode "AND" search </note>
+            </trans-unit>
+            <trans-unit id="704">
+                <source>Aspect</source>
+                <target>ასპექტი</target>
+                    <note> ??? will check what it means </note>
+            </trans-unit>
+            <trans-unit id="705">
+                <source>AssignedToMe</source>
+                <target>ჩემი დავალებები</target>
+            </trans-unit>
+            <trans-unit id="706">
+                <source>Associate</source>
+                <target>დაკავშირება</target>
+            </trans-unit>
+            <trans-unit id="707">
+                <source>AssociateContact</source>
+                <target>ასოციაციასთან დაკავშირება</target>
+            </trans-unit>
+            <trans-unit id="711">
+                <source>Authorization</source>
+                <target>ავტორიზაცია</target>
+            </trans-unit>
+            <trans-unit id="712">
+                <source>Authors</source>
+                <target>ავტორები</target>
+            </trans-unit>
+            <trans-unit id="713">
+                <source>Autoclose</source>
+                <target>ავტოდახურვა</target>
+            </trans-unit>
+            <trans-unit id="714">
+                <source>AutoGenerated</source>
+                <target>ავტომატურად გენერირდება</target>
+            </trans-unit>
+            <trans-unit id="715">
+                <source>AvailableWhenDeadlineSpecified</source>
+                <target>ხელმისაწვდომია როდესაც ბოლო ვადა არის განსაზღვრული</target>
+            </trans-unit>
+            <trans-unit id="716">
+                <source>Birthday</source>
+                <target>დაბადების თარიღი</target>
+            </trans-unit>
+            <trans-unit id="718">
+                <source>byDefault</source>
+                <target>სტანდარტული - კონტექსტი ჭირდება</target>
+            </trans-unit>
+            <trans-unit id="719">
+                <source>byMail</source>
+                <target>ელ-ფოსტით</target>
+            </trans-unit>
+            <trans-unit id="720">
+                <source>bySystem</source>
+                <target>სისტემაში</target>
+                    <note> related to logging, need to check </note>
+            </trans-unit>
+            <trans-unit id="721">
+                <source>Calendar</source>
+                <target>კალენდარი</target>
+            </trans-unit>
+            <trans-unit id="722">
+                <source>CalendarOpening</source>
+                <target>კალენდრის გახსნა</target>
+            </trans-unit>
+            <trans-unit id="724">
+                <source>CaseAccess</source>
+                <target>საკითხზე წვდომა</target>
+            </trans-unit>
+            <trans-unit id="726">
+                <source>CaseBrowser</source>
+                <target>საკითხის ბრაუზერი</target>
+            </trans-unit>
+            <trans-unit id="727">
+                <source>CaseCard</source>
+                <target>საკითხის ბარათი</target>
+            </trans-unit>
+            <trans-unit id="728">
+                <source>CaseClosing</source>
+                <target>საკითხის დახურვა</target>
+            </trans-unit>
+            <trans-unit id="729">
+                <source>CaseClosingMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ საკითხის დახურვა?</target>
+            </trans-unit>
+            <trans-unit id="730">
+                <source>CaseDeletingMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ საკითხის წაშლა?</target>
+            </trans-unit>
+            <trans-unit id="731">
+                <source>CaseEditedMessage</source>
+                <target>საკითხში შეტანილია ცვლილებები. გსურთ ცვლილებების შენახვა?</target>
+            </trans-unit>
+            <trans-unit id="732">
+                <source>CaseFiles</source>
+                <target>საკითხის დოკუმენტები</target>
+            </trans-unit>
+            <trans-unit id="733">
+                <source>CaseGraph</source>
+                <target>საკითხის გრაფა</target>
+            </trans-unit>
+            <trans-unit id="734">
+                <source>CaseInOfficeMessage</source>
+                <target>საკითხი უკვე არის ამ ოფისში</target>
+            </trans-unit>
+            <trans-unit id="735">
+                <source>CaseName</source>
+                <target>საკითხის სახელი</target>
+            </trans-unit>
+            <trans-unit id="736">
+                <source>CaseNotFound</source>
+                <target>საკითხის პოვნა ვერ მოხერხდა</target>
+            </trans-unit>
+            <trans-unit id="737">
+                <source>CaseNumber</source>
+                <target>საკითხის ნომერი</target>
+            </trans-unit>
+            <trans-unit id="739">
+                <source>CasesDatabase</source>
+                <target>საკითხის მონაცემთა ბაზა</target>
+            </trans-unit>
+            <trans-unit id="740">
+                <source>CaseType</source>
+                <target>საკითხის ტიპი</target>
+            </trans-unit>
+            <trans-unit id="741">
+                <source>ChangeCaseName</source>
+                <target>საკითხის სახელის შეცვლა</target>
+            </trans-unit>
+            <trans-unit id="742">
+                <source>ChangeLog</source>
+                <target>რეგისტრაციის შეცვლა</target>
+            </trans-unit>
+            <trans-unit id="743">
+                <source>ChangePassword</source>
+                <target>პაროლის შეცვლა</target>
+            </trans-unit>
+            <trans-unit id="744">
+                <source>ChangeUsername</source>
+                <target>მომხმარებლის სახელის შეცვლა</target>
+            </trans-unit>
+            <trans-unit id="745">
+                <source>ChangeUsernameMessage</source>
+                <target>"მომხმარებლის ახალი სახელის შეყვანა (გამოიყენეთ მხოლოდ ალფანუმერული სიმბოლოები: ა-ჰ, 0-9)"</target>
+            </trans-unit>
+            <trans-unit id="746">
+                <source>ChooseValues</source>
+                <target>აირჩიეთ ღირებულება</target>
+            </trans-unit>
+            <trans-unit id="747">
+                <source>Citizenship</source>
+                <target>მოქალაქეობა</target>
+            </trans-unit>
+            <trans-unit id="750">
+                <source>ClearSelection</source>
+                <target>არჩეულის წაშლა</target>
+            </trans-unit>
+            <trans-unit id="751">
+                <source>ClearSelections</source>
+                <target>არჩეულების წაშლა</target>
+            </trans-unit>
+            <trans-unit id="752">
+                <source>Close</source>
+                <target>დახურვა</target>
+                    <note> For Task management and general term 'Close' applicable to a windows in the system </note>
+            </trans-unit>
+            <trans-unit id="753">
+                <source>Closing</source>
+                <target>დახურვა</target>
+                    <note> Intermediary message while closing a task </note>
+            </trans-unit>
+            <trans-unit id="754">
+                <source>ClosingTask</source>
+                <target>დავალების დახურვა</target>
+                    <note> For Task management </note>
+            </trans-unit>
+            <trans-unit id="755">
+                <source>ClosingTaskMessage</source>
+                <target>ნამდვილად გსურთ ამ დავალების დახურვა?</target>
+            </trans-unit>
+            <trans-unit id="756">
+                <source>CollapseAllText</source>
+                <target>ყველაფრის ჩაკეცვა</target>
+            </trans-unit>
+            <trans-unit id="757">
+                <source>Comment</source>
+                <target>კომენტარი</target>
+            </trans-unit>
+            <trans-unit id="761">
+                <source>Complete</source>
+                <target>შესრულება</target>
+            </trans-unit>
+            <trans-unit id="762">
+                <source>Completed</source>
+                <target>შესრულებული</target>
+            </trans-unit>
+            <trans-unit id="763">
+                <source>Completed2</source>
+                <target>შესრულებული</target>
+            </trans-unit>
+            <trans-unit id="764">
+                <source>CompletedWithDeadlines</source>
+                <target>შესრულებული ბოლო ვადებით</target>
+            </trans-unit>
+            <trans-unit id="765">
+                <source>CompletingTask</source>
+                <target>დავალების შესრულება</target>
+            </trans-unit>
+            <trans-unit id="767">
+                <source>Confidential</source>
+                <target>კონფიდენციალურად</target>
+            </trans-unit>
+            <trans-unit id="768">
+                <source>Confidentiality</source>
+                <target>კონფიდეციალურობა</target>
+            </trans-unit>
+            <trans-unit id="769">
+                <source>Confirmation</source>
+                <target>დადასტურება</target>
+            </trans-unit>
+            <trans-unit id="770">
+                <source>ConfirmPassword</source>
+                <target>პაროლის დადასტურება</target>
+            </trans-unit>
+            <trans-unit id="771">
+                <source>connection</source>
+                <target>კავშირი</target>
+            </trans-unit>
+            <trans-unit id="772">
+                <source>connections</source>
+                <target>კავშირები</target>
+            </trans-unit>
+            <trans-unit id="774">
+                <source>Contact</source>
+                <target>კონტაქტი</target>
+            </trans-unit>
+            <trans-unit id="775">
+                <source>Contacts</source>
+                <target>კონტაქტები</target>
+            </trans-unit>
+            <trans-unit id="776">
+                <source>Content</source>
+                <target>შინაარსი</target>
+            </trans-unit>
+            <trans-unit id="777">
+                <source>contentSnippets</source>
+                <target>შინაარსის ნაწყვეტები</target>
+            </trans-unit>
+            <trans-unit id="779">
+                <source>Create</source>
+                <target>ახალი</target>
+            </trans-unit>
+            <trans-unit id="780">
+                <source>CreateCase</source>
+                <target>ახალი საკითხის შექმნა</target>
+            </trans-unit>
+            <trans-unit id="782">
+                <source>CreatedBy</source>
+                <target>შექმნილია ... მიერ</target>
+                    <note> In record properties panel, who created it </note>
+            </trans-unit>
+            <trans-unit id="783">
+                <source>CreatedDate</source>
+                <target>შექმნის თარიღი</target>
+            </trans-unit>
+            <trans-unit id="784">
+                <source>CreateNewTag</source>
+                <target>ახალი თეგის შექმნა</target>
+            </trans-unit>
+            <trans-unit id="785">
+                <source>Critical</source>
+                <target>კრიტიკული</target>
+            </trans-unit>
+            <trans-unit id="786">
+                <source>currentMonth</source>
+                <target>მიმდინარე თვე</target>
+            </trans-unit>
+            <trans-unit id="787">
+                <source>CurrentPassword</source>
+                <target>მიმდინარე პაროლი</target>
+            </trans-unit>
+            <trans-unit id="788">
+                <source>CurrentSearch</source>
+                <target>მიმდინარე ძიება</target>
+            </trans-unit>
+            <trans-unit id="790">
+                <source>Dates</source>
+                <target>თარიღები</target>
+            </trans-unit>
+            <trans-unit id="796">
+                <source>DefaultStatusIconClass</source>
+                <target>სტანდარტული სტატუსის სურათი</target>
+            </trans-unit>
+            <trans-unit id="797">
+                <source>del</source>
+                <target>წაშლა</target>
+            </trans-unit>
+            <trans-unit id="798">
+                <source>Delete</source>
+                <target>წაშლა</target>
+            </trans-unit>
+            <trans-unit id="799">
+                <source>deleteActionsAttachedFiles</source>
+                <target>დაკავშირებული დოკუმენტების წაშლა</target>
+            </trans-unit>
+            <trans-unit id="800">
+                <source>DeleteCase</source>
+                <target>ამ საკითხის წაშლა</target>
+            </trans-unit>
+            <trans-unit id="801">
+                <source>DeleteConfirmation</source>
+                <target>დადასტურების წაშლა</target>
+            </trans-unit>
+            <trans-unit id="802">
+                <source>DeleteFolder</source>
+                <target>საქაღალდის წაშლა</target>
+            </trans-unit>
+            <trans-unit id="803">
+                <source>DeleteGroupConfirmationMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ ჯგუფის წაშლა</target>
+            </trans-unit>
+            <trans-unit id="804">
+                <source>DeleteOrDetachFileMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ დოკუმენტის წაშლა {filEname}? ეს დოკუმენტი მიბმულია ერთზე მეტ ქმედებასთან</target>
+            </trans-unit>
+            <trans-unit id="805">
+                <source>DeleteRow</source>
+                <target>მწკრივის წაშლა</target>
+            </trans-unit>
+            <trans-unit id="806">
+                <source>DeleteSelectedActionsMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ მონიშნული ქმედებების წაშლა?</target>
+            </trans-unit>
+            <trans-unit id="807">
+                <source>DeleteSelectedTasksMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ მონიშნული დავალებების წაშლა?</target>
+            </trans-unit>
+            <trans-unit id="808">
+                <source>DeleteTag</source>
+                <target>თეგის წაშლა</target>
+            </trans-unit>
+            <trans-unit id="809">
+                <source>DeleteTagsGroup</source>
+                <target>თეგის ჯგუფის წაშლა</target>
+            </trans-unit>
+            <trans-unit id="810">
+                <source>DeleteUser</source>
+                <target>მომხმარებლის წაშკა</target>
+            </trans-unit>
+            <trans-unit id="811">
+                <source>Deleting</source>
+                <target>მიმდინარეობს წაშლა/იშლება</target>
+            </trans-unit>
+            <trans-unit id="812">
+                <source>DeletingConfirmationMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ წაშლა</target>
+            </trans-unit>
+            <trans-unit id="813">
+                <source>DependentTasks</source>
+                <target>დამოკიდებული/განპირობებული დავალებები</target>
+            </trans-unit>
+            <trans-unit id="814">
+                <source>Description</source>
+                <target>აღწერა</target>
+            </trans-unit>
+            <trans-unit id="816">
+                <source>Details</source>
+                <target>დეტალები</target>
+            </trans-unit>
+            <trans-unit id="817">
+                <source>Download</source>
+                <target>ჩამოტვირთვა</target>
+            </trans-unit>
+            <trans-unit id="819">
+                <source>DownloadArchived</source>
+                <target>დაარქივებულის ჩამოტვირთვა</target>
+                    <note> We had an option (will add it back), to download a bunch of files or folders as one archive </note>
+            </trans-unit>
+            <trans-unit id="820">
+                <source>Downloading</source>
+                <target>იტვირთება</target>
+            </trans-unit>
+            <trans-unit id="821">
+                <source>Edit</source>
+                <target>ცვლილებების შეტანა</target>
+            </trans-unit>
+            <trans-unit id="823">
+                <source>EditCaseTask</source>
+                <target>საკითხის დავალებაში ცვლილებების შეტანა</target>
+            </trans-unit>
+            <trans-unit id="824">
+                <source>EditFolder</source>
+                <target>საქაღალდეში ცვლილებების შეტანა</target>
+            </trans-unit>
+            <trans-unit id="825">
+                <source>EditingValue</source>
+                <target>ღირებულებაში ცვლილებების შეტანა</target>
+            </trans-unit>
+            <trans-unit id="826">
+                <source>EditProperties</source>
+                <target>რეკვიზიტებში ცვლილებების შეტანა</target>
+            </trans-unit>
+            <trans-unit id="827">
+                <source>EditReminder</source>
+                <target>შეხსენებაში ცვლილებების შეტანა</target>
+            </trans-unit>
+            <trans-unit id="828">
+                <source>EditTag</source>
+                <target>თეგში ცვლილებების შეტანა</target>
+            </trans-unit>
+            <trans-unit id="829">
+                <source>EditTagsGroup</source>
+                <target>თეგის ჯგუფში ცვლილებების შეტანა</target>
+            </trans-unit>
+            <trans-unit id="830">
+                <source>EditTask</source>
+                <target>დავალებაში ცვლილებების შეტანა</target>
+            </trans-unit>
+            <trans-unit id="831">
+                <source>Email</source>
+                <target>ელ-ფოსტა</target>
+            </trans-unit>
+            <trans-unit id="832">
+                <source>EmptyRequiredFields</source>
+                <target>ყველა სავალდებულო ველი შევსებული არ არის</target>
+            </trans-unit>
+            <trans-unit id="833">
+                <source>erase</source>
+                <target>ამოშლა</target>
+            </trans-unit>
+            <trans-unit id="835">
+                <source>ErrorOccured</source>
+                <target>მოხდა შეცდომა. გთხოვთ დაუკავშირდეთ ადმინისტრატორებს.</target>
+            </trans-unit>
+            <trans-unit id="836">
+                <source>exact</source>
+                <target>ზუსტი</target>
+                    <note> need to check, probably in a search query </note>
+            </trans-unit>
+            <trans-unit id="837">
+                <source>Exit</source>
+                <target>სისტემიდან გამოსვლა</target>
+            </trans-unit>
+            <trans-unit id="838">
+                <source>ExitConfirmation</source>
+                <target>სისტემიდან გამოსვლის დადასტურება</target>
+            </trans-unit>
+            <trans-unit id="839">
+                <source>ExitConfirmationMessage</source>
+                <target>ნამდვილად გსურთ შეწყვეტა?</target>
+            </trans-unit>
+            <trans-unit id="840">
+                <source>ExpandAllText</source>
+                <target>ყველას გაშლა</target>
+            </trans-unit>
+            <trans-unit id="841">
+                <source>Expires</source>
+                <target>იწურება</target>
+            </trans-unit>
+            <trans-unit id="842">
+                <source>External</source>
+                <target>გარე</target>
+            </trans-unit>
+            <trans-unit id="843">
+                <source>External2</source>
+                <target>გარე</target>
+            </trans-unit>
+            <trans-unit id="845">
+                <source>ExtractUser</source>
+                <target>მომხმარებლის ამოღება</target>
+            </trans-unit>
+            <trans-unit id="846">
+                <source>ExtractUserMessage</source>
+                <target>"გსურთ მომხმარებლის "{user}" ამოღება ჯგუფიდან "{group}"?"</target>
+            </trans-unit>
+            <trans-unit id="847">
+                <source>Fax</source>
+                <target>ფაქსი</target>
+            </trans-unit>
+            <trans-unit id="848">
+                <source>Favorites</source>
+                <target>ფავორიტები</target>
+            </trans-unit>
+            <trans-unit id="850">
+                <source>Fields</source>
+                <target>ველები</target>
+                    <note> In template management, a template has fields </note>
+            </trans-unit>
+            <trans-unit id="852">
+                <source>FileDeletingMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ ამ დოკუმენტის წაშლა</target>
+            </trans-unit>
+            <trans-unit id="853">
+                <source>FileDeletingError</source>
+                <target>შეცდომა დოკუმენტის წაშლისას</target>
+            </trans-unit>
+            <trans-unit id="854">
+                <source>FileRemoveMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ დოკუმენტის {filename} ამოღება ამჟამინდელი ადგილმდებარეობიდან?</target>
+            </trans-unit>
+            <trans-unit id="857">
+                <source>FilesDeleting</source>
+                <target>მიმდინარეობს დოკუმენტების წაშლა/დოკუმენტები იშლება</target>
+            </trans-unit>
+            <trans-unit id="858">
+                <source>FilesRemoving</source>
+                <target>მიმდინარეობას დოკუმენტების ამოღება</target>
+            </trans-unit>
+            <trans-unit id="859">
+                <source>fileUploadingMessage</source>
+                <target>"დოკუმენტი იტვირთება, გთხოვთ დაიცადოთ ..."</target>
+            </trans-unit>
+            <trans-unit id="860">
+                <source>Filter</source>
+                <target>ფილტრი</target>
+            </trans-unit>
+            <trans-unit id="861">
+                <source>FilterByUserTags</source>
+                <target>გაფილტვრა მომხმარებლის თეგების მიხედვით</target>
+            </trans-unit>
+            <trans-unit id="862">
+                <source>FilterTasks</source>
+                <target>დავალებების გაფილტვრა</target>
+            </trans-unit>
+            <trans-unit id="864">
+                <source>forAll</source>
+                <target>ყველასთვის</target>
+            </trans-unit>
+            <trans-unit id="865">
+                <source>forOffice</source>
+                <target>ოფისისთვის</target>
+            </trans-unit>
+            <trans-unit id="866">
+                <source>forMe</source>
+                <target>ჩემთვის</target>
+            </trans-unit>
+            <trans-unit id="867">
+                <source>from</source>
+                <target>დან</target>
+            </trans-unit>
+            <trans-unit id="868">
+                <source>FullName</source>
+                <target>სრული სახელი</target>
+            </trans-unit>
+            <trans-unit id="869">
+                <source>general</source>
+                <target>საერთო/ჩვეული - კონტექსტი ჭირდება</target>
+            </trans-unit>
+            <trans-unit id="870">
+                <source>Graph</source>
+                <target>გრაფა</target>
+            </trans-unit>
+            <trans-unit id="872">
+                <source>Hidden</source>
+                <target>დაფარული</target>
+            </trans-unit>
+            <trans-unit id="873">
+                <source>HiddenF</source>
+                <target>დაფარული</target>
+            </trans-unit>
+            <trans-unit id="874">
+                <source>HiddenM</source>
+                <target>დაფარული</target>
+            </trans-unit>
+            <trans-unit id="875">
+                <source>HiddenTemplate</source>
+                <target>დაფარული შაბლონი</target>
+            </trans-unit>
+            <trans-unit id="876">
+                <source>History</source>
+                <target>ისტორია</target>
+            </trans-unit>
+            <trans-unit id="877">
+                <source>HomeAddress</source>
+                <target>სახლის მისამართი</target>
+            </trans-unit>
+            <trans-unit id="878">
+                <source>HomePhone</source>
+                <target>სახლის ტელეფონის ნომერი</target>
+            </trans-unit>
+            <trans-unit id="881">
+                <source>IconClass</source>
+                <target>გამოსახულების კლასი (?) - კონტექსტი ჭირდება</target>
+            </trans-unit>
+            <trans-unit id="884">
+                <source>Important</source>
+                <target>მნიშვნელოვანი</target>
+            </trans-unit>
+            <trans-unit id="890">
+                <source>inMenu</source>
+                <target>მენიუში</target>
+            </trans-unit>
+            <trans-unit id="892">
+                <source>Insert</source>
+                <target>ჩასმა</target>
+            </trans-unit>
+            <trans-unit id="893">
+                <source>inTabsheet</source>
+                <target>ჩანართში</target>
+                    <note> opening a record in its own tabsheet (like a browser tabsheet) </note>
+            </trans-unit>
+            <trans-unit id="894">
+                <source>InterfaceParamsChanged</source>
+                <target>ინტერფეისის პარამეტრები შეიცვალა</target>
+            </trans-unit>
+            <trans-unit id="895">
+                <source>InterfaceParamsChangedMessage</source>
+                <target>ინტერფეისის პარამეტრები შეიცვალა. უნდა გადატვირთოთ გვერდი იმისათვის რომ ცვლილებები ბოლომდე შევიდეს ძალაში. გსურთ გვერდის გადატვირთვა ახლა?</target>
+            </trans-unit>
+            <trans-unit id="902">
+                <source>Language</source>
+                <target>ენა</target>
+            </trans-unit>
+            <trans-unit id="903">
+                <source>LanguageChange</source>
+                <target>ენის შეცვლა</target>
+            </trans-unit>
+            <trans-unit id="904">
+                <source>LanguageChangeMessage</source>
+                <target>"ენის შეცვლით გადაიტვირთება გვერდი, შეინახეთ ყველა ცვლილება სანამ გააგრძელებთ. გსურთ გაგრძელება?"</target>
+            </trans-unit>
+            <trans-unit id="905">
+                <source>lastAction</source>
+                <target>უკანასკნელი ქმედება</target>
+            </trans-unit>
+            <trans-unit id="906">
+                <source>LastActionDate</source>
+                <target>უკანასკნელი ქმედების თარიღი</target>
+            </trans-unit>
+            <trans-unit id="907">
+                <source>LastUpdate</source>
+                <target>ბოლოჯერ განახლებული</target>
+            </trans-unit>
+            <trans-unit id="908">
+                <source>LastUpdated</source>
+                <target>ბოლოჯერ განახლებული</target>
+            </trans-unit>
+            <trans-unit id="913">
+                <source>Links</source>
+                <target>ბმულები</target>
+            </trans-unit>
+            <trans-unit id="914">
+                <source>LoadingData</source>
+                <target>მონაცემები იტვირთება</target>
+            </trans-unit>
+            <trans-unit id="915">
+                <source>LoadAction</source>
+                <target>ქმედების ჩატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="916">
+                <source>Locate</source>
+                <target>ადგილის განსაზღვრა</target>
+            </trans-unit>
+            <trans-unit id="917">
+                <source>LogBrowser</source>
+                <target>ბრაუზერში შესვლა</target>
+            </trans-unit>
+            <trans-unit id="919">
+                <source>LogJournal</source>
+                <target>ჟურნალში შესვლა</target>
+            </trans-unit>
+            <trans-unit id="922">
+                <source>Management</source>
+                <target>მართვა</target>
+            </trans-unit>
+            <trans-unit id="924">
+                <source>MarkTaskAsClosed</source>
+                <target>მონიშნე დავალება როგორც დახურული</target>
+            </trans-unit>
+            <trans-unit id="925">
+                <source>Message</source>
+                <target>შეტყობინება</target>
+            </trans-unit>
+            <trans-unit id="926">
+                <source>Messages</source>
+                <target>შეტყობინებები</target>
+            </trans-unit>
+            <trans-unit id="930">
+                <source>Mobile</source>
+                <target>მობილური</target>
+            </trans-unit>
+            <trans-unit id="931">
+                <source>MultipleFilesDeletingMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ მონიშნული დოკუმენტების წაშლა?</target>
+            </trans-unit>
+            <trans-unit id="932">
+                <source>MultipleFilesRemoveMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ მონიშნული დოკუმენტების ამოღება მიმდინარე ქმედებიდან?</target>
+            </trans-unit>
+            <trans-unit id="933">
+                <source>MyCases</source>
+                <target>ჩემი საკითხები</target>
+            </trans-unit>
+            <trans-unit id="934">
+                <source>Name</source>
+                <target>სახელი</target>
+            </trans-unit>
+            <trans-unit id="935">
+                <source>Nationality</source>
+                <target>მოქალაქეობა</target>
+            </trans-unit>
+            <trans-unit id="936">
+                <source>New</source>
+                <target>ახალი</target>
+            </trans-unit>
+            <trans-unit id="939">
+                <source>NewCase</source>
+                <target>ახალი საკითხი</target>
+            </trans-unit>
+            <trans-unit id="940">
+                <source>NewCaseName</source>
+                <target>ახალი საკითხის სახელი</target>
+            </trans-unit>
+            <trans-unit id="943">
+                <source>NewF</source>
+                <target>ახალი</target>
+            </trans-unit>
+            <trans-unit id="944">
+                <source>NewFolder</source>
+                <target>ახალი საქაღალდე</target>
+            </trans-unit>
+            <trans-unit id="945">
+                <source>NewlyAdded</source>
+                <target>ახალდამატებული</target>
+            </trans-unit>
+            <trans-unit id="946">
+                <source>NewM</source>
+                <target>ახალი</target>
+            </trans-unit>
+            <trans-unit id="947">
+                <source>NewObject</source>
+                <target>ახალი ობიექტი</target>
+            </trans-unit>
+            <trans-unit id="949">
+                <source>NewOffice</source>
+                <target>ახალი ოფისი</target>
+            </trans-unit>
+            <trans-unit id="950">
+                <source>NewReminder</source>
+                <target>ახალი შეხსენება</target>
+            </trans-unit>
+            <trans-unit id="955">
+                <source>NewTemplate</source>
+                <target>ახალი შაბლონი</target>
+            </trans-unit>
+            <trans-unit id="957">
+                <source>nextMonth</source>
+                <target>შემდეგი თვე</target>
+            </trans-unit>
+            <trans-unit id="959">
+                <source>noData</source>
+                <target>???</target>
+            </trans-unit>
+            <trans-unit id="960">
+                <source>noDeadline</source>
+                <target>ბოლო ვადის გარეშე</target>
+            </trans-unit>
+            <trans-unit id="962">
+                <source>NoHeading</source>
+                <target>სათაურის გარეშე</target>
+            </trans-unit>
+            <trans-unit id="963">
+                <source>noName</source>
+                <target>სახელის გარეშე</target>
+            </trans-unit>
+            <trans-unit id="964">
+                <source>noStatus</source>
+                <target>სტატუსის გარეშე</target>
+            </trans-unit>
+            <trans-unit id="966">
+                <source>Nr</source>
+                <target>ნომერი</target>
+            </trans-unit>
+            <trans-unit id="968">
+                <source>Objects</source>
+                <target>ობიექტები</target>
+            </trans-unit>
+            <trans-unit id="972">
+                <source>Office</source>
+                <target>ოფისი</target>
+            </trans-unit>
+            <trans-unit id="973">
+                <source>OfficeName</source>
+                <target>ოფისის სახელი</target>
+            </trans-unit>
+            <trans-unit id="975">
+                <source>ofHour</source>
+                <target>საათები</target>
+            </trans-unit>
+            <trans-unit id="977">
+                <source>ofMinute</source>
+                <target>წუთი</target>
+            </trans-unit>
+            <trans-unit id="985">
+                <source>ofWeeks</source>
+                <target>კვირები</target>
+            </trans-unit>
+            <trans-unit id="986">
+                <source>on</source>
+                <target>"ზე, თან, კონტექსტი ჭირდება"</target>
+            </trans-unit>
+            <trans-unit id="987">
+                <source>Open</source>
+                <target>ღია/გახსნილი</target>
+            </trans-unit>
+            <trans-unit id="988">
+                <source>OpenCalendar</source>
+                <target>გახსნილი კალენდარი</target>
+            </trans-unit>
+            <trans-unit id="989">
+                <source>OpenLogJournal</source>
+                <target>გახსნილი სარეგისტრაციო ჟურნალი</target>
+            </trans-unit>
+            <trans-unit id="990">
+                <source>OpenTransactionLog</source>
+                <target>ტრანზაქციების გახსნილი ჟურნალი</target>
+            </trans-unit>
+            <trans-unit id="991">
+                <source>Options</source>
+                <target>პარამეტრები</target>
+            </trans-unit>
+            <trans-unit id="992">
+                <source>or</source>
+                <target>ან</target>
+            </trans-unit>
+            <trans-unit id="993">
+                <source>Order</source>
+                <target>წესრიგი/მოწესრიგება/დალაგება</target>
+            </trans-unit>
+            <trans-unit id="994">
+                <source>Organization</source>
+                <target>ორგანიზაცია</target>
+            </trans-unit>
+            <trans-unit id="995">
+                <source>Organizations</source>
+                <target>ორგანიზაციები</target>
+            </trans-unit>
+            <trans-unit id="996">
+                <source>OutOfOffice</source>
+                <target>გასულია ოფისიდან</target>
+            </trans-unit>
+            <trans-unit id="997">
+                <source>Outgoing</source>
+                <target>გამავალი/მიმავალი/წამავალი</target>
+            </trans-unit>
+            <trans-unit id="998">
+                <source>OutgoingAction</source>
+                <target>გამავალი ქმედება</target>
+            </trans-unit>
+            <trans-unit id="999">
+                <source>OutgoingActions</source>
+                <target>გამავალი ქმედებები</target>
+            </trans-unit>
+            <trans-unit id="1000">
+                <source>Owner</source>
+                <target>მფლობელი</target>
+            </trans-unit>
+            <trans-unit id="1001">
+                <source>OwnedByMe</source>
+                <target>მეკუთვნის მე</target>
+            </trans-unit>
+            <trans-unit id="1004">
+                <source>ParentTasks</source>
+                <target>ზემდგომი დავალება</target>
+            </trans-unit>
+            <trans-unit id="1007">
+                <source>PasswordConfirmation</source>
+                <target>პაროლის დადასტურება</target>
+            </trans-unit>
+            <trans-unit id="1008">
+                <source>PasswordMissmatch</source>
+                <target>შეყვანილი პაროლები არ შეესაბამება</target>
+            </trans-unit>
+            <trans-unit id="1009">
+                <source>PasteFromWord</source>
+                <target>ჩასმა word-დან</target>
+            </trans-unit>
+            <trans-unit id="1010">
+                <source>personal</source>
+                <target>პირადი</target>
+            </trans-unit>
+            <trans-unit id="1011">
+                <source>Phase</source>
+                <target>ფაზა</target>
+            </trans-unit>
+            <trans-unit id="1012">
+                <source>Phases</source>
+                <target>ფაზები</target>
+            </trans-unit>
+            <trans-unit id="1013">
+                <source>Phones</source>
+                <target>ტელეფონები</target>
+            </trans-unit>
+            <trans-unit id="1014">
+                <source>Post</source>
+                <target>ფოსტა</target>
+            </trans-unit>
+            <trans-unit id="1015">
+                <source>PostalIndex</source>
+                <target>საფოსტო ინდექსი</target>
+            </trans-unit>
+            <trans-unit id="1016">
+                <source>print</source>
+                <target>ბეჭდვა</target>
+            </trans-unit>
+            <trans-unit id="1017">
+                <source>Private</source>
+                <target>კერძო/პირადი/დახურული</target>
+            </trans-unit>
+            <trans-unit id="1018">
+                <source>privatelyAvailable</source>
+                <target>კერძო/პირადი/დახურული</target>
+            </trans-unit>
+            <trans-unit id="1019">
+                <source>Properties</source>
+                <target>პარამეტრები</target>
+            </trans-unit>
+            <trans-unit id="1022">
+                <source>publiclyAvailable</source>
+                <target>საჯარო</target>
+            </trans-unit>
+            <trans-unit id="1023">
+                <source>Qualification</source>
+                <target>კვალიფიკაცია</target>
+            </trans-unit>
+            <trans-unit id="1024">
+                <source>Read</source>
+                <target>კითხვა</target>
+            </trans-unit>
+            <trans-unit id="1025">
+                <source>ReadAccess</source>
+                <target>დაშვება კითხვაზე/კითხვის უფლება</target>
+            </trans-unit>
+            <trans-unit id="1026">
+                <source>ReadByAllWriteByManagers</source>
+                <target>კითხვა შეუძლია ყველას + წერა შეუძლიათ მენეჯერებს</target>
+            </trans-unit>
+            <trans-unit id="1027">
+                <source>ReadForAll</source>
+                <target>კითხვა შეუძლია ყველას</target>
+            </trans-unit>
+            <trans-unit id="1028">
+                <source>readDataErrorMessage</source>
+                <target>შეცდომა წარმოიშვა მონაცემების წაკითხვისას. გსურთ ხელახლა სცადოთ?</target>
+            </trans-unit>
+            <trans-unit id="1029">
+                <source>RecentlyUpdated</source>
+                <target>ბოლოს დამატებული</target>
+            </trans-unit>
+            <trans-unit id="1030">
+                <source>redress</source>
+                <target>შესწორება</target>
+            </trans-unit>
+            <trans-unit id="1032">
+                <source>refresh</source>
+                <target>გადატვირთვა/განახლება</target>
+            </trans-unit>
+            <trans-unit id="1033">
+                <source>RefreshTasksList</source>
+                <target>დავალებების ჩამონათვალის განახლება</target>
+            </trans-unit>
+            <trans-unit id="1034">
+                <source>RefreshTransactionLog</source>
+                <target>ტრანზაქციების  ჟურნალის განახლება</target>
+            </trans-unit>
+            <trans-unit id="1035">
+                <source>Regions</source>
+                <target>რეგიონები</target>
+            </trans-unit>
+            <trans-unit id="1037">
+                <source>ReloadCase</source>
+                <target>საკითხის გადატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="1038">
+                <source>Reminders</source>
+                <target>შეხსენებები</target>
+            </trans-unit>
+            <trans-unit id="1039">
+                <source>Remove</source>
+                <target>ამოღება/წაშლა/ამოშლა</target>
+            </trans-unit>
+            <trans-unit id="1040">
+                <source>RemoveAccess</source>
+                <target>წვდომის გაუქმება</target>
+            </trans-unit>
+            <trans-unit id="1041">
+                <source>RemoveFileHint</source>
+                <target>ამ ქმედებიდან დოკუმენტის ამოღება/წაშლა</target>
+            </trans-unit>
+            <trans-unit id="1042">
+                <source>RemoveFromFavorites</source>
+                <target>ფავორიტებიდან ამოღება</target>
+            </trans-unit>
+            <trans-unit id="1043">
+                <source>RemoveManagementAccess</source>
+                <target>მენეჯმენტის/მმართველობის წვდომის გაუქმება</target>
+            </trans-unit>
+            <trans-unit id="1044">
+                <source>RemovingTask</source>
+                <target>დავალების წაშლა</target>
+            </trans-unit>
+            <trans-unit id="1045">
+                <source>RemovingTaskErrorMessage</source>
+                <target>შეცდომა წარმოიშვა დავალების წაშლისას</target>
+            </trans-unit>
+            <trans-unit id="1046">
+                <source>RemovingTaskMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ ამ დავალების წაშლა?</target>
+            </trans-unit>
+            <trans-unit id="1047">
+                <source>ResponsibleParty</source>
+                <target>პასუხისმგებელი/ანგარიშვალდებული მხარე</target>
+            </trans-unit>
+            <trans-unit id="1048">
+                <source>ResponsiblePerson</source>
+                <target>პასუხისმგებელი/ანგარიშვალდებული მომხმარებელი</target>
+            </trans-unit>
+            <trans-unit id="1049">
+                <source>ResponsiblePersons</source>
+                <target>პასუხისმგებელი/ანგარიშვალდებული მომხმარებლები</target>
+            </trans-unit>
+            <trans-unit id="1050">
+                <source>Result</source>
+                <target>შედეგი</target>
+            </trans-unit>
+            <trans-unit id="1051">
+                <source>Save</source>
+                <target>შენახვა</target>
+            </trans-unit>
+            <trans-unit id="1052">
+                <source>SaveChangesConfirmationMessage</source>
+                <target>გსურთ ცვლილებების შენახვა?</target>
+            </trans-unit>
+            <trans-unit id="1053">
+                <source>SavedSearches</source>
+                <target>შენახული ძებნა</target>
+            </trans-unit>
+            <trans-unit id="1054">
+                <source>SaveQuery</source>
+                <target>კითხვის შენახვა</target>
+            </trans-unit>
+            <trans-unit id="1055">
+                <source>SavingChangedDataMessage</source>
+                <target>გსურთ ცვლილებების შენახვა?</target>
+            </trans-unit>
+            <trans-unit id="1056">
+                <source>SavingChanges</source>
+                <target>ცვლილებები ინახება/მიმდინარეობს ცვლილებების შენახვა</target>
+            </trans-unit>
+            <trans-unit id="1057">
+                <source>SavingDataConfirmation</source>
+                <target>მონაცემების დადასტურება ინახება/მიმდინარეობს მონაცემების დადასტურების შენახვა</target>
+            </trans-unit>
+            <trans-unit id="1058">
+                <source>Search</source>
+                <target>ძიება</target>
+            </trans-unit>
+            <trans-unit id="1059">
+                <source>SearchByName</source>
+                <target>ძიება სახელის მიხედვით</target>
+            </trans-unit>
+            <trans-unit id="1060">
+                <source>SearchCase</source>
+                <target>ძიება საკითხში</target>
+            </trans-unit>
+            <trans-unit id="1061">
+                <source>SearchCaseBox</source>
+                <target>ძიება casEbox-ში</target>
+            </trans-unit>
+            <trans-unit id="1062">
+                <source>SearchFiles</source>
+                <target>დოკუმენტების ძიება</target>
+            </trans-unit>
+            <trans-unit id="1063">
+                <source>searching</source>
+                <target>მიმდინარეობს ძიება</target>
+            </trans-unit>
+            <trans-unit id="1064">
+                <source>searchSwitchModeMessage</source>
+                <target>ძიების მეთოდის შეცვლა (და / ან)</target>
+            </trans-unit>
+            <trans-unit id="1065">
+                <source>searchText</source>
+                <target>ძიება ტექსტში</target>
+            </trans-unit>
+            <trans-unit id="1066">
+                <source>SendMessageTo</source>
+                <target>შეტყობინების გაგზავნა ...თვის</target>
+            </trans-unit>
+            <trans-unit id="1068">
+                <source>SetAsCompleted</source>
+                <target>მონიშნე როგორც შესრულებული</target>
+            </trans-unit>
+            <trans-unit id="1069">
+                <source>SetAsIncomplete</source>
+                <target>მონიშნე როგორც შეუსრულებელი</target>
+            </trans-unit>
+            <trans-unit id="1070">
+                <source>SetIncompleteStatusFor</source>
+                <target>მიუთითე დაუსრულებელი/შეუსრულებელი სტატუსი ....ს</target>
+            </trans-unit>
+            <trans-unit id="1071">
+                <source>SetCompleteStatusFor</source>
+                <target>მიუთითე დასრულებელი/შესრულებელი სტატუსი ....ს</target>
+            </trans-unit>
+            <trans-unit id="1072">
+                <source>Settings</source>
+                <target>პარამეტრები</target>
+            </trans-unit>
+            <trans-unit id="1073">
+                <source>SetStatus</source>
+                <target>სტატუსის მინიჭება/მითითება</target>
+            </trans-unit>
+            <trans-unit id="1074">
+                <source>Sex</source>
+                <target>სქესი</target>
+            </trans-unit>
+            <trans-unit id="1075">
+                <source>ShowMainFile</source>
+                <target>მთავარი დოკუმენტის ჩვენება</target>
+            </trans-unit>
+            <trans-unit id="1076">
+                <source>showNames</source>
+                <target>სახელების ჩვენება</target>
+            </trans-unit>
+            <trans-unit id="1077">
+                <source>ShowSnippets</source>
+                <target>ნაწყვეტების ჩვენება</target>
+            </trans-unit>
+            <trans-unit id="1078">
+                <source>ShowSnippetsHint</source>
+                <target>შინაარსის ნაწყვეტების ჩვენება ნაპოვნი სიტყვების გამოყოფით</target>
+                    <note> for search results, turning on/off snippets, now this option is hidden </note>
+            </trans-unit>
+            <trans-unit id="1079">
+                <source>SimpleMode</source>
+                <target>მარტივი მეთოდი</target>
+            </trans-unit>
+            <trans-unit id="1080">
+                <source>Size</source>
+                <target>ზომა</target>
+            </trans-unit>
+            <trans-unit id="1081">
+                <source>SpentTime</source>
+                <target>დახარჯული დრო</target>
+            </trans-unit>
+            <trans-unit id="1082">
+                <source>Starting</source>
+                <target>საწყისი</target>
+            </trans-unit>
+            <trans-unit id="1084">
+                <source>Subject</source>
+                <target>სუბიექტი</target>
+            </trans-unit>
+            <trans-unit id="1087">
+                <source>System</source>
+                <target>სისტემა</target>
+            </trans-unit>
+            <trans-unit id="1088">
+                <source>SystemTags</source>
+                <target>საერთო/ზოგადი თეგები</target>
+            </trans-unit>
+            <trans-unit id="1093">
+                <source>Templates</source>
+                <target>შაბლონები</target>
+            </trans-unit>
+            <trans-unit id="1096">
+                <source>TaskBrowser</source>
+                <target>დავალებების ბრაუზერი</target>
+            </trans-unit>
+            <trans-unit id="1097">
+                <source>TaskFor</source>
+                <target>დავალება ...თვის</target>
+            </trans-unit>
+            <trans-unit id="1099">
+                <source>TasksAndReminders</source>
+                <target>დავალებები და შეხსენებები</target>
+            </trans-unit>
+            <trans-unit id="1100">
+                <source>taskStatus4</source>
+                <target>მიმდინარე</target>
+            </trans-unit>
+            <trans-unit id="1101">
+                <source>taskStatus2</source>
+                <target>აქტიური</target>
+            </trans-unit>
+            <trans-unit id="1102">
+                <source>taskStatus3</source>
+                <target>დახურული</target>
+            </trans-unit>
+            <trans-unit id="1104">
+                <source>Text</source>
+                <target>ტექსტი</target>
+            </trans-unit>
+            <trans-unit id="1105">
+                <source>Thesauri</source>
+                <target>განმარტებითი ლექსიკონები</target>
+            </trans-unit>
+            <trans-unit id="1106">
+                <source>Thesaurus</source>
+                <target>განმარტებითი ლექსიკონი</target>
+            </trans-unit>
+            <trans-unit id="1107">
+                <source>Till</source>
+                <target>...მდე</target>
+            </trans-unit>
+            <trans-unit id="1108">
+                <source>Time</source>
+                <target>დრო</target>
+            </trans-unit>
+            <trans-unit id="1109">
+                <source>Title</source>
+                <target>სახელი/სათაური</target>
+            </trans-unit>
+            <trans-unit id="1111">
+                <source>tomorrow</source>
+                <target>ხვალ</target>
+            </trans-unit>
+            <trans-unit id="1112">
+                <source>TotalRow</source>
+                <target>ყველა მწკრივი/მწკრივები სულ</target>
+            </trans-unit>
+            <trans-unit id="1113">
+                <source>Transfer</source>
+                <target>გადატანა</target>
+            </trans-unit>
+            <trans-unit id="1114">
+                <source>TransferCase</source>
+                <target>საკითხის გადატანა/გადაცემა</target>
+            </trans-unit>
+            <trans-unit id="1115">
+                <source>TransferingTask</source>
+                <target>დავალების გადატანა/გადაცემა</target>
+            </trans-unit>
+            <trans-unit id="1116">
+                <source>TransferingTaskMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ ამ დავალების გადაეცმა მომხმარებლისთვის</target>
+            </trans-unit>
+            <trans-unit id="1117">
+                <source>TransferTask</source>
+                <target>დავალების გადატანა/გადაცემა</target>
+            </trans-unit>
+            <trans-unit id="1118">
+                <source>Type</source>
+                <target>ტიპი/სახეობა</target>
+            </trans-unit>
+            <trans-unit id="1120">
+                <source>updatedAt</source>
+                <target>განახლებული</target>
+            </trans-unit>
+            <trans-unit id="1121">
+                <source>UpdatedDate</source>
+                <target>განახლებული მონაცემები</target>
+            </trans-unit>
+            <trans-unit id="1122">
+                <source>Upload</source>
+                <target>ატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="1124">
+                <source>uploadAnother</source>
+                <target>სხვა [დოკუმენტის] ატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="1125">
+                <source>UploadArchive</source>
+                <target>არქივის ატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="1126">
+                <source>UploadFile</source>
+                <target>დოკუმენტის ატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="1127">
+                <source>UploadMultipleFiles</source>
+                <target>მრავალი დოკუმენტის ატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="1129">
+                <source>UserDetails</source>
+                <target>მომხმარებლის დეტალები</target>
+            </trans-unit>
+            <trans-unit id="1130">
+                <source>UserManagement</source>
+                <target>მომხმარებლის მართვა</target>
+            </trans-unit>
+            <trans-unit id="1132">
+                <source>UsernameCannotBeEmpty</source>
+                <target>სისტემაში შესვლის ველი არ შეიძლება იყოს ცარიელი</target>
+            </trans-unit>
+            <trans-unit id="1133">
+                <source>UsernameInvalid</source>
+                <target>"სისტემაში შესვლის იდენტიფიკაცია არასწორად არის მითითებული. თუ შეიძლება გამოიყენეთ მხოლოდ ალფანუმერული სიმბოლოები (ა-ჰ, 0-9) დაშორების ან მძიმის გარეშე."</target>
+            </trans-unit>
+            <trans-unit id="1134">
+                <source>Users</source>
+                <target>მომხმარებლები</target>
+            </trans-unit>
+            <trans-unit id="1135">
+                <source>UserTags</source>
+                <target>პირადი თეგები</target>
+            </trans-unit>
+            <trans-unit id="1137">
+                <source>View</source>
+                <target>ნახვა</target>
+            </trans-unit>
+            <trans-unit id="1138">
+                <source>viewCaseFiles</source>
+                <target>დოკუმენტების ნახვა</target>
+            </trans-unit>
+            <trans-unit id="1142">
+                <source>visible</source>
+                <target>დასანახი</target>
+            </trans-unit>
+            <trans-unit id="1143">
+                <source>WithDeadlines</source>
+                <target>ბოლო ვადებით</target>
+            </trans-unit>
+            <trans-unit id="1145">
+                <source>WorkAddress</source>
+                <target>სამსახურის მისამართი</target>
+            </trans-unit>
+            <trans-unit id="1146">
+                <source>WorkMobile</source>
+                <target>სამსახურის მობილურის ნომერი</target>
+            </trans-unit>
+            <trans-unit id="1147">
+                <source>WorkPhone</source>
+                <target>სამსახურის ტელეფონი</target>
+            </trans-unit>
+            <trans-unit id="1148">
+                <source>Write</source>
+                <target>დაწერა/წერა</target>
+            </trans-unit>
+            <trans-unit id="1149">
+                <source>WriteAccess</source>
+                <target>წვდომა წერაზე</target>
+            </trans-unit>
+            <trans-unit id="1151">
+                <source>aboutTaskClose</source>
+                <target>დავალება დახურულია: {name} ({path})</target>
+            </trans-unit>
+            <trans-unit id="1152">
+                <source>theTask</source>
+                <target>დავალება</target>
+            </trans-unit>
+            <trans-unit id="1153">
+                <source>hasBeenAutoclosed</source>
+                <target>დახურულია ავტომატურად</target>
+            </trans-unit>
+            <trans-unit id="1154">
+                <source>aboutTaskUpdated</source>
+                <target>დავალების განახლება: {name} ({path})</target>
+            </trans-unit>
+            <trans-unit id="1156">
+                <source>theStatus</source>
+                <target>სტატუსი</target>
+            </trans-unit>
+            <trans-unit id="1157">
+                <source>heChanged</source>
+                <target>შეცვლილია</target>
+            </trans-unit>
+            <trans-unit id="1158">
+                <source>sheChanged</source>
+                <target>შეცვლილია</target>
+            </trans-unit>
+            <trans-unit id="1159">
+                <source>AssociateCase</source>
+                <target>საკითხის ერთობლიობა</target>
+            </trans-unit>
+            <trans-unit id="1161">
+                <source>PrivateArea</source>
+                <target>კერძო სივრცე</target>
+            </trans-unit>
+            <trans-unit id="1162">
+                <source>MyCaseBox</source>
+                <target>ჩემი CaseBox</target>
+            </trans-unit>
+            <trans-unit id="1163">
+                <source>Recent</source>
+                <target>უკანასკნელი/ბოლო</target>
+            </trans-unit>
+            <trans-unit id="1164">
+                <source>Upcoming</source>
+                <target>მომავალი</target>
+            </trans-unit>
+            <trans-unit id="1165">
+                <source>Unread</source>
+                <target>წაუკითხავი</target>
+            </trans-unit>
+            <trans-unit id="1167">
+                <source>PublicFolder</source>
+                <target>საჯარო</target>
+            </trans-unit>
+            <trans-unit id="1168">
+                <source>Folder</source>
+                <target>საქაღალდე</target>
+            </trans-unit>
+            <trans-unit id="1169">
+                <source>NewTask</source>
+                <target>ახალი დავალება</target>
+            </trans-unit>
+            <trans-unit id="1170">
+                <source>ShowFoldersContent</source>
+                <target>საქაღალდეების შინაარსის ჩვენება</target>
+            </trans-unit>
+            <trans-unit id="1171">
+                <source>Processing</source>
+                <target>მუშავდება/მიმდინარეობს დამუშავება</target>
+            </trans-unit>
+            <trans-unit id="1172">
+                <source>DeleteConfirmationMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ წაშლა</target>
+            </trans-unit>
+            <trans-unit id="1173">
+                <source>Cut</source>
+                <target>მოჭრა</target>
+            </trans-unit>
+            <trans-unit id="1174">
+                <source>Copy</source>
+                <target>დაკოპირება/ასლის გაკეთება</target>
+            </trans-unit>
+            <trans-unit id="1175">
+                <source>Paste</source>
+                <target>ჩასმა</target>
+            </trans-unit>
+            <trans-unit id="1176">
+                <source>PasteShortcut</source>
+                <target>იარლიყის ჩასმა/სწრაფი გამოძახების ჩასმა</target>
+            </trans-unit>
+            <trans-unit id="1177">
+                <source>CreateShortcut</source>
+                <target>იარლიყის შექმნა/სწრაფი გამოძახების შექმნა</target>
+            </trans-unit>
+            <trans-unit id="1178">
+                <source>Rename</source>
+                <target>გადარქმევა</target>
+            </trans-unit>
+            <trans-unit id="1179">
+                <source>Expand</source>
+                <target>გაფართოება</target>
+            </trans-unit>
+            <trans-unit id="1180">
+                <source>Collapse</source>
+                <target>ჩაკეცვა</target>
+            </trans-unit>
+            <trans-unit id="1181">
+                <source>Preview</source>
+                <target>წინასწარი ნახვა</target>
+            </trans-unit>
+            <trans-unit id="2644">
+                <source>ErroneousInputData</source>
+                <target>არასწორად შეყვანილი მონაცემები</target>
+            </trans-unit>
+            <trans-unit id="2645">
+                <source>CannotCopyObjectToItself</source>
+                <target>შეუძლებელია ობიექტის ჩასმა თავისსავე ადგილას</target>
+            </trans-unit>
+            <trans-unit id="2646">
+                <source>ConfirmOverwriting</source>
+                <target>სამიზნე (ადგილი?) შეიცავს იგივე სახელისა და სახეობის ელემენტებს. დარწმუნებული ხართ რომ გსურთ ზევიდან გადააწეროთ?</target>
+            </trans-unit>
+            <trans-unit id="2649">
+                <source>Reload</source>
+                <target>გადატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="2650">
+                <source>Explorer</source>
+                <target>ქსელის</target>
+            </trans-unit>
+            <trans-unit id="2651">
+                <source>noYear</source>
+                <target>არ არის მითითებული წელი</target>
+            </trans-unit>
+            <trans-unit id="2652">
+                <source>noMonth</source>
+                <target>არ არის მითითებული თვე</target>
+            </trans-unit>
+            <trans-unit id="2653">
+                <source>Path</source>
+                <target>ბილიკი</target>
+            </trans-unit>
+            <trans-unit id="2654">
+                <source>FileInQueue</source>
+                <target>დოკუმენტი ელოდება დამუშავების რიგს</target>
+            </trans-unit>
+            <trans-unit id="2655">
+                <source>FileIsProcessing</source>
+                <target>დოკუმენტი დამუშავების პროცესშია/მუშავდება/მიმდინარეობს დოკუმენტის დამუშავება</target>
+            </trans-unit>
+            <trans-unit id="2656">
+                <source>FileAddedToQueue</source>
+                <target>დოკუმენტი დამატებული დასამუშავებელი დოკუმენტების რიგში</target>
+            </trans-unit>
+            <trans-unit id="2659">
+                <source>Events</source>
+                <target>მოვლენები/ღონისძიებები</target>
+            </trans-unit>
+            <trans-unit id="2661">
+                <source>Day</source>
+                <target>დღე</target>
+            </trans-unit>
+            <trans-unit id="2662">
+                <source>Week</source>
+                <target>კვირა</target>
+            </trans-unit>
+            <trans-unit id="2663">
+                <source>Month</source>
+                <target>თვე</target>
+            </trans-unit>
+            <trans-unit id="2664">
+                <source>Today</source>
+                <target>დღეს</target>
+            </trans-unit>
+            <trans-unit id="2665">
+                <source>AllDay</source>
+                <target>მთელი დღე</target>
+            </trans-unit>
+            <trans-unit id="2666">
+                <source>more</source>
+                <target>მეტი</target>
+            </trans-unit>
+            <trans-unit id="2667">
+                <source>TargetFolderDoesNotExist</source>
+                <target>სამიზნე ცნობარი/მაჩვენებელი არ არსებობს</target>
+            </trans-unit>
+            <trans-unit id="2668">
+                <source>FilenameExistsInTarget</source>
+                <target>დოკუმენტის სახელი {filename} უკვე არსებობს სამიზნე საქაღალდეში</target>
+            </trans-unit>
+            <trans-unit id="2669">
+                <source>Overwrite</source>
+                <target>ზევიდან გადაწერა</target>
+            </trans-unit>
+            <trans-unit id="2670">
+                <source>OverwriteAll</source>
+                <target>ზევიდან გადაწერა ყველაზე</target>
+            </trans-unit>
+            <trans-unit id="2671">
+                <source>AutoRename</source>
+                <target>ავტომატური გადარქმევა</target>
+            </trans-unit>
+            <trans-unit id="2672">
+                <source>FileExists</source>
+                <target>დოკუმენტი არსებობს</target>
+            </trans-unit>
+            <trans-unit id="2673">
+                <source>SomeFilenamesExistsInTarget</source>
+                <target>ზოგიერთი დოკუმენტი არსებობს სამიზნე ცნობარში/მაჩვენებელში. რისი გაკეთება გსურთ?</target>
+            </trans-unit>
+            <trans-unit id="2674">
+                <source>NewFileName</source>
+                <target>ახალი დოკუმენტის სახელი</target>
+            </trans-unit>
+            <trans-unit id="2675">
+                <source>Dashboard</source>
+                <target>ინსტრუმენტების პანელი</target>
+            </trans-unit>
+            <trans-unit id="2676">
+                <source>Projects</source>
+                <target>საკითხები</target>
+            </trans-unit>
+            <trans-unit id="2677">
+                <source>Folders</source>
+                <target>საქაღალდეები</target>
+            </trans-unit>
+            <trans-unit id="2678">
+                <source>Descendants</source>
+                <target>საქაღალდეების გაშლა</target>
+            </trans-unit>
+            <trans-unit id="2679">
+                <source>OpenInNewWindow</source>
+                <target>ახალ ტაბში გახსნა</target>
+            </trans-unit>
+            <trans-unit id="2680">
+                <source>processing</source>
+                <target>მუშავდება/მიმდინარეობს დამუშავება</target>
+            </trans-unit>
+            <trans-unit id="2681">
+                <source>NewWindow</source>
+                <target>ახალი ფანჯარა</target>
+            </trans-unit>
+            <trans-unit id="2682">
+                <source>RevisionHistory</source>
+                <target>გადასინჯვის ისტორია</target>
+            </trans-unit>
+            <trans-unit id="2685">
+                <source>ago</source>
+                <target>წინ</target>
+            </trans-unit>
+            <trans-unit id="2686">
+                <source>Yesterday</source>
+                <target>გუშინ</target>
+            </trans-unit>
+            <trans-unit id="2687">
+                <source>Restore</source>
+                <target>აღდგენა</target>
+            </trans-unit>
+            <trans-unit id="2688">
+                <source>NewEvent</source>
+                <target>ახალი მოვლენა/ღონისძიება</target>
+            </trans-unit>
+            <trans-unit id="2689">
+                <source>Missed</source>
+                <target>აკლია/არ არის</target>
+            </trans-unit>
+            <trans-unit id="2690">
+                <source>CannotCopyObjectOverItself</source>
+                <target>შეუძლებელია ობიექტის ჩასმა თავისსავე ადგილას</target>
+            </trans-unit>
+            <trans-unit id="2691">
+                <source>CopyOf</source>
+                <target>...ის ასლი</target>
+            </trans-unit>
+            <trans-unit id="2692">
+                <source>CurrentVersion</source>
+                <target>ამჟამინდელი/ახლანდელი ვერსია</target>
+            </trans-unit>
+            <trans-unit id="2693">
+                <source>Error_uploading_file</source>
+                <target>შეცდომაა დოკუმენტის ატვირთვისას</target>
+            </trans-unit>
+            <trans-unit id="2694">
+                <source>Start</source>
+                <target>დასაწყისი</target>
+            </trans-unit>
+            <trans-unit id="2695">
+                <source>Due</source>
+                <target>მოსალოდნელი/ვადაში/ვადის დაცვით</target>
+            </trans-unit>
+            <trans-unit id="2696">
+                <source>Importance</source>
+                <target>მნიშვნელობა</target>
+            </trans-unit>
+            <trans-unit id="2697">
+                <source>Done</source>
+                <target>გაკეთებულია/შესრულებულია</target>
+            </trans-unit>
+            <trans-unit id="2698">
+                <source>facet_activeFilters</source>
+                <target>აქტიური ფილტრები</target>
+                    <note> Active filters in the Filter panel on the right </note>
+            </trans-unit>
+            <trans-unit id="2699">
+                <source>facet_due</source>
+                <target>მოსალოდნელი/ვადაში/ვადის დაცვით</target>
+            </trans-unit>
+            <trans-unit id="2700">
+                <source>facet_status</source>
+                <target>სტატუსი</target>
+            </trans-unit>
+            <trans-unit id="2701">
+                <source>facet_assigned</source>
+                <target>დანიშნული/მიწერილი/დავალებული</target>
+            </trans-unit>
+            <trans-unit id="2703">
+                <source>ResetAll</source>
+                <target>ყველაფრის გადატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="2704">
+                <source>ActiveFilters</source>
+                <target>აქტიური ფილტრები</target>
+                    <note> same as above, will check which one is used now </note>
+            </trans-unit>
+            <trans-unit id="2705">
+                <source>due_next7days</source>
+                <target>შემდეგი 7 დღე</target>
+            </trans-unit>
+            <trans-unit id="2706">
+                <source>due_overdue</source>
+                <target>ვადის დარღვევით/დაგვიანებით</target>
+            </trans-unit>
+            <trans-unit id="2707">
+                <source>due_today</source>
+                <target>დღეს</target>
+            </trans-unit>
+            <trans-unit id="2708">
+                <source>due_next31days</source>
+                <target>შემდეგი 31 დღე</target>
+            </trans-unit>
+            <trans-unit id="2709">
+                <source>due_thisWeek</source>
+                <target>ეს კვირა</target>
+            </trans-unit>
+            <trans-unit id="2710">
+                <source>due_thisMonth</source>
+                <target>ეს თვე</target>
+            </trans-unit>
+            <trans-unit id="2712">
+                <source>TaskAssigned</source>
+                <target>დანიშნული/მიწერილი/დავალებული</target>
+            </trans-unit>
+            <trans-unit id="2713">
+                <source>Start_End</source>
+                <target>დაწყება/დასრულება</target>
+            </trans-unit>
+            <trans-unit id="2714">
+                <source>Category</source>
+                <target>კატეგორია</target>
+            </trans-unit>
+            <trans-unit id="2715">
+                <source>AttachFile</source>
+                <target>დოკუმენტის მიბმა</target>
+            </trans-unit>
+            <trans-unit id="2716">
+                <source>AddReminder</source>
+                <target>შეხსენების დამატება</target>
+            </trans-unit>
+            <trans-unit id="2717">
+                <source>Low</source>
+                <target>დაბალი</target>
+            </trans-unit>
+            <trans-unit id="2718">
+                <source>Medium</source>
+                <target>საშუალო</target>
+            </trans-unit>
+            <trans-unit id="2719">
+                <source>High</source>
+                <target>მაღალი</target>
+            </trans-unit>
+            <trans-unit id="2720">
+                <source>MoreDetails</source>
+                <target>მეტი დეტალი</target>
+            </trans-unit>
+            <trans-unit id="2721">
+                <source>ViewTask</source>
+                <target>დავალების ნახვა</target>
+            </trans-unit>
+            <trans-unit id="2722">
+                <source>revoke</source>
+                <target>უკან წაღება/გაუქმება</target>
+            </trans-unit>
+            <trans-unit id="2723">
+                <source>waitingForAction</source>
+                <target>ქმედების ლოდინი</target>
+            </trans-unit>
+            <trans-unit id="2724">
+                <source>completed</source>
+                <target>დასრულებულია/შესრულებულია</target>
+            </trans-unit>
+            <trans-unit id="2725">
+                <source>complete</source>
+                <target>სრულყოფილი/დასრულებული/შესრულებული</target>
+            </trans-unit>
+            <trans-unit id="2727">
+                <source>taskStatus1</source>
+                <target>ვადის დარღვევით/დაგვიანებით</target>
+            </trans-unit>
+            <trans-unit id="2728">
+                <source>facet_category_id</source>
+                <target>კატეგორია</target>
+            </trans-unit>
+            <trans-unit id="2729">
+                <source>MergeFiles</source>
+                <target>დოკუმენტების შერწყმა/შეერთება</target>
+            </trans-unit>
+            <trans-unit id="2730">
+                <source>MergeFilesConfirmation</source>
+                <target>დარწმუნებული ხართ რომ გსურთ შერჩეული დოკუმენტების შერწყმა/შეერთება?</target>
+            </trans-unit>
+            <trans-unit id="2731">
+                <source>MergingFiles</source>
+                <target>დოკუმენტების შერწყმა/შეერთება მიმდინარეობს</target>
+            </trans-unit>
+            <trans-unit id="2733">
+                <source>due_yesterday</source>
+                <target>გუშინ</target>
+            </trans-unit>
+            <trans-unit id="2735">
+                <source>facet_cdate</source>
+                <target>შექმნილია</target>
+            </trans-unit>
+            <trans-unit id="2736">
+                <source>facet_type</source>
+                <target>სახეობა/ტიპი</target>
+            </trans-unit>
+            <trans-unit id="2737">
+                <source>facet_cid</source>
+                <target>შექმნილია</target>
+            </trans-unit>
+            <trans-unit id="2738">
+                <source>Task</source>
+                <target>დავალება</target>
+            </trans-unit>
+            <trans-unit id="2739">
+                <source>facet_date</source>
+                <target>თარიღი</target>
+            </trans-unit>
+            <trans-unit id="2740">
+                <source>facet_subtype</source>
+                <target>სახეობა/ტიპი</target>
+            </trans-unit>
+            <trans-unit id="2742">
+                <source>ActiveTasks</source>
+                <target>აქტიური დავალებები</target>
+            </trans-unit>
+            <trans-unit id="2743">
+                <source>Modified</source>
+                <target>შეცვლილი</target>
+            </trans-unit>
+            <trans-unit id="2744">
+                <source>facet_importance</source>
+                <target>მნიშვნელობა</target>
+            </trans-unit>
+            <trans-unit id="2745">
+                <source>FileVersionsCount</source>
+                <target>დოკუმენტის ვერსიები გათვალისწინებულია ???</target>
+            </trans-unit>
+            <trans-unit id="2746">
+                <source>Duplicates</source>
+                <target>დუბლიკატები</target>
+            </trans-unit>
+            <trans-unit id="2747">
+                <source>OpenItemLocation</source>
+                <target>ნივთის/საგნის ადგილმდეობარეობის გახსნა</target>
+            </trans-unit>
+            <trans-unit id="2748">
+                <source>UploadNewVersion</source>
+                <target>ახალი ვერსიის ატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="2749">
+                <source>Unassigned</source>
+                <target>დაუვალებელი</target>
+            </trans-unit>
+            <trans-unit id="2750">
+                <source>AddFile</source>
+                <target>დოკუმენტის დამატება</target>
+            </trans-unit>
+            <trans-unit id="2751">
+                <source>clickToChooseFile</source>
+                <target>დოკუმენტის შერჩევა</target>
+            </trans-unit>
+            <trans-unit id="2752">
+                <source>Event</source>
+                <target>ღონისძიება/მოვლენა</target>
+            </trans-unit>
+            <trans-unit id="2753">
+                <source>ViewEvent</source>
+                <target>ღონისძიების/მოვლენის ნახვა</target>
+            </trans-unit>
+            <trans-unit id="2754">
+                <source>EditEvent</source>
+                <target>ღონისძიების/მოვლენის შეცვლა</target>
+            </trans-unit>
+            <trans-unit id="2755">
+                <source>fileDeleteConfirmation</source>
+                <target>დარწმუნებული ხართ რომ გსურთ ამ დოკუმეტნის და მისი ყველა ვერსიის წაშლა?</target>
+            </trans-unit>
+            <trans-unit id="2756">
+                <source>versionDeleteConfirmation</source>
+                <target>დარწმუნებული ხართ რომ გსურთ  დოკუმენტის შერჩეული ვერსიის წაშლა?</target>
+            </trans-unit>
+            <trans-unit id="2757">
+                <source>DeleteSelectedConfirmationMessage</source>
+                <target>დარწმუნებული ხართ რომ გსურთ შერჩეული საგნების (?) წაშლა?</target>
+            </trans-unit>
+            <trans-unit id="2758">
+                <source>ForgotPassword</source>
+                <target>დაგავიწყდათ პაროლი?</target>
+            </trans-unit>
+            <trans-unit id="2759">
+                <source>Continue</source>
+                <target>გაგრძელება</target>
+            </trans-unit>
+            <trans-unit id="2760">
+                <source>EnterEmail</source>
+                <target>შეიყვანეთ თქვენი ელ-ფოსტის მისამართი:</target>
+            </trans-unit>
+            <trans-unit id="2761">
+                <source>OR</source>
+                <target>ან</target>
+            </trans-unit>
+            <trans-unit id="2762">
+                <source>InvalidEmail</source>
+                <target>ელ-ფოსტის მისამართი არასწორია</target>
+            </trans-unit>
+            <trans-unit id="2763">
+                <source>EmailNotFound</source>
+                <target>მითითებული ელ-ფოსტა არ არის დარეგისტრირებული casEbox-ში</target>
+            </trans-unit>
+            <trans-unit id="2764">
+                <source>UsernameNotFound</source>
+                <target>მითითებული მომხმარებლის სახელი არ არის დარეგისტრირებული casEbox-ში</target>
+            </trans-unit>
+            <trans-unit id="2765">
+                <source>UserHasNoMail</source>
+                <target>მითითებულ მომხმარებლის სახელს არ აქვს მითითებული ელ-ფოსტის მისამართი</target>
+            </trans-unit>
+            <trans-unit id="2766">
+                <source>DisplayOwnTasksMsg</source>
+                <target>თქვენი საკუთარი ან თქვენთვის დავალებული აქტიური დავალებების ჩვენება</target>
+            </trans-unit>
+            <trans-unit id="2767">
+                <source>active1</source>
+                <target>აქტიური</target>
+            </trans-unit>
+            <trans-unit id="2768">
+                <source>active2</source>
+                <target>აქტიური</target>
+            </trans-unit>
+            <trans-unit id="2769">
+                <source>ThereAre</source>
+                <target>არის</target>
+            </trans-unit>
+            <trans-unit id="2770">
+                <source>outOf</source>
+                <target>...დან</target>
+            </trans-unit>
+            <trans-unit id="2771">
+                <source>tasks</source>
+                <target>დავალებები</target>
+            </trans-unit>
+            <trans-unit id="2772">
+                <source>ofTask</source>
+                <target>დავალება</target>
+            </trans-unit>
+            <trans-unit id="2773">
+                <source>MailRecoverSubject</source>
+                <target>CaseBox-ის პაროლის აღდგენა</target>
+            </trans-unit>
+            <trans-unit id="2774">
+                <source>RecoverMessageSent</source>
+                <target>პაროლის აღდგენის შეტყობინება გამოგზავნილია თქვენს ელ-ფოსტაზე. გასაგრძელებლად თუ შეიძლება შეამოწმეთ თქვენი ელ-ფოსტა.</target>
+            </trans-unit>
+            <trans-unit id="2775">
+                <source>RecoverHashNotFound</source>
+                <target>შეცდომაა პაროლის აღდგენისას ან url-ის ვადა ამოიწურა.</target>
+            </trans-unit>
+            <trans-unit id="2776">
+                <source>NewPassword</source>
+                <target>ახალი პაროლი</target>
+            </trans-unit>
+            <trans-unit id="2778">
+                <source>PasswordChangedMsg</source>
+                <target>პაროლი წარმატებით შეიცვალა. ახლა შეგიძლიათ შეხვიდეთ casEbox-ში ახალი პაროლით.</target>
+            </trans-unit>
+            <trans-unit id="2779">
+                <source>aboutTaskOverdue</source>
+                <target>დავალებას ვადა გაუვიდა: {name} ({path})</target>
+            </trans-unit>
+            <trans-unit id="2780">
+                <source>aboutTaskCompletionDecline</source>
+                <target>დავალების შესრულება უარყოფილია: {owner} > {name} ({path})</target>
+            </trans-unit>
+            <trans-unit id="2781">
+                <source>aboutTaskCompletionOnBehalt</source>
+                <target>დავალების შესრულება ... სახელით / {owner}: {name} ({path})</target>
+            </trans-unit>
+            <trans-unit id="2782">
+                <source>aboutTaskReopened</source>
+                <target>დავალება ხელახლა არის გახსნილი: {owner} > {name} ({path})</target>
+            </trans-unit>
+            <trans-unit id="2783">
+                <source>Reopen</source>
+                <target>ხელახლა გახსნა</target>
+            </trans-unit>
+            <trans-unit id="2784">
+                <source>ReopeningTask</source>
+                <target>დავალება ხელახლა იხსნება</target>
+            </trans-unit>
+            <trans-unit id="2785">
+                <source>ReopenTaskConfirmationMsg</source>
+                <target>დარწმუნებული ხართ რომ გსურთ ამ დავალების ხელახლა გახსნა?</target>
+            </trans-unit>
+            <trans-unit id="2786">
+                <source>CompletedTasks</source>
+                <target>დასრულებული/შესრულებული დავალებები</target>
+            </trans-unit>
+            <trans-unit id="2787">
+                <source>ActiveTasksPerUser</source>
+                <target>აქტიური დავალებები თითო მომხმარებელზე</target>
+            </trans-unit>
+            <trans-unit id="2788">
+                <source>assignedToMe</source>
+                <target>ჩემი დავალებები/ჩემთვის დავალებული</target>
+            </trans-unit>
+            <trans-unit id="2789">
+                <source>ownedByMe</source>
+                <target>ჩემი საკუთარი დავალებები</target>
+            </trans-unit>
+            <trans-unit id="2790">
+                <source>all</source>
+                <target>ყველა</target>
+            </trans-unit>
+            <trans-unit id="2791">
+                <source>modifiedByMe</source>
+                <target>ჩემს მიერ შეცვლილი</target>
+            </trans-unit>
+            <trans-unit id="2792">
+                <source>modifiedByAnybody</source>
+                <target>ნებისმიერის მიერ შეცვლილი</target>
+            </trans-unit>
+            <trans-unit id="2793">
+                <source>thatCreatedTasksForMe</source>
+                <target>შექმნა დავალებები ჩემთვის</target>
+            </trans-unit>
+            <trans-unit id="2794">
+                <source>assignedToTasksCreatedByMe</source>
+                <target>დავალებული აქვს ჩემს მიერ შექმნილი დავალებები</target>
+            </trans-unit>
+            <trans-unit id="2795">
+                <source>createdTasks</source>
+                <target>შექმნა დავალებები</target>
+            </trans-unit>
+            <trans-unit id="2796">
+                <source>assignedToTasks</source>
+                <target>დავალებული აქვს დავალებები</target>
+            </trans-unit>
+            <trans-unit id="2797">
+                <source>Project</source>
+                <target>საკითხი</target>
+            </trans-unit>
+            <trans-unit id="2798">
+                <source>CannotCopyObjectInsideItself</source>
+                <target>შეუძლებელია ობიექტის ჩასმა თავისსავე ადგილას</target>
+            </trans-unit>
+            <trans-unit id="2799">
+                <source>addDuplicateField</source>
+                <target>ველის დუბლიკატის შექმნა</target>
+            </trans-unit>
+            <trans-unit id="2800">
+                <source>delDuplicateField</source>
+                <target>ველის დუბლიკატის ამოღება/წაშლა</target>
+            </trans-unit>
+            <trans-unit id="2801">
+                <source>duplicate</source>
+                <target>დუბლიკატი</target>
+            </trans-unit>
+            <trans-unit id="2802">
+                <source>facet_sys_tags</source>
+                <target>თეგები</target>
+            </trans-unit>
+            <trans-unit id="2803">
+                <source>TakeOwnership</source>
+                <target>საკუთარ თავზე პასუხისმგებლობის აღება</target>
+            </trans-unit>
+            <trans-unit id="2804">
+                <source>TakeOwnershipConfirmation</source>
+                <target>დარწმუნებული ხართ რომ გსურთ თქვენს თავზე აიღოთ პასუხისმგებლობა შერჩეულ საგნებზე?</target>
+            </trans-unit>
+            <trans-unit id="2805">
+                <source>NewVersion</source>
+                <target>ახალი ვერსია</target>
+            </trans-unit>
+            <trans-unit id="2806">
+                <source>Replace</source>
+                <target>ჩანაცვლება</target>
+            </trans-unit>
+            <trans-unit id="2807">
+                <source>AllAsNewVersion</source>
+                <target>ყველა როგორც ახალი ვერსია</target>
+            </trans-unit>
+            <trans-unit id="2808">
+                <source>ReplaceAll</source>
+                <target>ყველაფრის ჩანაცვლება</target>
+            </trans-unit>
+            <trans-unit id="2809">
+                <source>fewSecondsAgo</source>
+                <target>რამდენიმე წამის წინ</target>
+            </trans-unit>
+            <trans-unit id="2810">
+                <source>FollowingFilesHaveDuplicates</source>
+                <target>რამდენიმე წამის წინ</target>
+            </trans-unit>
+            <trans-unit id="2811">
+                <source>UploadedFileExistsInFolders</source>
+                <target>ატვირთული დოკუმენტი უკვე არსებობს შემდეგ საქაღალდეებში: {paths} <![CDATA[ <br/> ]]> გსურთ დოკუმენტის გახსნა რომ იხილოთ დუბლიკატების ჩამონათვალი?</target>
+            </trans-unit>
+            <trans-unit id="2812">
+                <source>FileContentsIdentical</source>
+                <target>დოკუმენტის შინაარსი იდენტურია ამჟამინდელი ვერსიის რომელიც ატვირთულია {timEago} {user} მიერ.</target>
+            </trans-unit>
+            <trans-unit id="2813">
+                <source>FileContentsIdenticalToAVersion</source>
+                <target>დოკუმენტის შინაარსი იდენტურია წინა ვერსიის რომელიც ატვირთულია {timEago} {user} მიერ.</target>
+            </trans-unit>
+            <trans-unit id="2814">
+                <source>Info</source>
+                <target>ინფო/ინფორმაცია</target>
+            </trans-unit>
+            <trans-unit id="2815">
+                <source>List</source>
+                <target>სია/ჩამონათვალი</target>
+            </trans-unit>
+            <trans-unit id="2816">
+                <source>Tree</source>
+                <target>ხე</target>
+                    <note> All the data in Casebox resides in one big Tree (thats how we call the left Panel) </note>
+            </trans-unit>
+            <trans-unit id="2817">
+                <source>Overview</source>
+                <target>მიმოხილვა/გადახედვა</target>
+            </trans-unit>
+            <trans-unit id="2818">
+                <source>facet_template_id</source>
+                <target>შაბლონი/ნიმუში</target>
+            </trans-unit>
+            <trans-unit id="2819">
+                <source>CaseTemplate</source>
+                <target>საკითხის ნიმუში/შაბლონი</target>
+            </trans-unit>
+            <trans-unit id="2820">
+                <source>Permissions</source>
+                <target>ნებართვა</target>
+            </trans-unit>
+            <trans-unit id="2821">
+                <source>BrowseCase</source>
+                <target>საკითხში ძიება</target>
+            </trans-unit>
+            <trans-unit id="2822">
+                <source>Refresh</source>
+                <target>განახლება</target>
+            </trans-unit>
+            <trans-unit id="2823">
+                <source>addNew</source>
+                <target>ახლის დამატება</target>
+            </trans-unit>
+            <trans-unit id="2824">
+                <source>edit</source>
+                <target>ცვლილების შეტანა/რედაქტირება</target>
+            </trans-unit>
+            <trans-unit id="2825">
+                <source>Security</source>
+                <target>უსაფრთხოება</target>
+            </trans-unit>
+            <trans-unit id="2826">
+                <source>Apply</source>
+                <target>გამოყენება</target>
+            </trans-unit>
+            <trans-unit id="2827">
+                <source>FullControl</source>
+                <target>სრული კონტროლი</target>
+            </trans-unit>
+            <trans-unit id="2830">
+                <source>Modify</source>
+                <target>სახის შეცვლა</target>
+            </trans-unit>
+            <trans-unit id="2831">
+                <source>Browse</source>
+                <target>ძიება/დათვალიერება</target>
+            </trans-unit>
+            <trans-unit id="2832">
+                <source>MyDocuments</source>
+                <target>ჩემი დოკუმენტები</target>
+            </trans-unit>
+            <trans-unit id="2833">
+                <source>UploadPhoto</source>
+                <target>სურათის ატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="2834">
+                <source>Groups</source>
+                <target>ჯგუფები</target>
+            </trans-unit>
+            <trans-unit id="2835">
+                <source>Group</source>
+                <target>ჯგუფი</target>
+            </trans-unit>
+            <trans-unit id="2836">
+                <source>Creator</source>
+                <target>შემქმნელი</target>
+            </trans-unit>
+            <trans-unit id="2837">
+                <source>facet_tree_tags</source>
+                <target>პარამეტრები</target>
+            </trans-unit>
+            <trans-unit id="2838">
+                <source>RemoveAll</source>
+                <target>ყველაფრის ამოღება/წაშლა</target>
+            </trans-unit>
+            <trans-unit id="2839">
+                <source>RemoveUploaded</source>
+                <target>ატვირთულის ამოღება/წაშლა</target>
+            </trans-unit>
+            <trans-unit id="2840">
+                <source>UploadQueue</source>
+                <target>რიგის ატვირთვა</target>
+            </trans-unit>
+            <trans-unit id="2841">
+                <source>ReadyToUpload</source>
+                <target>მზად არის ასატვირთად</target>
+            </trans-unit>
+            <trans-unit id="2842">
+                <source>fileUploadStatus1</source>
+                <target>იტვირთება</target>
+            </trans-unit>
+            <trans-unit id="2843">
+                <source>fileUploadStatus2</source>
+                <target>შეცდომაა ატვირთვისას</target>
+            </trans-unit>
+            <trans-unit id="2844">
+                <source>fileUploadStatus3</source>
+                <target>ატვირთვის დრო ამოიწურა</target>
+            </trans-unit>
+            <trans-unit id="2845">
+                <source>fileUploadStatus4</source>
+                <target>ატვირთვა შეწყდა/ატვირთვის შეწყვეტა</target>
+            </trans-unit>
+            <trans-unit id="2846">
+                <source>fileUploadStatus5</source>
+                <target>გამზადებულია/დასრულებულია</target>
+            </trans-unit>
+            <trans-unit id="2847">
+                <source>Stop</source>
+                <target>შეჩერება</target>
+            </trans-unit>
+            <trans-unit id="2848">
+                <source>CancelAll</source>
+                <target>ყველაფრის გაუქმება/წაშლა/ანულირება</target>
+            </trans-unit>
+            <trans-unit id="2849">
+                <source>Clear</source>
+                <target>გასუფთავება/წაშლა</target>
+            </trans-unit>
+            <trans-unit id="2853">
+                <source>AllCompleted</source>
+                <target>დასრულებულია/შესრულებულია</target>
+            </trans-unit>
+            <trans-unit id="2854">
+                <source>AutoshowUpload</source>
+                <target>ატვირთვის ფანჯრის ავტომატური ჩვენება</target>
+            </trans-unit>
+            <trans-unit id="2855">
+                <source>UploadAutoStart</source>
+                <target>ატვირთვის ავტომატური დაწყება</target>
+            </trans-unit>
+            <trans-unit id="2856">
+                <source>ApplyForAll</source>
+                <target>გამოყენება ყველაფერზე</target>
+            </trans-unit>
+            <trans-unit id="2857">
+                <source>PasteFromClipboard</source>
+                <target>ჩასმა გაცვლის ბუფერიდან</target>
+            </trans-unit>
+            <trans-unit id="2858">
+                <source>UploadComplete</source>
+                <target>ატვირთვა დასრულებულია</target>
+            </trans-unit>
+            <trans-unit id="2859">
+                <source>Uploading</source>
+                <target>იტვირთება</target>
+            </trans-unit>
+            <trans-unit id="2860">
+                <source>AddGroup</source>
+                <target>ჯგუფი</target>
+            </trans-unit>
+            <trans-unit id="2861">
+                <source>monthNamesShort</source>
+                <target>"იან, თებ, მარ, აპრ, მაი, ივნ, ივლ, აგვ, სექ, ოქტ, ნოე, დეკ"</target>
+            </trans-unit>
+            <trans-unit id="2862">
+                <source>monthNames</source>
+                <target>"იანვარი, თებერვალი, მარტი, აპრილი, მაისი, ივნისი, ივლისი, აგვისტო, სექტემბერი, ოქტომბერი, ნოემბერი, დეკემბერი"</target>
+            </trans-unit>
+            <trans-unit id="2863">
+                <source>dayNamesShort</source>
+                <target>"ორშ, სამ, ოთხ, ხუთ, პარ, შაბ, კვ"</target>
+            </trans-unit>
+            <trans-unit id="2867">
+                <source>dayNames</source>
+                <target>"ორშაბათ, სამშაბათი, ოთხშაბათი, ხუთშაბათი, პარასკევი, შაბათი, კვირა"</target>
+            </trans-unit>
+            <trans-unit id="2868">
+                <source>CompletedDate</source>
+                <target>დასრულებულია/შესრულებულია</target>
+            </trans-unit>
+            <trans-unit id="2869">
+                <source>Template</source>
+                <target>შაბლონი/ნიმუში</target>
+            </trans-unit>
+            <trans-unit id="2870">
+                <source>FolderExists</source>
+                <target>საქაღალდე არსებობს</target>
+            </trans-unit>
+            <trans-unit id="2871">
+                <source>MoveUp</source>
+                <target>ზევით აწევა</target>
+            </trans-unit>
+            <trans-unit id="2872">
+                <source>MoveDown</source>
+                <target>ქვევით ჩამოწევა</target>
+            </trans-unit>
+            <trans-unit id="2873">
+                <source>Sort</source>
+                <target>დალაგება/სორტირება</target>
+            </trans-unit>
+            <trans-unit id="2874">
+                <source>sortAlpbabetAsc</source>
+                <target>დალაგება ანბანის მიხედვით</target>
+            </trans-unit>
+            <trans-unit id="2875">
+                <source>sortAlpbabetDesc</source>
+                <target>დაღმავლად დალაგება ანბანის მიხედვით</target>
+            </trans-unit>
+            <trans-unit id="2876">
+                <source>facet_template_type</source>
+                <target>სახეობა/ტიპი</target>
+            </trans-unit>
+            <trans-unit id="2877">
+                <source>tt_case</source>
+                <target>საკითხი</target>
+            </trans-unit>
+            <trans-unit id="2878">
+                <source>tt_object</source>
+                <target>ობიექტი</target>
+            </trans-unit>
+            <trans-unit id="2879">
+                <source>tt_file</source>
+                <target>დოკუმენტი</target>
+            </trans-unit>
+            <trans-unit id="2880">
+                <source>tt_task</source>
+                <target>დავალება</target>
+            </trans-unit>
+            <trans-unit id="2881">
+                <source>tt_email</source>
+                <target>ელ-ფოსტა</target>
+            </trans-unit>
+            <trans-unit id="2882">
+                <source>tt_user</source>
+                <target>მომხმარებელი</target>
+            </trans-unit>
+            <trans-unit id="2883">
+                <source>tt_template</source>
+                <target>ნიმუში/შაბლონი</target>
+            </trans-unit>
+            <trans-unit id="2884">
+                <source>tt_</source>
+                <target>სახეობის გარეშე</target>
+            </trans-unit>
+            <trans-unit id="2885">
+                <source>Secretary</source>
+                <target>მდივანი/მინისტრი - კონტექსტი უნდა</target>
+            </trans-unit>
+            <trans-unit id="2886">
+                <source>RecycleBin</source>
+                <target>ნაგვის ურნა</target>
+            </trans-unit>
+            <trans-unit id="2887">
+                <source>OtherCases</source>
+                <target>სხვა საკითხები</target>
+            </trans-unit>
+            <trans-unit id="2888">
+                <source>DeletedByMe</source>
+                <target>ჩემს მიერ წაშლილი</target>
+            </trans-unit>
+            <trans-unit id="2889">
+                <source>DeletedByOthers</source>
+                <target>სხვების მიერ წაშლილი</target>
+            </trans-unit>
+            <trans-unit id="2890">
+                <source>AllCases</source>
+                <target>ყველა საკითხი</target>
+            </trans-unit>
+            <trans-unit id="2891">
+                <source>WithoutStatus</source>
+                <target>სტატუსის გარეშე</target>
+            </trans-unit>
+            <trans-unit id="2892">
+                <source>WithoutSubstatus</source>
+                <target>ქვესტატუსის გარეშე</target>
+            </trans-unit>
+            <trans-unit id="2894">
+                <source>Support</source>
+                <target>მხარდაჭერა/დახმარება</target>
+            </trans-unit>
+            <trans-unit id="2895">
+                <source>Emails</source>
+                <target>ელ-ფოსტები</target>
+            </trans-unit>
+            <trans-unit id="2896">
+                <source>Milestones</source>
+                <target>ნიშანსვეტი/საფეხური/ეტაპი</target>
+            </trans-unit>
+            <trans-unit id="2897">
+                <source>Account</source>
+                <target>ანგარიში</target>
+            </trans-unit>
+            <trans-unit id="2898">
+                <source>Profile</source>
+                <target>პროფილი</target>
+            </trans-unit>
+            <trans-unit id="2899">
+                <source>Programs</source>
+                <target>პროგრამები</target>
+            </trans-unit>
+            <trans-unit id="2900">
+                <source>Overdue</source>
+                <target>ვადაგადაცილებული</target>
+            </trans-unit>
+            <trans-unit id="2901">
+                <source>Total</source>
+                <target>სულ</target>
+            </trans-unit>
+            <trans-unit id="2902">
+                <source>Assigned</source>
+                <target>დანიშნული/მიწერილი/დავალებული</target>
+            </trans-unit>
+            <trans-unit id="2903">
+                <source>ShowAll</source>
+                <target>ყველაფრის ჩვენება</target>
+            </trans-unit>
+            <trans-unit id="2904">
+                <source>Tomorrow</source>
+                <target>ხვალ</target>
+            </trans-unit>
+            <trans-unit id="2905">
+                <source>ThisWeek</source>
+                <target>ამ კვირას</target>
+            </trans-unit>
+            <trans-unit id="2906">
+                <source>PrevWeek</source>
+                <target>წინა კვირას</target>
+            </trans-unit>
+            <trans-unit id="2907">
+                <source>Consideration</source>
+                <target>გათვალისწინება/განხილვა</target>
+            </trans-unit>
+            <trans-unit id="2908">
+                <source>Archived</source>
+                <target>დაარქივებული</target>
+            </trans-unit>
+            <trans-unit id="2909">
+                <source>FirstName</source>
+                <target>სახელი</target>
+            </trans-unit>
+            <trans-unit id="2910">
+                <source>LastName</source>
+                <target>გვარი</target>
+            </trans-unit>
+            <trans-unit id="2911">
+                <source>Gender</source>
+                <target>სქესი</target>
+            </trans-unit>
+            <trans-unit id="2912">
+                <source>PrimaryEmail</source>
+                <target>ძირითადი ელ-ფოსტა</target>
+            </trans-unit>
+            <trans-unit id="2913">
+                <source>Country</source>
+                <target>ქვეყანა</target>
+            </trans-unit>
+            <trans-unit id="2914">
+                <source>Phone</source>
+                <target>ტელეფონის ნომერი</target>
+            </trans-unit>
+            <trans-unit id="2915">
+                <source>Timezone</source>
+                <target>დროის ზონა</target>
+            </trans-unit>
+            <trans-unit id="2916">
+                <source>DateFormat</source>
+                <target>თარიღის ფორმატი</target>
+            </trans-unit>
+            <trans-unit id="2917">
+                <source>Change</source>
+                <target>შეცვლა</target>
+            </trans-unit>
+            <trans-unit id="2918">
+                <source>RemovePhotoConfirm</source>
+                <target>დარწმუნებული ხართ რომ გსურთ წაშალოთ სურათი თქვენი ანგარიშიდან?</target>
+            </trans-unit>
+            <trans-unit id="2919">
+                <source>Verify</source>
+                <target>დადასტურება</target>
+            </trans-unit>
+            <trans-unit id="2920">
+                <source>RecoveryOptions</source>
+                <target>აღდგენის პარამეტრები</target>
+            </trans-unit>
+            <trans-unit id="2921">
+                <source>PhoneNumber</source>
+                <target>ტელეფონის ნომერი</target>
+            </trans-unit>
+            <trans-unit id="2922">
+                <source>Question</source>
+                <target>კითხვა</target>
+            </trans-unit>
+            <trans-unit id="2923">
+                <source>Answer</source>
+                <target>პასუხი</target>
+            </trans-unit>
+            <trans-unit id="2924">
+                <source>TSV</source>
+                <target>2-ნაბიჯიანი დადასტურება</target>
+            </trans-unit>
+            <trans-unit id="2925">
+                <source>SecurityQuestion</source>
+                <target>უსაფრთხოების კითხვა</target>
+            </trans-unit>
+            <trans-unit id="2926">
+                <source>PasswordNeverChanged</source>
+                <target>პაროლი არასდროს შეცვლილა</target>
+            </trans-unit>
+            <trans-unit id="2927">
+                <source>Enable</source>
+                <target>შესაძლებლობის მიცემა</target>
+            </trans-unit>
+            <trans-unit id="2928">
+                <source>Disabled</source>
+                <target>უფლების ჩამორთმევა</target>
+            </trans-unit>
+            <trans-unit id="2929">
+                <source>SecurityQuestion1</source>
+                <target>რა არის თქვენი ბავშვობის საუკეთესო მეგობრის სახელი?</target>
+            </trans-unit>
+            <trans-unit id="2930">
+                <source>SecurityQuestion2</source>
+                <target>რა იყო თქვენი პირველი მასწავლებლლის სახელი?</target>
+            </trans-unit>
+            <trans-unit id="2931">
+                <source>SecurityQuestion3</source>
+                <target>რა არის თქვენი პირველი სამსახურის მენეჯერის სახელი?</target>
+            </trans-unit>
+            <trans-unit id="2932">
+                <source>SecurityQuestion4</source>
+                <target>რა იყო თქვენი პირველი ტელეფონის ნომერი?</target>
+            </trans-unit>
+            <trans-unit id="2933">
+                <source>SecurityQuestion5</source>
+                <target>რა არის თქვენი სატრანსპორტო საშუალების სარეგისტრაციო ნომერი?</target>
+            </trans-unit>
+            <trans-unit id="2934">
+                <source>SecurityQuestion6</source>
+                <target>რა არის თქვენი ბიბილიოთეკის ბარათის ნომერი?</target>
+            </trans-unit>
+            <trans-unit id="2935">
+                <source>OwnSequrityQuestion</source>
+                <target>დაწერეთ თქვენი საკუთარი კითხვა</target>
+            </trans-unit>
+            <trans-unit id="2937">
+                <source>PasswordChanged</source>
+                <target>Password changed</target>
+            </trans-unit>
+            <trans-unit id="2938">
+                <source>SpecifyPhone</source>
+                <target>მიუთითეთ თქვენი ტელეფონის ნომერი</target>
+            </trans-unit>
+            <trans-unit id="2939">
+                <source>SpecifyPhoneMsg</source>
+                <target>ჩვენ გამოგიგზავნით ციფრულ კოდს თქვენს ტელეფონის ნომერზე როდესაც სისტემაში შეხვალთ.</target>
+            </trans-unit>
+            <trans-unit id="2940">
+                <source>SendCode</source>
+                <target>კოდის გაგზავნა</target>
+            </trans-unit>
+            <trans-unit id="2941">
+                <source>Disable</source>
+                <target>უფლების ჩამორთმევა</target>
+            </trans-unit>
+            <trans-unit id="2942">
+                <source>EnterCode</source>
+                <target>კოდის შეყვანა</target>
+            </trans-unit>
+            <trans-unit id="2943">
+                <source>Attach</source>
+                <target>Attach</target>
+            </trans-unit>
+            <trans-unit id="2944">
+                <source>Code</source>
+                <target>Code</target>
+            </trans-unit>
+            <trans-unit id="2945">
+                <source>Reminder</source>
+                <target>Reminder</target>
+            </trans-unit>
+            <trans-unit id="2946">
+                <source>RemoveChildPermissions</source>
+                <target>Revoke child permissions</target>
+            </trans-unit>
+            <trans-unit id="2947">
+                <source>DDActionMsg_copy</source>
+                <target>Are you sure you want to copy "{source}" to "{target}"?</target>
+            </trans-unit>
+            <trans-unit id="2948">
+                <source>DDActionMsg_move</source>
+                <target>Are you sure you want to move "{source}" to "{target}"?</target>
+            </trans-unit>
+            <trans-unit id="2949">
+                <source>DDActionMsg_shortcut</source>
+                <target>Are you sure you want to create shortcut for "{source}" into "{target}"? </target>
+            </trans-unit>
+            <trans-unit id="2950">
+                <source>SearchResults</source>
+                <target>Search results</target>
+            </trans-unit>
+            <trans-unit id="2951">
+                <source>Export</source>
+                <target>Export</target>
+            </trans-unit>
+            <trans-unit id="2954">
+                <source>Charts</source>
+                <target>Charts</target>
+            </trans-unit>
+            <trans-unit id="2955">
+                <source>Views</source>
+                <target>Views</target>
+            </trans-unit>
+            <trans-unit id="2956">
+                <source>More</source>
+                <target>More</target>
+            </trans-unit>
+            <trans-unit id="2957">
+                <source>Home</source>
+                <target>Home</target>
+            </trans-unit>
+            <trans-unit id="2958">
+                <source>Saving</source>
+                <target>Saving</target>
+            </trans-unit>
+            <trans-unit id="2959">
+                <source>Ongoing</source>
+                <target>Ongoing</target>
+            </trans-unit>
+            <trans-unit id="2960">
+                <source>AllMyCases</source>
+                <target>All my cases</target>
+            </trans-unit>
+            <trans-unit id="2961">
+                <source>Contents</source>
+                <target>Contents</target>
+            </trans-unit>
+            <trans-unit id="2962">
+                <source>Comments</source>
+                <target>Comments</target>
+            </trans-unit>
+            <trans-unit id="2963">
+                <source>Assignee</source>
+                <target>Assignee</target>
+            </trans-unit>
+            <trans-unit id="2964">
+                <source>MyCalendar</source>
+                <target>My Calendar</target>
+            </trans-unit>
+            <trans-unit id="2966">
+                <source>ManagersCalendar</source>
+                <target>Manager's Calendar</target>
+            </trans-unit>
+            <trans-unit id="2967">
+                <source>generatingPreview</source>
+                <target>generating preview</target>
+            </trans-unit>
+            <trans-unit id="2968">
+                <source>sending</source>
+                <target>sending</target>
+            </trans-unit>
+            <trans-unit id="2969">
+                <source>Pivot</source>
+                <target>Pivot table</target>
+            </trans-unit>
+            <trans-unit id="2970">
+                <source>HBars</source>
+                <target>H Bars</target>
+            </trans-unit>
+            <trans-unit id="2971">
+                <source>VBars</source>
+                <target>V Bars</target>
+            </trans-unit>
+            <trans-unit id="2972">
+                <source>Rows</source>
+                <target>Rows</target>
+            </trans-unit>
+            <trans-unit id="2973">
+                <source>Columns</source>
+                <target>Columns</target>
+            </trans-unit>
+            <trans-unit id="2975">
+                <source>Condition</source>
+                <target>Condition</target>
+            </trans-unit>
+            <trans-unit id="2976">
+                <source>Metadata</source>
+                <target>Metadata</target>
+            </trans-unit>
+            <trans-unit id="2977">
+                <source>condNumEq</source>
+                <target>equal</target>
+            </trans-unit>
+            <trans-unit id="2978">
+                <source>condNumLt</source>
+                <target>less or equal</target>
+            </trans-unit>
+            <trans-unit id="2979">
+                <source>condNumGt</source>
+                <target>greater or equal</target>
+            </trans-unit>
+            <trans-unit id="2980">
+                <source>condNumNe</source>
+                <target>not equal</target>
+            </trans-unit>
+            <trans-unit id="2981">
+                <source>condSetLt</source>
+                <target>contains any</target>
+            </trans-unit>
+            <trans-unit id="2982">
+                <source>condSetGt</source>
+                <target>containsAll</target>
+            </trans-unit>
+            <trans-unit id="2983">
+                <source>condSetEq</source>
+                <target>equal</target>
+            </trans-unit>
+            <trans-unit id="2984">
+                <source>condSetNe</source>
+                <target>not equal</target>
+            </trans-unit>
+            <trans-unit id="2985">
+                <source>condTxtContain</source>
+                <target>contain</target>
+            </trans-unit>
+            <trans-unit id="2986">
+                <source>condTxtBegin</source>
+                <target>start with</target>
+            </trans-unit>
+            <trans-unit id="2987">
+                <source>condTxtEnd</source>
+                <target>end with</target>
+            </trans-unit>
+            <trans-unit id="2988">
+                <source>condTxtNc</source>
+                <target>does not contain</target>
+            </trans-unit>
+            <trans-unit id="2989">
+                <source>condTxtEq</source>
+                <target>equal</target>
+            </trans-unit>
+            <trans-unit id="2990">
+                <source>condTxtNe</source>
+                <target>not equal</target>
+            </trans-unit>
+            <trans-unit id="2991">
+                <source>condCbEq</source>
+                <target>is</target>
+            </trans-unit>
+            <trans-unit id="2992">
+                <source>condCbNe</source>
+                <target>is not</target>
+            </trans-unit>
+            <trans-unit id="2994">
+                <source>ftAutoTitle</source>
+                <target>Auto title (uses title_template)</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="2995">
+                <source>ftCheckbox</source>
+                <target>CheckBox</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="2996">
+                <source>ftCombo</source>
+                <target>ComboBox</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="2997">
+                <source>ftDate</source>
+                <target>Date</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="2998">
+                <source>ftDatetime</source>
+                <target>Datetime</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="2999">
+                <source>ftFloat</source>
+                <target>Float</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3000">
+                <source>ftGroup</source>
+                <target>Group</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3001">
+                <source>ftHeader</source>
+                <target>Header</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3002">
+                <source>ftHtml</source>
+                <target>Html</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3003">
+                <source>ftIconcombo</source>
+                <target>IconCombo</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3004">
+                <source>ftInt</source>
+                <target>Integer</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3005">
+                <source>ftLanguage</source>
+                <target>Language</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3006">
+                <source>ftMemo</source>
+                <target>Memo</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3007">
+                <source>ftObjects</source>
+                <target>Objects</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3008">
+                <source>ftSex</source>
+                <target>Sex</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3009">
+                <source>ftShortDateFormat</source>
+                <target>Short date format combo</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3010">
+                <source>ftFieldTypesCombo</source>
+                <target>Template field types combo</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3011">
+                <source>ftTemplateTypesCombo</source>
+                <target>Template types combo</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3012">
+                <source>ftText</source>
+                <target>Text</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3013">
+                <source>ftTime</source>
+                <target>Time</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3014">
+                <source>ftTimeunits</source>
+                <target>Time units</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3015">
+                <source>ftVarchar</source>
+                <target>Varchar</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3016">
+                <source>VersionsHistory</source>
+                <target>Versions history</target>
+            </trans-unit>
+            <trans-unit id="3017">
+                <source>DirectEditLink</source>
+                <target>Direct edit link</target>
+            </trans-unit>
+            <trans-unit id="3018">
+                <source>OpenInCasebox</source>
+                <target>Open in CaseBox</target>
+            </trans-unit>
+            <trans-unit id="3019">
+                <source>Deleted</source>
+                <target>Deleted</target>
+            </trans-unit>
+            <trans-unit id="3020">
+                <source>ActionLog</source>
+                <target>Action log</target>
+            </trans-unit>
+            <trans-unit id="3021">
+                <source>CurrentMonth</source>
+                <target>Current month</target>
+            </trans-unit>
+            <trans-unit id="3022">
+                <source>Subscribe</source>
+                <target>Subscribe</target>
+            </trans-unit>
+            <trans-unit id="3023">
+                <source>SubscribeRecursive</source>
+                <target>Recursive subscribe</target>
+            </trans-unit>
+            <trans-unit id="3024">
+                <source>SubscribeMsg</source>
+                <target>Do you want to subscribe only to this item or to all its children as well?</target>
+            </trans-unit>
+            <trans-unit id="3025">
+                <source>Unsubscribe</source>
+                <target>Unsubscribe</target>
+            </trans-unit>
+            <trans-unit id="3026">
+                <source>SubscriptionNotification</source>
+                <target>Subscription notification</target>
+            </trans-unit>
+            <trans-unit id="3027">
+                <source>UpdatedBy</source>
+                <target>Updated by</target>
+            </trans-unit>
+            <trans-unit id="3028">
+                <source>Theme</source>
+                <target>თემა</target>
+            </trans-unit>
+            <trans-unit id="3029">
+                <source>ThemeChangeMessage</source>
+                <target>Changing the theme will reload the page, save all changes before contine. Do you want to continue?</target>
+            </trans-unit>
+            <trans-unit id="3030">
+                <source>ShowSelection</source>
+                <target>Show selection</target>
+            </trans-unit>
+            <trans-unit id="3031">
+                <source>Commented</source>
+                <target>Commented</target>
+            </trans-unit>
+            <trans-unit id="3033">
+                <source>Added</source>
+                <target>Added</target>
+            </trans-unit>
+            <trans-unit id="3034">
+                <source>CommentedBy</source>
+                <target>Commented by</target>
+            </trans-unit>
+            <trans-unit id="3035">
+                <source>CommentedDate</source>
+                <target>Commented date</target>
+            </trans-unit>
+            <trans-unit id="3036">
+                <source>TSV_ybk</source>
+                <target>Yubikey</target>
+            </trans-unit>
+            <trans-unit id="3037">
+                <source>TSV_sms</source>
+                <target>SMS</target>
+            </trans-unit>
+            <trans-unit id="3038">
+                <source>TSV_ga</source>
+                <target>Google Authenticator</target>
+            </trans-unit>
+            <trans-unit id="3039">
+                <source>DisableTSVConfirmation</source>
+                <target>Are you sure you want to disable 2-step authentication?</target>
+            </trans-unit>
+            <trans-unit id="3040">
+                <source>SelectPreviewItem</source>
+                <target>Select an item for preview</target>
+            </trans-unit>
+            <trans-unit id="3041">
+                <source>GridDDMsg</source>
+                <target>Drop files here to upload to current folder or drop over a row to upload into that element</target>
+            </trans-unit>
+            <trans-unit id="3042">
+                <source>NoData</source>
+                <target>No Data</target>
+            </trans-unit>
+            <trans-unit id="3043">
+                <source>Bar</source>
+                <target>Bar</target>
+            </trans-unit>
+            <trans-unit id="3044">
+                <source>Column</source>
+                <target>Column</target>
+            </trans-unit>
+            <trans-unit id="3045">
+                <source>WebDAVLink</source>
+                <target>WebDAV Link</target>
+            </trans-unit>
+            <trans-unit id="3046">
+                <source>Permalink</source>
+                <target>Permalink</target>
+            </trans-unit>
+            <trans-unit id="3047">
+                <source>NameRequired</source>
+                <target>A name is required</target>
+            </trans-unit>
+            <trans-unit id="3048">
+                <source>Pie</source>
+                <target>Pie</target>
+            </trans-unit>
+            <trans-unit id="3049">
+                <source>VerifyAndSave</source>
+                <target>Verify and Save</target>
+            </trans-unit>
+            <trans-unit id="3050">
+                <source>InheritPermissionsMsg</source>
+                <target>Include inheritable permissions from this object's parent</target>
+            </trans-unit>
+            <trans-unit id="3051">
+                <source>UploadWindow</source>
+                <target>Upload window</target>
+            </trans-unit>
+            <trans-unit id="3052">
+                <source>WriteComment</source>
+                <target>Write a comment</target>
+            </trans-unit>
+            <trans-unit id="3053">
+                <source>Reply</source>
+                <target>Reply</target>
+            </trans-unit>
+            <trans-unit id="3054">
+                <source>DropFilesHere</source>
+                <target>Drop files here</target>
+            </trans-unit>
+            <trans-unit id="3055">
+                <source>Minimize</source>
+                <target>Minimize</target>
+            </trans-unit>
+            <trans-unit id="3056">
+                <source>Maximize</source>
+                <target>Maximize</target>
+            </trans-unit>
+            <trans-unit id="3057">
+                <source>EndDate</source>
+                <target>End date</target>
+            </trans-unit>
+            <trans-unit id="3058">
+                <source>SearchResultsTitleTemplate</source>
+                <target>Search results: {name} ({count})</target>
+            </trans-unit>
+            <trans-unit id="3059">
+                <source>GridDDMgs</source>
+                <target>Drop files here to upload to current folder or drop over a row to upload into that element</target>
+            </trans-unit>
+            <trans-unit id="3060">
+                <source>GridEmptyText</source>
+                <target><![CDATA[<h3>Drop files here</h3>]]> or use "New" button</target>
+            </trans-unit>
+            <trans-unit id="3061">
+                <source>NoResultsFound</source>
+                <target>No results found</target>
+            </trans-unit>
+            <trans-unit id="3062">
+                <source>Clipboard</source>
+                <target>Clipboard</target>
+            </trans-unit>
+            <trans-unit id="3063">
+                <source>RecordIdNotFound</source>
+                <target>Record {id} not found.</target>
+            </trans-unit>
+            <trans-unit id="3064">
+                <source>ClosedDate</source>
+                <target>Closed date</target>
+            </trans-unit>
+            <trans-unit id="3065">
+                <source>DeletedDate</source>
+                <target>Deleted date</target>
+            </trans-unit>
+            <trans-unit id="3066">
+                <source>Blocker</source>
+                <target>Blocker</target>
+            </trans-unit>
+            <trans-unit id="3067">
+                <source>StartedBy</source>
+                <target>Started by</target>
+            </trans-unit>
+            <trans-unit id="3068">
+                <source>DoneBy</source>
+                <target>Done by</target>
+            </trans-unit>
+            <trans-unit id="3069">
+                <source>AddCommentError</source>
+                <target>An error has occured on trying to add comment.</target>
+            </trans-unit>
+            <trans-unit id="3070">
+                <source>CloseWithChangesConfirmation</source>
+                <target>You have changes. Are you sure you want to close?</target>
+            </trans-unit>
+            <trans-unit id="3071">
+                <source>SortByName</source>
+                <target>Sort by name</target>
+            </trans-unit>
+            <trans-unit id="3072">
+                <source>SortByCount</source>
+                <target>Sort by count</target>
+            </trans-unit>
+            <trans-unit id="3073">
+                <source>DropZoneMsg</source>
+                <target>Drag files here, or <![CDATA[<a class="click upload">Upload</a>]]></target>
+            </trans-unit>
+            <trans-unit id="3074">
+                <source>DiscardCommentConfirmation</source>
+                <target>You haven't finished your comment yet. Do you want to leave without finishing?</target>
+            </trans-unit>
+            <trans-unit id="3075">
+                <source>SortByNameAsc</source>
+                <target>Sort by name ascending</target>
+            </trans-unit>
+            <trans-unit id="3076">
+                <source>SortByNameDesc</source>
+                <target>Sort by name descending</target>
+            </trans-unit>
+            <trans-unit id="3077">
+                <source>SortByCountAsc</source>
+                <target>Sort by count ascending</target>
+            </trans-unit>
+            <trans-unit id="3078">
+                <source>SortByCountDesc</source>
+                <target>Sort by count descending</target>
+            </trans-unit>
+            <trans-unit id="3079">
+                <source>ViewMore</source>
+                <target>View more</target>
+            </trans-unit>
+            <trans-unit id="3080">
+                <source>SendEmailInvite</source>
+                <target>Per E-Mail einladen</target>
+            </trans-unit>
+            <trans-unit id="3081">
+                <source>SendResetPassMail</source>
+                <target>Senden Sie E-Mail- Passwort zurücksetzen</target>
+            </trans-unit>
+            <trans-unit id="3082">
+                <source>EmailSent</source>
+                <target>Email sent</target>
+            </trans-unit>
+            <trans-unit id="3083">
+                <source>BrowserNoDDUpload</source>
+                <target>This browser does not support file uploading from desktop</target>
+            </trans-unit>
+            <trans-unit id="3084">
+                <source>BrowserNoFolderUpload</source>
+                <target>This browser does not support folder uploading from desktop</target>
+            </trans-unit>
+            <trans-unit id="3085">
+                <source>UserEmailExists</source>
+                <target>User with such email already exists.</target>
+            </trans-unit>
+            <trans-unit id="3086">
+                <source>EnableUser</source>
+                <target>Enable user</target>
+            </trans-unit>
+            <trans-unit id="3087">
+                <source>DisableUser</source>
+                <target>გამორთე შესახებ</target>
+            </trans-unit>
+            <trans-unit id="3088">
+                <source>SessionExpired</source>
+                <target>Session expired please reload.</target>
+            </trans-unit>
+            <trans-unit id="3089">
+                <source>ErrorCreatingPreview</source>
+                <target>Preview not available at this moment, please download the file</target>
+            </trans-unit>
+            <trans-unit id="3090">
+                <source>MailInviteSubject</source>
+                <target>[Casebox] {creatorFullName} ({creatorEmail}) ivited you to {projectTitle}</target>
+            </trans-unit>
+            <trans-unit id="3091">
+                <source>FollowText</source>
+                <target><![CDATA[<b>Follow</b> <span class="cG">get notified in app and email</span>]]></target>
+            </trans-unit>
+            <trans-unit id="3092">
+                <source>WatchText</source>
+                <target><![CDATA[<b>Watch</b> <span class="cG">see in activity stream</span>]]></target>
+            </trans-unit>
+            <trans-unit id="3093">
+                <source>IgnoreText</source>
+                <target><![CDATA[<b>Ignore</b>]]></target>
+            </trans-unit>
+            <trans-unit id="3094">
+                <source>MarkAllAsRead</source>
+                <target>Mark all read</target>
+            </trans-unit>
+            <trans-unit id="3095">
+                <source>NNOthers</source>
+                <target>{count} others</target>
+                    <note> used for Notification display records (user1, user2 and 2 others) </note>
+            </trans-unit>
+            <trans-unit id="3096">
+                <source>updated</source>
+                <target>განახლებულია</target>
+            </trans-unit>
+            <trans-unit id="3097">
+                <source>created</source>
+                <target>შექმნილია</target>
+            </trans-unit>
+            <trans-unit id="3098">
+                <source>deleted</source>
+                <target>deleted</target>
+            </trans-unit>
+            <trans-unit id="3099">
+                <source>closed</source>
+                <target>დახურულია</target>
+            </trans-unit>
+            <trans-unit id="3100">
+                <source>renamed</source>
+                <target>გადარქმევა</target>
+            </trans-unit>
+            <trans-unit id="3101">
+                <source>status_changed</source>
+                <target>changed status</target>
+            </trans-unit>
+            <trans-unit id="3102">
+                <source>comment_updated</source>
+                <target>updated comment</target>
+            </trans-unit>
+            <trans-unit id="3103">
+                <source>moved</source>
+                <target>moved</target>
+            </trans-unit>
+            <trans-unit id="3104">
+                <source>reopened</source>
+                <target>reopened</target>
+            </trans-unit>
+            <trans-unit id="3105">
+                <source>commented</source>
+                <target>commented</target>
+            </trans-unit>
+            <trans-unit id="3107">
+                <source>commentedOn</source>
+                <target>commented on</target>
+            </trans-unit>
+            <trans-unit id="3108">
+                <source>none</source>
+                <target>keiner</target>
+            </trans-unit>
+            <trans-unit id="3109">
+                <source>file_uploaded_to</source>
+                <target>uploaded a file to</target>
+            </trans-unit>
+            <trans-unit id="3110">
+                <source>file_updated_in</source>
+                <target>updated a file in</target>
+            </trans-unit>
+            <trans-unit id="3111">
+                <source>Notifications</source>
+                <target>Notifications</target>
+            </trans-unit>
+            <trans-unit id="3112">
+                <source>ErrorUploadingFile</source>
+                <target>Error uploading file "{name}"</target>
+            </trans-unit>
+            <trans-unit id="3113">
+                <source>SortValue</source>
+                <target>Sort value</target>
+            </trans-unit>
+            <trans-unit id="3114">
+                <source>ReorderItemsMsg</source>
+                <target>To reorder items you can use Drag and Drop, click on arrows from right side of selected record or use keyboard combinations Ctrl + Up / Down</target>
+            </trans-unit>
+            <trans-unit id="3115">
+                <source>ReorderDDText</source>
+                <target>Drag and drop to reorganize</target>
+            </trans-unit>
+            <trans-unit id="3116">
+                <source>ActivityStream</source>
+                <target>Activity stream</target>
+            </trans-unit>
+            <trans-unit id="3117">
+                <source>completionDeclinedFor</source>
+                <target>declined completion for</target>
+            </trans-unit>
+            <trans-unit id="3118">
+                <source>completedOnBehalf</source>
+                <target>completed on behalf</target>
+            </trans-unit>
+            <trans-unit id="3119">
+                <source>Next</source>
+                <target>Next</target>
+            </trans-unit>
+            <trans-unit id="3120">
+                <source>PasswordSetup</source>
+                <target>Password setup</target>
+            </trans-unit>
+            <trans-unit id="3121">
+                <source>EmailInvite</source>
+                <target>Email invite</target>
+            </trans-unit>
+            <trans-unit id="3122">
+                <source>Manual</source>
+                <target>Manual</target>
+            </trans-unit>
+            <trans-unit id="3123">
+                <source>Customize</source>
+                <target>Customize</target>
+            </trans-unit>
+            <trans-unit id="3124">
+                <source>NotificationsSettings</source>
+                <target>Notifications settings</target>
+            </trans-unit>
+            <trans-unit id="3126">
+                <source>Unstar</source>
+                <target>Unstar</target>
+            </trans-unit>
+            <trans-unit id="3128">
+                <source>Star</source>
+                <target>Star</target>
+            </trans-unit>
+            <trans-unit id="3129">
+                <source>SetStarNameMsg</source>
+                <target>Set name to be displayed in starred list</target>
+            </trans-unit>
+            <trans-unit id="3130">
+                <source>AlreadyStarred</source>
+                <target>Item already starred</target>
+            </trans-unit>
+            <trans-unit id="3131">
+                <source>NotifySettings</source>
+                <target>Notifications settings</target>
+            </trans-unit>
+            <trans-unit id="3132">
+                <source>NotifyOn</source>
+                <target>Turn notifications on</target>
+            </trans-unit>
+            <trans-unit id="3133">
+                <source>NotifyOff</source>
+                <target>Turn notifications off</target>
+            </trans-unit>
+            <trans-unit id="3134">
+                <source>Calendars</source>
+                <target>კალენდარი</target>
+            </trans-unit>
+            <trans-unit id="3135">
+                <source>ColoringBy</source>
+                <target>Coloring by</target>
+            </trans-unit>
+            <trans-unit id="3136">
+                <source>MoreCommentsHint</source>
+                <target>View previous comments</target>
+            </trans-unit>
+            <trans-unit id="3137">
+                <source>of</source>
+                <target>of</target>
+            </trans-unit>
+            <trans-unit id="3138">
+                <source>SetOwner</source>
+                <target>Set owner</target>
+            </trans-unit>
+            <trans-unit id="3139">
+                <source>FillFieldMsg</source>
+                <target>Please fill out the '{fieldName}' field</target>
+            </trans-unit>
+            <trans-unit id="3140">
+                <source>ftGeoPoint</source>
+                <target>geoPoint(x,y)</target>
+                    <note> object field type </note>
+            </trans-unit>
+            <trans-unit id="3141">
+                <source>Map</source>
+                <target>Map</target>
+            </trans-unit>
+            <trans-unit id="3142">
+                <source>selectedCoordinates</source>
+                <target>Selected coordinates</target>
+            </trans-unit>
+            <trans-unit id="3143">
+                <source>AddComment</source>
+                <target>კომენტარი</target>
+            </trans-unit>
+            <trans-unit id="3144">
+                <source>MyTasks</source>
+                <target>დავალებები</target>
+            </trans-unit>
+            <trans-unit id="3145">
+                <source>CreatedByMe</source>
+                <target>შექმნილია</target>
+            </trans-unit>
+            <trans-unit id="3146">
+                <source>ExportAllCases</source>
+                <target>Export all cases</target>
+            </trans-unit>
+            <trans-unit id="3147">
+                <source>DeletedBy</source>
+                <target>Deleted by</target>
+            </trans-unit>
+            <trans-unit id="3148">
+                <source>Set</source>
+                <target>Set</target>
+            </trans-unit>
+            <trans-unit id="3149">
+                <source>Latitude</source>
+                <target>Latitude</target>
+            </trans-unit>
+            <trans-unit id="3150">
+                <source>Longitude</source>
+                <target>Longitude</target>
+            </trans-unit>
+            <trans-unit id="3151">
+                <source>UpdateSolrData</source>
+                <target>Update Solr data</target>
+            </trans-unit>
+            <trans-unit id="3152">
+                <source>Cancel</source>
+                <target>Cancel</target>
+            </trans-unit>
+            <trans-unit id="3153">
+                <source>ReloadTemplates</source>
+                <target>Reload templates</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
