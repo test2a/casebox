@@ -105,7 +105,8 @@ class CaseboxAuth
 
         $this->getSession()->start();
 
-        $token = new UsernamePasswordToken($user, $password, 'main', $roles);
+        $env = $this->container->getParameter('kernel.environment');
+        $token = new UsernamePasswordToken($user, $password, $env, $roles);
         $this->getSecurityContext()->setToken($token);
 
         $session = $this->getSession();
