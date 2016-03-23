@@ -4,7 +4,7 @@ namespace Casebox\CoreBundle\Command;
 
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\System;
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -60,19 +60,40 @@ class SolrCreateCommand extends ContainerAwareCommand
             ];
 
             if (!empty($solrUsername) && !empty($solrPassword)) {
-                $options['auth'] = [
+                $status['auth'] = $options['auth'] = [
                     $solrUsername,
                     $solrPassword,
                     'Basic',
                 ];
             }
 
-            $req = $client->get(
+            $status = [
+                'query' => [
+                    'action' => 'STATUS',
+                    'core' => $solrCore,
+                    'wt' => 'json',
+                ],
+            ];
+
+            $statusResult = $client->request(
+                'GET',
                 ltrim($solrSchema, '//').'://'.$solrHost.':'.$solrPort.'/solr/admin/cores',
-                [],
+                $status
+            );
+
+            if ($statusResult->getStatusCode() == '200' && !empty($statusResult->getBody())) {
+                $statusArray = json_decode($statusResult->getBody()->getContents(), true);
+
+                if (!empty($statusArray['status'][$solrCore])) {
+                    continue;
+                }
+            }
+
+            $result = $client->request(
+                'GET',
+                ltrim($solrSchema, '//').'://'.$solrHost.':'.$solrPort.'/solr/admin/cores',
                 $options
             );
-            $result = $req->send();
 
             $statusCode = $result->getStatusCode();
             if ($statusCode == 200) {
