@@ -48,6 +48,8 @@ class SolrCreateCommand extends ContainerAwareCommand
             $params['solr_core'] => 'casebox',
             $params['solr_core_log'] => 'casebox_log',
         ];
+        
+        $url = ltrim($solrSchema, '//').'://'.$solrHost.':'.$solrPort.'/solr/admin/cores';
 
         foreach ($solrCores as $solrCore => $configSet) {
             $options = [
@@ -75,11 +77,7 @@ class SolrCreateCommand extends ContainerAwareCommand
                 ],
             ];
 
-            $statusResult = $client->request(
-                'GET',
-                ltrim($solrSchema, '//').'://'.$solrHost.':'.$solrPort.'/solr/admin/cores',
-                $status
-            );
+            $statusResult = $client->request('GET', $url, $status);
 
             if ($statusResult->getStatusCode() == '200' && !empty($statusResult->getBody())) {
                 $statusArray = json_decode($statusResult->getBody()->getContents(), true);
@@ -89,11 +87,7 @@ class SolrCreateCommand extends ContainerAwareCommand
                 }
             }
 
-            $result = $client->request(
-                'GET',
-                ltrim($solrSchema, '//').'://'.$solrHost.':'.$solrPort.'/solr/admin/cores',
-                $options
-            );
+            $result = $client->request('GET', $url, $options);
 
             $statusCode = $result->getStatusCode();
             if ($statusCode == 200) {
