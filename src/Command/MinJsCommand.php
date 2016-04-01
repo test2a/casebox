@@ -33,6 +33,6 @@ class MinJsCommand extends ContainerAwareCommand
     {
         // code...
 
-        $output->writeln('DONE!');
+        $output->writeln('<info>[x] JS minify finish</info>');
     }
 }

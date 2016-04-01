@@ -33,6 +33,6 @@ class MinCssCommand extends ContainerAwareCommand
     {
         // code...
 
-        $output->writeln('DONE!');
+        $output->writeln('<info>[x] CSS minify finish.</info>');
     }
 }

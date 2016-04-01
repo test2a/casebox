@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class MinAssetsCommand
@@ -36,22 +37,30 @@ class MinAssetsCommand extends ContainerAwareCommand
 
         system($cmd.' casebox:min:css');
         system($cmd.' casebox:min:js');
-        system($cmd.' assets:install --symlink --relative');
 
         $symlinks = [
-            $container->getParameter('kernel.root_dir').'/../web/css',
-            $container->getParameter('kernel.root_dir').'/../web/files',
-            $container->getParameter('kernel.root_dir').'/../web/img',
-            $container->getParameter('kernel.root_dir').'/../web/js',
-            $container->getParameter('kernel.root_dir').'/../web/min',
+            'css' => $container->getParameter('kernel.root_dir').'/../web/css',
+            'files' => $container->getParameter('kernel.root_dir').'/../web/files',
+            'img' => $container->getParameter('kernel.root_dir').'/../web/img',
+            'js' => $container->getParameter('kernel.root_dir').'/../web/js',
+            'min' => $container->getParameter('kernel.root_dir').'/../web/min',
         ];
 
-        foreach ($symlinks as $symlink) {
+        $fs = new Filesystem();
+
+        foreach ($symlinks as $key => $symlink) {
             system('rm '.$symlink);
+
+            $src = 'bundles/caseboxcore/'.$key;
+            $dst = $symlink;
+
+            $output->writeln(sprintf("<info>[*] Add '%s' symlink.</info>", $symlink));
+
+            $fs->symlink($src, $dst);
+
+            $output->writeln(sprintf("<info>[x] Symlink '%s' added.</info>", $symlink));
         }
 
-        system('cd '.$container->getParameter('kernel.root_dir').'/../web;'.'ln -s bundles/caseboxcore/* .');
-
-        $output->writeln('DONE!');
+        $output->writeln('<info>[x] Casebox assets installed.</info>');
     }
 }
