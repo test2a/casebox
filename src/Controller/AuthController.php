@@ -44,32 +44,32 @@ class AuthController extends Controller
                 if (empty($request->get('u'))) {
                     $this->addFlash('notice', $this->get('translator')->trans('Specify_username'));
 
-                    return $this->redirectToRoute('app_core_login', $vars);
+                    return $this->redirectToRoute('app_core', $vars);
                 }
 
                 if (empty($request->get('p'))) {
                     $this->addFlash('notice', $this->get('translator')->trans('Specify_password'));
 
-                    return $this->redirectToRoute('app_core_login', $vars);
+                    return $this->redirectToRoute('app_core', $vars);
                 }
 
                 // Normal auth
                 $user = $loginService->authenticate($request->get('u'), $request->get('p'));
 
-                // Check two step auth
-                $auth = $this->get('casebox_core.service_auth.two_step_auth')->authenticate($user, $request->get('c'));
-                if (is_array($auth)) {
-                    $this->get('session')->set('auth', serialize($user));
-
-                    return $this->render('CaseboxCoreBundle:forms:authenticator.html.twig', $vars);
-                }
-
                 if ($user instanceof UsersGroups) {
+                    // Check two step auth
+                    $auth = $this->get('casebox_core.service_auth.two_step_auth')->authenticate($user, $request->get('c'));
+                    if (is_array($auth)) {
+                        $this->get('session')->set('auth', serialize($user));
+
+                        return $this->render('CaseboxCoreBundle:forms:authenticator.html.twig', $vars);
+                    }
+
                     return $this->redirectToRoute('app_core', $vars);
                 } else {
                     $this->addFlash('notice', $this->get('translator')->trans('Auth_fail'));
 
-                    return $this->redirectToRoute('app_core_login', $vars);
+                    return $this->redirectToRoute('app_core', $vars);
                 }
 
                 break;
@@ -85,7 +85,10 @@ class AuthController extends Controller
                     }
 
                     $user = unserialize($this->get('session')->get('auth'));
-                    $auth = $this->get('casebox_core.service_auth.two_step_auth')->authenticate($user, $request->get('c'));
+                    $auth = $this->get('casebox_core.service_auth.two_step_auth')->authenticate(
+                        $user,
+                        $request->get('c')
+                    );
                 }
 
                 if (is_array($auth)) {
