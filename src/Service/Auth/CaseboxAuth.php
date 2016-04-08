@@ -198,10 +198,18 @@ class CaseboxAuth
     public function getEncodedPasswordAndSalt($password, $salt = null)
     {
         if (empty($salt)) {
-            $salt = md5(uniqid(null, true));
+            $salt = $this->generateSalt();
         }
         $encoder = $this->getEncoderFactoryInterface()->getEncoder(new UsersGroupsEntity());
 
         return $encoder->encodePassword($password, $salt);
+    }
+
+    /**
+     * @return string
+     */
+    public function generateSalt()
+    {
+        return md5(uniqid(null, true));
     }
 }

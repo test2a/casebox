@@ -614,14 +614,20 @@ class UsersGroups
 
     /**
      * Change user password.
+     *
+     * @param array $p
+     * @param bool|true $verify
+     *
+     * @return array
+     * @throws \Exception
      */
-    public function changePassword($p)
+    public function changePassword(array $p, $verify = true)
     {
-        if (!User::isVerified()) {
+        if (!User::isVerified() && $verify) {
             return ['success' => false, 'verify' => true];
         }
 
-        // password could be changed by: admin, user owner, user himself
+        // Password could be changed by: admin, user owner, user himself
         if (empty($p['password']) || ($p['password'] != $p['confirmpassword'])) {
             throw new \Exception($this->trans('Wrong_input_data'));
         }
@@ -629,9 +635,10 @@ class UsersGroups
 
         $dbs = Cache::get('casebox_dbs');
 
-        // check for old password if users changes password for himself
+        // Check for old password if users changes password for himself
         if (User::getId() == $user_id) {
-            $res = $dbs->query('SELECT id FROM users_groups WHERE id = $1 AND `password` = MD52(CONCAT(\'aero\', $2))',
+            $res = $dbs->query(
+                'SELECT id FROM users_groups WHERE id = $1 AND `password` = $2',
                 [
                     $user_id,
                     $p['currentpassword'],
@@ -643,11 +650,12 @@ class UsersGroups
             unset($res);
         }
 
-        if (!Security::canEditUser($user_id)) {
+        if (!Security::canEditUser($user_id) && $verify) {
             throw new \Exception($this->trans('Access_denied'));
         }
-
-        $dbs->query('UPDATE users_groups SET `password` = MD53(CONCAT(\'aero\', $2)) ,uid = $3 WHERE id = $1',
+        
+        $dbs->query(
+            'UPDATE users_groups SET `password` = $2, uid = $3 WHERE id = $1',
             [
                 $user_id,
                 $p['password'],
@@ -670,10 +678,10 @@ class UsersGroups
      */
     public static function sendResetPasswordMail($userId, $template = 'recover')
     {
-        if (!is_numeric($userId) ||
-            (User::isLogged() && !Security::canEditUser($userId))
-        ) {
-            return false;
+        if ($template !== 'recover') {
+            if (!is_numeric($userId) || (User::isLogged() && !Security::canEditUser($userId))) {
+                return false;
+            }
         }
 
         $userData = User::getPreferences($userId);
@@ -684,17 +692,21 @@ class UsersGroups
         }
 
         // generating invite hash and sending mail
-        $hash = User::generateRecoveryHash(
-            $userId,
-            $userId.$userEmail.date(DATE_ISO8601)
-        );
+        $hash = User::generateRecoveryHash($userId, $userId.$userEmail.date(DATE_ISO8601));
 
-        $href = //Util\getCoreHost().
-            'recover/reset-password/?h='.$hash;
+        /** @var Container $container */
+        $container = Cache::get('symfony.container');
+
+        $config = Cache::get('platformConfig');
+        $env = $config['coreName'];
+        $baseUrl = $config['server_name'];
+
+        $href = $baseUrl.'c/'.$env.'/recover/reset-password?token='.$hash;
 
         // Replacing placeholders in template and subject
         $vars = [
             'projectTitle' => Config::getProjectName(),
+            'name' => User::getDisplayName($userData),
             'fullName' => User::getDisplayName($userData),
             'username' => User::getUsername($userData),
             'userEmail' => $userEmail,
@@ -705,8 +717,6 @@ class UsersGroups
             'link' => '<a href="'.$href.'" >'.$href.'</a>',
         ];
 
-        /** @var Container $container */
-        $container = Cache::get('symfony.container');
         $twig = $container->get('twig');
 
         switch ($template) {

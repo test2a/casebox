@@ -214,7 +214,7 @@ class User
      * Default is 5 minutes
      * Changed to 1 hour.
      */
-    public static function isVerified($seconds = 3600)
+    public static function isVerified()
     {
         /** @var Session $session */
         $session = Cache::get('symfony.container')->get('session');

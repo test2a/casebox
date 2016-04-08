@@ -24,3 +24,6 @@ services:
         class: Casebox\CoreBundle\Service\Auth\TwoStepAuth
         calls:
             - [ setContainer, [ "@service_container" ] ]
+
+    casebox_core.service.users_groups:
+        class: Casebox\CoreBundle\Service\UsersGroups
