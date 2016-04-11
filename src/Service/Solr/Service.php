@@ -258,7 +258,9 @@ class Service
         }
 
         for ($i = 0; $i < sizeof($updateDocs); $i++) {
-            $dispatcher->dispatch('nodeSolrUpdate', new NodeSolrUpdateEvent($updateDocs[$i]));
+            if ($updateDocs[$i] instanceof \Apache_Solr_Document) {
+                $dispatcher->dispatch('nodeSolrUpdate', new NodeSolrUpdateEvent($updateDocs[$i]));
+            }
         }
 
         return true;
