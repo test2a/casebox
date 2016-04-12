@@ -14,6 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SolrCreateCommand extends ContainerAwareCommand
 {
+    const SOLR_DEFAULT_CONFIGSET = 'casebox';
+
     /**
      * Configure
      */
@@ -45,8 +47,8 @@ class SolrCreateCommand extends ContainerAwareCommand
         $client = new Client();
 
         $solrCores = [
-            $params['solr_core'] => 'casebox',
-            $params['solr_core_log'] => 'casebox_log',
+            $params['solr_core'] => self::SOLR_DEFAULT_CONFIGSET,
+            $params['solr_core_log'] => self::SOLR_DEFAULT_CONFIGSET.'_log',
         ];
         
         $url = ltrim($solrSchema, '//').'://'.$solrHost.':'.$solrPort.'/solr/admin/cores';
@@ -76,13 +78,14 @@ class SolrCreateCommand extends ContainerAwareCommand
                     'wt' => 'json',
                 ],
             ];
-
+            
             $statusResult = $client->request('GET', $url, $status);
 
             if ($statusResult->getStatusCode() == '200' && !empty($statusResult->getBody())) {
                 $statusArray = json_decode($statusResult->getBody()->getContents(), true);
 
                 if (!empty($statusArray['status'][$solrCore])) {
+                    $output->writeln('<notice>'.sprintf("Skip. Unable to created '%s' core.", $solrCore).'</notice>');
                     continue;
                 }
             }

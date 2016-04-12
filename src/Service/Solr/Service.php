@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Solr;
 
 use Casebox\CoreBundle\Event\BeforeNodeSolrUpdateEvent;
@@ -34,9 +35,19 @@ class Service
     private $port = null;
 
     /**
-     * @type string solr core.
+     * @type string|null Solr core.
      */
     private $core = null;
+
+    /**
+     * @var string|null
+     */
+    protected $username = null;
+
+    /**
+     * @var string|null
+     */
+    protected $password = null;
 
     /**
      * @fireEvents
@@ -55,15 +66,22 @@ class Service
      */
     public function __construct($p = [])
     {
-        if (empty($p)) { // get params from core config
+        if (empty($p)) { 
+            // Get params from config
+            $this->schema = Config::get('solr_schema', 'http');
             $this->host = Config::get('solr_host', '127.0.0.1');
             $this->port = Config::get('solr_port', 8983);
             $this->core = Config::get('solr_core');
-
-        } else { //get params from specified arguments
+            $this->username = Config::get('solr_username', null);
+            $this->password = Config::get('solr_password', null);
+        } else {
+            // Get params from specified arguments
+            $this->schema = empty($p['schema']) ? 'http' : $p['schema'];
             $this->host = empty($p['host']) ? '127.0.0.1' : $p['host'];
             $this->port = empty($p['port']) ? 8983 : $p['port'];
             $this->core = @$p['core'];
+            $this->username = (!empty($p['username'])) ? $p['username'] : null;
+            $this->password = (!empty($p['password'])) ? $p['password'] : null;
 
             if (isset($p['fireEvents'])) {
                 $this->fireEvents = $p['fireEvents'];
@@ -78,7 +96,7 @@ class Service
     }
 
     /**
-     * connect to solr service
+     * Connect to Solr service
      *
      * @return \Apache_Solr_Service handler to solr intance
      * @throws \Exception
@@ -95,6 +113,10 @@ class Service
         if (empty($this->solr_handler)) {
             $layer = new \Apache_Solr_Compatibility_Solr4CompatibilityLayer;
             $this->solr_handler = new \Apache_Solr_Service($this->host, $this->port, $this->core, false, $layer);
+
+            if (!empty($this->username) && !empty($this->password)) {
+                $this->solr_handler->setAuthenticationCredentials($this->username, $this->password);
+            }
 
             if (!$this->solr_handler->ping()) {
                 throw new \Exception('Solr_connection_error'.$this->debugInfo(), 1);
@@ -147,7 +169,8 @@ class Service
     /**
      * Add or update a single document into solr
      *
-     * @param  array      $d array of document properties
+     * @param  array $d array of document properties
+     *
      * @return bool
      * @throws \Exception
      */
@@ -182,7 +205,7 @@ class Service
      */
     public function updateDocuments($docs)
     {
-        $url = 'http://'.$this->host.':'.$this->port.$this->core.'/update/json';
+        $url = $this->schema.'://'.$this->host.':'.$this->port.$this->core.'/update/json';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ["Content-type:application/json; charset=utf-8"]);
@@ -192,7 +215,6 @@ class Service
         curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
         curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
 
-        // $data =
         curl_exec($ch);
 
         if (curl_errno($ch)) {
@@ -268,9 +290,9 @@ class Service
 
     /**
      * @param string $query
-     * @param int    $start
-     * @param int    $rows
-     * @param array  $params
+     * @param int $start
+     * @param int $rows
+     * @param array $params
      *
      * @return \Apache_Solr_Response
      * @throws \Apache_Solr_InvalidArgumentException
