@@ -4,30 +4,33 @@ namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Util;
 
+/**
+ * Class Files
+ */
 class Files extends Base
 {
-
     public function getData($id = false)
     {
 
-        $rez = array(
+        $rez = [
             'success' => true
-            ,'data' => array()
-        );
+            ,
+            'data' => [],
+        ];
 
         if (empty(parent::getData($id))) {
             return $rez;
         }
 
-        $params = array(
-            'pid' => $this->id
-            ,'fq' => array(
-                '(template_type:file) OR (target_type:file)'
-            )
-            ,'fl' => 'id,pid,name,template_id,size,cdate'
-            ,'sort' => 'cdate'
-            ,'dir' => 'desc'
-        );
+        $params = [
+            'pid' => $this->id,
+            'fq' => [
+                '(template_type:file) OR (target_type:file)',
+            ],
+            'fl' => 'id,pid,name,template_id,size,cdate',
+            'sort' => 'cdate',
+            'dir' => 'desc',
+        ];
 
         $s = new \Casebox\CoreBundle\Service\Search();
         $sr = $s->query($params);

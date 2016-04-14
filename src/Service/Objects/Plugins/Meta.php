@@ -3,15 +3,23 @@
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Objects;
+use Casebox\CoreBundle\Service\Templates\SingletonCollection;
 
+/**
+ * Class Meta
+ */
 class Meta extends ObjectProperties
 {
     public function getData($id = false)
     {
-
         $rez = parent::getData($id);
 
-        $template = \Casebox\CoreBundle\Service\Templates\SingletonCollection::getInstance()->getTemplate($rez['data']['template_id']);
+        $singleton = SingletonCollection::getInstance();
+        
+        $template = $singleton->getTemplate(
+            $rez['data']['template_id']
+        );
+        
         $noTemplateFields = empty($template->getData()['fields']);
 
         if (empty($rez['data']['preview']) && $noTemplateFields) {

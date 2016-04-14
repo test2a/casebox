@@ -20,7 +20,7 @@ class Thumb extends Base
     {
         $rez = [
             'success' => true,
-            'data' => []
+            'data' => [],
         ];
 
         parent::getData($id);

@@ -6,28 +6,30 @@ use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Util;
 
+/**
+ * Class ContentItems
+ */
 class ContentItems extends Base
 {
-
     public function getData($id = false)
     {
-        $rez = array(
-            'success' => true
-        );
+        $rez = [
+            'success' => true,
+        ];
 
         if (empty(parent::getData($id))) {
             return $rez;
         }
 
-        $params = array(
-            'pid' => $this->id
-            ,'fq' => array(
-                '(template_type:object) OR (target_type:object)'
-            )
-            ,'fl' => 'id,pid,name,template_id,cdate,cid'
-            ,'sort' => 'cdate'
-            ,'dir' => 'desc'
-        );
+        $params = [
+            'pid' => $this->id,
+            'fq' => [
+                '(template_type:object) OR (target_type:object)',
+            ],
+            'fl' => 'id,pid,name,template_id,cdate,cid',
+            'sort' => 'cdate',
+            'dir' => 'desc',
+        ];
 
         $folderTemplates = Config::get('folder_templates');
         if (!empty($folderTemplates)) {

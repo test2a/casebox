@@ -7,15 +7,17 @@ use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\Search;
 use Casebox\CoreBundle\Service\Objects;
 
+/**
+ * Class SystemProperties
+ */
 class SystemProperties extends Base
 {
-
     public function getData($id = false)
     {
-        $rez = array(
-            'success' => true
-            ,'data' => array()
-        );
+        $rez = [
+            'success' => true,
+            'data' => [],
+        ];
 
         parent::getData($id);
 
@@ -29,19 +31,19 @@ class SystemProperties extends Base
 
         $rez['data'] = array_intersect_key(
             $data,
-            array(
-                'id' => 1
-                ,'name' => 1
-                ,'template_id' => 1
-                ,'cid' => 1
-                ,'cdate' => 1
-                ,'uid' => 1
-                ,'udate' => 1
-                ,'dstatus' => 1
-                ,'did' => 1
-                ,'ddate' => 1
-                ,'size' => 1
-            )
+            [
+                'id' => 1,
+                'name' => 1,
+                'template_id' => 1,
+                'cid' => 1,
+                'cdate' => 1,
+                'uid' => 1,
+                'udate' => 1,
+                'dstatus' => 1,
+                'did' => 1,
+                'ddate' => 1,
+                'size' => 1,
+            ]
         );
         $d = &$rez['data'];
 
@@ -49,7 +51,7 @@ class SystemProperties extends Base
         array_pop($pids);
         $d['pids'] = $d['path'] = implode('/', $pids);
 
-        $arr = array(&$d);
+        $arr = [&$d];
         Search::setPaths($arr);
 
         $d['template_name'] = Objects::getName($d['template_id']);
@@ -60,7 +62,8 @@ class SystemProperties extends Base
         $d['subscription'] = 'ignore';
         if (!empty($sd['fu']) && in_array($userId, $sd['fu'])) {
             $d['subscription'] = 'watch'; //follow
-        } if (!empty($sd['wu']) && in_array($userId, $sd['wu'])) {
+        }
+        if (!empty($sd['wu']) && in_array($userId, $sd['wu'])) {
             $d['subscription'] = 'watch';
         }
 

@@ -6,18 +6,19 @@ use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
 
+/**
+ * Class Versions
+ */
 class Versions extends Base
 {
     public function getData($id = false)
     {
-
-        $rez = array(
-            'success' => true
-        );
+        $rez = [
+            'success' => true,
+        ];
 
         parent::getData($id);
 
-        // echo $this->id.'!!';
         $o = Objects::getCachedObject($this->id);
         $data = $o->getData();
 

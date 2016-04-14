@@ -7,6 +7,7 @@ use Casebox\CoreBundle\Service\Objects\Plugins;
 use Casebox\CoreBundle\Service\Templates\SingletonCollection;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Class Objects
@@ -860,8 +861,21 @@ class Objects
             return $rez;
         }
 
+        /** @var Container $container */
+        $container = Cache::get('symfony.container');
+
         foreach ($objectPlugins as $pluginName) {
-            $class = '\\Casebox\\CoreBundle\\Service\\Objects\\Plugins\\'.ucfirst($pluginName);
+            $serviceId = 'casebox_core.service_objects_plugins.'.trim($pluginName);
+
+            if (!$container->has($serviceId)) {
+                $serviceId = $pluginName;
+            }
+
+            if (!$container->has($serviceId)) {
+                $a = 1;
+            }
+
+            $class = get_class($container->get($serviceId));
             $pClass = new $class($id);
             $prez = $pClass->getData();
 

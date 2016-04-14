@@ -1,0 +1,34 @@
+# Core object plugins
+services:
+    casebox_core.service_objects_plugins.base:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\Base
+
+    casebox_core.service_objects_plugins.comments:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\Comments
+
+    casebox_core.service_objects_plugins.contentItems:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\ContentItems
+
+    casebox_core.service_objects_plugins.currentVersion:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\CurrentVersion
+
+    casebox_core.service_objects_plugins.files:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\Files
+
+    casebox_core.service_objects_plugins.meta:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\Meta
+
+    casebox_core.service_objects_plugins.objectProperties:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\ObjectProperties
+
+    casebox_core.service_objects_plugins.system_properties:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\SystemProperties
+
+    casebox_core.service_objects_plugins.tasks:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\Tasks
+
+    casebox_core.service_objects_plugins.thumb:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\Thumb
+
+    casebox_core.service_objects_plugins.versions:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\Versions
