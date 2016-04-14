@@ -1,4 +1,5 @@
 <?php
+
 namespace DisplayColumns;
 
 use Casebox\CoreBundle\Service\Objects;
@@ -7,17 +8,27 @@ use Casebox\CoreBundle\Service\DataModel as DM;
 
 class ActivityStream extends Base
 {
-
     protected $fromParam = 'activityStream';
 
     public function onBeforeSolrQuery(&$p)
     {
         $p['rows'] = 15;
-        $p['params']['fl'] = array(
-            'id', 'pid', 'name', 'template_type', 'target_id', 'oid',
-            'cid', 'cdate', 'uid', 'udate', 'comment_user_id', 'comment_date',
-            'template_id', 'last_action_tdt'
-        );
+        $p['params']['fl'] = [
+            'id',
+            'pid',
+            'name',
+            'template_type',
+            'target_id',
+            'oid',
+            'cid',
+            'cdate',
+            'uid',
+            'udate',
+            'comment_user_id',
+            'comment_date',
+            'template_id',
+            'last_action_tdt',
+        ];
 
         $p['params']['sort'] = 'last_action_tdt desc';
         // return parent::onBeforeSolrQuery($p);
@@ -27,7 +38,7 @@ class ActivityStream extends Base
     {
         $result = &$p['result'];
         $data = &$result['data'];
-        $actionLogIds = array();
+        $actionLogIds = [];
 
         $comments = new Objects\Plugins\Comments();
 
@@ -66,7 +77,7 @@ class ActivityStream extends Base
     public function getSolrFields($nodeId = false, $templateId = false)
     {
         // $rez = parent::getSolrFields($nodeId, $templateId);
-        $rez = array();
+        $rez = [];
 
         $rez['sort'] = 'last_action_tdt desc';
 
@@ -76,12 +87,12 @@ class ActivityStream extends Base
     public function getDC()
     {
         // $rez = parent::getDC();
-        $rez = array();
+        $rez = [];
 
-        $rez['sort'] = array(
-            'property' => 'last_action_tdt'
-            ,'direction' => 'DESC'
-        );
+        $rez['sort'] = [
+            'property' => 'last_action_tdt',
+            'direction' => 'DESC',
+        ];
 
         return $rez;
     }
@@ -89,12 +100,12 @@ class ActivityStream extends Base
     public function getState($param = null)
     {
         // $rez = parent::getState($param);
-        $rez = array();
+        $rez = [];
 
-        $rez['sort'] = array(
-            'property' => 'last_action_tdt'
-            ,'direction' => 'DESC'
-        );
+        $rez['sort'] = [
+            'property' => 'last_action_tdt' ,
+            'direction' => 'DESC',
+        ];
 
         return $rez;
     }

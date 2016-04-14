@@ -1,11 +1,11 @@
 <?php
+
 namespace DisplayColumns;
 
 use Casebox\CoreBundle\Service\Util;
 
 class Calendar extends Base
 {
-
     protected $fromParam = 'calendar';
 
     public function onBeforeSolrQuery(&$p)
@@ -21,9 +21,7 @@ class Calendar extends Base
         $view = &$ip['view'];
         $facets = &$ip['facets'];
 
-        $coloring = empty($view['coloring'])
-            ? array()
-            : Util\toTrimmedArray($view['coloring']);
+        $coloring = empty($view['coloring']) ? [] : Util\toTrimmedArray($view['coloring']);
 
         $view['coloring'] = $coloring;
 
@@ -31,7 +29,7 @@ class Calendar extends Base
         $coloringField = $this->getActiveColoringField($p);
         $activeFacetClass = null;
 
-        $types = array();
+        $types = [];
         foreach ($coloring as $facetAlias) {
             if (!empty($facets[$facetAlias]->field)) {
                 $types[] = $facets[$facetAlias]->field;
@@ -44,22 +42,20 @@ class Calendar extends Base
 
         $result['view']['coloring'] = $types;
 
-        $coloringItems = array();
+        $coloringItems = [];
         if (!empty($activeFacetClass)) {
-            $cf = $activeFacetClass->getClientData(array('colors' => true));
+            $cf = $activeFacetClass->getClientData(['colors' => true]);
 
             $result['facets'][$activeFacetClass->field] = $cf;
             $coloringItems = $cf['items'];
         }
 
-        $rez = array();
+        $rez = [];
         foreach ($data as $r) {
-            $fv = empty($r[$coloringField])
-                ? array()
-                : Util\toNumericArray($r[$coloringField]);
+            $fv = empty($r[$coloringField]) ? [] : Util\toNumericArray($r[$coloringField]);
 
             if (empty($fv)) {
-                $r['cls'] = 'user-color-' . $r['cid'];
+                $r['cls'] = 'user-color-'.$r['cid'];
                 $rez[] = $r;
             } else {
                 foreach ($fv as $v) {
@@ -69,7 +65,7 @@ class Calendar extends Base
                             $r['cls'] = $c['cls'];
                         }
                         if (!empty($c['color'])) {
-                            $r['style'] = 'background-color: ' . $c['color'];
+                            $r['style'] = 'background-color: '.$c['color'];
                         }
                     }
                     $rez[] = $r;
@@ -81,9 +77,11 @@ class Calendar extends Base
     }
 
     /**
-     * detect active coloring facet
-     * @param  array   $p
-     * @return varchar | null
+     * Detect active coloring facet
+     *
+     * @param array $p
+     *
+     * @return string|null
      */
     protected function getActiveColoringField($p)
     {
@@ -114,7 +112,7 @@ class Calendar extends Base
     {
         $rez = parent::getSolrFields($nodeId, $templateId);
 
-        //add coloring field to request field list
+        // Add coloring field to request field list
         $coloringField = $this->getActiveColoringField($this->params);
 
         if (!in_array($coloringField, $rez['fields'])) {

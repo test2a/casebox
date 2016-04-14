@@ -1,21 +1,20 @@
 <?php
+
 namespace DisplayColumns;
 
 use Casebox\CoreBundle\Service\Objects;
 
 class FormEditor extends Base
 {
-
     protected $fromParam = 'formEditor';
 
     /**
-     * get display columns for field
+     * Get display columns for field
      * @return array
      */
     public function getDC()
     {
-
-        $rez = array();
+        $rez = [];
 
         if (empty($this->params['inputParams']['fieldId'])) {
             return $rez;
@@ -31,8 +30,8 @@ class FormEditor extends Base
             $rez = $fieldData['cfg']['DC'];
         }
 
-        return array(
-            'data' => $rez
-        );
+        return [
+            'data' => $rez,
+        ];
     }
 }
