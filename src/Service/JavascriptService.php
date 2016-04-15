@@ -35,7 +35,11 @@ class JavascriptService
         if (empty($this->scripts)) {
             $this->scripts = $scripts;
         } else {
-            $this->scripts = array_merge($this->scripts, $scripts);
+            foreach ($this->scripts as $group => $script) {
+                if (!empty($scripts[$group])) {
+                    $this->scripts[$group] = array_merge($this->scripts[$group], $scripts[$group]);
+                }
+            }
         }
 
         return $this;
@@ -118,6 +122,7 @@ class JavascriptService
 
     /**
      * @param array $vars
+     *
      * @return string
      */
     public function getRendered(array $vars = [])
@@ -126,9 +131,10 @@ class JavascriptService
             'header' => '',
             'footer' => '',
         ];
-        
+
         if (!empty($this->scripts)) {
             foreach ($this->scripts as $group => $sripts) {
+                $i = 0;
                 foreach ($sripts as $script) {
                     if (empty($script['src']) && empty($script['inline'])) {
                         continue;
@@ -138,18 +144,34 @@ class JavascriptService
                         $script['type'] = 'text/javascript';
                     }
 
+                    if (empty($script['weight'])) {
+                        $script['weight'] = $i;
+                    }
+
                     if ($script['inline']) {
                         $template = $this->getTwig()->createTemplate($script['inline']);
                         $script['inline'] = $template->render($vars);
 
-                        $html[$group] .= $this->getTwig()->render('CaseboxCoreBundle:render:javascript_inline_render.html.twig', $script);
+                        $ords[(string)$script['weight']] = $this->getTwig()->render(
+                            'CaseboxCoreBundle:render:javascript_inline_render.html.twig',
+                            $script
+                        );
                     } else {
                         $template = $this->getTwig()->createTemplate($script['src']);
                         $script['src'] = $template->render($vars);
 
-                        $html[$group] .= $this->getTwig()->render('CaseboxCoreBundle:render:javascript_render.html.twig', $script);
+                        $ords[(string)$script['weight']] = $this->getTwig()->render(
+                            'CaseboxCoreBundle:render:javascript_render.html.twig',
+                            $script
+                        );
                     }
+
+                    $i++;
                 }
+
+                ksort($ords);
+
+                $html[$group] = implode('', $ords);
             }
         }
 

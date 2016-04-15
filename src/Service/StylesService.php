@@ -88,8 +88,9 @@ class StylesService
     public function getRendered()
     {
         $html = '';
-        
+
         if (!empty($this->styles)) {
+            $i = $weight = 0;
             foreach ($this->styles as $style) {
                 if (empty($style['href'])) {
                     continue;
@@ -98,13 +99,27 @@ class StylesService
                 if (empty($style['rel'])) {
                     $style['rel'] = 'stylesheet';
                 }
-                
+
                 if (empty($style['type'])) {
                     $style['type'] = 'text/css';
                 }
-                
-                $html .= $this->getTwig()->render('CaseboxCoreBundle:render:style_render.html.twig', $style);
+
+                if (empty($style['weight'])) {
+                    $style['weight'] = $i;
+                }
+
+                $ords[(string)$style['weight']] = $this->getTwig()->render(
+                    'CaseboxCoreBundle:render:style_render.html.twig',
+                    $style
+                );
+
+                $i++;
             }
+
+            ksort($ords);
+
+            $html = implode('', $ords);
+
         }
 
         return $html;

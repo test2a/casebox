@@ -61,7 +61,6 @@ class IndexController extends Controller
 
         $vars['javascript'] = $this->container->get('casebox_core.service.javascript_service')->getRendered($vars);
 
-
         return $this->render('CaseboxCoreBundle::index.html.twig', $vars);
     }
 
