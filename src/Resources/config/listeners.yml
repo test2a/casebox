@@ -17,3 +17,9 @@ services:
         arguments: ['@service_container']
         tags:
             - { name: kernel.event_listener, event: kernel.request }
+
+    casebox_core.event_listener.javascript_listener:
+        class: Casebox\CoreBundle\EventListener\JavascriptListener
+        arguments: ['@service_container']
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }

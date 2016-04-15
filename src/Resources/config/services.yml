@@ -35,3 +35,8 @@ services:
         class: Casebox\CoreBundle\Service\StylesService
         calls:
             - [setTwig, ['@twig']]
+
+    casebox_core.service.javascript_service:
+        class: Casebox\CoreBundle\Service\JavascriptService
+        calls:
+            - [setTwig, ['@twig']]

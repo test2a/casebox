@@ -9,17 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>{{ projectName }}</title>
     {{ styles|raw }}
-    <style>{{ cssUserColors }}</style>
-
-    <script src="/js/leaflet/leaflet.js"></script>
-    <script type="text/javascript">
-        window.name = '0fe6c741a69ef4b56882f0e';
-
-        function setProgress(label, percentage) {
-            document.getElementById('loading-msg').innerHTML = label + '…';
-            document.getElementById('lpt').style.width = percentage;
-        }
-    </script>
+    {{ javascript.header|raw }}
 </head>
 
 <body>
@@ -30,7 +20,7 @@
 <div id="loading">
     <div class="cmsg">
         <div class="msg" id="loading-msg">
-            Loading Casebox (dev.casebox.org)…
+            Loading Casebox…
         </div>
         <div class="lpb">
             <div id="lpt" style="width: 50%;"></div>
@@ -45,8 +35,7 @@
 
     <div id="loadingError" class="cmsg" style="clear:left;display:none">
         <p style="font-size:larger;margin:40px 0">
-            This is taking longer than usual.
-            <a href="https://core.casebox.org"><b>Try reloading the page</b></a>.
+            This is taking longer than usual. <b>Try reloading the page</b></a>.
         </p>
 
         <div>
@@ -55,27 +44,7 @@
     </div>
 </div>
 
-<script type="text/javascript">setProgress('{{ 'Loading_ExtJS_Core'|trans }}', '30%')</script>
-<script type="text/javascript" src="/js/ext/ext-all-debug.js"></script>
-<script type="text/javascript" src="/js/ext/packages/ext-charts/build/ext-charts-debug.js"></script>
-<script type="text/javascript" src="/js/ext/packages/ext-theme-classic/build/ext-theme-classic-debug.js"></script>
-<script type="text/javascript">
-    bravojs = { url: window.location.protocol + "//" + window.location.host + "/js/extjs-ace/Component.js"};
-    document.write('<script type="text/javascript" src="' + bravojs.url + '"><' + '/script>');
-    if (typeof(L) !== 'undefined') { LL = L; }
-</script>
-<script type="text/javascript" src="/js/ext/packages/ext-locale/build/ext-locale-ru.js"></script>
-<script type="text/javascript" src="/min/locale/{{ app.request.locale }}.js"></script>
-<script type="text/javascript" src="/js/highlight/highlight.pack.js"></script>
-<script type="text/javascript">setProgress('{{ 'Loading_ExtJS_UI'|trans }}', '60%')</script>
-<script type="text/javascript" src="/c/{{ coreName }}/remote/api"></script>
-<script type="text/javascript" src="/min/js.js"></script>
-<script type="text/javascript" src="/min/jsdev.js"></script>
-<script type="text/javascript" src="/min/jsoverrides.js"></script>
-<script type="text/javascript" src="/min/jsplugins.js"></script>
-<script type="text/javascript">CB.plugin.config = {"Search": {"handler": "CB_Browser_SearchRouter.search"}};</script>
-<script type="text/javascript" src="/c/{{ coreName }}/js/DB.js"></script>
-<script type="text/javascript">setProgress('{{ 'Initialization'|trans }}', '100%')</script>
+{{ javascript.footer|raw }}
 
 </body>
 </html>

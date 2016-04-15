@@ -55,9 +55,12 @@ class IndexController extends Controller
             'projectName' => Config::getProjectName(),
             'coreName' => $request->attributes->get('coreName'),
             'rtl' => Config::get('rtl') ? '-rtl' : '',
-            'cssUserColors' => implode("\n", $colors),
+            'cssUserColors' => '<style>'.implode("\n", $colors).'</style>',
             'styles' => $this->container->get('casebox_core.service.styles_service')->getRendered(),
         ];
+
+        $vars['javascript'] = $this->container->get('casebox_core.service.javascript_service')->getRendered($vars);
+
 
         return $this->render('CaseboxCoreBundle::index.html.twig', $vars);
     }
