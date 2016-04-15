@@ -30,3 +30,8 @@ services:
 
     casebox_core.service_objects.object:
         class: Casebox\CoreBundle\Service\Objects\Object
+
+    casebox_core.service.styles_service:
+        class: Casebox\CoreBundle\Service\StylesService
+        calls:
+            - [setTwig, ['@twig']]
