@@ -27,3 +27,6 @@ services:
 
     casebox_core.service.users_groups:
         class: Casebox\CoreBundle\Service\UsersGroups
+
+    casebox_core.service_objects.object:
+        class: Casebox\CoreBundle\Service\Objects\Object

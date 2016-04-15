@@ -868,16 +868,14 @@ class Objects
             $serviceId = 'casebox_core.service_objects_plugins.'.trim($pluginName);
 
             if (!$container->has($serviceId)) {
-                $serviceId = $pluginName;
+                $obj = $container->get($pluginName);
+                $obj->setId($id);
+                $prez = $obj->getData();
+            } else {
+                $class = get_class($container->get($serviceId));
+                $pClass = new $class($id);
+                $prez = $pClass->getData();
             }
-
-            if (!$container->has($serviceId)) {
-                $a = 1;
-            }
-
-            $class = get_class($container->get($serviceId));
-            $pClass = new $class($id);
-            $prez = $pClass->getData();
 
             $rez['data'][$pluginName] = $prez;
         }
