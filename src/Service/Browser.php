@@ -434,7 +434,7 @@ class Browser
                 //analize facet sources
                 if (!empty($source['facet'])) {
                     //creating facets
-                    $facetsDefinitions = \CB\Config::get('facet_configs');
+                    $facetsDefinitions = Config::get('facet_configs');
 
                     if (!empty($facetsDefinitions[$source['facet']])) {
                         $conf = $facetsDefinitions[$source['facet']];
@@ -444,12 +444,12 @@ class Browser
                             $conf['sort'] = $source['sort'];
                         }
 
-                        $facet = \CB\Facets::getFacetObject($conf);
+                        $facet = Facets::getFacetObject($conf);
 
                         if (!empty($facet)) {
                             $p['rows'] = 0;
                             $p['facets'] = [
-                                $source['facet'] => &$facet
+                                $source['facet'] => &$facet,
                             ];
 
                             if (empty($p['fq'])) {
@@ -461,28 +461,26 @@ class Browser
 
                             //apply other params that are set in source
                             $p = array_merge(
-                                $p
-                                ,array_intersect_key(
+                                $p,
+                                array_intersect_key(
                                     $source,
                                     [
                                         'templates' => 1,
                                         'pid' => 1,
                                         'query' => 1,
-                                        'descendants' => 1
+                                        'descendants' => 1,
                                     ]
                                 )
                             );
 
                             $search = new Search();
-
                             $search->query($p);
-
-                            $cd =  $facet->getClientData();
+                            $cd = $facet->getClientData();
 
                             foreach ($cd['items'] as $id => $v) {
                                 $rez['data'][] = [
                                     'id' => $id,
-                                    'name' => $v['name'] . ' (' . $v['count'] . ')'
+                                    'name' => $v['name'].' ('.$v['count'].')',
                                 ];
                             }
                         }
@@ -809,8 +807,8 @@ class Browser
      * This function is used to generate a new name lyke "Copy of <old file_name> (1).ext".
      * Usually used when copy/pasting objects and pasted object should receive a new name.
      *
-     * @param int     $pid              parent object/folder id
-     * @param string  $name             old/existing object name
+     * @param int $pid parent object/folder id
+     * @param string $name old/existing object name
      * @param boolean $excludeExtension if true then characters after last "." will remain unchanged
      *
      * @return string new name
@@ -1122,6 +1120,7 @@ class Browser
 
     /**
      * set custom items for given records
+     *
      * @param array $records
      */
     protected function setCustomIcons(&$records)

@@ -2,6 +2,7 @@
 namespace DisplayColumns;
 
 use Casebox\CoreBundle\Service\Config;
+use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
@@ -193,7 +194,7 @@ class Base
                     continue;
                 }
 
-                $obj = \Casebox\CoreBundle\Service\Objects::getCachedObject($doc['id']);
+                $obj = Objects::getCachedObject($doc['id']);
                 if (!is_object($obj)) {
                     Cache::get('symfony.container')->get('logger')->error(
                         'DisplayColumns object not found: '. $doc['id']
@@ -249,10 +250,10 @@ class Base
                             case 'datetime':
                                 //set to users date format if not set
                                 if (empty($col['format'])) {
-                                    $col['format'] = \CB\User::getUserConfigParam('short_date_format');
+                                    $col['format'] = User::getUserConfigParam('short_date_format');
                                     // add time if needed
                                     if ($templateField['type'] == 'datetime') {
-                                        $col['format'] .= ' ' . \CB\User::getUserConfigParam('time_format');
+                                        $col['format'] .= ' ' . User::getUserConfigParam('time_format');
                                     }
                                 }
 

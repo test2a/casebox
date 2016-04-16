@@ -10,6 +10,7 @@ use Casebox\CoreBundle\Event\NodeDbCreateEvent;
 use Casebox\CoreBundle\Event\NodeDbDeleteEvent;
 use Casebox\CoreBundle\Event\NodeDbRestoreEvent;
 use Casebox\CoreBundle\Event\NodeDbUpdateEvent;
+use Casebox\CoreBundle\Event\NodeLoadEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -80,6 +81,14 @@ class ObjectSubscriber implements EventSubscriberInterface
     {
         // code...
     }
+    
+    /**
+     * @param NodeLoadEvent $event
+     */
+    public function onNodeLoad(NodeLoadEvent $event)
+    {
+        // code...
+    }
 
     /**
      * @return array
@@ -95,6 +104,7 @@ class ObjectSubscriber implements EventSubscriberInterface
             'nodeDbDelete' => 'onNodeDbDelete',
             'beforeNodeDbRestore' => 'onBeforeNodeDbRestore',
             'nodeDbRestore' => 'onNodeDbRestore',
+            'onLoad' => 'onNodeLoad',
         ];
     }
 }

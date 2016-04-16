@@ -2,7 +2,7 @@
 
 namespace Casebox\CoreBundle\Event;
 
-use Casebox\CoreBundle\Service\Objects\Object;
+use Casebox\CoreBundle\Service\Objects\Object as ObjectsObject;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -17,8 +17,9 @@ class NodeDbUpdateEvent extends Event
 
     /**
      * NodeDbUpdateEvent constructor
+     * @param ObjectsObject $object
      */
-    public function __construct(Object $object)
+    public function __construct(ObjectsObject $object)
     {
         $this->params = $object;
     }

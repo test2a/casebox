@@ -3,6 +3,7 @@
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Event\BeforeNodeDbCreateEvent;
+use Casebox\CoreBundle\Event\NodeLoadEvent;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Objects\Plugins;
 use Casebox\CoreBundle\Service\Templates\SingletonCollection;
@@ -106,7 +107,7 @@ class Objects
         ];
 
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('onLoad', $rez);
+        $dispatcher->dispatch('onLoad', new NodeLoadEvent($rez));
 
         return $rez;
     }
