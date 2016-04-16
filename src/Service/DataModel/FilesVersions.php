@@ -94,7 +94,7 @@ class FilesVersions extends Base
     /**
      * get oldest version ids after a given skipCount
      * @param  int     $fileId
-     * @param  varchar $md5
+     * @param string $md5
      * @return array   | false
      */
     public static function getVersionByMD5($fileId, $md5)

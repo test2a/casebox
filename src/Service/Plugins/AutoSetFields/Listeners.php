@@ -53,7 +53,7 @@ class Listeners
     /**
      * generate title string using given object data and titleTemplate
      * @param  object  $object
-     * @return varchar
+     * @return string
      */
     protected function getAutoTitle($object)
     {

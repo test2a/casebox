@@ -281,7 +281,7 @@ class Base
 
     /**
      * check if a record exists by its id or name field
-     * @param  varchar $idOrName
+     * @param string $idOrName
      * @return boolean
      */
     public static function exists($idOrName)
@@ -298,8 +298,8 @@ class Base
 
     /**
      * get name for given id or return same result if numeric
-     * @param  varchar $idOrName
-     * @param  varchar $nameField to search by
+     * @param string $idOrName
+     * @param string $nameField to search by
      * @param  int     $pid       filter by pid if set
      * @return int     | null
      */

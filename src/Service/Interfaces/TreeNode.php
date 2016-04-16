@@ -15,7 +15,7 @@ interface TreeNode
 
     /**
      * get node name
-     * @return varchar
+     * @return string
      */
     public function getName();
 

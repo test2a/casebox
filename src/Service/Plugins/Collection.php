@@ -57,7 +57,7 @@ class Collection
 
     /**
      * get active plugin list as an associative array ($pluginName => $pluginConfig)
-     * @return varchar
+     * @return string
      */
     public function getActivePlugins()
     {

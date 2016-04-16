@@ -440,7 +440,7 @@ class Objects
     /**
      * Get name for an object id
      * @param  int          $id
-     * @return varchar|null
+     * @return string|null
      */
     public static function getName($id, $htmlSafe = false)
     {

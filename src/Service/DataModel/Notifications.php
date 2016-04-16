@@ -290,7 +290,7 @@ class Notifications extends Base
 
     /**
      * mark user notifications as seen
-     * @param  varchar | array $id     notification ids
+     * @param string | array $id     notification ids
      * @param  int             $userId
      * @return void
      */

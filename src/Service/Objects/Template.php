@@ -247,7 +247,7 @@ class Template extends Object
 
     /**
      * get field order
-     * @param  varchar $fieldName
+     * @param string $fieldName
      * @return int
      */
     public function getFieldOrder($fieldName)
@@ -283,7 +283,7 @@ class Template extends Object
      * @param  variant     $value    field value to be formated
      * @param  boolean     $html     default true - format for html, otherwise format for text display
      * @param  boolean     $showInfo add info if not empty to the end of returned result
-     * @return varchar     formated value
+     * @return string     formated value
      */
     public static function formatValueForDisplay($field, $value, $html = true, $showInfo = false)
     {

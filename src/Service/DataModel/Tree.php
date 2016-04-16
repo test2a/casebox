@@ -277,7 +277,7 @@ class Tree extends Base
     /**
      * get child record by name
      * @param  int     $pid
-     * @param  varchar $name
+     * @param string $name
      * @return array
      */
     public static function getChildByName($pid, $name)
@@ -306,8 +306,8 @@ class Tree extends Base
     /**
      * get child names under given pid that start with $name and have same extension as $ext
      * @param  int     $pid
-     * @param  varchar $name
-     * @param  varchar $ext
+     * @param string $name
+     * @param string $ext
      * @return array
      */
     public static function getChildNames($pid, $name, $ext)
@@ -396,7 +396,7 @@ class Tree extends Base
 
     /**
      * assign draft children to real id
-     * @param  varchar $draftId
+     * @param string $draftId
      * @param  array   $id
      * @return void
      */

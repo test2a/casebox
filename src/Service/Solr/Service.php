@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Solr;
 
 use Casebox\CoreBundle\Event\BeforeNodeSolrUpdateEvent;
@@ -290,9 +291,9 @@ class Service
 
     /**
      * @param string $query
-     * @param int    $start
-     * @param int    $rows
-     * @param array  $params
+     * @param int $start
+     * @param int $rows
+     * @param array $params
      *
      * @return \Apache_Solr_Response
      * @throws \Apache_Solr_InvalidArgumentException
@@ -362,16 +363,16 @@ class Service
 
     /**
      * convert an array to solr document class
-     * @param  array                $arr
-     * @return Apache_Solr_Document
+     *
+     * @param  array $arr
+     *
+     * @return \Apache_Solr_Document
      *
      */
     protected function arrayToSolrDocument($arr)
     {
         $rez = new \Apache_Solr_Document();
-        $children = empty($arr['_childDocuments_'])
-            ? []
-            : $arr['_childDocuments_'];
+        $children = empty($arr['_childDocuments_']) ? [] : $arr['_childDocuments_'];
         unset($arr['_childDocuments_']);
 
         foreach ($arr as $fn => $fv) {
@@ -392,11 +393,8 @@ class Service
 
             $childDocs = [];
             foreach ($children as $d) {
-                $childDocs[] = $this->arrayToSolrDocument(
-                    //merge parent properties to children
-                    array_merge($nonChildValues, $d)
-                    // $d
-                );
+                // Merge parent properties to children
+                $childDocs[] = $this->arrayToSolrDocument(array_merge($nonChildValues, $d));
             }
             $rez->_childDocuments_ = $childDocs;
         }

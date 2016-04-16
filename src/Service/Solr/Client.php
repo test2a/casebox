@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Solr;
 
 use Casebox\CoreBundle\Event\BeforeSolrUpdateEvent;
@@ -33,9 +34,8 @@ class Client extends Service
 
         $cmd = $rootDir.'/../bin/console'.' '.'casebox:solr:update --env='.$config['coreName'];
 
-        $process  = new Process($cmd);
+        $process = new Process($cmd);
         $process->run();
-        // pclose(popen($cmd, "r"));
     }
 
     /**
@@ -205,14 +205,15 @@ class Client extends Service
     }
 
     /**
-     * update tree nodes into solr
+     * Update tree nodes into solr
      *
-     * @param string[] $p {
-     *      @type boolean $all if true then all nodes will be updated into solr,
+     * @param string[ $p {
+     *
+     * @type boolean $all if true then all nodes will be updated into solr,
      *          otherwise - only the nodes marked as updated will be reindexed in solr
-     *      @type int[] $id id or array of object ids to update
-     *      @type string $cron_id when this function is called by a cron then cron_id should be passed
-     *      @type boolean $nolimit if true then no limit will be applied to maximum indexed nodes (default 2000)
+     * @type int[] $id id or array of object ids to update
+     * @type string $cron_id when this function is called by a cron then cron_id should be passed
+     * @type boolean $nolimit if true then no limit will be applied to maximum indexed nodes (default 2000)
      * }
      */
     public function updateTree($p = [])
@@ -314,7 +315,7 @@ class Client extends Service
                 // Append file contents for files to content field
                 $this->appendFileContents($docs);
 
-                $this->deleteByQuery('id:(' . implode(' OR ', array_keys($docs)) . ')');
+                $this->deleteByQuery('id:('.implode(' OR ', array_keys($docs)).')');
 
                 $this->addDocuments($docs);
 
@@ -450,7 +451,7 @@ class Client extends Service
     {
         $luceneReservedChars = preg_quote('+-&|!(){}[]^"~*?:\\');
         $v = preg_replace_callback(
-            '/([' . $luceneReservedChars . '])/',
+            '/(['.$luceneReservedChars.'])/',
             function ($matches) {
                 return '\\'.$matches[0];
             },

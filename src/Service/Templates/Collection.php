@@ -121,7 +121,7 @@ class Collection
     /**
      * get template type by its id
      * @param  int     $id
-     * @return varchar
+     * @return string
      */
     public function getType($id)
     {

@@ -139,7 +139,7 @@ class Users extends UsersGroups
 
     /**
      * get user id by username
-     * @param  varchar $username
+     * @param string $username
      * @param  int     $onlyActive
      * @return int
      */
@@ -172,7 +172,7 @@ class Users extends UsersGroups
 
     /**
      * get user id by email
-     * @param  varchar $email
+     * @param string $email
      * @return int     | null
      */
     public static function getIdByEmail($email)
@@ -208,7 +208,7 @@ class Users extends UsersGroups
 
     /**
      * get user id by recovery hash
-     * @param  varchar $hash
+     * @param string $hash
      * @return int     | null
      */
     public static function getIdByRecoveryHash($hash)

@@ -64,7 +64,7 @@ class Templates extends Base
 
     /**
      * get template ids by template type
-     * @param  varchar $type
+     * @param string $type
      * @return array
      */
     public static function getIdsByType($type)

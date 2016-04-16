@@ -1,59 +1,84 @@
 <?php
-namespace Casebox\CoreBundle\Service;
 
-/**
- * main search class for solr queries
- *
- */
+namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Event\BeforeSolrQueryEvent;
 use Casebox\CoreBundle\Event\SolrQueryEvent;
 use Casebox\CoreBundle\Event\SolrQueryWarmUpEvent;
 use Casebox\CoreBundle\Service\Util;
-use Casebox\CoreBundle\Service\User;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+/**
+ * Class Search
+ */
 class Search extends Solr\Client
 {
-
     /**
-     * default field list used for queries
+     * Default field list used for queries
      * @var array
      */
-    public static $defaultFields = array(
-        'id', 'pid', 'name', 'path', 'template_type', 'target_id', 'system',
-        'size', 'date', 'date_end', 'oid', 'cid', 'cdate', 'uid', 'udate', 'comment_user_id', 'comment_date',
-        'case_id', 'acl_count', 'case', 'template_id', 'user_ids', 'task_u_assignee', 'status',
-        'task_status', 'task_d_closed', 'versions', 'ntsc'
-    );
+    public static $defaultFields = [
+        'id',
+        'pid',
+        'name',
+        'path',
+        'template_type',
+        'target_id',
+        'system',
+        'size',
+        'date',
+        'date_end',
+        'oid',
+        'cid',
+        'cdate',
+        'uid',
+        'udate',
+        'comment_user_id',
+        'comment_date',
+        'case_id',
+        'acl_count',
+        'case',
+        'template_id',
+        'user_ids',
+        'task_u_assignee',
+        'status',
+        'task_status',
+        'task_d_closed',
+        'versions',
+        'ntsc',
+    ];
 
     /**
-     * fields that should be added aotmaticall to any query
+     * Fields that should be added aotmaticall to any query
      * @var array
      */
-    protected $requiredFields = array(
-            'pid'
-            ,'tempalte_id'
-            ,'target_id' //for shortcuts
-        );
-
-    /*when requesting sort by a field the other convenient sorting field
-    can be used designed for sorting. Used for string fields. */
-    protected $replaceSortFields = array(
-        'nid' => 'id'
-        ,'name' => 'sort_name'
-    );
+    protected $requiredFields = [
+        'pid',
+        'tempalte_id',
+        'target_id' //for shortcuts
+    ];
 
     /**
-     * flag to detect facets or use defined from input params
+     * When requesting sort by a field the other convenient sorting field can be used designed for sorting. 
+     * Used for string fields.
+     */
+    protected $replaceSortFields = [
+        'nid' => 'id',
+        'name' => 'sort_name',
+    ];
+
+    /**
+     * Flag to detect facets or use defined from input params
      * @var boolean
      */
     protected $facetsSetManually = false;
 
     /**
-     * query solr
-     * @param  array  $p             [description]
+     * Query solr
+     *
+     * @param  array $p [description]
      * @param  string $searchHandler
+     *
      * @return array
      */
     public function query($p, $searchHandler = 'select')
@@ -80,7 +105,7 @@ class Search extends Solr\Client
     }
 
     /**
-     * prepare input params
+     * Prepare input params
      * @return void
      */
     private function prepareParams()
@@ -88,32 +113,25 @@ class Search extends Solr\Client
         $p = &$this->inputParams;
 
         /* initial parameters */
-        $this->query = empty($p['query'])
-            ? ''
-            : $p['query'];
+        $this->query = empty($p['query']) ? '' : $p['query'];
 
-        $this->rows = isset($p['rows'])
-            ? intval($p['rows'])
-            : User::getGridMaxRows();
+        $this->rows = isset($p['rows']) ? intval($p['rows']) : User::getGridMaxRows();
 
         $this->start = empty($p['start'])
-            ? (empty($p['page'])
-                ? 0
-                : $this->rows * (intval($p['page']) - 1)
-            )
+            ? (empty($p['page']) ? 0 : $this->rows * (intval($p['page']) - 1))
             : intval($p['start']);
 
-        $this->params = array(
-            'defType' => 'dismax'
-            ,'q.alt' => '*:*'
-            ,'qf' => "name content^0.5"
-            ,'tie' => '0.1'
-            ,'fl' => $this->getFieldListParam($p)
-            ,'fq' => $this->getFilterQueryParam($p)
-            ,'sort' => $this->getSortParam($p)
-        );
+        $this->params = [
+            'defType' => 'dismax',
+            'q.alt' => '*:*',
+            'qf' => "name content^0.5",
+            'tie' => '0.1',
+            'fl' => $this->getFieldListParam($p),
+            'fq' => $this->getFilterQueryParam($p),
+            'sort' => $this->getSortParam($p),
+        ];
 
-        /* setting highlight if query parrameter is present /**/
+        // Setting highlight if query parrameter is present
         if (!empty($this->query)) {
             $this->params['hl'] = 'true';
             $this->params['hl.fl'] = 'name'; //,content
@@ -124,7 +142,7 @@ class Search extends Solr\Client
             $this->params['hl.fragsize'] = '256';
         }
 
-        $this->facets = array();
+        $this->facets = [];
         if (!$this->facetsSetManually && !empty($p['facets'])) {
             $this->facets = &$p['facets'];
         }
@@ -134,7 +152,7 @@ class Search extends Solr\Client
             $this->params = array_merge($this->params, $fp);
         }
 
-        //analize facet filters
+        // Analyze facet filters
         $this->params['fq'] = array_merge(
             $this->params['fq'],
             $this->getFacetFilters($p)
@@ -142,18 +160,20 @@ class Search extends Solr\Client
     }
 
     /**
-     * get field list from given params
-     * @param  array   &$p
-     * @return varchar
+     * Get field list from given params
+     *
+     * @param  array &$p
+     *
+     * @return string
      */
     protected function getFieldListParam(&$p)
     {
         $rez = static::$defaultFields;
 
         if (!empty($p['fl'])) {
-            $rez = array();
+            $rez = [];
 
-            //filter wrong fieldnames
+            // filter wrong fieldnames
             $a = Util\toTrimmedArray($p['fl']);
             foreach ($a as $fn) {
                 if (preg_match('/^[a-z_0-9]+$/i', $fn)) {
@@ -161,7 +181,7 @@ class Search extends Solr\Client
                 }
             }
 
-            //add required fields
+            // add required fields
             foreach ($this->requiredFields as $fn) {
                 if (!in_array('target_id', $rez)) {
                     $rez[] = 'target_id';
@@ -169,8 +189,8 @@ class Search extends Solr\Client
 
             }
 
-            //add title field for current language
-            $field = 'title_' . Config::get('user_language') . '_t';
+            // add title field for current language
+            $field = 'title_'.Config::get('user_language').'_t';
             if (!in_array($field, $rez)) {
                 $rez[] = $field;
             }
@@ -180,32 +200,32 @@ class Search extends Solr\Client
     }
 
     /**
-     * get filtering query array
+     * Get filtering query array
+     *
      * @param  array &$p
+     *
      * @return array
      */
     protected function getFilterQueryParam(&$p)
     {
-        //by default filter deleted nodes
-        $fq = array('dstatus:0');
+        // by default filter deleted nodes
+        $fq = ['dstatus:0'];
 
         if (!empty($p['dstatus'])) {
-            $fq = array('dstatus:' . intval($p['dstatus']));
+            $fq = ['dstatus:'.intval($p['dstatus'])];
         }
 
-        $fq[] = (empty($p['child']) || ($p['child'] == false))
-            ? 'child:false'
-            : 'child:true';
+        $fq[] = (empty($p['child']) || ($p['child'] == false)) ? 'child:false' : 'child:true';
 
-        //check if fq is set and add it to result
+        // check if fq is set and add it to result
         if (!empty($p['fq'])) {
             if (!is_array($p['fq'])) {
-                $p['fq'] = array($p['fq']);
+                $p['fq'] = [$p['fq']];
             }
             $fq = array_merge($fq, $p['fq']);
         }
 
-        //check system param
+        // check system param
         $sysParam = 'system:[0 TO 1]';
         if (isset($p['system'])) {
             if (is_numeric($p['system']) || preg_match('/^\[\d+ TO \d+\]$/', $p['system'])) {
@@ -222,19 +242,19 @@ class Search extends Solr\Client
             $fq[] = $ss;
         }
 
-        //check numeric params
-        $params = array(
-            'pid' => 'pid'
-            ,'ids' => 'id'
-            ,'pids' => 'pids'
-            ,'templates' => 'template_id'
-        );
+        // check numeric params
+        $params = [
+            'pid' => 'pid',
+            'ids' => 'id',
+            'pids' => 'pids',
+            'templates' => 'template_id',
+        ];
 
         foreach ($params as $param => $fn) {
             if (!empty($p[$param])) {
                 $ids = Util\toNumericArray($p[$param]);
                 if (!empty($ids)) {
-                    $fq[] = $fn . ':('.implode(' OR ', $ids).')';
+                    $fq[] = $fn.':('.implode(' OR ', $ids).')';
                 }
             }
         }
@@ -242,7 +262,7 @@ class Search extends Solr\Client
         if (!empty($p['template_types'])) {
             $types = Util\toTrimmedArray($p['template_types']);
 
-            $filteredTypes = array();
+            $filteredTypes = [];
             foreach ($types as $tt) {
                 if (preg_match('/^[a-z]+$/i', $tt)) {
                     $filteredTypes[] = $tt;
@@ -260,13 +280,13 @@ class Search extends Solr\Client
         // }
 
         if (!empty($p['dateStart'])) {
-            $range = ':[' .
-                Util\dateMysqlToISO($p['dateStart']) .
-                ' TO ' .
+            $range = ':['.
+                Util\dateMysqlToISO($p['dateStart']).
+                ' TO '.
                 (empty($p['dateEnd'])
                     ? '*'
                     : Util\dateMysqlToISO($p['dateEnd'])
-                ) .
+                ).
                 ']';
             $fq[] = "date$range OR date_end$range";
         }
@@ -275,12 +295,14 @@ class Search extends Solr\Client
     }
 
     /**
-     * get assign security sets to filters
+     * Get assign security sets to filters
      * dont check if 'skipSecurity = true'
      * it's used in Objects fields where we show all nodes
      * without permission filtering
-     * @param  array   &$p
-     * @return varchar
+     *
+     * @param  array &$p
+     *
+     * @return string
      */
     protected function getSecuritySetsParam(&$p)
     {
@@ -298,13 +320,13 @@ class Search extends Solr\Client
             $sets = Security::getSecuritySets(false, 5, $pids);
 
             if (!empty($sets)) {
-                $rez = 'security_set_id:('.implode(' OR ', $sets).') OR oid:' . User::getId();
+                $rez = 'security_set_id:('.implode(' OR ', $sets).') OR oid:'.User::getId();
 
             } else {
-                //for created users that doesnt belong to any group
-                //and dont have any security sets associated
+                // for created users that doesnt belong to any group
+                // and dont have any security sets associated
                 // $rez = '!security_set_id:[* TO *]';
-                $rez = 'oid:' . User::getId();
+                $rez = 'oid:'.User::getId();
             }
 
         }
@@ -313,32 +335,33 @@ class Search extends Solr\Client
     }
 
     /**
-     * get sort param from given params
-     * @param  array   &$p
-     * @return varchar
+     * Get sort param from given params
+     *
+     * @param  array &$p
+     *
+     * @return string
      */
     protected function getSortParam(&$p)
     {
         $rez = 'ntsc asc';
-        $sort = array('ntsc' => 'asc');
+        $sort = ['ntsc' => 'asc'];
 
         if (!empty($p['strictSort'])) {
-            //if strictSort specified in imput params
-            //then set it as is.
-            //We'll probably remove this option in the future
+            // if strictSort specified in imput params then set it as is.
+            // We'll probably remove this option in the future
             $rez = $p['strictSort'];
 
         } else {
-            //sort by order by default
-            $sort = array('order' => 'asc');
+            // sort by order by default
+            $sort = ['order' => 'asc'];
 
             if (isset($p['sort'])) {
-                //clear sorting array if sorting not empty
+                // clear sorting array if sorting not empty
                 if (!empty($p['sort'])) {
-                    $sort = array();
+                    $sort = [];
                 }
 
-                //check if sort is a string (considered a property name)
+                // check if sort is a string (considered a property name)
                 if (!is_array($p['sort'])) {
                     $sort[$p['sort']] = empty($p['dir'])
                         ? 'asc'
@@ -372,23 +395,25 @@ class Search extends Solr\Client
     }
 
     /**
-     * filter a sorting string
-     * @param  varchar $sort
-     * @return varchar
+     * Filter a sorting string
+     *
+     * @param string $sort
+     *
+     * @return string
      */
     protected function filterSortParam($sort)
     {
         $sort = Util\toTrimmedArray($sort);
 
-        $rez = array();
+        $rez = [];
         foreach ($sort as $sf) {
             $a = explode(' ', $sf);
 
-            //skip elements with more than one space
+            // skip elements with more than one space
             if (sizeof($a) == 2) {
-                //skip elements with unknown sorting order string
-                if (in_array($a[1], array('asc', 'desc'))) {
-                    //skip strange field_names
+                // skip elements with unknown sorting order string
+                if (in_array($a[1], ['asc', 'desc'])) {
+                    // skip strange field_names
                     if (preg_match('/^[a-z_0-9]+$/i', $a[0])) {
                         $rez[] = implode(' ', $a);
                     }
@@ -400,13 +425,13 @@ class Search extends Solr\Client
     }
 
     /**
-     * analize facets param and get their filters
      * @param  array &$p
+     *
      * @return array
      */
     private function getFacetFilters(&$p)
     {
-        $rez = array();
+        $rez = [];
         if (!$this->facetsSetManually) {
             foreach ($this->facets as $facet) {
                 $f = $facet->getFilters($p);
@@ -421,22 +446,22 @@ class Search extends Solr\Client
 
     private function getFacetParams(&$p)
     {
-        $rez = array();
+        $rez = [];
 
         if ($this->facetsSetManually) {
-            $copyParams = array(
-                'facet.field'
-                ,'facet.query'
-                ,'facet.range'
-                ,'facet.range.start'
-                ,'facet.range.end'
-                ,'facet.range.gap'
-                ,'facet.sort'
-                ,'facet.missing' //"on" ?
-                ,'json.facet'
+            $copyParams = [
+                'facet.field',
+                'facet.query',
+                'facet.range',
+                'facet.range.start',
+                'facet.range.end',
+                'facet.range.gap',
+                'facet.sort',
+                'facet.missing', //"on" ?
+                'json.facet',
                 // ,'child.facet.field'
-                ,'stats.field'
-            );
+                'stats.field',
+            ];
 
             foreach ($copyParams as $pn) {
                 if (!empty($p[$pn])) {
@@ -448,18 +473,18 @@ class Search extends Solr\Client
             foreach ($this->facets as $facet) {
                 $fp = $facet->getSolrParams();
 
-                $copyParams = array(
-                    'facet.field'
-                    ,'facet.query'
-                    ,'facet.pivot'
-                    ,'json.facet'
+                $copyParams = [
+                    'facet.field',
+                    'facet.query',
+                    'facet.pivot',
+                    'json.facet',
                     // ,'child.facet.field'
-                    ,'stats.field'
-                );
+                    'stats.field',
+                ];
                 foreach ($copyParams as $pn) {
                     if (!empty($fp[$pn])) {
                         if (empty($rez[$pn])) {
-                            $rez[$pn] = array();
+                            $rez[$pn] = [];
                         }
                         $rez[$pn] = array_merge($rez[$pn], $fp[$pn]);
                     }
@@ -483,7 +508,7 @@ class Search extends Solr\Client
     }
 
     /**
-     * analize sort param and replace sort fields if needed
+     * Analyze sort param and replace sort fields if needed
      * @return void
      */
     protected function replaceSortFields()
@@ -505,14 +530,14 @@ class Search extends Solr\Client
     private function executeQuery()
     {
         try {
-            $eventParams = array(
-                'class' => &$this
-                ,'query' => &$this->query
-                ,'start' => &$this->start
-                ,'rows' => &$this->rows
-                ,'params' => &$this->params
-                ,'inputParams' => &$this->inputParams
-            );
+            $eventParams = [
+                'class' => &$this,
+                'query' => &$this->query,
+                'start' => &$this->start,
+                'rows' => &$this->rows,
+                'params' => &$this->params,
+                'inputParams' => &$this->inputParams,
+            ];
 
             /** @var EventDispatcher $dispatcher */
             $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
@@ -520,7 +545,7 @@ class Search extends Solr\Client
 
             $this->replaceSortFields();
 
-            //dont escape query for BlockJoin faceting
+            // don't escape query for BlockJoin faceting
             $query = (substr($this->query, 0, 9) != '{!parent ')
                 ? $this->escapeLuceneChars($this->query)
                 : $this->query;
@@ -550,10 +575,10 @@ class Search extends Solr\Client
 
     private function processResult()
     {
-        $rez = array(
+        $rez = [
             'total' => $this->results->response->numFound,
-            'data' => array()
-        );
+            'data' => [],
+        ];
 
         //add extra params for debugging if is debug host
         // if (IS_DEBUG_HOST) {
@@ -568,22 +593,20 @@ class Search extends Solr\Client
 
         $sr = &$this->results;
 
-        $shortcuts = array();
-        $titleField = 'title_' . Config::get('user_language') . '_t';
+        $shortcuts = [];
+        $titleField = 'title_'.Config::get('user_language').'_t';
 
-        //iterate documents, add resulting record to $rez['data']
-        //and collect shortcut records to be prepared
+        // iterate documents, add resulting record to $rez['data']
+        // and collect shortcut records to be prepared
         foreach ($sr->response->docs as $d) {
-            $rd = array();
+            $rd = [];
             //implode multivalued fields to sting
             foreach ($d as $fn => $fv) {
                 $rd[$fn] = is_array($fv) ? implode(',', $fv) : $fv;
             }
 
             //update name field to language title field if not empty
-            $rd['name'] = empty($rd[$titleField])
-                ? @$rd['name']
-                : $rd[$titleField];
+            $rd['name'] = empty($rd[$titleField]) ? @$rd['name'] : $rd[$titleField];
 
             unset($rd[$titleField]);
 
@@ -596,12 +619,10 @@ class Search extends Solr\Client
             unset($rd);
         }
 
-        //add highlights
+        // add highlights
         if (!empty($sr->highlighting)) {
             foreach ($rez['data'] as &$d) {
-                $id = empty($d['target_id'])
-                    ? $d['id']
-                    : $d['target_id'];
+                $id = empty($d['target_id']) ? $d['id'] : $d['target_id'];
 
                 if (!empty($sr->highlighting->{$id}->{'name'})) {
                     $d['hl'] = $sr->highlighting->{$id}->{'name'}[0];
@@ -618,18 +639,18 @@ class Search extends Solr\Client
 
         $this->setPaths($rez['data']);
 
-        //shold also be added to warmUp ?
+        // should also be added to warmUp ?
         $rez = array_merge($rez, $this->processResultFacets());
 
         if (!empty($this->inputParams['view'])) {
             $rez['view'] = $this->inputParams['view'];
         }
 
-        $eventParams = array(
+        $eventParams = [
             'result' => &$rez,
             'params' => &$this->params,
-            'inputParams' => &$this->inputParams
-        );
+            'inputParams' => &$this->inputParams,
+        ];
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
@@ -640,11 +661,11 @@ class Search extends Solr\Client
 
     private function processResultFacets()
     {
-        $rez = array(
-            'facets' => $this->results->facet_counts
-        );
+        $rez = [
+            'facets' => $this->results->facet_counts,
+        ];
 
-        //assign json facets to 'facet' key
+        // assign json facets to 'facet' key
         if (!empty($this->results->facets)) {
             foreach ($this->results->facets as $k => $v) {
                 $rez['facets']->$k = $v;
@@ -652,18 +673,14 @@ class Search extends Solr\Client
         }
 
         if (!$this->facetsSetManually) {
-            $rez = array();
+            $rez = [];
 
             foreach ($this->facets as $facet) {
                 $facet->loadSolrResult($this->results);
-
                 $fr = $facet->getClientData();
 
                 if (!empty($fr)) {
-                    $idx = empty($fr['index'])
-                        ? 'facets'
-                        : $fr['index'];
-
+                    $idx = empty($fr['index']) ? 'facets' : $fr['index'];
                     $rez[$idx][$fr['f']] = $fr;
                 }
             }
@@ -698,14 +715,14 @@ class Search extends Solr\Client
                 }
                 $ref[$fn] = is_array($fv) ? implode(',', $fv) : $fv;
             }
-            //set element id to original so all actions will be made on shortcut by default
-            //only opening will check if this object data has a target id
+            // set element id to original so all actions will be made on shortcut by default
+            // only opening will check if this object data has a target id
             $ref['id'] = $oldProps['id'];
         }
-    }/**/
+    }
 
     /**
-     * method to collect all node ids needed for rendering of loaded data set
+     * Method to collect all node ids needed for rendering of loaded data set
      *
      * @param array &$result containing recxords in 'data' property
      *
@@ -767,14 +784,15 @@ class Search extends Solr\Client
     }
 
     /**
-     * update path property for an items array
+     * Update path property for an items array
+     *
      * @param array $dataArray
      */
     public static function setPaths(&$dataArray)
     {
-        //collect distinct paths and ids
-        $paths = array();
-        $distinctIds = array();
+        // collect distinct paths and ids
+        $paths = [];
+        $distinctIds = [];
 
         foreach ($dataArray as &$item) {
             if (isset($item['path']) && !isset($paths[$item['path']])) {
@@ -789,7 +807,7 @@ class Search extends Solr\Client
         if (!empty($distinctIds)) {
             $distinctIds = array_unique($distinctIds);
             $objects = Objects::getCachedObjects($distinctIds);
-            $names = array();
+            $names = [];
 
             foreach ($distinctIds as $id) {
                 if (!empty($objects[$id])) {
@@ -797,9 +815,9 @@ class Search extends Solr\Client
                 }
             }
 
-            //replace ids in paths with names
+            // replace ids in paths with names
             foreach ($paths as $path => $elements) {
-                for ($i=0; $i < sizeof($elements); $i++) {
+                for ($i = 0; $i < sizeof($elements); $i++) {
                     if (isset($names[$elements[$i]])) {
                         $elements[$i] = $names[$elements[$i]];
                     }
@@ -809,7 +827,7 @@ class Search extends Solr\Client
                 $paths[$path] = implode('/', $elements);
             }
 
-            //replace paths in objects data
+            // replace paths in objects data
             foreach ($dataArray as &$item) {
                 if (isset($item['path'])) {
                     $item['path'] = @$paths[$item['path']];
@@ -819,16 +837,18 @@ class Search extends Solr\Client
     }
 
     /**
-     * method to get multiple object properties from solr
+     * Method to get multiple object properties from solr
      * Multilanguage plugin works also
      *
      * @param  array | string $ids
-     * @param  string         $fieldList
-     * @return array          associative array of properties per id
+     * @param  string $fieldList
+     *
+     * @return array
+     * @throws \Exception
      */
     public static function getObjects($ids, $fieldList = 'id,name')
     {
-        $rez = array();
+        $rez = [];
         $ids = Util\toNumericArray($ids);
 
         if (!empty($ids)) {
@@ -837,14 +857,14 @@ class Search extends Solr\Client
             //execute search
             try {
                 foreach ($chunks as $chunk) {
-                    $params = array(
-                        'fl' => $fieldList
-                        ,'facet' => false
-                        ,'skipSecurity' => true
-                        ,'fq' => array(
-                            'id:(' . implode(' OR ', $chunk). ')'
-                        )
-                    );
+                    $params = [
+                        'fl' => $fieldList,
+                        'facet' => false,
+                        'skipSecurity' => true,
+                        'fq' => [
+                            'id:('.implode(' OR ', $chunk).')',
+                        ],
+                    ];
 
                     $search = new Search();
                     $sr = $search->query($params);
@@ -856,7 +876,7 @@ class Search extends Solr\Client
                     }
 
                 }
-            } catch ( \Exception $e ) {
+            } catch (\Exception $e) {
                 throw new \Exception("An error occured in getObjects: \n\n {$e->__toString()}");
             }
         }

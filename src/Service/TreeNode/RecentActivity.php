@@ -157,7 +157,7 @@ class RecentActivity extends Base
     /**
      * get param for this node
      *
-     * @param  varchar $param for now using to get 'facets' or 'DC'
+     * @param string $param for now using to get 'facets' or 'DC'
      * @return array
      */
     public function getNodeParam($param = 'facets')

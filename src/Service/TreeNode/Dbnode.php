@@ -111,7 +111,7 @@ class Dbnode extends Base
     /**
      * get create menu for current node
      * @param  array   $rp request params
-     * @return varchar menu config string
+     * @return string menu config string
      */
     public function getCreateMenu(&$rp)
     {
@@ -121,7 +121,7 @@ class Dbnode extends Base
     /**
      * get param for this node
      *
-     * @param  varchar $param for now using to get 'facets' or 'DC'
+     * @param string $param for now using to get 'facets' or 'DC'
      * @return array
      */
     public function getNodeParam($param = 'facets')

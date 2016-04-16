@@ -65,7 +65,7 @@ class SearchResults extends Dbnode
     /**
      * get create menu for current node
      * @param  array   $rp request params
-     * @return varchar menu config string
+     * @return string menu config string
      */
     public function getCreateMenu(&$rp)
     {

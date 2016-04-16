@@ -82,8 +82,8 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * the the formated id (with plugin guid prefix) for a given node id
-     * @param  varchar $id
-     * @return varchar
+     * @param string $id
+     * @return string
      */
     public function getId($id = null)
     {
@@ -100,7 +100,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
     /**
      * get the name for a given node id
      * @param  variant $id
-     * @return varchar
+     * @return string
      */
     public function getName($id = false)
     {
@@ -474,7 +474,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
     /**
      * get create menu for current node
      * @param  array   $rp request params
-     * @return varchar menu config string
+     * @return string menu config string
      */
     public function getCreateMenu(&$rp)
     {
@@ -501,7 +501,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
     /**
      * Get param for current node(considered last node in active path)
      *
-     * @param  varchar $param for now using to get 'facets' or 'DC'
+     * @param string $param for now using to get 'facets' or 'DC'
      * @return array
      */
     public function getNodeParam($param = 'facets')
@@ -582,7 +582,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
      *
      * Generally this method should work as getNodeParam but for
      * descendant class Dbnode this method should avoid checking templates config
-     * @param  varchar $param same as for getNodeParam
+     * @param string $param same as for getNodeParam
      * @return variant
      */
     public function getParentNodeParam($param = 'facets')
