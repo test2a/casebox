@@ -61,6 +61,7 @@ Ext.define('CB.object.field.editor.Form', {
                 ,this.title
             );
         }
+        this.showSelectionButton = new Ext.button.Button(this.actions.showSelection);
 
         this.gridView = new CB.browser.view.Grid({
             border: false
@@ -147,7 +148,7 @@ Ext.define('CB.object.field.editor.Form', {
                 ,change: this.onChange
             }
             ,buttons:[
-                ,this.actions.showSelection
+                ,this.showSelectionButton
                 ,this.actions.sortValue
                 ,'->'
                 ,{
@@ -221,21 +222,22 @@ Ext.define('CB.object.field.editor.Form', {
 
                     ,listeners: {
                         scope: this
-                        ,beforeload: function(store, o ){
+                        ,beforeload: function(store, o){
                             if(this.data){
                                 if(!Ext.isEmpty(this.data.fieldRecord)) {
                                     store.proxy.extraParams.fieldId = this.data.fieldRecord.get('id');
                                 }
-                                if(!Ext.isEmpty(this.data.objectId)) {
-                                    store.proxy.extraParams.objectId = this.data.objectId;
-                                }
-                                if(!Ext.isEmpty(this.data.pidValue)) {
-                                    store.proxy.extraParams.pidValue = this.data.pidValue;
-                                }
-                                if(!Ext.isEmpty(this.data.path)) {
-                                    store.proxy.extraParams.path = this.data.path;
-                                }
-                                store.proxy.extraParams.objFields = this.data.objFields;
+                                Ext.copyTo(
+                                    store.proxy.extraParams
+                                    ,this.data
+                                    ,[
+                                        'objectId'
+                                        ,'pidValue'
+                                        ,'path'
+                                        ,'objFields'
+                                        ,'duplicationIndexes'
+                                    ]
+                                );
                             }
                         }
                         ,load:  function(store, recs, options) {
@@ -366,6 +368,7 @@ Ext.define('CB.object.field.editor.Form', {
             this.gridReloadTask = new Ext.util.DelayedTask(this.doReloadGrid, this);
         }
         this.gridReloadTask.delay(500);
+        this.showSelectionButton.setPressed(false);
     }
 
     ,doReloadGrid: function(params){

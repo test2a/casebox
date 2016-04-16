@@ -38,7 +38,7 @@ ExtJS3
 
 
 
-body { font-family: arial,sans-serif; font-size: 12px }
+body, .x-grid-rowbody { font-family: arial,sans-serif; font-size: 12px }
 select { font-family: arial,sans-serif; font-size: 13px }
 
 
@@ -1018,4 +1018,18 @@ border-top: 0;
 
 .comment-input textarea {
   overflow: hidden
+}
+
+.limited-list .more { display: none }
+.list-expanded .limited-list .more { display: block;}
+.list-expanded .limited-list tr.more { display: table-row;}
+.list-expanded .limited-list .toggle {display: none;}
+
+.remaining-chars-hint{
+  color: #FF0000;
+}
+.remaining-chars-hint .x-form-item-label-inner {
+  text-transform: none;
+  font-weight: normal;
+  padding: 3px 5px;
 }

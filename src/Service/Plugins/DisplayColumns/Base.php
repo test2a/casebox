@@ -208,13 +208,15 @@ class Base
                     $values = array();
 
                     if (!empty($col['solr_column_name'])) {
-                        if (isset($doc[$col['solr_column_name']]) &&
-                            ($col['solr_column_name'] !== $col['fieldName'])
-                        ) {
-                            $v = $doc[$col['solr_column_name']];
-                            $doc[$col['fieldName']] = $v;
-                            unset($doc[$col['solr_column_name']]);
-                            $values = array($v);
+                        if (isset($doc[$col['solr_column_name']])) {
+                             $values[] = $doc[$col['solr_column_name']];
+
+                            if ($col['solr_column_name'] !== $col['fieldName']) {
+                                $v = $doc[$col['solr_column_name']];
+                                $doc[$col['fieldName']] = $v;
+                                unset($doc[$col['solr_column_name']]);
+                                $values = array($v);
+                            }
                         }
 
                         if (empty($templateField)) {
@@ -245,6 +247,16 @@ class Base
                         switch ($templateField['type']) {
                             case 'date':
                             case 'datetime':
+                                //set to users date format if not set
+                                if (empty($col['format'])) {
+                                    $col['format'] = \CB\User::getUserConfigParam('short_date_format');
+                                    // add time if needed
+                                    if ($templateField['type'] == 'datetime') {
+                                        $col['format'] .= ' ' . \CB\User::getUserConfigParam('time_format');
+                                    }
+                                }
+
+                                $col['type'] = 'date';
                                 $col['sortType'] = 'asDate';
                                 break;
 
@@ -271,8 +283,14 @@ class Base
                     }
 
                     //update value from document if empty from solr query
-                    if (empty($doc[$fieldName]) ||
-                        // temporary check, this should be reanalised
+                    if (in_array($templateField['type'], array('date', 'datetime')) && !empty($values)) {
+                        $value = array_shift($values);
+                        $doc[$fieldName] = is_array($value)
+                                ? @$value['value']
+                                : $value;
+
+                    } elseif (empty($doc[$fieldName]) ||
+                        // temporary check, this should be reanalized
                         in_array($templateField['type'], array('_objects', 'time'))
                     ) {
                         $dv = array();

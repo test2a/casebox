@@ -19,7 +19,9 @@ class Comments extends Base
      */
     public function getData($id = false)
     {
-        return $this->loadMore(array('id' => $id));
+        return $this->isVisible()
+            ? $this->loadMore(array('id' => $id))
+            : null;
     }
 
     /**
@@ -34,7 +36,8 @@ class Comments extends Base
             ,'data' => array()
         );
 
-        if (empty(parent::getData($p['id']))) {
+        $prez = parent::getData($p['id']);
+        if (empty($prez)) {
             return $rez;
         }
 
@@ -196,11 +199,13 @@ class Comments extends Base
 
     /**
      * get link to a file to be displayed in comments
-     * @param  array   $file
+     * @param  array  $file
      * @return string
      */
     protected static function getFileLink($file)
     {
+        $rez = '';
+
         if (substr($file['type'], 0, 5) == 'image') {
             $rez = '<a class="click obj-ref" itemid="' . $file['id'] .
                     '" templateid= "' . $file['template_id'] .

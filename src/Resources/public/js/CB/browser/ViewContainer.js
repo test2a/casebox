@@ -342,7 +342,7 @@ Ext.define('CB.browser.ViewContainer', {
             ,width: 250
 
             ,split: {
-                size: 2
+                size: 3
                 ,collapsible: false
                 ,style: 'background-color: #dfe8f6'
             }
@@ -668,6 +668,7 @@ Ext.define('CB.browser.ViewContainer', {
         delete this.params.view;
         delete this.params.start;
         delete this.params.page;
+        delete this.params.from;
 
         this.onSetToolbarItems(null);
 
@@ -697,6 +698,36 @@ Ext.define('CB.browser.ViewContainer', {
 
     ,getActiveView: function() {
         return this.cardContainer.getLayout().activeItem;
+    }
+
+    /**
+     * set available views
+     * @param array viewIds
+     *
+     * @return void
+     */
+    ,setAvailableViews: function(viewIds) {
+        if (Ext.isEmpty(viewIds) || !Ext.isArray(viewIds)) {
+            viewIds = ['grid', 'charts', 'pivot', 'activityStream'];
+        }
+
+        for (var i = 0; i < viewIds.length; i++) {
+            viewIds[i] = 'CBBrowserView' + Ext.util.Format.capitalize(viewIds[i]);
+        }
+
+        var b = this.buttonCollection.get('apps');
+        b.menu.items.each(
+            function(i, idx, count) {
+                if (i.viewIndex !== undefined) {
+                    i.setVisible(
+                        viewIds.indexOf(
+                            this.cardContainer.items.getAt(i.viewIndex).getXType()
+                        ) > -1
+                    );
+                }
+            }
+            ,this
+        );
     }
 
     /**
@@ -782,6 +813,8 @@ Ext.define('CB.browser.ViewContainer', {
         }
 
         this.descendantsCheckItem.setChecked(ep.descendants === true, true);
+
+        this.setAvailableViews(result.availableViews);
 
         /* change view if set in params */
         if(!this.userViewSet) {

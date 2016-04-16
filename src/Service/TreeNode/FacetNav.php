@@ -114,28 +114,74 @@ class FacetNav extends Query
             ? array()
             : $this->config['fq'];
 
-        $fq = array_merge(
-            $fq,
-            $this->getParentNodeFilters()
-        );
-
-        $this->replaceFilterVars($fq);
-
         $s = new \Casebox\CoreBundle\Service\Search();
-        $sr = $s->query(
-            array(
-                'rows' => 0
-                ,'fq' => $fq
-                ,'facet' => true
-                ,'facet.field' => array(
-                    '{!ex=' . $facetField . ' key=' . $facetName . '}' . $facetField
-                )
-            )
-        );
 
-        if (!empty($sr['facets']->facet_fields->{$facetName})) {
+        if (empty($cffc['child'])) {
+            $fq = array_merge(
+                $fq,
+                $this->getParentNodeFilters()
+            );
+
+            $this->replaceFilterVars($fq);
+
+            $sr = $s->query(
+                array(
+                    'rows' => 0
+                    ,'fq' => $fq
+                    ,'facet' => true
+                    ,'facet.field' => array(
+                        '{!ex=' . $facetField . ' key=' . $facetName . '}' . $facetField
+                    )
+                )
+            );
+        } else { //BlockJoin query
+            $query = '{!parent which=child:false}child:true';
+
+            $parentFilters = $this->getParentNodeFilters();
+
+            if (!empty($parentFilters)) {
+                $query .= ' ' . implode(' ', $parentFilters);
+            }
+
+            $domain = empty($cffc['domain'])
+                ? ['blockParent' => 'child:false']
+                : $cffc['domain'];
+
+            $sr = $s->query(
+                [
+                    'query' => $query,
+                    'fq' => $fq,
+                    'rows' => 0,
+                    'facet' => true,
+                    'json.facet' => [
+                        $facetName => [
+                            'type' => 'terms',
+                            'field' => $facetField,
+                            'domain' => $domain
+                        ]
+                    ]
+                ]
+            );
+
+            // $sr = $s->query(
+            //     array(
+            //         'query' => $query
+            //         ,'rows' => 0
+            //         ,'facet' => true
+            //         ,'child.facet.field' => $facetField
+            //     ),
+            //     'bjf'
+            // );
+            // //block join is experimental and doesnt support aliasing
+            // //for child.facet.field
+            // $facetName = $facetField;
+        }
+
+        if (!empty($sr['facets']->facet_fields->{$facetName}) ||
+            !empty($sr['facets']->{$facetName})
+        ) {
             $facetClass = Facets::getFacetObject($cffc);
-            $facetClass->loadSolrResult($sr['facets']);
+            $facetClass->loadSolrResult((object) $sr);
             $facetData = $facetClass->getClientData();
             $showChilds = (!$isLastFacetField || !empty($this->config['show_in_tree']));
 
@@ -185,6 +231,10 @@ class FacetNav extends Query
         $p['fq'] = array_merge($fq, $this->getParentNodeFilters());
 
         $this->replaceFilterVars($p['fq']);
+
+        if (!empty($this->requestParams['view']['child'])) {
+            $p['child'] = true;
+        }
 
         $s = new \Casebox\CoreBundle\Service\Search();
 

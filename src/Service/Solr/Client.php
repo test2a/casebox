@@ -81,6 +81,10 @@ class Client extends Service
             $r['path'] = implode('/', $r['pids']);
         }
 
+        if (!isset($r['content'])) {
+            $r['content'] = null;
+        }
+
         // Fill "ym" fields for date faceting by cdate, date, date_end
         $ym1 = str_replace('-', '', substr($r['cdate'], 2, 5));
         $ym2 = str_replace('-', '', substr($r['date'], 2, 5));
@@ -102,21 +106,9 @@ class Client extends Service
             $r['ym3'] = $ym3;
         }
 
-        $r['content'] = $r['name']."\n";
-
         if (!empty($r['sys_data']['solr'])) {
             foreach ($r['sys_data']['solr'] as $k => $v) {
                 $r[$k] = $v;
-
-                // Add string values to content field
-                if (is_string($v)) {
-                    $r['content'] .= (in_array($k, ['date_start', 'date_end', 'dates']) ? substr($v, 0, 10) : $v)."\n";
-                }
-            }
-
-            // Override content field if set in sys_data['solr']
-            if (!empty($r['sys_data']['solr']['content'])) {
-                $r['content'] = $r['sys_data']['solr']['content'];
             }
         }
 
@@ -245,11 +237,13 @@ class Client extends Service
         $indexedDocsCount = 0;
         $all = !empty($p['all']);
         $nolimit = !empty($p['nolimit']);
+        $this->deleteNestedDocs = true;
 
         // Prepare where condition for sql depending on incomming params
         $where = '(t.updated > 0) AND (t.draft = 0) AND (t.id > $1)';
 
         if ($all) {
+            $this->deleteNestedDocs = false;
             $this->deleteByQuery('*:*');
             $where = '(t.id > $1) AND (t.draft = 0) ';
 
@@ -260,8 +254,8 @@ class Client extends Service
             $where = '(t.id in (0'.implode(',', $ids).')) and (t.id > $1)';
         }
 
-        $sql = 'SELECT
-                t.id,
+        $sql = 'SELECT t.id,
+                t.id doc_id,
                 t.pid,
                 ti.pids,
                 ti.case_id,
@@ -320,6 +314,8 @@ class Client extends Service
                 // Append file contents for files to content field
                 $this->appendFileContents($docs);
 
+                $this->deleteByQuery('id:(' . implode(' OR ', array_keys($docs)) . ')');
+
                 $this->addDocuments($docs);
 
                 $this->commit();
@@ -367,13 +363,13 @@ class Client extends Service
 
         $dbs = Cache::get('casebox_dbs');
 
-        $sql = 'SELECT
-                    ti.id,
-                    ti.pids,
-                    ti.case_id,
-                    ti.acl_count,
-                    ti.security_set_id,
-                    t.name `case`
+        $sql = 'SELECT ti.id
+                    ,ti.id doc_id
+                    ,ti.pids
+                    ,ti.case_id
+                    ,ti.acl_count
+                    ,ti.security_set_id
+                    ,t.name `case`
             FROM tree_info ti
             LEFT JOIN tree t
                 ON ti.case_id = t.id

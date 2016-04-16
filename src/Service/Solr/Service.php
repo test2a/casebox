@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Solr;
 
 use Casebox\CoreBundle\Event\BeforeNodeSolrUpdateEvent;
@@ -66,7 +65,7 @@ class Service
      */
     public function __construct($p = [])
     {
-        if (empty($p)) { 
+        if (empty($p)) {
             // Get params from config
             $this->schema = Config::get('solr_schema', 'http');
             $this->host = Config::get('solr_host', '127.0.0.1');
@@ -112,7 +111,13 @@ class Service
 
         if (empty($this->solr_handler)) {
             $layer = new \Apache_Solr_Compatibility_Solr4CompatibilityLayer;
-            $this->solr_handler = new \Apache_Solr_Service($this->host, $this->port, $this->core, false, $layer);
+            $this->solr_handler = new ServiceHandler(
+                $this->host,
+                $this->port,
+                $this->core,
+                false,
+                $layer
+            );
 
             if (!empty($this->username) && !empty($this->password)) {
                 $this->solr_handler->setAuthenticationCredentials($this->username, $this->password);
@@ -169,17 +174,14 @@ class Service
     /**
      * Add or update a single document into solr
      *
-     * @param  array $d array of document properties
+     * @param array $d array of document properties
      *
      * @return bool
      * @throws \Exception
      */
     public function addDocument($d)
     {
-        $doc = new \Apache_Solr_Document();
-        foreach ($d as $fn => $fv) {
-            $doc->$fn = $fv;
-        }
+        $doc = $this->arrayToSolrDocument($d);
 
         try {
             /** @var EventDispatcher $dispatcher */
@@ -241,10 +243,8 @@ class Service
 
         foreach ($docs as $in_doc) {
             if (empty($in_doc['update'])) {
-                $doc = new \Apache_Solr_Document();
-                foreach ($in_doc as $fn => $fv) {
-                    $doc->$fn = $fv;
-                }
+                $doc = $this->arrayToSolrDocument($in_doc);
+
                 $dispatcher->dispatch('beforeNodeSolrUpdate', new BeforeNodeSolrUpdateEvent($doc));
 
                 $addDocs[] = $doc;
@@ -290,9 +290,9 @@ class Service
 
     /**
      * @param string $query
-     * @param int $start
-     * @param int $rows
-     * @param array $params
+     * @param int    $start
+     * @param int    $rows
+     * @param array  $params
      *
      * @return \Apache_Solr_Response
      * @throws \Apache_Solr_InvalidArgumentException
@@ -358,5 +358,49 @@ class Service
     private function debugInfo()
     {
         return "\n".' ('.$this->host.':'.$this->port.' -> '.$this->core.' )';
+    }
+
+    /**
+     * convert an array to solr document class
+     * @param  array                $arr
+     * @return Apache_Solr_Document
+     *
+     */
+    protected function arrayToSolrDocument($arr)
+    {
+        $rez = new \Apache_Solr_Document();
+        $children = empty($arr['_childDocuments_'])
+            ? []
+            : $arr['_childDocuments_'];
+        unset($arr['_childDocuments_']);
+
+        foreach ($arr as $fn => $fv) {
+            $rez->$fn = $fv;
+        }
+
+        if (!empty($children)) {
+            //detect parent only values
+            $nonChildValues = $arr;
+            $childFields = [];
+            foreach ($children as $d) {
+                $childFields = array_merge($childFields, array_keys($d));
+            }
+            $childFields = array_unique($childFields);
+            foreach ($childFields as $fn) {
+                unset($nonChildValues[$fn]);
+            }
+
+            $childDocs = [];
+            foreach ($children as $d) {
+                $childDocs[] = $this->arrayToSolrDocument(
+                    //merge parent properties to children
+                    array_merge($nonChildValues, $d)
+                    // $d
+                );
+            }
+            $rez->_childDocuments_ = $childDocs;
+        }
+
+        return $rez;
     }
 }

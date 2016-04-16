@@ -122,15 +122,29 @@ class Template extends Object
         }
 
         /* loading template fields */
-        $this->data['fields'] = array();
-        $this->data['fieldsByIndex'] = array();
-        $this->fieldsOrder = array();
+        $this->data['fields'] = [];
+        $this->data['headers'] = [];
+        $this->fieldsOrder = [];
+
+        $headerField = false;
+        $prevLevel = 0;
 
         $recs = DM\TemplatesStructure::getFields($this->id);
 
         foreach ($recs as &$r) {
+            if ($prevLevel != $r['level']) {
+                unset($headerField);
+                $headerField = &$r;
+                $prevLevel = $r['level'];
+            }
+
+            if ($r['type'] == 'H') {
+                unset($headerField);
+                $headerField = &$r;
+            }
+
+            $this->data['headers'][$r['name']] = &$headerField;
             $this->data['fields'][$r['id']] = &$r;
-            $this->data['fieldsByIndex'][] = &$r;
 
             $this->fieldsOrder[$r['name']] = intval($r['order']);
             unset($r);
@@ -264,45 +278,14 @@ class Template extends Object
     }
 
     /**
-     * get header field properties
-     * @param  int | varchar $field field id or name
-     * @return array
-     */
-    public function getHeaderField($field)
-    {
-        $rez = null;
-        $field = $this->getField($field);
-        if (empty($field)) {
-            return $rez;
-        }
-
-        $rez = $this->getField($field['pid']);
-        if (!empty($rez) && ($rez['type'] == 'H')) {
-            return $rez;
-        }
-
-        // get closest top header
-        $rez = null;
-        foreach ($this->data['fieldsByIndex'] as $fv) {
-            if (($fv['id'] == $field['id'])) {
-                return $rez;
-            }
-            if (($fv['pid'] == $field['pid']) && ($fv['type'] == 'H')) {
-                $rez = $fv;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * formats a value for display according to it's field definition
-     * @param  array | int $field array of field properties or field id
-     * @param  variant     $value field value to be formated
-     * @param  boolean     $html  default true - format for html, otherwise format for text display
+     * @param  array | int $field    array of field properties or field id
+     * @param  variant     $value    field value to be formated
+     * @param  boolean     $html     default true - format for html, otherwise format for text display
+     * @param  boolean     $showInfo add info if not empty to the end of returned result
      * @return varchar     formated value
      */
-    public static function formatValueForDisplay($field, $value, $html = true)
+    public static function formatValueForDisplay($field, $value, $html = true, $showInfo = false)
     {
         $cacheVarName = '';
 
@@ -312,9 +295,14 @@ class Template extends Object
 
         //condition is specified for values from search templates
         $condition = null;
+        $info = null;
         if (is_array($value)) {
             if (isset($value['cond'])) {
                 $condition = Template::formatConditionForDisplay($field, $value['cond'], $html).' ';
+            }
+
+            if (!empty($value['info'])) {
+                $info = $value['info'];
             }
 
             if (isset($value['value'])) {
@@ -330,7 +318,7 @@ class Template extends Object
         if ($cacheValue) {
             $fid = empty($field['id']) ? $field['name'] : $field['id'];
 
-            $cacheVarName = 'dv' . $html . '_'. $fid . '_' . $value;
+            $cacheVarName = 'dv' . $html . '_' . $showInfo . '_'. $fid . '_' . $value;
 
             //check if value is in cache and return
             if (Cache::exist($cacheVarName)) {
@@ -561,6 +549,10 @@ class Template extends Object
                         $value = htmlspecialchars($value, ENT_COMPAT);
                     }
             }
+        }
+
+        if ($showInfo) {
+            $value .= ' &nbsp; <span style="color: gray">' . Util\adjustTextForDisplay($info) . '</span>';
         }
 
         if ($cacheValue) {

@@ -117,6 +117,7 @@ return array(
 
             ,'//js/CB/plugin/CustomInterface.js'
             ,'//js/CB/plugin/field/DropDownList.js'
+            ,'//js/CB/plugin/field/RemainingCharsHint.js'
             ,'//js/ux/Ext.ux.htmlEditor.js'
             ,'//js/ux/Ext.ux.plugins.defaultButton.js'
             // ,'//js/ux/Ext.ux.plugins.IconCombo.js'
@@ -172,12 +173,14 @@ return array(
             ,'//js/CB/object/plugin/Comments.js'
             ,'//js/CB/object/plugin/ContentItems.js'
             ,'//js/CB/object/plugin/Files.js'
+            ,'//js/CB/object/plugin/Html.js'
             ,'//js/CB/object/plugin/ObjectProperties.js'
             ,'//js/CB/object/plugin/SystemProperties.js'
             ,'//js/CB/object/plugin/Meta.js'
             ,'//js/CB/object/plugin/Tasks.js'
             ,'//js/CB/object/plugin/Versions.js'
             ,'//js/CB/object/plugin/CurrentVersion.js'
+            ,'//js/CB/object/plugin/TimeTracking.js'
             ,'//js/CB/file/edit/Window.js'
             ,'//js/CB/CB.WebdavWindow.js'
 
@@ -226,6 +229,8 @@ return array(
 
             // ,'//js/overrides/direct/JsonProvider.js'
             ,'//js/overrides/data/Store.js'
+
+            ,'//js/overrides/form/field/Text.js'
 
             ,'//js/overrides/grid/plugin/CellEditing.js'
             ,'//js/overrides/grid/CellEditor.js'

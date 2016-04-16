@@ -2,37 +2,27 @@
 
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Util;
+use Casebox\CoreBundle\Service\Objects;
 
 class ContentItems extends Base
 {
 
     public function getData($id = false)
     {
-        $rez = array(
-            'success' => true
-        );
+        if (!$this->isVisible()) {
+            return null;
+        }
 
-        if (empty(parent::getData($id))) {
+        $rez = parent::getData($id);
+        $rez['data'] = [];
+
+        if (empty($this->id)) {
             return $rez;
         }
 
-        $params = array(
-            'pid' => $this->id
-            ,'fq' => array(
-                '(template_type:object) OR (target_type:object)'
-            )
-            ,'fl' => 'id,pid,name,template_id,cdate,cid'
-            ,'sort' => 'cdate'
-            ,'dir' => 'desc'
-        );
-
-        $folderTemplates = Config::get('folder_templates');
-        if (!empty($folderTemplates)) {
-            $params['fq'][] = '!template_id:('.implode(' OR ', Util\toNumericArray($folderTemplates)).')';
-        }
+        $params = $this->getSolrParams();
 
         $s = new \Casebox\CoreBundle\Service\Search();
         $sr = $s->query($params);
@@ -40,6 +30,62 @@ class ContentItems extends Base
             $d['ago_text'] = Util\formatAgoTime($d['cdate']);
             $d['user'] = @User::getDisplayName($d['cid']);
             $rez['data'][] = $d;
+        }
+
+        //send additional config params
+        $config = $this->config;
+        if (isset($config['limit'])) {
+            $rez['limit'] = $config['limit'];
+        }
+
+        return $rez;
+    }
+
+    protected function getSolrParams()
+    {
+        $rez = [
+            'fl' => 'id,pid,name,template_id,cdate,cid'
+            ,'sort' => 'cdate desc'
+        ];
+
+        $config = $this->config;
+
+        if (!empty($config['fn'])) {
+            $ids = $this->getFunctionResult($config['fn']);
+            if (!empty($ids)) {
+                $rez['fq'] = 'id:(' . implode(' OR ', $ids) . ')';
+            }
+
+        } elseif (isset($config['fq'])) {
+            $fq = str_replace('$id', $this->id, $config['fq']);
+            $matches = [];
+            preg_match_all('/\$([\w]+)/', $fq, $matches);
+            if (!empty($matches[1])) {
+                $obj = Objects::getCachedObject($this->id);
+                foreach ($matches[1] as $fn) {
+                    $v = @$obj->getFieldValue($fn, 0)['value'];
+                    if (empty($v)) {
+                        $v = 0;
+                    }
+                    $fq = str_replace('$' . $fn, $v, $fq);
+                }
+            }
+
+            $rez['fq'] = $fq;
+
+        } else {//if config is empty - use old behavior
+            $rez['pid'] = $this->id;
+            $rez['fq'] = ['(template_type:object) OR (target_type:object)'];
+
+            $folderTemplates = \CB\Config::get('folder_templates');
+            if (!empty($folderTemplates)) {
+                $rez['fq'][] = '!template_id:(' .
+                    implode(' OR ', Util\toNumericArray($folderTemplates)) . ')';
+            }
+        }
+
+        if (!empty($config['sort'])) {
+            $rez['sort'] = $config['sort'];
         }
 
         return $rez;

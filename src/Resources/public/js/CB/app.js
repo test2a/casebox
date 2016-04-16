@@ -704,6 +704,7 @@ function initApp() {
                     : 'CBObjectEditWindow'
                 )
                 ,data: config
+                ,modal: Ext.valueFrom(config.modal, false)
             };
 
         wndCfg.id = 'oew-' +
@@ -726,8 +727,13 @@ function initApp() {
                 if(config.name && (detectFileEditor(config.name) !== false)) {
                     w.maximize();
                 }
-            } else if(!w.existing) {
-                App.alignWindowNext(w);
+            } else {
+                if(config.alignWindowTo) {
+                    App.alignWindowToCoords(w, config.alignWindowTo);
+
+                } else if(!w.existing) {
+                    App.alignWindowNext(w);
+                }
             }
 
             delete w.existing;
@@ -784,6 +790,37 @@ function initApp() {
         w.setXY(pos);
     };
 
+    App.alignWindowToCoords = function (win, coords) {
+        var vpEl = App.mainViewPort.getEl();
+        win.alignTo(vpEl, 'br-br?');
+
+        //get anchored position
+        var pos = win.getXY()
+            ,w = win.getWidth()
+            ,h = win.getHeight();
+
+        //move above status bar and a bit from right side
+        pos[0] -= 15;
+        pos[1] -= 5;
+
+        //position to center and below of given coords
+        var x = pos[0];
+
+        pos[0] = coords[0] - w / 2;
+        pos[1] = coords[1] + 10;
+
+        // check if window didnt go outside of viewport
+        if (pos[0] + w > vpEl.getWidth()) {
+            pos[0] = vpEl.getWidth() - w - 10;
+        }
+
+        if (pos[1] + h > vpEl.getHeight()) {
+            pos[1] = vpEl.getHeight() - h - 20;
+        }
+
+        win.setXY(pos);
+    };
+
     App.isFolder = function(template_id){
         return (App.config.folder_templates.indexOf( String(template_id) ) >= 0);
     };
@@ -834,7 +871,7 @@ function initApp() {
             zipped = false;
         }
 
-        var url = '/c/' + App.config.coreName + '/download/' + fileId;
+        var url = '/' + App.config.coreName + '/download/' + fileId;
 
         if(!Ext.isEmpty(versionId)) {
             url += '&v='+versionId;
@@ -852,11 +889,13 @@ function initApp() {
             //enable key events by default
             enableKeyEvents: true
         };
+
         var objData = {
             ownerCt: e.ownerCt
             ,record: e.record
             ,fieldRecord: e.fieldRecord
             ,objFields: e.objFields
+            ,duplicationIndexes: e.duplicationIndexes
             ,grid: e.grid
             ,pidValue: e.pidValue
             ,objectId: e.objectId
@@ -875,6 +914,14 @@ function initApp() {
                 )
                 : null
             );
+
+        var expandHandler = function(cmp) {
+                if (cmp && cmp.expand) {
+                    cmp.expand();
+                }
+            },
+            autoExpand = {'afterrender': expandHandler};
+
         switch(type){
             case '_objects':
                 //e should contain all necessary info
@@ -909,6 +956,9 @@ function initApp() {
                                             this.grid.onAfterEditProperty(editor, this);
                                         } else {
                                             this.grid.fireEvent('change', this);
+                                        }
+                                        if(this.grid.gainFocus) {
+                                            this.grid.gainFocus();
                                         }
                                     }
 
@@ -1008,6 +1058,7 @@ function initApp() {
                         return new CB.ObjectsComboField({
                             enableKeyEvents: true
                             ,data: objData
+                            ,listeners: autoExpand
                         });
                 }
 
@@ -1035,6 +1086,7 @@ function initApp() {
                     ,store: CB.DB.timeUnits
                     ,displayField: 'name'
                     ,valueField: 'id'
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1049,6 +1101,7 @@ function initApp() {
                     ,store: CB.DB.importance
                     ,displayField: 'name'
                     ,valueField: 'id'
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1057,6 +1110,7 @@ function initApp() {
                     enableKeyEvents: true
                     ,format: App.dateFormat
                     ,width: 100
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1065,6 +1119,7 @@ function initApp() {
                     enableKeyEvents: true
                     ,format: App.dateFormat+' ' + App.timeFormat
                     ,width: 130
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1072,6 +1127,7 @@ function initApp() {
                 rez = new Ext.form.field.Time({
                     enableKeyEvents: true
                     ,format: App.timeFormat
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1100,6 +1156,7 @@ function initApp() {
                 if(th === 'dependent'){
                     th = e.pidValue;
                 }
+
                 rez = new Ext.form.ComboBox({
                     enableKeyEvents: true
                     ,forceSelection: true
@@ -1110,6 +1167,7 @@ function initApp() {
                     ,store: getThesauriStore(th)
                     ,displayField: 'name'
                     ,valueField: 'id'
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1129,6 +1187,7 @@ function initApp() {
                     ,displayField: 'name'
                     ,valueField: 'id'
                     ,iconClsField: 'name'
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1143,6 +1202,7 @@ function initApp() {
                     ,store: CB.DB.languages
                     ,displayField: 'name'
                     ,valueField: 'id'
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1157,6 +1217,7 @@ function initApp() {
                     ,store: CB.DB.sex
                     ,displayField: 'name'
                     ,valueField: 'id'
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1171,6 +1232,7 @@ function initApp() {
                     ,store: CB.DB.templateTypes
                     ,displayField: 'name'
                     ,valueField: 'id'
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1186,6 +1248,7 @@ function initApp() {
                     ,store: CB.DB.fieldTypes
                     ,displayField: 'name'
                     ,valueField: 'id'
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1200,6 +1263,7 @@ function initApp() {
                     ,store: CB.DB.shortDateFormats
                     ,displayField: 'name'
                     ,valueField: 'id'
+                    ,listeners: autoExpand
                 });
                 break;
 
@@ -1219,11 +1283,21 @@ function initApp() {
                 var edConfig = {
                     enableKeyEvents: true
                     ,height: height
+                    ,plugins: []
                 };
+
+                if (cfg.maxLength) {
+                    edConfig.maxLength = cfg.maxLength;
+                    edConfig.enforceMaxLength = true;
+                    edConfig.plugins.push({
+                        ptype: 'CBPluginFieldRemainingCharsHint'
+                    });
+                }
+
                 if(cfg.mentionUsers) {
-                    edConfig.plugins = [{
+                    edConfig.plugins.push({
                         ptype: 'CBPluginFieldDropDownList'
-                    }];
+                    });
 
                 }
 

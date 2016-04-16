@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Objects;
@@ -10,10 +9,11 @@ class ObjectProperties extends Base
 {
     public function getData($id = false)
     {
-        $rez = array(
-            'success' => true
-        );
-        parent::getData($id);
+        $rez = parent::getData($id);
+
+        if (empty($rez)) {
+            return null;
+        }
 
         $preview = Objects::getPreview($this->id);
         $obj = Objects::getCachedObject($this->id);

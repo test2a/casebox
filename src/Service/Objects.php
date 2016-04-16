@@ -77,9 +77,9 @@ class Objects
         $arr = [&$resultData];
 
         $pids = explode(',', $resultData['pids']);
-        
+
         array_pop($pids);
-        
+
         $resultData['pids'] = $resultData['path'] = implode('/', $pids);
 
         Search::setPaths($arr);
@@ -97,19 +97,24 @@ class Objects
         // Set type property from template
         $resultData['type'] = $templateData['type'];
 
-        return [
+        $rez = [
             'success' => true,
             'data' => $resultData,
             'menu' => Browser\CreateMenu::getMenuForPath($p['id']),
         ];
+
+        $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
+        $dispatcher->dispatch('onLoad', $rez);
+
+        return $rez;
     }
 
     /**
      * Create an object
      *
-     * @param  array $p params
+     * @param array $p params
      *
-     * @return array response
+     * @return array      response
      * @throws \Exception
      */
     public function create($p)
@@ -187,7 +192,7 @@ class Objects
         Objects::updateCaseUpdateInfo($d['id']);
 
         // Updating saved document into solr directly (before runing background cron)
-        // so that it'll be displayed with new name without delay 
+        // so that it'll be displayed with new name without delay
         if (!Config::getFlag('disableSolrIndexing')) {
             $solrClient = new Solr\Client();
             $solrClient->updateTree(['id' => $d['id']]);
@@ -229,7 +234,7 @@ class Objects
     /**
      * Get the list of objects referenced inside another object
      *
-     * @param  array|int $p Params
+     * @param array|int $p Params
      *
      * @return array
      * @throws \Exception
@@ -309,7 +314,7 @@ class Objects
     /**
      * Updates udate and uid for a case
      *
-     * @param  int $caseOrCaseObjectId
+     * @param int $caseOrCaseObjectId
      */
     public static function updateCaseUpdateInfo($caseOrCaseObjectId)
     {
@@ -358,7 +363,7 @@ class Objects
     /**
      * Get pids of a given object id
      *
-     * @param  int $objectId
+     * @param int $objectId
      *
      * @return array
      */
@@ -386,7 +391,7 @@ class Objects
     /**
      * Get template id of an object
      *
-     * @param  int $objectId
+     * @param int $objectId
      *
      * @return int|null
      */
@@ -409,7 +414,7 @@ class Objects
     /**
      * Get template type of an object
      *
-     * @param  int $objectId
+     * @param int $objectId
      *
      * @return string|null
      */
@@ -431,19 +436,19 @@ class Objects
 
     /**
      * Get name for an object id
-     *
-     * @param  int $id
-     *
-     * @return string|null
+     * @param  int          $id
+     * @return varchar|null
      */
-    public static function getName($id)
+    public static function getName($id, $htmlSafe = false)
     {
         $rez = null;
 
         if (!empty($id) && is_numeric($id)) {
             $obj = static::getCachedObject($id);
             if (!empty($obj)) {
-                $rez = $obj->getName();
+                $rez = $htmlSafe
+                    ? $obj->getHtmlSafeName()
+                    : $obj->getName();
             }
         }
 
@@ -453,7 +458,7 @@ class Objects
     /**
      * Get an object from cache or loads id and store in cache
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return object
      */
@@ -467,7 +472,7 @@ class Objects
     /**
      * Get objects from cache or loads them and store in cache
      *
-     * @param  array $ids
+     * @param array $ids
      *
      * @return array
      */
@@ -490,6 +495,7 @@ class Objects
         if (!empty($toLoad)) {
             $tc = SingletonCollection::getInstance();
             $data = DataModel\Objects::readAllData($toLoad);
+            $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
 
             foreach ($data as $objData) {
                 $varName = 'Objects['.$objData['id'].']';
@@ -501,6 +507,7 @@ class Objects
 
                     Cache::set($varName, $o);
                     $rez[$objData['id']] = $o;
+                    $dispatcher->dispatch('onObjectLoad', $o);
                 }
             }
         }
@@ -511,7 +518,7 @@ class Objects
     /**
      * Get an instance of the class designed for objectId (based on it's template type)
      *
-     * @param  int $objectId
+     * @param int $objectId
      *
      * @return object
      */
@@ -525,8 +532,8 @@ class Objects
     /**
      * Get an instance of the class designed for specified type
      *
-     * @param  string $type
-     * @param  int $objectId
+     * @param string $type
+     * @param int    $objectId
      *
      * @return object
      */
@@ -574,7 +581,7 @@ class Objects
     /**
      * Copy an unknown object to a $pid or over a $targetId
      *
-     * @param int $objectId
+     * @param int            $objectId
      * @param int|bool|false $pid
      * @param int|bool|false $targetId
      *
@@ -584,24 +591,14 @@ class Objects
     {
         $class = $this->getCustomClassByObjectId($objectId);
         $data = $class->load();
-        $data['id'] = $targetId;
-        $data['pid'] = $pid;
 
-        $rez = $targetId;
-
-        if ($targetId === false) {
-            $rez = $class->create($data);
-        } else {
-            $class->update($data);
-        }
-
-        return $rez;
+        return $class->copyTo($pid, $targetId);
     }
 
     /**
      * Move an unknown object to a $pid or over a $targetId
      *
-     * @param int $objectId
+     * @param int            $objectId
      * @param int|bool|false $pid
      * @param int|bool|false $targetId
      *
@@ -624,8 +621,8 @@ class Objects
      * Extension is considered any combination of chars delimited by dot
      * at the end of an object and its length is less than 5 chars.
      *
-     * @param  int $pid parent id
-     * @param  string $name desired name
+     * @param int    $pid  parent id
+     * @param string $name desired name
      *
      * @return string new name
      */
@@ -655,7 +652,7 @@ class Objects
     /**
      * Checks if given id exists in our tree
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return boolean
      */
@@ -675,7 +672,7 @@ class Objects
     /**
      * Get basic info for a given object id
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return array response
      */
@@ -700,7 +697,7 @@ class Objects
     /**
      * Get a child node id by its name under specified $pid
      *
-     * @param int $pid
+     * @param int          $pid
      * @param string|array $name direct child name or the list of child, subchild, ...
      *
      * @return int|null
@@ -729,8 +726,8 @@ class Objects
     /**
      * Set subscription to an object for current user
      *
-     * @param array $p
-     * @return array Array response
+     * @param  array      $p
+     * @return array      Array response
      * @throws \Exception
      */
     public function setSubscription($p)
@@ -776,7 +773,7 @@ class Objects
     /**
      * Get data for defined plugins to be displayed in properties panel for selected object
      *
-     * @param  array $p Remote properties containing object id
+     * @param array $p Remote properties containing object id
      *
      * @return array
      */
@@ -827,32 +824,9 @@ class Objects
             $templateData = $templates->getTemplate($templateId)->getData();
         }
 
-        $from = empty($p['from']) ? '' : $p['from'];
-
-        if (!empty($from)) {
-            if (isset($templateData['cfg']['object_plugins'])) {
-                $op = $templateData['cfg']['object_plugins'];
-
-                if (!empty($op[$from])) {
-                    $objectPlugins = $op[$from];
-                } else {
-                    //check if config has only numeric keys, i.e. plugins specified directly (without a category)
-                    if (!Util\isAssocArray($op)) {
-                        $objectPlugins = $op;
-                    } else {
-                        $objectPlugins = Config::getObjectTypePluginsConfig(@$templateData['type'], $from);
-                    }
-                }
-            }
-        }
-
-        if (empty($objectPlugins)) {
-            if (!empty($templateData['cfg']['object_plugins'])) {
-                $objectPlugins = $templateData['cfg']['object_plugins'];
-            } else {
-                $objectPlugins = Config::getObjectTypePluginsConfig($templateData['type'], $from);
-            }
-        }
+        $objectPlugins = empty($templateData['cfg']['object_plugins'])
+            ? Config::get('default_object_plugins')
+            : $templateData['cfg']['object_plugins'];
 
         $rez['success'] = true;
 
@@ -860,12 +834,52 @@ class Objects
             return $rez;
         }
 
-        foreach ($objectPlugins as $pluginName) {
-            $class = '\\Casebox\\CoreBundle\\Service\\Objects\\Plugins\\'.ucfirst($pluginName);
-            $pClass = new $class($id);
-            $prez = $pClass->getData();
+        if (!empty($templateData['cfg']['timeTracking']) && !isset($objectPlugins['timeTracking'])) {
+            $objectPlugins['timeTracking'] = [
+                'order' => 1
+            ];
+        }
 
-            $rez['data'][$pluginName] = $prez;
+        Util\sortRecordsArray($objectPlugins, 'order', 'asc', 'asInt', true);
+
+        foreach ($objectPlugins as $k => $v) {
+            $className = '';
+            if (is_scalar($v)) {
+                $className = $v;
+                $v = [];
+
+            } else {
+                $className = $k;
+                if (!empty($v['class'])) {
+                    $className = $v['class'];
+                }
+            }
+            $pindex = is_numeric($k)
+                ? $className
+                : $k;
+
+            $v['objectId'] = $id;
+
+            $v['context'] = empty($p['from'])
+                ? ''
+                : $p['from'];
+
+            $v['template_id'] = empty($p['template_id'])
+                ? ''
+                : $p['template_id'];
+
+            if (is_numeric($className)) {
+                continue;
+            }
+
+            $fullClassName = '\\Casebox\\CoreBundle\\Service\\Objects\\Plugins\\' . ucfirst($className);
+
+            $pClass = new $fullClassName($v);
+            $prez = $pClass->getData();
+            $prez['class'] = $className;
+            if (isset($prez['data'])) {
+                $rez['data'][$pindex] = $prez;
+            }
         }
 
         //set system properties to common if SystemProperties plugin is not required
@@ -880,7 +894,7 @@ class Objects
     /**
      * Add comments for an objects
      *
-     * @param array $p input params (id, msg)
+     * @param  array      $p input params (id, msg)
      * @return array
      * @throws \Exception
      */
@@ -931,7 +945,7 @@ class Objects
     /**
      * Update own comment
      *
-     * @param array $p input params (id, msg)
+     * @param  array      $p input params (id, msg)
      * @return array
      * @throws \Exception
      */
@@ -968,7 +982,7 @@ class Objects
     /**
      * Remove own comment
      *
-     * @param array $p input params (id)
+     * @param  array      $p input params (id)
      * @return array
      * @throws \Exception
      */

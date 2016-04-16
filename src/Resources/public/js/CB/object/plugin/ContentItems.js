@@ -25,7 +25,7 @@ Ext.define('CB.object.plugin.ContentItems', {
         var tpl = new Ext.XTemplate(
             '<table class="block-plugin">'
             ,'<tpl for=".">'
-            ,'<tr>'
+            ,'<tr class="{[ (xindex > this.displayLimit) ? \'more\' : ""]}">'
             ,'    <td class="obj">'
             ,'        <img class="i16u {iconCls}" src="'+ Ext.BLANK_IMAGE_URL +'">'
             ,'    </td>'
@@ -39,6 +39,9 @@ Ext.define('CB.object.plugin.ContentItems', {
             ,'</tr>'
             ,'</tpl>'
             ,'</table>'
+            ,'<tpl if="this.itemCount &gt; this.displayLimit">'
+            ,'<div class="toggle taC"><u class="click">' + L.ShowAll + '</u></div>'
+            ,'</tpl>'
         );
 
         this.store = new Ext.data.JsonStore({
@@ -51,10 +54,12 @@ Ext.define('CB.object.plugin.ContentItems', {
             tpl: tpl
             ,store: this.store
             ,autoHeight: true
+            ,cls: 'limited-list'
             ,itemSelector:'tr'
             ,listeners: {
                 scope: this
                 ,itemclick: this.onItemClick
+                ,containerclick: this.onContainerClick
             }
         });
 
@@ -81,13 +86,41 @@ Ext.define('CB.object.plugin.ContentItems', {
     }
 
     ,onLoadData: function(r, e) {
-        if(Ext.isEmpty(r.data)) {
-            return;
+        if(!Ext.isEmpty(r.data)) {
+            for (var i = 0; i < r.data.length; i++) {
+                r.data[i].iconCls = getItemIcon(r.data[i]);
+            }
+            this.store.loadData(r.data);
         }
-        for (var i = 0; i < r.data.length; i++) {
-            r.data[i].iconCls = getItemIcon(r.data[i]);
+
+        //set list display items limit
+        this.dataView.tpl.displayLimit = Ext.valueFrom(r.limit, 5);
+        this.dataView.tpl.itemCount = this.store.getCount();
+
+        if(!Ext.isEmpty(r.title)) {
+            this.params.title = r.title;
+            this.updateTitle(r.title);
         }
-        this.store.loadData(r.data);
+
+        if(!Ext.isEmpty(r.menu)) {
+            this.createMenu = r.menu;
+        }
+    }
+
+    ,updateTitle: function(title)  {
+        if(!title && this.params) {
+            title = this.params.title;
+        }
+
+        if(!Ext.isEmpty(title)) {
+            var count = this.store.getCount()
+                ,total = (count > 0) ? '(' + count + ')' : '';
+
+            title = title.replace('({total})', total);
+            this.setTitle(title);
+        }
+
+        return title;
     }
 
     ,onItemClick: function (cmp, record, item, index, e, eOpts) {//dv, index, el, e
@@ -101,6 +134,15 @@ Ext.define('CB.object.plugin.ContentItems', {
             this.showActionsMenu(e.getXY());
         } else if(te.hasCls('click')) {
             this.openObjectProperties(this.store.getAt(index).data);
+        }
+    }
+
+    ,onContainerClick: function(view, e, eOpts) {
+        var el = e.getTarget('.toggle');
+
+        if(el) {
+            this.addCls('list-expanded');
+            this.updateLayout();
         }
     }
 

@@ -29,6 +29,7 @@ Ext.define('CB.VerticalEditGridHelperTree', {
 
         this.callParent(arguments);
     }
+
     ,onBeforeNodeAppend: function(parent, node){
         node.set('id', Ext.id());
     }
@@ -274,13 +275,13 @@ Ext.define('CB.VerticalEditGridHelperTree', {
             return true;
         }
 
-
         var r = node.data.templateRecord;
         var pr = node.parentNode.data.templateRecord;
         if(node.parentNode.data.visible === false) {
             if(node.data.visible !== false) {
-                this.visibilityUpdated = true;
                 node.data.visible = false;
+                node.data.value.value = null;
+                this.visibilityUpdated = true;
             }
         } else { // if parent node is visible
             var v = ''; //dependency value
@@ -291,30 +292,34 @@ Ext.define('CB.VerticalEditGridHelperTree', {
                 va = toNumericArray(v);
             }
 
-            if( node.data.visible !== false ){
-                if( ( !Ext.isEmpty(v) &&
-                    !setsHaveIntersection( va, parentNodeValue) ) //if not empty pidValues specified and parent value out of pidValues then hide the field
-                    || ( (r.get('cfg').thesauriId === 'dependent') && Ext.isEmpty(parentNodeValue) ) // OR if the field is dinamic and parent has no selected value
-                    || ( (r.get('cfg').scope === 'variable') && Ext.isEmpty(parentNodeValue) ) // OR if the field is dinamic and parent has no selected value
-                    || ( Ext.isDefined(r.get('cfg').dependency) && Ext.isEmpty(parentNodeValue) && !Ext.isEmpty(va) ) // OR if the field is dinamic and parent has no selected value
-                ) {
-                    node.data.visible = false;
+            if (pr && (['H', 'G'].indexOf(pr.get('type')) > -1)) {
+                if(node.parentNode.data.visible != node.data.visible) {
+                    node.data.visible = node.parentNode.data.visible;
                     this.visibilityUpdated = true;
                 }
-            }else{ //when record is not visible
-                if( (pr &&
-                        (pr.get('type') === 'G') &&
-                        (pr.get('type') === 'G')
-                        // (node.parentNode.data.visible !==
-                    ) || (
-                    !Ext.isEmpty(parentNodeValue) && (Ext.isEmpty(v) || setsHaveIntersection( va, parentNodeValue ))
-                    && ( (r.get('cfg').thesauriId !== 'dependent') ||  !Ext.isEmpty(parentNodeValue))
-                    && ( (r.get('cfg').scope !== 'variable') ||  !Ext.isEmpty(parentNodeValue))
-                    && ( Ext.isDefined(r.get('cfg').dependency) ||  !Ext.isEmpty(parentNodeValue))
-                    )
-                ) { //if no pidValues specified or pidValues contains the parent selected value then show the field
-                    node.data.visible = true;
-                    this.visibilityUpdated = true;
+
+            } else {
+                if( node.data.visible !== false ){
+                    if ((!Ext.isEmpty(v) &&
+                        !setsHaveIntersection( va, parentNodeValue)
+                        ) //if not empty pidValues specified and parent value out of pidValues then hide the field
+                        || ((r.get('cfg').thesauriId === 'dependent') && Ext.isEmpty(parentNodeValue)) // OR if the field is dinamic and parent has no selected value
+                        || ((r.get('cfg').scope === 'variable') && Ext.isEmpty(parentNodeValue)) // OR if the field is dinamic and parent has no selected value
+                        || (Ext.isDefined(r.get('cfg').dependency) && Ext.isEmpty(parentNodeValue) && !Ext.isEmpty(va)) // OR if the field is dinamic and parent has no selected value
+                    ) {
+                        node.data.visible = false;
+                        node.data.value.value = null;
+                        this.visibilityUpdated = true;
+                    }
+                } else { //when record is not visible
+                    if( !Ext.isEmpty(parentNodeValue) && (Ext.isEmpty(v) || setsHaveIntersection(va, parentNodeValue))
+                        && ((r.get('cfg').thesauriId !== 'dependent') ||  !Ext.isEmpty(parentNodeValue))
+                        && ((r.get('cfg').scope !== 'variable') ||  !Ext.isEmpty(parentNodeValue))
+                        && (Ext.isDefined(r.get('cfg').dependency) ||  !Ext.isEmpty(parentNodeValue))
+                    ) { //if no pidValues specified or pidValues contains the parent selected value then show the field
+                        node.data.visible = true;
+                        this.visibilityUpdated = true;
+                    }
                 }
             }
         }
@@ -419,22 +424,24 @@ Ext.define('CB.VerticalEditGridHelperTree', {
     }
 
     ,resetChildValues: function(nodeId) {
-
         var node = this.getNode(nodeId);
+
         if(node && node.data.templateRecord) {
             node.cascadeBy({
                 before: function(n) {
                     var tr = n.data.templateRecord
                         ,cfg = tr.get('cfg');
-                    if( tr &&
+
+                    if(tr &&
                         n.isAncestor(node) &&
                         (
                             cfg.thesauriId === 'dependent' ||
                             Ext.isDefined(cfg.dependency)
                         ) &&
+                        (cfg.scope == 'variable') &&
                         (tr.get('pid') == node.data.templateRecord.get('id')) &&
-                        (cfg.readOnly !==true) &&
-                        (cfg.type === '_objects') //resetting only object fields
+                        (cfg.readOnly !== true) &&
+                        (tr.get('type') === '_objects') //resetting only object fields
                     ){
                         n.data.value.value = null;
                     }
@@ -456,6 +463,7 @@ Ext.define('CB.VerticalEditGridHelperTree', {
         var dn = this.addNode(node.parentNode, node.data.templateRecord, node.nextSibling);
         this.addNodes(dn);
         node.data.templateRecord.get('cfg').maxInstances--;
+        this.updateVisibility();
     }
 
     ,deleteDuplicate: function(nodeId){
@@ -526,6 +534,28 @@ Ext.define('CB.VerticalEditGridHelperTree', {
 
         return index;
     }
+
+    /**
+     * get duplication indexes for given node up to root node
+     * @param  string nodeId
+     * @return array
+     */
+    ,getDuplicationIndexes: function(nodeId){
+        var rez = {}
+            ,node = this.getNode(nodeId)
+            ,idx;
+
+        while(node) {
+            idx = this.getDuplicateIndex(node.data.id);
+            if(idx > -1) {
+                rez[node.data.templateRecord.data.name] = idx;
+            }
+            node = node.parentNode;
+        }
+
+        return rez;
+    }
+
 
     ,isFirstDuplicate: function(nodeId){
         if(!this.isDuplicate(nodeId)) {

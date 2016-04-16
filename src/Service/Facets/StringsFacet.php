@@ -32,12 +32,32 @@ class StringsFacet
      */
     public function getSolrParams()
     {
-        return [
+        $rez = [
             'facet' => true,
             'facet.field' => [
                 '{!ex='.$this->field.' key='.$this->config['name'].'}'.$this->field,
             ],
         ];
+
+        if (!empty($this->config['child'])) {
+            $domain = empty($this->config['domain'])
+                ? ['blockParent' => 'child:false']
+                : $this->config['domain'];
+
+            $rez = array(
+                'facet' => true
+                // ,'requestHandler' => 'bjf'
+                ,'json.facet' => [
+                    $this->config['name'] => [
+                        'type' => 'terms',
+                        'field' => $this->field,
+                        'domain' => $domain
+                    ]
+                ]
+            );
+        }
+
+        return $rez;
     }
 
     /**
@@ -70,8 +90,32 @@ class StringsFacet
     public function loadSolrResult($solrResult)
     {
         $this->solrData = [];
-        if (!empty($solrResult->facet_fields->{$this->config['name']})) {
-            $this->solrData = $solrResult->facet_fields->{$this->config['name']};
+        $index = $this->config['name'];
+        if (!empty($this->config['child'])) {
+            $this->solrResultRoot = 'facets';
+        }
+
+        //detect facet results
+        $sr = null;
+        if (!empty($solrResult->{$this->solrResultRoot})) {
+            $sr = &$solrResult->{$this->solrResultRoot};
+        } elseif (!empty($solrResult->facets)) {
+            $sr = &$solrResult->facets;
+        }
+
+        if (!empty($sr)) {
+            if (empty($this->config['child'])) {
+                if (!empty($sr->facet_fields->$index)) {
+                    $this->solrData = $sr->facet_fields->$index;
+                }
+            } elseif (!empty($sr->$index)) {
+                $data = (array) $sr->$index;
+                if (!empty($data['buckets'])) {
+                    foreach ($data['buckets'] as $k => $v) {
+                        $this->solrData[$v->val] = $v->count;
+                    }
+                }
+            }
         }
     }
 
@@ -108,7 +152,7 @@ class StringsFacet
      * Get sort options from config
      *
      * @param string $defaultDirection Default direction to use if not specified in config
-     * @param string $defaultType Default type to use if not specified in config
+     * @param string $defaultType      Default type to use if not specified in config
      *
      * @return array|null
      */

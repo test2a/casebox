@@ -52,22 +52,25 @@ class Search extends Solr\Client
 
     /**
      * query solr
-     * @param  array $p [description]
+     * @param  array  $p             [description]
+     * @param  string $searchHandler
      * @return array
      */
-    public function query($p)
+    public function query($p, $searchHandler = 'select')
     {
         $this->results = false;
         $this->inputParams = $p;
         $this->facetsSetManually = (
             isset($p['facet']) ||
             isset($p['facet.field']) ||
-            isset($p['facet.query'])
+            isset($p['facet.query']) ||
+            isset($p['json.facet']) //||
+            // isset($p['child.facet.field'])
         );
 
         $this->prepareParams();
 
-        $this->connect();
+        $this->connect()->setSearchHandler($searchHandler);
 
         $this->executeQuery();
 
@@ -87,7 +90,7 @@ class Search extends Solr\Client
         /* initial parameters */
         $this->query = empty($p['query'])
             ? ''
-            : $this->escapeLuceneChars($p['query']);
+            : $p['query'];
 
         $this->rows = isset($p['rows'])
             ? intval($p['rows'])
@@ -189,6 +192,10 @@ class Search extends Solr\Client
         if (!empty($p['dstatus'])) {
             $fq = array('dstatus:' . intval($p['dstatus']));
         }
+
+        $fq[] = (empty($p['child']) || ($p['child'] == false))
+            ? 'child:false'
+            : 'child:true';
 
         //check if fq is set and add it to result
         if (!empty($p['fq'])) {
@@ -426,6 +433,8 @@ class Search extends Solr\Client
                 ,'facet.range.gap'
                 ,'facet.sort'
                 ,'facet.missing' //"on" ?
+                ,'json.facet'
+                // ,'child.facet.field'
                 ,'stats.field'
             );
 
@@ -443,6 +452,8 @@ class Search extends Solr\Client
                     'facet.field'
                     ,'facet.query'
                     ,'facet.pivot'
+                    ,'json.facet'
+                    // ,'child.facet.field'
                     ,'stats.field'
                 );
                 foreach ($copyParams as $pn) {
@@ -508,7 +519,11 @@ class Search extends Solr\Client
             $dispatcher->dispatch('beforeSolrQuery', new BeforeSolrQueryEvent($eventParams));
 
             $this->replaceSortFields();
-            $query = $this->escapeLuceneChars($this->query);
+
+            //dont escape query for BlockJoin faceting
+            $query = (substr($this->query, 0, 9) != '{!parent ')
+                ? $this->escapeLuceneChars($this->query)
+                : $this->query;
 
             try {
                 $this->results = $this->search(
@@ -629,11 +644,18 @@ class Search extends Solr\Client
             'facets' => $this->results->facet_counts
         );
 
+        //assign json facets to 'facet' key
+        if (!empty($this->results->facets)) {
+            foreach ($this->results->facets as $k => $v) {
+                $rez['facets']->$k = $v;
+            }
+        }
+
         if (!$this->facetsSetManually) {
             $rez = array();
 
             foreach ($this->facets as $facet) {
-                $facet->loadSolrResult($this->results->facet_counts, $this->results);
+                $facet->loadSolrResult($this->results);
 
                 $fr = $facet->getClientData();
 
@@ -685,7 +707,7 @@ class Search extends Solr\Client
     /**
      * method to collect all node ids needed for rendering of loaded data set
      *
-     * @param  array &$result containing recxords in 'data' property
+     * @param array &$result containing recxords in 'data' property
      *
      * @return void
      */
