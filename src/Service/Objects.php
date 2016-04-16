@@ -2,6 +2,7 @@
 
 namespace Casebox\CoreBundle\Service;
 
+use Casebox\CoreBundle\Event\BeforeNodeDbCreateEvent;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Objects\Plugins;
 use Casebox\CoreBundle\Service\Templates\SingletonCollection;
@@ -508,7 +509,8 @@ class Objects
 
                     Cache::set($varName, $o);
                     $rez[$objData['id']] = $o;
-                    $dispatcher->dispatch('onObjectLoad', $o);
+                    
+                    $dispatcher->dispatch('onObjectLoad', new BeforeNodeDbCreateEvent($o));
                 }
             }
         }
@@ -843,8 +845,10 @@ class Objects
 
         Util\sortRecordsArray($objectPlugins, 'order', 'asc', 'asInt', true);
 
+        /** @var Container $container */
+        $container = Cache::get('symfony.container');
+        
         foreach ($objectPlugins as $k => $v) {
-            $className = '';
             if (is_scalar($v)) {
                 $className = $v;
                 $v = [];
@@ -855,38 +859,34 @@ class Objects
                     $className = $v['class'];
                 }
             }
-            $pindex = is_numeric($k)
-                ? $className
-                : $k;
+
+            $pindex = is_numeric($k) ? $className : $k;
 
             $v['objectId'] = $id;
+            $v['context'] = empty($p['from']) ? '' : $p['from'];
+            $v['template_id'] = empty($p['template_id']) ? '' : $p['template_id'];
 
-            $v['context'] = empty($p['from'])
-                ? ''
-                : $p['from'];
+            if (is_numeric($className)) {
+                continue;
+            }
 
-        /** @var Container $container */
-        $container = Cache::get('symfony.container');
-
-        foreach ($objectPlugins as $pluginName) {
-            $serviceId = 'casebox_core.service_objects_plugins.'.trim($pluginName);
+            $serviceId = 'casebox_core.service_objects_plugins.'.trim($className);
 
             if (!$container->has($serviceId)) {
-                $obj = $container->get($pluginName);
-                $obj->setId($id);
+                $obj = $container->get($className);
+                $obj->setId($v);
                 $prez = $obj->getData();
             } else {
                 $class = get_class($container->get($serviceId));
-                $pClass = new $class($id);
+                $pClass = new $class($v);
                 $prez = $pClass->getData();
             }
 
-            if (isset($prez['data'])) {
-                $rez['data'][$pindex] = $prez;
-            }
+            $prez['class'] = $className;
+            $rez['data'][$pindex] = $prez;
         }
 
-        //set system properties to common if SystemProperties plugin is not required
+        // Set system properties to common if SystemProperties plugin is not required
         if (empty($rez['data']['systemProperties'])) {
             $class = new Plugins\SystemProperties($id);
             $rez['common'] = $class->getData();

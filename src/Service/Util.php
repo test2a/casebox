@@ -759,7 +759,7 @@ function detectTitle(&$arr)
         $arr['title_'.$l],
         $arr['title'],
         $arr['name'],
-        $arr['fieldName']
+        (!empty($arr['fieldName'])) ? $arr['fieldName'] : ''
     );
 
     return $rez;

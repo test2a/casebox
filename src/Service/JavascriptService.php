@@ -99,9 +99,9 @@ class JavascriptService
                 'jsdev' => [
                     'src' => '/min/jsdev.js',
                 ],
-                'jsoverrides' => [
-                    'src' => '/min/jsoverrides.js',
-                ],
+//                'jsoverrides' => [
+//                    'src' => '/min/jsoverrides.js',
+//                ],
                 'jsplugins' => [
                     'src' => '/min/jsplugins.js',
                 ],
@@ -148,7 +148,7 @@ class JavascriptService
                         $script['weight'] = $i;
                     }
 
-                    if ($script['inline']) {
+                    if (!empty($script['inline'])) {
                         $template = $this->getTwig()->createTemplate($script['inline']);
                         $script['inline'] = $template->render($vars);
 

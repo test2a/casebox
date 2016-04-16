@@ -27,7 +27,7 @@ class CaseboxCoreExtension extends Extension
         $loader->load('services.yml');
         $loader->load('listeners.yml');
         $loader->load('subscribers.yml');
-        $loader->load('vocabularies.yml');
         $loader->load('object_plugins.yml');
+        $loader->load('vocabularies.yml');
     }
 }

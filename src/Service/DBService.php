@@ -67,7 +67,7 @@ class DBService
     public function connectWithParams(array $p)
     {
         @$newParams = [
-            'host' => $p['db_host'],
+            'host' => (!empty($p['db_host'])) ? $p['db_host'] : '127.0.0.1',
             'user' => $p['db_user'],
             'pass' => $p['db_pass'],
             'name' => $p['db_name'],

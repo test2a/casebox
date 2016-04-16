@@ -2,7 +2,7 @@
 
 namespace Casebox\CoreBundle\Event;
 
-use Casebox\CoreBundle\Service\Objects\Object;
+use Casebox\CoreBundle\Service\Objects\Object as ObjectsObject;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -17,8 +17,9 @@ class BeforeNodeDbCreateEvent extends Event
 
     /**
      * BeforeNodeDbCreateEvent constructor
+     * @param ObjectsObject $object
      */
-    public function __construct(Object $object)
+    public function __construct(ObjectsObject $object)
     {
         $this->params = $object;
     }

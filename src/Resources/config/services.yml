@@ -40,3 +40,6 @@ services:
         class: Casebox\CoreBundle\Service\JavascriptService
         calls:
             - [setTwig, ['@twig']]
+
+    casebox_core.service.objects:
+        class: Casebox\CoreBundle\Service\Objects
