@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Config;
@@ -23,7 +22,10 @@ class Thumb extends Base
             'data' => [],
         ];
 
-        parent::getData($id);
+        $prez = parent::getData($id);
+        if (empty($prez)) {
+            return null;
+        }
 
         $o = $this->getObjectClass();
         if (empty($o)) {

@@ -1,9 +1,7 @@
 <?php
-
 namespace DisplayColumns;
 
 use Casebox\CoreBundle\Service\Config;
-use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
@@ -13,13 +11,12 @@ use Casebox\CoreBundle\Service\Search;
 
 class Base
 {
+
     protected $fromParam = 'none';
 
     /**
-     * Method used to implement custom logic on before solr query
-     *
+     * method used to implement custom logic on before solr query
      * @param  array $p search params
-     *
      * @return void
      */
     public function onBeforeSolrQuery(&$p)
@@ -68,10 +65,8 @@ class Base
     }
 
     /**
-     * Analyze custom columns and add needed ids to preloaded objects
-     *
+     * analize custom columns and add needed ids to preloaded objects
      * @param  array $p search params
-     *
      * @return void
      */
     public function onSolrQueryWarmUp(&$p)
@@ -98,7 +93,9 @@ class Base
 
                 $obj = \Casebox\CoreBundle\Service\Objects::getCachedObject($doc['id']);
                 if (!is_object($obj)) {
-                    Cache::get('symfony.container')->get('logger')->error('DisplayColumns object not found: '.$doc['id']);
+                    Cache::get('symfony.container')->get('logger')->error(
+                        'DisplayColumns object not found: '. $doc['id']
+                    );
                     continue;
                 }
 
@@ -112,7 +109,7 @@ class Base
 
     protected function getObjectWarmIds(&$customColumns, &$objClass, &$solrData)
     {
-        $rez = [];
+        $rez = array();
 
         $template = $objClass->getTemplate();
 
@@ -122,18 +119,22 @@ class Base
             $templateField = $template->getField($customField);
 
             // $templateField = null;
-            $values = [];
+            $values = array();
 
             if (!empty($col['solr_column_name'])) {
-                $values = [@$solrData[$col['solr_column_name']]];
+                $values = array(@$solrData[$col['solr_column_name']]);
 
             } else { //default
-                $values = isset($solrData[$customField]) ? [$solrData[$customField]] : $objClass->getFieldValue($customField);
+                $values = isset($solrData[$customField])
+                    ? array($solrData[$customField])
+                    : $objClass->getFieldValue($customField);
             }
 
-            if (!empty($templateField) && in_array($templateField['type'], ['_objects'])) {
+            if (!empty($templateField) && in_array($templateField['type'], array('_objects'))) {
                 foreach ($values as $value) {
-                    $value = is_array($value) ? @$value['value'] : $value;
+                    $value = is_array($value)
+                        ? @$value['value']
+                        : $value;
                     $value = Util\toNumericArray($value);
                     foreach ($value as $v) {
                         $rez[] = $v;
@@ -147,9 +148,7 @@ class Base
 
     /**
      * method used to implement custom logic on solr query
-     *
      * @param  array $p search params
-     *
      * @return void
      */
     public function onSolrQuery(&$p)
@@ -167,7 +166,7 @@ class Base
         $view = &$result['view'];
         $data = &$result['data'];
 
-        $rez = [];
+        $rez = array();
 
         $displayColumns = $this->getDC();
 
@@ -177,7 +176,9 @@ class Base
         }
 
         //get state
-        $stateFrom = empty($displayColumns['from']) ? 'default' : $displayColumns['from'];
+        $stateFrom = empty($displayColumns['from'])
+            ? 'default'
+            : $displayColumns['from'];
 
         $state = $this->getState($stateFrom);
 
@@ -192,10 +193,10 @@ class Base
                     continue;
                 }
 
-                $obj = Objects::getCachedObject($doc['id']);
+                $obj = \Casebox\CoreBundle\Service\Objects::getCachedObject($doc['id']);
                 if (!is_object($obj)) {
                     Cache::get('symfony.container')->get('logger')->error(
-                        'DisplayColumns object not found: '.$doc['id']
+                        'DisplayColumns object not found: '. $doc['id']
                     );
                     continue;
                 }
@@ -204,31 +205,37 @@ class Base
 
                 foreach ($customColumns as $fieldName => &$col) {
                     $templateField = $template->getField($col['fieldName']);
-                    $values = [];
+                    $values = array();
 
                     if (!empty($col['solr_column_name'])) {
-                        if (isset($doc[$col['solr_column_name']]) &&
-                            ($col['solr_column_name'] !== $col['fieldName'])
-                        ) {
-                            $v = $doc[$col['solr_column_name']];
-                            $doc[$col['fieldName']] = $v;
-                            unset($doc[$col['solr_column_name']]);
-                            $values = [$v];
+                        if (isset($doc[$col['solr_column_name']])) {
+                             $values[] = $doc[$col['solr_column_name']];
+
+                            if ($col['solr_column_name'] !== $col['fieldName']) {
+                                $v = $doc[$col['solr_column_name']];
+                                $doc[$col['fieldName']] = $v;
+                                unset($doc[$col['solr_column_name']]);
+                                $values = array($v);
+                            }
                         }
 
                         if (empty($templateField)) {
-                            $templateField = [
-                                'type' => empty($col['fieldType']) ? 'varchar' : $col['fieldType'],
-                                'name' => $col['solr_column_name'],
-                                'title' => Util\detectTitle($col),
-                            ];
+                            $templateField = array(
+                                'type' => empty($col['fieldType'])
+                                    ? 'varchar'
+                                    : $col['fieldType']
+                                ,'name' => $col['solr_column_name']
+                                ,'title' => Util\detectTitle($col)
+                            );
                         }
 
                     } elseif (!empty($col['lookup'])) { //lookup field
                         $values = $obj->getLookupValues($col['lookup'], $templateField);
 
                     } else { //default
-                        $values = isset($doc[$col['fieldName']]) ? [$doc[$col['fieldName']]] : $obj->getFieldValue($col['fieldName']);
+                        $values = isset($doc[$col['fieldName']])
+                            ? array($doc[$col['fieldName']])
+                            : $obj->getFieldValue($col['fieldName']);
                     }
 
                     //populate column properties if empty
@@ -240,6 +247,16 @@ class Base
                         switch ($templateField['type']) {
                             case 'date':
                             case 'datetime':
+                                //set to users date format if not set
+                                if (empty($col['format'])) {
+                                    $col['format'] = \CB\User::getUserConfigParam('short_date_format');
+                                    // add time if needed
+                                    if ($templateField['type'] == 'datetime') {
+                                        $col['format'] .= ' ' . \CB\User::getUserConfigParam('time_format');
+                                    }
+                                }
+
+                                $col['type'] = 'date';
                                 $col['sortType'] = 'asDate';
                                 break;
 
@@ -266,13 +283,21 @@ class Base
                     }
 
                     //update value from document if empty from solr query
-                    if (empty($doc[$fieldName]) ||
-                        // temporary check, this should be reanalised
-                        in_array($templateField['type'], ['_objects', 'time'])
+                    if (in_array($templateField['type'], array('date', 'datetime')) && !empty($values)) {
+                        $value = array_shift($values);
+                        $doc[$fieldName] = is_array($value)
+                                ? @$value['value']
+                                : $value;
+
+                    } elseif (empty($doc[$fieldName]) ||
+                        // temporary check, this should be reanalized
+                        in_array($templateField['type'], array('_objects', 'time'))
                     ) {
-                        $dv = [];
+                        $dv = array();
                         foreach ($values as $value) {
-                            $value = is_array($value) ? @$value['value'] : $value;
+                            $value = is_array($value)
+                                ? @$value['value']
+                                : $value;
                             $dv[] = $template->formatValueForDisplay($templateField, $value, false);
                         }
                         $doc[$fieldName] = implode(', ', $dv);
@@ -294,7 +319,7 @@ class Base
         $defaultColumns = array_keys(Config::getDefaultGridViewColumns());
 
         if (!empty($state['columns'])) {
-            $rez = [];
+            $rez = array();
 
             foreach ($state['columns'] as $k => $c) {
                 if (!empty($customColumns[$k])) {
@@ -314,11 +339,10 @@ class Base
 
         /* user clicked a column to sort by */
         if (!empty($ip['userSort'])) {
-            $view['sort'] = [
+            $view['sort'] = array(
                 'property' => $ip['sort'][0]['property']
-                ,
-                'direction' => $ip['sort'][0]['direction'],
-            ];
+                ,'direction' => $ip['sort'][0]['direction']
+            );
 
         } elseif (!empty($state['sort'])) {
             $view['sort'] = $state['sort'];
@@ -327,11 +351,10 @@ class Base
 
         //check grouping params
         if (!empty($ip['userGroup']) && !empty($ip['group'])) {
-            $view['group'] = [
+            $view['group'] = array(
                 'property' => $ip['sourceGroupField']
-                ,
-                'direction' => $ip['group']['direction'],
-            ];
+                ,'direction' => $ip['group']['direction']
+            );
 
         } elseif (isset($state['group'])) {
             $view['group'] = $state['group'];
@@ -359,21 +382,22 @@ class Base
                 $data,
                 $s['property'],
                 $s['direction'],
-                (empty($rez[$s['property']]['sortType']) ? 'asString' : $rez[$s['property']]['sortType'])
+                (empty($rez[$s['property']]['sortType'])
+                    ? 'asString'
+                    : $rez[$s['property']]['sortType']
+                )
             );
         }
     }
 
     /**
      * analize display columns config and create a generic columns array
-     *
      * @param  array $dc
-     *
      * @return array
      */
     protected function prepareColumnsConfig($dc)
     {
-        $rez = [];
+        $rez = array();
 
         if (!empty($dc['data'])) {
 
@@ -381,8 +405,12 @@ class Base
             $userLanguage = Config::get('user_language');
 
             foreach ($dc['data'] as $k => $col) {
-                $fieldName = is_numeric($k) ? $col : $k;
-                $rez[$fieldName] = is_numeric($k) ? [] : $col;
+                $fieldName = is_numeric($k)
+                    ? $col
+                    : $k;
+                $rez[$fieldName] = is_numeric($k)
+                    ? array()
+                    : $col;
 
                 if (empty($rez[$fieldName]['solr_column_name']) &&
                     !in_array($fieldName, Search::$defaultFields)
@@ -397,8 +425,8 @@ class Base
                 //detect custom field name
                 $customField = $fieldName; //default
 
-                if (!empty($col['field_'.$userLanguage])) {
-                    $customField = $col['field_'.$userLanguage];
+                if (!empty($col['field_' . $userLanguage])) {
+                    $customField = $col['field_' . $userLanguage];
                 } elseif (!empty($col['field'])) {
                     $customField = $col['field'];
                 }
@@ -422,9 +450,7 @@ class Base
 
     /**
      * method to analize grouping params and add group column to result
-     *
      * @param  array $p search params
-     *
      * @return void
      */
     protected function analizeGrouping(&$p)
@@ -451,7 +477,7 @@ class Base
         $data = &$p['result']['data'];
 
         $count = sizeof($data);
-        for ($i = 0; $i < $count; $i++) {
+        for ($i=0; $i < $count; $i++) {
             $d = &$data[$i];
 
             $v = @$d[$field];
@@ -480,7 +506,7 @@ class Base
                         $d['group'] = 'empty';
                         $d['groupText'] = 'empty';
                     } else {
-                        $d['group'] = substr($v, 0, 7).'-01T00:00:00Z';
+                        $d['group'] = substr($v, 0, 7) . '-01T00:00:00Z';
                         $d['groupText'] = Util\formatMysqlDate(
                             $d['group'],
                             'Y, F'
@@ -501,11 +527,15 @@ class Base
                             $t = 1;
                         } else {
                             $q = floor($t[0] / 10) * 10;
-                            $t = ($t[0] > $q) ? $q + 10 : $q;
+                            $t =  ($t[0] > $q)
+                                ? $q + 10
+                                : $q;
                         }
 
                         $d['size'] .= ' - '.$t;
-                        $d['group'] = ($t < 1) ? 'up to 1 MB' : 'up to '.$t.' MB';
+                        $d['group'] = ($t < 1)
+                            ? 'up to 1 MB'
+                            : 'up to ' . $t . ' MB';
                     }
                     break;
 
@@ -514,11 +544,13 @@ class Base
                         $d['group'] = 'empty';
                     } else {
                         //split values by comma and duplicate records if multivalued
-                        $values = is_array($d[$field]) ? $d[$field] : explode(',', $d[$field]);
+                        $values = is_array($d[$field])
+                            ? $d[$field]
+                            : explode(',', $d[$field]);
 
                         $d['group'] = trim(array_shift($values));
 
-                        for ($j = 0; $j < sizeof($values); $j++) {
+                        for ($j=0; $j < sizeof($values); $j++) {
                             $newRecord = $d;
                             $newRecord['group'] = trim($values[$j]);
                             array_push($data, $newRecord);
@@ -534,7 +566,7 @@ class Base
      */
     public function getDC()
     {
-        $rez = [];
+        $rez = array();
 
         $p = &$this->params;
 
@@ -556,7 +588,7 @@ class Base
             $path = Cache::get('current_path');
 
             if (!empty($path)) {
-                $node = $path[sizeof($path) - 1];
+                $node = $path[sizeof($path)-1];
                 $rez = $node->getDC();
             }
         }
@@ -580,14 +612,12 @@ class Base
 
     /**
      * get state
-     *
-     * @param  array $param some param if needed
-     *
+     * @param  variant $param some param if needed
      * @return array
      */
     protected function getState($param = null)
     {
-        return [];
+        return array();
     }
 
     /**
@@ -597,17 +627,18 @@ class Base
     public function getSolrFields($nodeId = false, $templateId = false)
     {
         $nodeId = $nodeId; // dummy codacy assignment
-        $rez = [
-            'fields' => []
-            ,
-            'sort' => [],
-        ];
+        $rez = array(
+            'fields' => array()
+            ,'sort' => array()
+        );
 
         $ip = &$this->inputParams;
 
         $defaultColumns = array_keys(Config::getDefaultGridViewColumns());
         $displayColumns = $this->getDC();
-        $DC = empty($displayColumns['data']) ? [] : $displayColumns['data'];
+        $DC = empty($displayColumns['data'])
+            ? array()
+            : $displayColumns['data'];
 
         if (!empty($DC)) {
             foreach ($DC as $columnName => $column) {
@@ -618,9 +649,9 @@ class Base
                         if ((@$ip['sort'][0]['property'] == $columnName) &&
                             !empty($ip['sort'][0]['direction'])
                         ) {
-                            $rez['sort'][] = $column['solr_column_name'].' '.strtolower($ip['sort'][0]['direction']);
+                            $rez['sort'][] = $column['solr_column_name'] . ' ' . strtolower($ip['sort'][0]['direction']);
                         } elseif (!empty($column['sort'])) {
-                            $rez['sort'][] = $column['solr_column_name'].' '.$column['sort'];
+                            $rez['sort'][] = $column['solr_column_name'] . ' ' . $column['sort'];
                         }
                     }
 
@@ -640,7 +671,7 @@ class Base
         if (!empty($ip['userSort'])) {
             $dir = strtolower($ip['sort'][0]['direction']);
 
-            if (in_array($dir, ['asc', 'desc']) &&
+            if (in_array($dir, array('asc', 'desc')) &&
                 preg_match('/^[a-z_0-9]+$/i', $ip['sort'][0]['property'])
             ) {
                 $prop = $ip['sort'][0]['property'];
@@ -658,7 +689,9 @@ class Base
 
         } else {
             /* get user state and check if user has a custom sorting */
-            $stateFrom = empty($displayColumns['from']) ? 'default' : $displayColumns['from'];
+            $stateFrom = empty($displayColumns['from'])
+                ? 'default'
+                : $displayColumns['from'];
 
             $state = $this->getState($stateFrom);
 
@@ -675,7 +708,7 @@ class Base
         }
 
         if (!empty($property)) {
-            $rez['sort'] = 'ntsc asc,'.$property.' '.$dir;
+            $rez['sort'] = 'ntsc asc,' . $property . ' ' . $dir;
         }
 
         /* end of get user state and check if user has a custom sorting */

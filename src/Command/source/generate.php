@@ -7,6 +7,8 @@ namespace Casebox\CoreBundle\Service;
 
 $groups = require 'groupsConfig.php';
 
+$minDir = dirname(dirname(dirname(dirname(dirname(dirname(__FILE__)))))) . '/mrclay/minify/min/';
+
 $_SERVER['REQUEST_URI'] = '/';
 $_SERVER['QUERY_STRING'] = '';
 
@@ -24,17 +26,17 @@ foreach ($groups as $group => $files) {
 
     $_GET['g'] = $group;
     ob_start();
-    include 'index.php';
+    include $minDir . 'index.php';
     $content = //'//' . $group . ": \n".
-        ob_get_clean();
+    ob_get_clean();
 
     file_put_contents($dir . $group . ".$ext", $content);
 
     $_GET['debug'] = 1;
     ob_start();
-    include 'index.php';
+    include $minDir . 'index.php';
     $content = //'//' . $group . "-debug: \n".
-        ob_get_clean();
+    ob_get_clean();
 
     file_put_contents($dir . $group . "-debug.$ext", $content);
     unset($_GET['debug']);

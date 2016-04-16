@@ -1,23 +1,19 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\Search;
 
-/**
- * Class ObjectProperties
- */
 class ObjectProperties extends Base
 {
     public function getData($id = false)
     {
-        $rez = [
-            'success' => true,
-        ];
+        $rez = parent::getData($id);
 
-        parent::getData($id);
+        if (empty($rez)) {
+            return null;
+        }
 
         $preview = Objects::getPreview($this->id);
         $obj = Objects::getCachedObject($this->id);
@@ -29,9 +25,9 @@ class ObjectProperties extends Base
         $data = $obj->getData();
 
         if (!empty($preview)) {
-            $rez['data'] = [
-                'preview' => $preview,
-            ];
+            $rez['data'] = array(
+                'preview' => $preview
+            );
         }
 
         if (!empty($data)) {
@@ -40,32 +36,32 @@ class ObjectProperties extends Base
                 array_pop($path);
                 $rez['data']['pids'] = $rez['data']['path'] = implode('/', $path);
 
-                $arr = [&$rez['data']];
+                $arr = array(&$rez['data']);
                 Search::setPaths($arr);
             }
 
             foreach ($data as $k => $v) {
                 if (in_array(
                     $k,
-                    [
-                        'id',
-                        'template_id',
-                        'date_end',
-                        'cid',
-                        'uid',
-                        'cdate',
-                        'udate',
-                    ]
+                    array(
+                        'id'
+                        ,'template_id'
+                        ,'date_end'
+                        ,'cid'
+                        ,'uid'
+                        ,'cdate'
+                        ,'udate'
+                    )
                 )) {
-                    if (in_array($k, ['date', 'date_end', 'cdate', 'udate'])) {
+                    if (in_array($k, array('date', 'date_end', 'cdate', 'udate'))) {
                         $v = Util\dateMysqlToISO($v);
                     }
 
                     $rez['data'][$k] = $v;
 
-                    // Add ago udate text
-                    if (in_array($k, ['cdate', 'udate'])) {
-                        $rez['data'][$k.'_ago_text'] = Util\formatAgoTime($v);
+                    //add ago udate text
+                    if (in_array($k, array('cdate', 'udate'))) {
+                        $rez['data'][$k . '_ago_text'] = Util\formatAgoTime($v);
                     }
 
                 }
@@ -75,7 +71,7 @@ class ObjectProperties extends Base
 
         $rez['data']['can'] = $obj->getActionFlags();
 
-        // Set status info for tasks if not active
+        //set status info for tasks if not active
         if (($obj->getType() == 'task')) {
             $d = &$rez['data'];
             $d['status'] = '';
@@ -84,13 +80,14 @@ class ObjectProperties extends Base
                     break;
 
                 case Objects\Task::$STATUS_CLOSED:
-                    // Just add title css class and continue with default
+                    //just add title css class and continue with default
                     $d['titleCls'] = 'task-completed';
-                //break;
+                    // break;
 
                 default:
                     $d['status'] = $obj->getStatusText();
                     $d['statusCls'] = $obj->getStatusCSSClass();
+
             }
         }
 

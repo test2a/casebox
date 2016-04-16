@@ -32,7 +32,7 @@ class Task extends Object
     /**
      * Create a task with specified params
      *
-     * @param  array $p object properties
+     * @param array $p object properties
      *
      * @return int
      */
@@ -99,11 +99,17 @@ class Task extends Object
         $d = &$this->data;
         $sd = &$d['sys_data'];
 
+        //add creator as follower for tasks
+        if (!in_array($d['cid'], $sd['wu'])) {
+            $sd['wu'][] = intval($d['cid']);
+            $rez[] = intval($d['cid']);
+        }
+
         $oldAssigned = [];
         if (!empty($this->oldObject)) {
             $oldAssigned = Util\toNumericArray(@$this->oldObject->getFieldValue('assigned', 0)['value']);
         }
-        
+
         $newAssigned = Util\toNumericArray(@$this->getFieldValue('assigned', 0)['value']);
         $diff = array_diff($newAssigned, $oldAssigned);
         $wu = empty($sd['wu']) ? [] : $sd['wu'];
@@ -369,7 +375,7 @@ class Task extends Object
     /**
      * Get user status for loaded task
      *
-     * @param int|bool|false $userId
+     * @param  int|bool|false $userId
      * @return integer
      */
     public function getUserStatus($userId = false)
@@ -395,7 +401,7 @@ class Task extends Object
     /**
      * Change user status for loaded task
      *
-     * @param integer $status
+     * @param integer            $status
      * @param integer|bool|false $userId
      *
      * @return boolean
@@ -515,7 +521,7 @@ class Task extends Object
     /**
      * Generate html preview for a task
      *
-     * @param  int $id task id
+     * @param int $id task id
      *
      * @return array
      */
@@ -545,9 +551,9 @@ class Task extends Object
         }
 
         if (!empty($sd['task_d_closed'])) {
-            $dateLines .= '<tr><td class="prop-key">'.$this->trans('Completed').':</td><td>'.Util\formatAgoTime(
-                    $sd['task_d_closed']
-                ).'</td></tr>';
+            $dateLines .= '<tr><td class="prop-key">' .
+                $this->trans('Completed') . ':</td><td>' .
+                Util\formatAgoTime($sd['task_d_closed']) . '</td></tr>';
         }
 
         // Create owner row
@@ -598,14 +604,18 @@ class Task extends Object
                     '</div></td><td><b>'.$un.'</b>'.
                     '<p class="gr" title="'.$cdt.'">'.(
                     $completed
-                        ? $this->trans('Completed').$dateText.
-                        ($isOwner ? ' <a class="bt task-action click" action="markincomplete" uid="'.$id.'">'.$this->trans(
-                                'revoke'
-                            ).'</a>' : '')
-                        : $this->trans('waitingForAction').
-                        ($isOwner ? ' <a class="bt task-action click" action="markcomplete" uid="'.$id.'">'.$this->trans(
-                                'complete'
-                            ).'</a>' : '')
+                        ? $this->trans('Completed') . $dateText .
+                            ($isOwner
+                                ? ' <a class="bt task-action click" action="markincomplete" uid="' . $id . '">' .
+                                    $this->trans('revoke').'</a>'
+                                : ''
+                            )
+                        : $this->trans('waitingForAction') .
+                            ($isOwner
+                                ? ' <a class="bt task-action click" action="markcomplete" uid="' . $id . '">' .
+                                    $this->trans('complete').'</a>'
+                                : ''
+                            )
                     ).'</p></td></tr>';
             }
 
@@ -623,19 +633,27 @@ class Task extends Object
         // Insert rows
         $p = $pb[0];
         $pos = strrpos($p, '<tbody>');
-        $p = substr($p, $pos + 7);
-        $pos = strrpos($p, '</tbody>');
         if ($pos !== false) {
-            $p = substr($p, 0, $pos);
+            $p = substr($p, $pos + 7);
+            $pos = strrpos($p, '</tbody>');
+            if ($pos !== false) {
+                $p = substr($p, 0, $pos);
+            }
+        } else {
+            $p = '';
         }
 
-        $pb[0] = $this->getPreviewActionsRow().
-            '<table class="obj-preview"><tbody>'.
-            $dateLines.
-            $p.
-            $ownerRow.
-            $assigneeRow.
-            $contentRow.
+        $rtl = empty(Config::get('rtl'))
+            ? ''
+            : ' drtl';
+
+         $pb[0] = $this->getPreviewActionsRow() .
+            '<table class="obj-preview' . $rtl . '"><tbody>' .
+            $dateLines .
+            $p .
+            $ownerRow .
+            $assigneeRow .
+            $contentRow .
             '<tbody></table>';
 
         return $pb;

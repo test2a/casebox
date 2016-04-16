@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Util;
@@ -18,8 +17,11 @@ class Files extends Base
             'data' => [],
         ];
 
-        if (empty(parent::getData($id))) {
-            return $rez;
+        $prez = parent::getData($id);
+        if (empty($prez)) {
+            return $this->isVisible()
+                ? $rez
+                : null;
         }
 
         $params = [

@@ -14,12 +14,11 @@ class Meta extends ObjectProperties
     {
         $rez = parent::getData($id);
 
-        $singleton = SingletonCollection::getInstance();
-        
-        $template = $singleton->getTemplate(
-            $rez['data']['template_id']
-        );
-        
+        if (empty($rez)) {
+            return null;
+        }
+
+        $template = SingletonCollection::getInstance()->getTemplate($rez['data']['template_id']);
         $noTemplateFields = empty($template->getData()['fields']);
 
         if (empty($rez['data']['preview']) && $noTemplateFields) {

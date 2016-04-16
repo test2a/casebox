@@ -96,7 +96,7 @@ class Actions
      * Function to check if any objects name from sourceIds exists in targetId
      *
      * @param int|array $sourceIds
-     * @param int $targetId
+     * @param int       $targetId
      *
      * @return boolean|int False if not exists or id of existent target
      */
@@ -251,8 +251,8 @@ class Actions
      * Internal function executing a copy or move action
      *
      * @param string $action
-     * @param array $objectIds ids to be copied
-     * @param int $targetId
+     * @param array  $objectIds ids to be copied
+     * @param int    $targetId
      *
      * @return array
      * @throws \Exception
@@ -315,9 +315,9 @@ class Actions
     /**
      * Recursive objects moving or copying
      *
-     * @param string $action
+     * @param string    $action
      * @param int|array $objectIds Source object ids
-     * @param int $targetId target id
+     * @param int       $targetId  target id
      *
      * @return array
      */
@@ -371,10 +371,15 @@ class Actions
             }
 
             // select direct childs of the objects and make a recursive call with them
+            // but skip comments
             $res = $dbs->query(
-                'SELECT t.id FROM tree t
-                 JOIN tree_info ti ON t.id = ti.id '.$this->securitySetsFilter.'
-                 WHERE t.pid = $1 AND t.dstatus = 0',
+                'SELECT t.id
+                FROM tree t
+                JOIN tree_info ti ON
+                    t.id = ti.id '.$this->securitySetsFilter.'
+                JOIN templates tt ON t.template_id = tt.id AND tt.type <> \'comment\'
+                WHERE t.pid = $1 AND
+                    t.dstatus = 0',
                 $objectId
             );
 

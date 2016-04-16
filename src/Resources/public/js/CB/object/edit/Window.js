@@ -51,6 +51,15 @@ Ext.define('CB.object.edit.Window', {
         this.titleView = new CB.object.TitleView();
         this.titleContainer.add(this.titleView);
 
+        if(this.templateType == 'time_tracking') {
+            this.titleContainer.hide();
+            Ext.apply(this, {
+                minimizable: false
+                ,maximizable: false
+                ,header: false
+            });
+        }
+
         Ext.apply(this, {
             cls: 'x-panel-white'
             ,bodyStyle: 'border: 0; padding: 0; border-top: 1px solid #99bce8'
@@ -205,6 +214,24 @@ Ext.define('CB.object.edit.Window', {
      * @return array
      */
     ,getToolbarButtons: function() {
+        if(this.templateType == 'time_tracking') {
+            return [
+                this.actions.edit
+                ,this.actions.save
+                ,this.actions.cancel
+                ,'->'
+                ,new Ext.Button({
+                    qtip: L.More
+                    ,itemId: 'more'
+                    ,arrowVisible: false
+                    ,iconCls: 'i-points'
+                    ,menu: [
+                        this.actions['delete']
+                    ]
+                })
+            ];
+        }
+
         return [
             this.actions.edit
             ,this.actions.save
@@ -282,6 +309,9 @@ Ext.define('CB.object.edit.Window', {
                 ,loaded: this.onPluginsContainerLoaded
             }
         });
+
+        this.on('timespentclick', this.onTimeSpentClick, this);
+        this.on('addtimespentclick', this.onAddTimeSpentClick, this);
     }
 
     /**
@@ -374,7 +404,7 @@ Ext.define('CB.object.edit.Window', {
         var map = new Ext.KeyMap(
             c.getEl()
             ,[{
-                key: "s"
+                key: 's'
                 ,ctrl:true
                 ,shift:false
                 ,stopEvent: true
@@ -388,7 +418,7 @@ Ext.define('CB.object.edit.Window', {
             new Ext.util.KeyMap({
                 target: this.grid.getView().getEl()
                 ,binding: [{
-                        key: "s"
+                        key: 's'
                         ,ctrl: true
                         ,shift: false
                         ,stopEvent: true
@@ -435,6 +465,10 @@ Ext.define('CB.object.edit.Window', {
      * @return void
      */
     ,loadPreviewData: function() {
+        if(this.templateType == 'time_tracking') {
+            return;
+        }
+
         CB_Objects.getPluginsData(
             {
                 id: this.data.id
@@ -592,8 +626,8 @@ Ext.define('CB.object.edit.Window', {
                     ,listeners: {
                         scope: this
 
-                        ,beforeedit: this.saveScroll
-                        ,edit: this.restoreScroll
+                        // ,beforeedit: this.saveScroll
+                        // ,edit: this.restoreScroll
 
                         ,savescroll: this.saveScroll
                         ,restorescroll: this.restoreScroll
@@ -612,6 +646,7 @@ Ext.define('CB.object.edit.Window', {
             this.grid.addCls('loading');
         }
 
+        this.grid.hideTemplateFields = r.hideTemplateFields;
         this.grid.reload();
 
         if(this.grid.store.getCount() > 0) {
@@ -709,7 +744,7 @@ Ext.define('CB.object.edit.Window', {
         if(Ext.isEmpty(title)) {
             title = L.New + ' ' + templatesStore.getProperty(templateId, 'name');
         }
-        this.setTitle(title);
+        this.setTitle(Ext.String.htmlEncode(title));
 
         this.setIconCls(getItemIcon(this.data));
     }
@@ -1240,7 +1275,7 @@ Ext.define('CB.object.edit.Window', {
     ,onPermalinkClick: function(b, e) {
         window.prompt(
             'Copy to clipboard: Ctrl+C, Enter'
-            , window.location.origin + '/c/' + App.config.coreName + '/view/' + this.data.id + '/'
+            , window.location.origin + '/' + App.config.coreName + '/view/' + this.data.id + '/'
         );
     }
 
@@ -1266,5 +1301,15 @@ Ext.define('CB.object.edit.Window', {
 
         this.actions.star.setHidden(isStarred);
         this.actions.unstar.setHidden(!isStarred);
+    }
+
+    ,onTimeSpentClick: function(cmp) {
+        clog('onTimeSpentClick!');
+        this.pluginsContainer.onTimeSpentClick(cmp);
+    }
+
+    ,onAddTimeSpentClick: function(cmp, e) {
+        clog('onAddTimeSpentClick!');
+        this.pluginsContainer.onAddTimeSpentClick(cmp, e);
     }
 });

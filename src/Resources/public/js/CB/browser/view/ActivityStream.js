@@ -83,9 +83,14 @@ Ext.define('CB.browser.view.ActivityStream',{
                     }
 
                     switch(la.type) {
+                        case 'copy':
+                            rez += ' ' + Ext.valueFrom(L['copied'], la.type);
+                            break;
+
                         case 'comment':
                             rez += ' ' + Ext.valueFrom(L[la.type + 'ed'], la.type);
                             break;
+
                         default:
                             rez += ' ' + Ext.valueFrom(L[la.type + 'd'], la.type);
                     }
@@ -119,14 +124,14 @@ Ext.define('CB.browser.view.ActivityStream',{
             tpl: tpl
             ,store: this.store
             ,deferInitialRefresh: false
-            ,itemSelector: 'div.as-item'//'tr.as-record'
+            ,itemSelector: 'tr.as-record' // 'div.as-item'
             // ,overItemCls:'as-record-over'
             ,focusCls: ''
             ,scrollable: true
             ,listeners: {
                 scope: this
                 ,selectionchange: this.onSelectionChange
-                ,containerclick: this.onContainerClick
+                ,beforecontainermousedown: this.onBeforeContainerMouseDown
             }
         });
 
@@ -244,10 +249,11 @@ Ext.define('CB.browser.view.ActivityStream',{
         }
     }
 
-    ,onContainerClick: function(view, e, eOpts) {
+    ,onBeforeContainerMouseDown: function(dv, e, eOpts) {
         var el = e.getTarget('.asNext');
 
         if(el) {
+            e.stopEvent();
             this.fireEvent(
                 'changeparams'
                 ,{

@@ -482,6 +482,13 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
         if (!empty($this->config['createMenu'])) {
             $rez = $this->config['createMenu'];
+
+        } elseif (!empty($this->config['createMenuRule'])) {
+            $mro = Objects::getCachedObject($this->config['createMenuRule']);
+            if (!empty($mro)) {
+                $rez = $mro->getData()['data']['menu'];
+            }
+
         } else {
             if (!empty($this->parent)) {
                 $rez = $this->parent->getCreateMenu($rp);

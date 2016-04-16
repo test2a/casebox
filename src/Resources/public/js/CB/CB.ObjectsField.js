@@ -53,25 +53,22 @@ CB.ObjectsFieldCommonFunctions = {
 
                     ,listeners: {
                         scope: this
-                        ,beforeload: function(store, o ){
+                        ,beforeload: function(store, o){
                             if(this.data){
                                 if (!Ext.isEmpty(this.data.fieldRecord)) {
                                     store.proxy.extraParams.fieldId = this.data.fieldRecord.get('id');
                                 }
-
-                                if (!Ext.isEmpty(this.data.objectId)) {
-                                    store.proxy.extraParams.objectId = this.data.objectId;
-                                }
-
-                                if (!Ext.isEmpty(this.data.pidValue)) {
-                                    store.proxy.extraParams.pidValue = this.data.pidValue;
-                                }
-
-                                if (!Ext.isEmpty(this.data.path)) {
-                                    store.proxy.extraParams.path = this.data.path;
-                                }
-
-                                store.proxy.extraParams.objFields = this.data.objFields;
+                                Ext.copyTo(
+                                    store.proxy.extraParams
+                                    ,this.data
+                                    ,[
+                                        'objectId'
+                                        ,'pidValue'
+                                        ,'path'
+                                        ,'objFields'
+                                        ,'duplicationIndexes'
+                                    ]
+                                );
                             }
                         }
                         ,load:  function(store, recs, options) {
@@ -183,6 +180,8 @@ Ext.define('CB.ObjectsComboField', {
 
         Ext.apply(this, CB.ObjectsFieldCommonFunctions);
 
+        Ext.copyTo(this, this.cfg, 'editable');
+
         this.detectStore();
 
         //set template for item list
@@ -250,16 +249,10 @@ Ext.define('CB.ObjectsComboField', {
                     }
                     this.objectsStore.checkRecordExistance(record.data);
                 }
-                // ,blur: function(field){
-                //     this.setValue(this.value);
-                // }
+                ,select: this.onValueSelect
                 ,beforedestroy: function(){
                     this.store.un('beforeload', this.onBeforeLoadStore, this);
                     this.store.un('load', this.onStoreLoad, this);
-                }
-                ,expand: function(c){
-                    // var idx = c.store.findExact('id', c.getValue()) -1;
-                    // c.select(idx, true);
                 }
             }
         });
@@ -269,6 +262,17 @@ Ext.define('CB.ObjectsComboField', {
 
     ,onBeforeLoadStore: function(st, options){
         options.params = Ext.apply({}, this.cfg, options.params);
+    }
+
+    /**
+     * move cursor to begining on select
+     * @param  {[type]} combo
+     * @param  {[type]} record
+     * @param  {[type]} eOpts
+     * @return {[type]}
+     */
+    ,onValueSelect: function (combo, record, eOpts) {
+        combo.setCaretPosition(0);
     }
 
     ,setValue: function(v){
@@ -290,11 +294,17 @@ Ext.define('CB.ObjectsComboField', {
         }
 
         this.callParent([v]);
-        var text = this.store.getTexts(v);
+
+        var text = this.store.getTexts(v)
+            ,r = this.findRecordByValue(v);
+
+        if(r) {
+            this.objectsStore.checkRecordExistance(r.data);
+        }
 
         //delete this.customIcon;
         if(Ext.isEmpty(text) && this.objectsStore){
-            var r = this.objectsStore.findRecord('id', v, 0, false, false, true);
+            r = this.objectsStore.findRecord('id', v, 0, false, false, true);
 
             if(r){
                 if(this.icon) {

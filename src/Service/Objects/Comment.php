@@ -6,7 +6,6 @@ use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Log;
-use Casebox\CoreBundle\Service\DataModel as DM;
 
 class Comment extends Object
 {
@@ -21,13 +20,13 @@ class Comment extends Object
             $p = &$this->data;
         }
 
-         if (!empty($p['data']['_title'])) {
-             //all data is html escaped when indexed in solr
-             //so no need to encode it here
-             $msg = $this->processAndFormatMessage($p['data']['_title']);
-             $p['name'] = $msg;
-             $p['data']['_title'] = $msg;
-         }
+         // if (!empty($p['data']['_title'])) {
+         //     //all data is html escaped when indexed in solr
+         //     //so no need to encode it here
+         //     $msg = $this->processAndFormatMessage($p['data']['_title']);
+         //     $p['name'] = $msg;
+         //     $p['data']['_title'] = $msg;
+         // }
 
         //disable default log from parent Object class
         //we'll set comments add as comment action for parent

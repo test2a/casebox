@@ -5,43 +5,39 @@ namespace Casebox\CoreBundle\Service\Objects\Plugins;
 use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Files;
 use Casebox\CoreBundle\Service\Objects\Object;
-use Casebox\CoreBundle\Service\Search;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Util;
 
-/**
- * Class Comments
- */
 class Comments extends Base
 {
+
     /**
-     * Get default set of comments for given object id
-     *
-     * @param int|null $id
-     *
-     * @return array response
+     * get default set of comments for given object id
+     * @param  int  $id
+     * @return json response
      */
     public function getData($id = false)
     {
-        return $this->loadMore(['id' => $id]);
+        return $this->isVisible()
+            ? $this->loadMore(array('id' => $id))
+            : null;
     }
 
     /**
-     * Load next set of comments (not all are loaded by default)
-     *
+     * load next set of comments (not all are loaded by default)
      * @param  array $p
-     *
-     * @return array  response
+     * @return json  response
      */
     public function loadMore($p)
     {
-        $rez = [
-            'success' => true,
-            'data' => [],
-        ];
+        $rez = array(
+            'success' => true
+            ,'data' => array()
+        );
 
-        if (empty(parent::getData($p['id']))) {
+        $prez = parent::getData($p['id']);
+        if (empty($prez)) {
             return $rez;
         }
 
@@ -53,19 +49,19 @@ class Comments extends Base
         $limit = empty($p['beforeId']) ? 4 : 10;
         $limit = Config::get('max_load_comments', $limit);
 
-        $params = [
-            'pid' => $this->id,
-            'system' => '[0 TO 2]',
-            'fq' => [
-                'template_id:('.implode(' OR ', $commentTemplateIds).')',
-            ],
-            'fl' => 'id,pid,template_id,cid,cdate,content',
-            'strictSort' => 'cdate desc',
-            'rows' => $limit,
-        ];
+        $params = array(
+            'pid' => $this->id
+            ,'system' => '[0 TO 2]'
+            ,'fq' => array(
+                'template_id:('.implode(' OR ', $commentTemplateIds).')'
+            )
+            ,'fl' => 'id,pid,template_id,cid,cdate,content'
+            ,'strictSort' => 'cdate desc'
+            ,'rows' => $limit
+        );
 
         if (!empty($p['beforeId']) && is_numeric($p['beforeId'])) {
-            $params['fq'][] = 'id:[* TO '.($p['beforeId'] - 1).']';
+            $params['fq'][] = 'id:[* TO ' . ($p['beforeId'] - 1) . ']';
         }
 
         $s = new \Casebox\CoreBundle\Service\Search();
@@ -79,8 +75,8 @@ class Comments extends Base
             $d['cdate_text'] = Util\formatAgoTime($d['cdate']);
             $d['user'] = User::getDisplayName($d['cid'], true);
 
-            // Data in solr has already encoded html special chars
-            // So we need to decode it and to format the message (where the chars will be encoded again)
+            //data in solr has already encoded html special chars
+            // so we need to decode it and to format the message (where the chars will be encoded again)
             $d['content'] = htmlspecialchars_decode($d['content'], ENT_COMPAT);
             $d['content'] = Object::processAndFormatMessage($d['content']);
 
@@ -93,32 +89,30 @@ class Comments extends Base
     }
 
     /**
-     * Load a single comment by id
+     * load a single comment by id
      * used for add/update operations on comments
-     *
-     * @param int $id
-     *
-     * @return array response
+     * @param  int  $id
+     * @return json response
      */
     public static function loadComment($id)
     {
-        $rez = [
-            'success' => true,
-            'data' => [],
-        ];
+        $rez = array(
+            'success' => true
+            ,'data' => array()
+        );
 
         if (empty($id)) {
             return $rez;
         }
 
-        $params = [
-            'system' => '[0 TO 2]',
-            'fq' => [
-                'id:'.intval($id),
-            ],
-            'fl' => 'id,pid,template_id,cid,cdate,content',
-            'rows' => 1,
-        ];
+        $params = array(
+            'system' => '[0 TO 2]'
+            ,'fq' => array(
+                'id:'.intval($id)
+            )
+            ,'fl' => 'id,pid,template_id,cid,cdate,content'
+            ,'rows' => 1
+        );
 
         $s = new \Casebox\CoreBundle\Service\Search();
         $sr = $s->query($params);
@@ -127,7 +121,7 @@ class Comments extends Base
             $d['cdate_text'] = Util\formatAgoTime($d['cdate']);
             $d['user'] = User::getDisplayName($d['cid'], true);
 
-            // Data in solr has already encoded html special chars
+            //data in solr has already encoded html special chars
             // so we need to decode it and to format the message (where the chars will be encoded again)
             $d['content'] = htmlspecialchars_decode($d['content'], ENT_COMPAT);
             $d['content'] = Object::processAndFormatMessage($d['content']);
@@ -141,16 +135,14 @@ class Comments extends Base
     }
 
     /**
-     * Add attachment links below the comments body
-     *
-     * @param array $rez
-     *
+     * add attachment links below the comments body
+     * @param  array reference $rez
      * @return void
      */
     protected static function addAttachmentLinks(&$rez)
     {
         //collect comment ids
-        $ids = [];
+        $ids = array();
 
         foreach ($rez['data'] as $d) {
             $ids[] = $d['id'];
@@ -160,32 +152,32 @@ class Comments extends Base
             return;
         }
 
-        // Select files for all loaded comments using a single solr request
-        $params = [
-            'system' => '[0 TO 2]',
-            'fq' => [
-                'pid:('.implode(' OR ', $ids).')',
-                'template_type:"file"',
-            ],
-            'fl' => 'id,pid,name,template_id',
-            'sort' => 'pid,cdate',
-            'rows' => 50,
-            'dir' => 'asc',
-        ];
+        //select files for all loaded comments using a single solr request
+        $params = array(
+            'system' => '[0 TO 2]'
+            ,'fq' => array(
+                'pid:(' . implode(' OR ', $ids) . ')'
+                ,'template_type:"file"'
+            )
+            ,'fl' => 'id,pid,name,template_id'
+            ,'sort' => 'pid,cdate'
+            ,'rows' => 50
+            ,'dir' => 'asc'
+        );
 
-        $s = new Search();
+        $s = new \Casebox\CoreBundle\Service\Search();
         $sr = $s->query($params);
 
-        $files = [];
-        $fileIds = [];
-        $fileTypes = [];
+        $files = array();
+        $fileIds = array();
+        $fileTypes = array();
 
         foreach ($sr['data'] as $d) {
             $files[$d['pid']][] = $d;
             $fileIds[] = $d['id'];
         }
 
-        // Get file types
+        //get file types
         if (!empty($fileIds)) {
             $fileTypes = DM\Files::getTypes($fileIds);
         }
@@ -195,35 +187,35 @@ class Comments extends Base
                 continue;
             }
 
-            $links = [];
+            $links = array();
             foreach ($files[$d['id']] as $f) {
                 $f['type'] = @$fileTypes[$f['id']];
                 $links[] = static::getFileLink($f);
             }
 
-            $d['files'] = '<ul class="comment-attachments"><li>'.implode('</li><li>', $links).'</li></ul>';
+            $d['files'] = '<ul class="comment-attachments"><li>' . implode('</li><li>', $links) .'</li></ul>';
         }
     }
 
     /**
-     * Get link to a file to be displayed in comments
-     *
-     * @param  array $file
-     *
+     * get link to a file to be displayed in comments
+     * @param  array  $file
      * @return string
      */
     protected static function getFileLink($file)
     {
+        $rez = '';
+
         if (substr($file['type'], 0, 5) == 'image') {
-            $rez = '<a class="click obj-ref" itemid="'.$file['id'].
-                '" templateid= "'.$file['template_id'].
-                '" title="'.$file['name'].
-                '"><img class="fit-img" src="/c/'.Config::get('core_name').'/download/'.$file['id'].'/" /></a>';
+            $rez = '<a class="click obj-ref" itemid="' . $file['id'] .
+                    '" templateid= "' . $file['template_id'] .
+                    '" title="' . $file['name'] .
+                    '"><img class="fit-img" src="/c/' . Config::get('core_name') . '/download/' . $file['id'] . '/" /></a>';
 
         } else {
-            $rez = '<a class="click obj-ref icon-padding '.Files::getIcon($file['name']).'" itemid="'.$file['id'].
-                '" templateid= "'.$file['template_id'].
-                '">'.$file['name'].'</a>';
+            $rez = '<a class="click obj-ref icon-padding ' . Files::getIcon($file['name']) . '" itemid="' . $file['id'] .
+                '" templateid= "' . $file['template_id'] .
+                '">' . $file['name'] . '</a>';
         }
 
         return $rez;

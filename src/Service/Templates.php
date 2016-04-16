@@ -22,7 +22,12 @@ class Templates
 
         foreach ($rez as &$r) {
             $r['title'] = Util\detectTitle($r['data']);
+
+            $r = array_merge($r, $r['data']);
+            $r['cfg'] = Util\toJSONArray($r['cfg']);
+
             unset($r['data']);
+
             unset($r['cfg']['source']['fn']);
         }
 
@@ -106,7 +111,7 @@ class Templates
     /**
      * Runs script for updating solr data for current template items
      *
-     * @param  int $templateId
+     * @param int $templateId
      *
      * @return array
      */

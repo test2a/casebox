@@ -124,6 +124,7 @@ class Browser
         // Set path and input params for last node
         //      because iterating each class and requesting children can
         //      invoke a search that will use last node to get facets and DC
+        $lastNode = null;
         if (!empty($this->path)) {
             $lastNode = $this->path[sizeof($path) - 1];
             $lastNode->path = $this->path;
@@ -150,6 +151,25 @@ class Browser
         $viewConfig = $this->detectViewConfig();
         $this->requestParams['view'] = $viewConfig;
         $this->result['view'] = $viewConfig;
+
+        //detect availableviews
+        $av = 'grid,charts,pivot,activeStream';
+        if (!empty($lastNode)) {
+            $r = $lastNode->getNodeParam('availableViews');
+            if (!empty($r['data'])) {
+                $av = $r['data'];
+            }
+        } else {
+            $r = Config::get('availableViews');
+            if (empty($r)) {
+                $r = Config::get('default_availableViews');
+            }
+
+            if (!empty($r)) {
+                $av = $r;
+            }
+        }
+        $this->result['availableViews'] = Util\toTrimmedArray($av);
 
         //remove sorting for some views
         if (isset($viewConfig['type'])) {
@@ -338,6 +358,9 @@ class Browser
                 );
             }
         }
+
+        $this->setCustomIcons($rez['data']);
+
     }
 
     protected function sortResult()
@@ -378,36 +401,102 @@ class Browser
             if (!empty($r['cfg'])) {
                 $fieldConfig = $r['cfg'];
 
-                if (!empty($r['cfg']['fq'])) {
+                //Dont add filter when ids are given (showing selected value)
+                if (empty($p['ids']) && !empty($r['cfg']['fq'])) {
                     $p['fq'] = $r['cfg']['fq'];
                 }
             }
         }
 
-        if (!empty($p['source'])) {
-            if (is_array($p['source'])) { // a custom source
+        if (!empty($fieldConfig['source'])) {
+            if (is_array($fieldConfig['source'])) { // a custom source
+                $source = $fieldConfig['source'];
                 $rez = [];
 
                 if (empty($p['fieldId'])) {
                     return $rez;
                 }
 
-                //get custom method from config
-                if (empty($fieldConfig['source']['fn'])) {
-                    return $rez;
+                //analize custom method sources
+                if (!empty($fieldConfig['source']['fn'])) {
+
+                    $method = explode('.', $fieldConfig['source']['fn']);
+                    $class = new $method[0]();
+                    $rez = $class->$method[1]($p);
+
+                    // if custom source returned any result then return it right there
+                    // otherwise custom source can add some filtering params and we go further processing
+                    if (!empty($rez)) {
+                        return $rez;
+                    }
                 }
 
-                $method = explode('.', $fieldConfig['source']['fn']);
-                $class = new $method[0]();
-                $rez = $class->$method[1]($p);
+                //analize facet sources
+                if (!empty($source['facet'])) {
+                    //creating facets
+                    $facetsDefinitions = \CB\Config::get('facet_configs');
+
+                    if (!empty($facetsDefinitions[$source['facet']])) {
+                        $conf = $facetsDefinitions[$source['facet']];
+                        $conf['name'] = $source['facet'];
+
+                        if (!empty($source['sort'])) {
+                            $conf['sort'] = $source['sort'];
+                        }
+
+                        $facet = \CB\Facets::getFacetObject($conf);
+
+                        if (!empty($facet)) {
+                            $p['rows'] = 0;
+                            $p['facets'] = [
+                                $source['facet'] => &$facet
+                            ];
+
+                            if (empty($p['fq'])) {
+                                $p['fq'] = [];
+                            }
+                            if (!empty($source['fq'])) {
+                                $p['fq'] = array_unique(array_merge($p['fq'], $source['fq']));
+                            }
+
+                            //apply other params that are set in source
+                            $p = array_merge(
+                                $p
+                                ,array_intersect_key(
+                                    $source,
+                                    [
+                                        'templates' => 1,
+                                        'pid' => 1,
+                                        'query' => 1,
+                                        'descendants' => 1
+                                    ]
+                                )
+                            );
+
+                            $search = new Search();
+
+                            $search->query($p);
+
+                            $cd =  $facet->getClientData();
+
+                            foreach ($cd['items'] as $id => $v) {
+                                $rez['data'][] = [
+                                    'id' => $id,
+                                    'name' => $v['name'] . ' (' . $v['count'] . ')'
+                                ];
+                            }
+                        }
+                    }
+                }
+
                 if (!empty($rez)) {
                     return $rez;
                 }
             }
 
-            switch ($p['source']) {
+            switch ($fieldConfig['source']) {
                 case 'field':
-                    switch ($p['scope']) {
+                    switch ($fieldConfig['scope']) {
                         case 'project':
                             $ids = DM\Tree::getCaseId(Path::detectRealTargetId($p['path']));
                             break;
@@ -530,8 +619,8 @@ class Browser
         }
 
         //increase number of returned items
-        if (empty($p['rows'])) {
-            if (empty($p['limit'])) {
+        if (!isset($p['rows'])) {
+            if (!isset($p['limit'])) {
                 if (empty($p['pageSize'])) {
                     $p['rows'] = 50;
                 } else {
@@ -553,17 +642,7 @@ class Browser
         $p['skipSecurity'] = true;
         $rez = $search->query($p);
 
-        foreach ($rez['data'] as &$doc) {
-            $ids[] = $doc['id'];
-        }
-
-        $recs = DM\Tree::readByIds($ids, true);
-
-        foreach ($rez['data'] as &$doc) {
-            if (!empty($recs[$doc['id']]['cfg']['iconCls'])) {
-                $doc['iconCls'] = $recs[$doc['id']]['cfg']['iconCls'];
-            }
-        }
+        $this->setCustomIcons($rez['data']);
 
         if (empty($rez['DC'])) {
             $rez['DC'] = [
@@ -730,8 +809,8 @@ class Browser
      * This function is used to generate a new name lyke "Copy of <old file_name> (1).ext".
      * Usually used when copy/pasting objects and pasted object should receive a new name.
      *
-     * @param int $pid parent object/folder id
-     * @param string $name old/existing object name
+     * @param int     $pid              parent object/folder id
+     * @param string  $name             old/existing object name
      * @param boolean $excludeExtension if true then characters after last "." will remain unchanged
      *
      * @return string new name
@@ -1033,9 +1112,33 @@ class Browser
             @$d['system'] = intval($d['system']);
             @$d['type'] = intval($d['type']);
 
+            // if ($d['system']) {
+            //     $d['name'] = L\getTranslationIfPseudoValue($d['name']);
+            // }
         }
 
         return $data;
+    }
+
+    /**
+     * set custom items for given records
+     * @param array $records
+     */
+    protected function setCustomIcons(&$records)
+    {
+        $ids = [];
+
+        foreach ($records as &$r) {
+            $ids[] = $r['id'];
+        }
+
+        $recs = DM\Tree::readByIds($ids, true);
+
+        foreach ($records as &$r) {
+            if (!empty($recs[$r['id']]['cfg']['iconCls'])) {
+                $r['iconCls'] = $recs[$r['id']]['cfg']['iconCls'];
+            }
+        }
     }
 
     /**
