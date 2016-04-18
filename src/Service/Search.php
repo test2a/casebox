@@ -850,7 +850,7 @@ class Search extends Solr\Client
         if (!empty($ids)) {
             $chunks = array_chunk($ids, 200);
 
-            //execute search
+            // execute search
             try {
                 foreach ($chunks as $chunk) {
                     $params = [

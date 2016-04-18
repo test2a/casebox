@@ -25,7 +25,7 @@ services:
     casebox_core.event_subscriber.solr_subscriber:
         class: Casebox\CoreBundle\EventSubscriber\SolrSubscriber
         calls:
-		    - [setContainer, ['@service_container']]
+            - [setContainer, ['@service_container'] ]
         tags:
             - { name: kernel.event_subscriber }
 
