@@ -268,7 +268,8 @@ class Config extends Singleton
             'photos_path' => $filesDir.'_photo'.$ds,
             'core_url' => $config['server_name'].'c/'.$coreName.'/',
             'core_uri' => '/c/'.$coreName.'/',
-            //'upload_temp_dir' => TEMP_DIR . $coreName . $ds,
+            //'core_dir' => ??
+            'upload_temp_dir' => $filesDir.'_temp',
             /* path to incomming folder. In this folder files are stored when just uploaded
             and before checking existance in target.
             If no user intervention is required then files are stored in db. */
@@ -297,22 +298,25 @@ class Config extends Singleton
             $rez['default_shortcut_template'] = $config['default_shortcut_template'];
         }
 
+        foreach ($config as $k => $v) {
+            if (( strlen($k) == 11 ) && ( substr($k, 0, 9) == 'language_')) {
+                $rez['language_settings'][substr($k, 9)] = Util\toJSONArray($v);
+            }
+        }
+
         /* Define Core available languages */
-        // $rez['languages'] = implode(',', array_keys($rez['language_settings']));
+        $rez['languages'] = implode(',', array_keys($rez['language_settings']));
 
-        // if (!empty($config['languages'])) {
-        //     $rez['languages'] = Util\toTrimmedArray($config['languages']);
+        if (!empty($config['languages'])) {
+            $rez['languages'] = Util\toTrimmedArray($config['languages']);
 
-        //     // define default core language
-        //     $rez['language'] = (
-        //             empty($config['default_language']) ||
-        //             !in_array($config['default_language'], $rez['languages'])
-        //         )
-        //         ? $rez['languages'][0]
-        //         : $config['default_language'];
-        // }
-
-        $rez['languages'] = empty($config['languages']) ? ['en'] : Util\toTrimmedArray($config['languages']);
+            // define default core language
+            if (empty($config['default_language']) || !in_array($config['default_language'], $rez['languages'])) {
+                $rez['language'] = $rez['languages'][0];
+            } else {
+                $rez['language'] = $config['default_language'];
+            }
+        }
 
         if (empty($config['languagesUI'])) {
             $rez['languagesUI'] = $rez['languages'];

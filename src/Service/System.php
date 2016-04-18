@@ -58,7 +58,10 @@ class System
             Cache::set('casebox_dbs', $dbs);
 
             // Loading full config of the core
-            Config::load($platformConfig);
+            $configs = Config::load($platformConfig);
+            foreach ($configs as $key => $config) {
+                Cache::set($key, $config);
+            }
 
             // Process user locale
             $user = $session->get('user');

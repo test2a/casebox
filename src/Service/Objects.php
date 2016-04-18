@@ -828,9 +828,6 @@ class Objects
             $templateData = $templates->getTemplate($templateId)->getData();
         }
 
-        $a = $templateData; //['cfg']['object_plugins']
-        $b = Config::get('default_object_plugins');
-
         $objectPlugins = empty($templateData['cfg']['object_plugins'])
             ? Config::get('default_object_plugins')
             : $templateData['cfg']['object_plugins'];
