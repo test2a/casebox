@@ -112,15 +112,18 @@ class Search extends Solr\Client
     {
         $p = &$this->inputParams;
 
-        /* initial parameters */
+        // initial parameters
         $this->query = empty($p['query']) ? '' : $p['query'];
 
         $this->rows = isset($p['rows']) ? intval($p['rows']) : User::getGridMaxRows();
 
-        $this->start = empty($p['start'])
-            ? (empty($p['page']) ? 0 : $this->rows * (intval($p['page']) - 1))
-            : intval($p['start']);
+        if (empty($p['start'])) {
+            $this->start = (empty($p['page']) ? 0 : $this->rows * (intval($p['page']) - 1));
 
+        } else {
+            $this->start = intval($p['start']);
+        }
+        
         $this->params = [
             'defType' => 'dismax',
             'q.alt' => '*:*',
@@ -283,10 +286,7 @@ class Search extends Solr\Client
             $range = ':['.
                 Util\dateMysqlToISO($p['dateStart']).
                 ' TO '.
-                (empty($p['dateEnd'])
-                    ? '*'
-                    : Util\dateMysqlToISO($p['dateEnd'])
-                ).
+                (empty($p['dateEnd']) ? '*' : Util\dateMysqlToISO($p['dateEnd'])).
                 ']';
             $fq[] = "date$range OR date_end$range";
         }
@@ -363,20 +363,14 @@ class Search extends Solr\Client
 
                 // check if sort is a string (considered a property name)
                 if (!is_array($p['sort'])) {
-                    $sort[$p['sort']] = empty($p['dir'])
-                        ? 'asc'
-                        : strtolower($p['dir']);
+                    $sort[$p['sort']] = empty($p['dir']) ? 'asc' : strtolower($p['dir']);
                 } else {
                     foreach ($p['sort'] as $s) {
                         if (is_array($s)) {
-                            $sort[$s['property']] = empty($s['direction'])
-                                ? 'asc'
-                                : strtolower($s['direction']);
+                            $sort[$s['property']] = empty($s['direction']) ? 'asc' : strtolower($s['direction']);
                         } else {
                             $s = explode(' ', $s);
-                            $sort[$s[0]] = empty($s[1])
-                                ? 'asc'
-                                : strtolower($s[1]);
+                            $sort[$s[0]] = empty($s[1]) ? 'asc' : strtolower($s[1]);
                         }
                     }
                 }
@@ -546,9 +540,11 @@ class Search extends Solr\Client
             $this->replaceSortFields();
 
             // don't escape query for BlockJoin faceting
-            $query = (substr($this->query, 0, 9) != '{!parent ')
-                ? $this->escapeLuceneChars($this->query)
-                : $this->query;
+            if ((substr($this->query, 0, 9) != '{!parent ')) {
+                $query = $this->escapeLuceneChars($this->query); 
+            } else {
+                $query = $this->query;
+            }
 
             try {
                 $this->results = $this->search(
