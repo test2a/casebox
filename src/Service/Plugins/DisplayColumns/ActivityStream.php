@@ -1,13 +1,19 @@
 <?php
 
-namespace DisplayColumns;
+namespace Casebox\CoreBundle\Service\Plugins\DisplayColumns;
 
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\DataModel as DM;
+use Casebox\CoreBundle\Traits\TranslatorTrait;
 
+/**
+ * Class ActivityStream
+ */
 class ActivityStream extends Base
 {
+    use TranslatorTrait;
+
     protected $fromParam = 'activityStream';
 
     public function onBeforeSolrQuery(&$p)
@@ -64,9 +70,9 @@ class ActivityStream extends Base
             switch ($r['action_type']) {
                 case 'move':
                 case 'copy':
-                    $actionLogIds[$r['id']]['diff'] = '<table class="as-diff"><tr><th>' .
-                        L\get('Path') . '</th><td>' .
-                        $d['old']['path'] . ' &#10142; ' . $d['new']['path'] .'</td></tr></table>';
+                    $actionLogIds[$r['id']]['diff'] = '<table class="as-diff"><tr><th>'.
+                        $this->trans('Path').'</th><td>'.
+                        $d['old']['path'].' &#10142; '.$d['new']['path'].'</td></tr></table>';
 
                     break;
                 default:
@@ -113,7 +119,7 @@ class ActivityStream extends Base
         $rez = [];
 
         $rez['sort'] = [
-            'property' => 'last_action_tdt' ,
+            'property' => 'last_action_tdt',
             'direction' => 'DESC',
         ];
 

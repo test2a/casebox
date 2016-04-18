@@ -1,5 +1,6 @@
-# Core object plugins
+# Plugins
 services:
+    # Object plugins
     casebox_core.service_objects_plugins.base:
         class: Casebox\CoreBundle\Service\Objects\Plugins\Base
 
@@ -32,3 +33,34 @@ services:
 
     casebox_core.service_objects_plugins.versions:
         class: Casebox\CoreBundle\Service\Objects\Plugins\Versions
+
+    # Core plugins
+    casebox_core.service_plugins.auto_set_fields:
+        class: Casebox\CoreBundle\Service\Plugins\AutoSetFields
+
+    casebox_core.service_plugins.system_folders:
+        class: Casebox\CoreBundle\Service\Plugins\SystemFolders
+
+    # Display column
+    casebox_core.service_plugins_display_columns.display_columns:
+        class: Casebox\CoreBundle\Service\Plugins\DisplayColumns\DisplayColumns
+        calls:
+            - [setContainer, ['@service_container']]
+
+    casebox_core.service_plugins_display_columns.activityStream:
+        class: Casebox\CoreBundle\Service\Plugins\DisplayColumns\ActivityStream
+
+    casebox_core.service_plugins_display_columns.base:
+        class: Casebox\CoreBundle\Service\Plugins\DisplayColumns\Base
+
+    casebox_core.service_plugins_display_columns.calendar:
+        class: Casebox\CoreBundle\Service\Plugins\DisplayColumns\Calendar
+
+    casebox_core.service_plugins_display_columns.formEditor:
+        class: Casebox\CoreBundle\Service\Plugins\DisplayColumns\FormEditor
+
+    casebox_core.service_plugins_display_columns.grid:
+        class: Casebox\CoreBundle\Service\Plugins\DisplayColumns\Grid
+
+    casebox_core.service_plugins_display_columns.map:
+        class: Casebox\CoreBundle\Service\Plugins\DisplayColumns\Map

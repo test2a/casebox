@@ -1,13 +1,17 @@
 <?php
-namespace AutoSetFields;
+
+namespace Casebox\CoreBundle\Service\Plugins;
 
 use Casebox\CoreBundle\Service\Util;
 
-class Listeners
+/**
+ * Class AutoSetFields
+ */
+class AutoSetFields
 {
     /**
-     * autoset fields
      * @param  object $o
+     *
      * @return void
      */
     public function onNodeDbCreateOrUpdate($o)
@@ -51,8 +55,10 @@ class Listeners
     }
 
     /**
-     * generate title string using given object data and titleTemplate
-     * @param  object  $object
+     * Generate title string using given object data and titleTemplate
+     *
+     * @param  object $object
+     *
      * @return string
      */
     protected function getAutoTitle($object)
@@ -70,7 +76,8 @@ class Listeners
         }
 
         $templateData = $template->getData();
-        $fields = array(); //used from php templates of title
+        // used from php templates of title
+        $fields = [];
         $rez = str_replace(
             '{template_title}',
             @$templateData['title'],
@@ -79,12 +86,12 @@ class Listeners
 
         if (strpos($rez, '{') !== false) {
             $ld = $object->getLinearData();
-            /* replace field values */
+            // Replace field values
             foreach ($ld as $field) {
                 $tf = $template->getField($field['name']);
                 $v = $template->formatValueForDisplay($tf, @$field['value'], false);
 
-                // decode special chars because formatValueForDisplay encodes textual values
+                // Decode special chars because formatValueForDisplay encodes textual values
                 // and we obtain double encoded values in solr
                 $v = htmlspecialchars_decode($v);
 
@@ -96,25 +103,23 @@ class Listeners
                 $fields[$field['name']] = $v;
             }
 
-            //replacing field titles into object title variable
+            // Replacing field titles into object title variable
             foreach ($templateData['fields'] as $fv) {
                 $rez = str_replace('{f'.$fv['name'].'t}', $fv['title'], $rez);
 
             }
         }
 
-        // evaluating the title if contains php code
+        // Evaluating the title if contains php code
         if (strpos($rez, '<?php') !== false) {
-
-            // no more EVAL, use event handlers to automatially set Titles in complex situations
+            // No more EVAL, use event handlers to automatially set Titles in complex situations
             // eval(' ?__>'.$rez.'<?php ');   also added '__' between ? and >
-
             if (!empty($title)) {
                 $rez = $title;
             }
         }
 
-        //replacing any remained field placeholder from the title
+        // Replacing any remained field placeholder from the title
         $rez = preg_replace('/\{[^\}]+\}/', '', $rez);
         $rez = stripslashes($rez);
 

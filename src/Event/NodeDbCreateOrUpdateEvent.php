@@ -6,9 +6,9 @@ use Casebox\CoreBundle\Service\Objects\Object as ObjectsObject;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Class NodeDbCreateEvent
+ * Class NodeDbCreateOrUpdateEvent
  */
-class NodeDbCreateEvent extends Event
+class NodeDbCreateOrUpdateEvent extends Event
 {
     /**
      * @var ObjectsObject

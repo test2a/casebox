@@ -81,6 +81,6 @@ class Instance
 
         $s = new Search();
 
-        return  $s->query($p);
+        return $s->query($p);
     }
 }

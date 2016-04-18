@@ -7,10 +7,12 @@ use Casebox\CoreBundle\Event\BeforeNodeDbDeleteEvent;
 use Casebox\CoreBundle\Event\BeforeNodeDbRestoreEvent;
 use Casebox\CoreBundle\Event\BeforeNodeDbUpdateEvent;
 use Casebox\CoreBundle\Event\NodeDbCreateEvent;
+use Casebox\CoreBundle\Event\NodeDbCreateOrUpdateEvent;
 use Casebox\CoreBundle\Event\NodeDbDeleteEvent;
 use Casebox\CoreBundle\Event\NodeDbRestoreEvent;
 use Casebox\CoreBundle\Event\NodeDbUpdateEvent;
 use Casebox\CoreBundle\Event\NodeLoadEvent;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -18,6 +20,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 class ObjectSubscriber implements EventSubscriberInterface
 {
+    /**
+     * @var Container
+     */
+    protected $container;
+    
     /**
      * @param BeforeNodeDbCreateEvent $event
      */
@@ -31,7 +38,23 @@ class ObjectSubscriber implements EventSubscriberInterface
      */
     public function onNodeDbCreate(NodeDbCreateEvent $event)
     {
-        // code...
+        // Dispatch system folders plugin
+        $this
+            ->container
+            ->get('casebox_core.service_plugins.system_folders')
+            ->onNodeDbCreate($event->getObject());
+    }
+
+    /**
+     * @param NodeDbCreateOrUpdateEvent $event
+     */
+    public function onNodeDbCreateOrUpdate(NodeDbCreateOrUpdateEvent $event)
+    {
+        // Dispatch auto set fields plugin
+        $this
+            ->container
+            ->get('casebox_core.service_plugins.auto_set_fields')
+            ->onNodeDbCreateOrUpdate($event->getObject());
     }
 
     /**
@@ -98,6 +121,7 @@ class ObjectSubscriber implements EventSubscriberInterface
         return [
             'beforeNodeDbCreate' => 'onBeforeNodeDbCreate',
             'nodeDbCreate' => 'onNodeDbCreate',
+            'nodeDbCreateOrUpdate' => 'onNodeDbCreateOrUpdate',
             'beforeNodeDbUpdate' => 'onBeforeNodeDbUpdate',
             'nodeDbUpdate' => 'onNodeDbUpdate',
             'beforeNodeDbDelete' => 'onBeforeNodeDbDelete',
@@ -106,5 +130,25 @@ class ObjectSubscriber implements EventSubscriberInterface
             'nodeDbRestore' => 'onNodeDbRestore',
             'onLoad' => 'onNodeLoad',
         ];
+    }
+
+    /**
+     * @return Container
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @param Container $container
+     *
+     * @return ObjectSubscriber $this
+     */
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
+
+        return $this;
     }
 }

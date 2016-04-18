@@ -64,13 +64,13 @@ class JavascriptService
                     'inline' => "setProgress('{{ 'Loading_ExtJS_Core'|trans }}', '30%')",
                 ],
                 'ext-all-debug' => [
-                    'src' => '/js/ext/ext-all-debug.js',
+                    'src' => '/js/ext/ext-all.js',
                 ],
                 'ext-charts-debug' => [
-                    'src' => '/js/ext/packages/ext-charts/build/ext-charts-debug.js',
+                    'src' => '/js/ext/packages/ext-charts/build/ext-charts.js',
                 ],
                 'ext-theme-classic-debug' => [
-                    'src' => '/js/ext/packages/ext-theme-classic/build/ext-theme-classic-debug.js',
+                    'src' => '/js/ext/packages/ext-theme-classic/build/ext-theme-classic.js',
                 ],
                 'extjs-ace-component' => [
                     'src' => '/js/extjs-ace/Component.js',

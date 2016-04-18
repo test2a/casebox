@@ -8,6 +8,7 @@ use Casebox\CoreBundle\Event\BeforeNodeDbRestoreEvent;
 use Casebox\CoreBundle\Event\BeforeNodeDbUpdateEvent;
 use Casebox\CoreBundle\Event\GeneratePreviewEvent;
 use Casebox\CoreBundle\Event\NodeDbCreateEvent;
+use Casebox\CoreBundle\Event\NodeDbCreateOrUpdateEvent;
 use Casebox\CoreBundle\Event\NodeDbDeleteEvent;
 use Casebox\CoreBundle\Event\NodeDbRestoreEvent;
 use Casebox\CoreBundle\Event\NodeDbUpdateEvent;
@@ -173,6 +174,7 @@ class Object
 
         // Fire create event
         $dispatcher->dispatch('nodeDbCreate', new NodeDbCreateEvent($this));
+        $dispatcher->dispatch('nodeDbCreateOrUpdate', new NodeDbCreateOrUpdateEvent($this));
 
         if (empty($p['draft'])) {
             $this->logAction(
@@ -498,6 +500,7 @@ class Object
         Cache::set('Objects['.$this->id.']', $this);
 
         $dispatcher->dispatch('nodeDbUpdate', new NodeDbUpdateEvent($this));
+        $dispatcher->dispatch('nodeDbCreateOrUpdate', new NodeDbCreateOrUpdateEvent($this));
 
         if ($wasDraft) {
             $this->logAction(
@@ -1295,7 +1298,7 @@ class Object
      *
      * @return array
      */
-    protected function getLinearNodesData(&$data, $sorted = false)
+    protected function getLinearNodesData(&$data, $sorted = false, $maxInstancesIndex = 0)
     {
         $rez = [];
         if (empty($data)) {
@@ -1935,7 +1938,7 @@ class Object
             // Always show spent time for templates with timeTracking so we can click on it
             // to display the plugin
             // if ($timeSpent > 0) {
-                $body .= '<tr><td class="prop-key">' . L\get('TimeSpent') . '</td>' .
+                $body .= '<tr><td class="prop-key">' . $this->trans('TimeSpent') . '</td>' .
                     '<td class="prop-val"><span class="time-spent click">' .
                     gmdate("G\h i\m", $timeSpent['sec']) .
                     ' / $' . number_format($timeSpent['money'], 2) .

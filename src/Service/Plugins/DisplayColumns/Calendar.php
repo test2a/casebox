@@ -1,9 +1,12 @@
 <?php
 
-namespace DisplayColumns;
+namespace Casebox\CoreBundle\Service\Plugins\DisplayColumns;
 
 use Casebox\CoreBundle\Service\Util;
 
+/**
+ * Class Calendar
+ */
 class Calendar extends Base
 {
     protected $fromParam = 'calendar';

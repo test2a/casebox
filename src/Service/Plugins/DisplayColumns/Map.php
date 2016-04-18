@@ -1,22 +1,28 @@
 <?php
-namespace DisplayColumns;
 
+namespace Casebox\CoreBundle\Service\Plugins\DisplayColumns;
+
+use Casebox\CoreBundle\Service\Purify;
+
+/**
+ * Class Map
+ */
 class Map extends Base
 {
-
     protected $fromParam = 'map';
 
     public function onBeforeSolrQuery(&$p)
     {
         $p['rows'] = 15;
-        $p['params']['fl'] = array(
-            'id', 'name'
-        );
+        $p['params']['fl'] = [
+            'id',
+            'name',
+        ];
 
         $ip = &$p['inputParams'];
 
         if (!empty($ip['view']['field'])) {
-            $fn = \Casebox\CoreBundle\Service\Purify::solrFieldName($ip['view']['field']);
+            $fn = Purify::solrFieldName($ip['view']['field']);
             if (!empty($fn)) {
                 $this->solrFieldName = $fn;
                 $p['params']['fl'][] = $fn;
@@ -36,21 +42,21 @@ class Map extends Base
 
     public function getSolrFields($nodeId = false, $templateId = false)
     {
-        $rez = array();
+        $rez = [];
 
         return $rez;
     }
 
     public function getDC()
     {
-        $rez = array();
+        $rez = [];
 
         return $rez;
     }
 
     public function getState($param = null)
     {
-        $rez = array();
+        $rez = [];
 
         return $rez;
     }

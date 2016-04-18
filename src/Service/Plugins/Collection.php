@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Plugins;
 
 use Casebox\CoreBundle\Service\DataModel as DM;
@@ -10,15 +11,13 @@ use Casebox\CoreBundle\Service\Util;
 class Collection
 {
     /**
-     * array of \Casebox\CoreBundle\Service\Plugin classes
+     * Array of \Casebox\CoreBundle\Service\Plugin classes
      * @var array
      */
-    public $items = array();
+    public $items = [];
 
     /**
-     * load all plugins from database
-     *
-     * @return void
+     * Load all plugins from database
      */
     public function loadAll()
     {
@@ -26,9 +25,9 @@ class Collection
             return $this->items;
         }
 
-        $this->items = array();
+        $this->items = [];
 
-        $recs = array();
+        $recs = [];
         // $recs = DM\Plugins::readAll();
 
         // Util\sortRecordsArray($recs, 'order', 'asc', 'asInt');
@@ -37,11 +36,11 @@ class Collection
             $this->items[$r['name']] = $r;
         }
 
-        $this->loaded = true;
+        return $this->loaded = true;
     }
 
     /**
-     * get plugin data by its name
+     * Get plugin data by its name
      *
      * @return array
      */
@@ -56,12 +55,12 @@ class Collection
     }
 
     /**
-     * get active plugin list as an associative array ($pluginName => $pluginConfig)
+     * Get active plugin list as an associative array ($pluginName => $pluginConfig)
      * @return string
      */
     public function getActivePlugins()
     {
-        $rez = array();
+        $rez = [];
         $this->loadAll();
 
         foreach ($this->items as $name => $data) {

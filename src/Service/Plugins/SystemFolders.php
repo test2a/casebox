@@ -1,15 +1,21 @@
 <?php
-namespace SystemFolders;
+
+namespace Casebox\CoreBundle\Service\Plugins;
 
 use Casebox\CoreBundle\Service\Cache;
 use \Casebox\CoreBundle\Service\Browser;
 use Casebox\CoreBundle\Service\Util;
 
-class Listeners
+/**
+ * Class SystemFolders
+ */
+class SystemFolders
 {
     /**
-     * create system folders specified in created objects template config as system_folders property
+     * Create system folders specified in created objects template config as system_folders property
+     *
      * @param  object $o
+     *
      * @return void
      */
     public function onNodeDbCreate($o)
@@ -17,7 +23,9 @@ class Listeners
         if (!is_object($o)) {
             return;
         }
+        
         $template = $o->getTemplate();
+        
         if (empty($template)) {
             return;
         }
@@ -33,10 +41,10 @@ class Listeners
             return;
         }
 
-        $p = array(
-            'sourceIds' => array()
-            ,'targetId' => $o->getData()['id']
-        );
+        $p = [
+            'sourceIds' => [],
+            'targetId' => $o->getData()['id'],
+        ];
 
         $browserActionsClass = new Browser\Actions();
 
@@ -44,23 +52,20 @@ class Listeners
 
         $res = $dbs->query(
             'SELECT id
-            FROM tree
-            WHERE pid in ('.implode(',', $folderIds).')
-                AND dstatus = 0'
+             FROM tree
+             WHERE pid in ('.implode(',', $folderIds).') AND dstatus = 0'
         );
+        
         while ($r = $res->fetch()) {
             $p['sourceIds'][] = $r['id'];
         }
+        
         unset($res);
 
         // $browserActionsClass->copy($p);
 
         $browserActionsClass->objectsClass = new \Casebox\CoreBundle\Service\Objects();
 
-        $browserActionsClass->doRecursiveAction(
-            'copy',
-            $p['sourceIds'],
-            $p['targetId']
-        );
+        $browserActionsClass->doRecursiveAction('copy', $p['sourceIds'], $p['targetId']);
     }
 }

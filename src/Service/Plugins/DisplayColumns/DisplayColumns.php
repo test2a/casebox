@@ -1,9 +1,22 @@
 <?php
-namespace DisplayColumns;
 
-class Listeners
+namespace Casebox\CoreBundle\Service\Plugins\DisplayColumns;
+
+use Symfony\Component\DependencyInjection\Container;
+
+/**
+ * Class DisplayColumnSubscribers
+ */
+class DisplayColumns
 {
-
+    /**
+     * @var Container
+     */
+    protected $container;
+    
+    /**
+     * @param array $p
+     */
     public function onBeforeSolrQuery(&$p)
     {
         $ip = &$p['inputParams'];
@@ -12,9 +25,7 @@ class Listeners
             return;
         }
 
-        $className = empty($ip['view']['type'])
-            ? ''
-            : $ip['view']['type'];
+        $className = empty($ip['view']['type']) ? '' : $ip['view']['type'];
 
         switch ($className) {
             case 'grid':
@@ -45,19 +56,17 @@ class Listeners
             default:
                 return;
         }
-
-        $className = __NAMESPACE__ . '\\' . ucfirst($className);
-        $class = new $className;
-
-        return  $class->onBeforeSolrQuery($p);
+        
+        return $this->getPlugin($className)->onBeforeSolrQuery($p);
     }
 
+    /**
+     * @param array $p
+     */
     public function onSolrQueryWarmUp(&$p)
     {
         $ip = &$p['inputParams'];
-        $className = empty($ip['view']['type'])
-            ? ''
-            : $ip['view']['type'];
+        $className = empty($ip['view']['type']) ? '' : $ip['view']['type'];
 
         switch ($className) {
             case 'grid':
@@ -65,19 +74,19 @@ class Listeners
             case 'formEditor':
                 break;
 
-            // dont need to warm up anything, cause location field and title is extracted from solr
+            // don't need to warm up anything, cause location field and title is extracted from solr
             // case 'map':
 
             default:
                 return;
         }
 
-        $className = __NAMESPACE__ . '\\' . ucfirst($className);
-        $class = new $className;
-
-        return $class->onSolrQueryWarmUp($p);
+        return $this->getPlugin($className)->onSolrQueryWarmUp($p);
     }
 
+    /**
+     * @param array $p
+     */
     public function onSolrQuery(&$p)
     {
         $ip = &$p['inputParams'];
@@ -86,9 +95,7 @@ class Listeners
             return;
         }
 
-        $className = empty($ip['view']['type'])
-            ? ''
-            : $ip['view']['type'];
+        $className = empty($ip['view']['type']) ? '' : $ip['view']['type'];
 
         switch ($className) {
             case 'grid':
@@ -102,9 +109,46 @@ class Listeners
                 return;
         }
 
-        $className = __NAMESPACE__ . '\\' . ucfirst($className);
-        $class = new $className;
+        return $this->getPlugin($className)->onSolrQuery($p);
+    }
 
-        return $class->onSolrQuery($p);
+    /**
+     * @param string $plugin
+     *
+     * @return object
+     * @throws \Exception
+     */
+    protected function getPlugin($plugin)
+    {
+        $serviceId = 'casebox_core.service_plugins_display_columns.'.$plugin;
+
+        if (!$this->container->has($serviceId)) {
+            $obj = $this->container->get($serviceId);
+        } else {
+            $class = __NAMESPACE__.'\\'.ucfirst($plugin);
+            $obj = new $class();
+        }
+        
+        return $obj;
+    }
+
+    /**
+     * @return Container
+     */
+    public function getContainer()
+    {
+        return $this->container;
+    }
+
+    /**
+     * @param Container $container
+     *
+     * @return DisplayColumns $this
+     */
+    public function setContainer(Container $container)
+    {
+        $this->container = $container;
+
+        return $this;
     }
 }
