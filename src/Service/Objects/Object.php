@@ -17,6 +17,7 @@ use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Purify;
+use Casebox\CoreBundle\Service\Solr\Client;
 use Casebox\CoreBundle\Service\Templates\SingletonCollection;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\Log;
@@ -1047,7 +1048,7 @@ class Object
         DM\Tree::delete($this->id, $persistent);
 
         if ($persistent) {
-            $solrClient = new \Casebox\CoreBundle\Service\Solr\Client();
+            $solrClient = new Client();
             $solrClient->deleteByQuery('id:'.$this->id);
         }
 
@@ -1408,7 +1409,7 @@ class Object
     public function getTemplate()
     {
         if (empty($this->template) && $this->loadTemplate && !empty($this->data['template_id'])) {
-            $this->template = \Casebox\CoreBundle\Service\Templates\SingletonCollection::getInstance()->getTemplate(
+            $this->template = SingletonCollection::getInstance()->getTemplate(
                 $this->data['template_id']
             );
         }

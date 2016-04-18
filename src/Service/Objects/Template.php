@@ -280,7 +280,7 @@ class Template extends Object
     /**
      * formats a value for display according to it's field definition
      * @param  array | int $field    array of field properties or field id
-     * @param  variant     $value    field value to be formated
+     * @param  array|string     $value    field value to be formated
      * @param  boolean     $html     default true - format for html, otherwise format for text display
      * @param  boolean     $showInfo add info if not empty to the end of returned result
      * @return string     formated value

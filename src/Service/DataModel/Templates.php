@@ -1,53 +1,67 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\DataModel;
 
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 
+/**
+ * Class Templates
+ */
 class Templates extends Base
 {
+    /**
+     * @var string
+     */
     protected static $tableName = 'templates';
 
-    protected static $tableFields = array(
-        'id' => 'int'
-        ,'pid' => 'int'
-        ,'is_folder' => 'int'
-        ,'type' => 'varchar'
-        ,'name' => 'varchar'
+    /**
+     * @var array
+     */
+    protected static $tableFields = [
+        'id' => 'int',
+        'pid' => 'int',
+        'is_folder' => 'int',
+        'type' => 'varchar',
+        'name' => 'varchar',
         // ,'l1' => 'varchar'
         // ,'l2' => 'varchar'
         // ,'l3' => 'varchar'
-        // ,'l4' => 'varchar'
-        ,'order' => 'int'
-        ,'visible' => 'int'
-        ,'iconCls' => 'varchar'
-        // ,'default_field' => 'varchar' //??
-        ,'cfg' => 'text'
-        ,'title_template' => 'varchar'
-        ,'info_template' => 'varchar'
-    );
+        // ,'l4' => 'varchar',
+        'order' => 'int',
+        'visible' => 'int',
+        'iconCls' => 'varchar',
+        // ,'default_field' => 'varchar' //??,
+        'cfg' => 'text',
+        'title_template' => 'varchar',
+        'info_template' => 'varchar',
+    ];
 
-    protected static $decodeJsonFields = array('cfg');
+    /**
+     * @var array
+     */
+    protected static $decodeJsonFields = ['cfg'];
 
+    /**
+     * @var bool
+     */
     protected static $allowReadAll = true;
 
     /**
-     * read all templates with data form objects table
-     * @param  int     $id
-     * @return boolean
+     * Read all templates with data form objects table
+     *
+     * @return array
      */
     public static function readAllWithData()
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
         $res = $dbs->query(
-            'SELECT t.*
-                ,o.data
-            FROM ' . static::getTableName() . ' t
-            LEFT JOIN objects o
-                ON t.id = o.id
+            'SELECT t.* ,o.data
+            FROM '.static::getTableName().' t
+            LEFT JOIN objects o ON t.id = o.id
             WHERE t.is_folder = 0'
         );
 
@@ -63,23 +77,19 @@ class Templates extends Base
     }
 
     /**
-     * get template ids by template type
+     * Get template ids by template type
+     *
      * @param string $type
+     *
      * @return array
      */
     public static function getIdsByType($type)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
-        $res = $dbs->query(
-            'SELECT id
-            FROM templates
-            WHERE `type` = $1
-            ORDER BY id',
-            $type
-        );
+        $res = $dbs->query('SELECT id FROM templates WHERE `type` = $1 ORDER BY id', $type);
 
         while ($r = $res->fetch()) {
             $rez[] = $r['id'];
@@ -90,21 +100,20 @@ class Templates extends Base
     }
 
     /**
-     * copy a record
-     * @param  int     $id
-     * @return boolean
+     * @param integer $sourceId
+     * @param integer $targetId
+     *
+     * @return bool
      */
     public static function copy($sourceId, $targetId)
     {
         $r = Tree::read($targetId);
-        $pid = empty($r)
-            ? null
-            : $r['pid'];
+        $pid = empty($r) ? null : $r['pid'];
 
         $dbs = Cache::get('casebox_dbs');
 
         $res = $dbs->query(
-            'INSERT INTO ' . static::getTableName() . '
+            'INSERT INTO '.static::getTableName().'
                 (id,
                 pid,
                 `is_folder`,
@@ -138,13 +147,13 @@ class Templates extends Base
                 `cfg`,
                 `title_template`,
                 `info_template`
-            FROM ' . static::getTableName() . '
+            FROM '.static::getTableName().'
             WHERE id = $1',
-            array(
-                $sourceId
-                ,$targetId
-                ,$pid
-            )
+            [
+                $sourceId,
+                $targetId,
+                $pid,
+            ]
         );
 
         return ($res->rowCount() > 0);
