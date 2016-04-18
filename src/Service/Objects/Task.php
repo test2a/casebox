@@ -643,9 +643,7 @@ class Task extends Object
             $p = '';
         }
 
-        $rtl = empty(Config::get('rtl'))
-            ? ''
-            : ' drtl';
+        $rtl = empty(CBConfig::get('rtl')) ? '' : ' drtl';
 
          $pb[0] = $this->getPreviewActionsRow() .
             '<table class="obj-preview' . $rtl . '"><tbody>' .

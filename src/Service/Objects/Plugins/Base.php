@@ -3,6 +3,7 @@ namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Templates;
+use Casebox\CoreBundle\Service\Util;
 
 /**
  * Class Base
@@ -53,9 +54,7 @@ class Base
 
         if (!empty($config['header'])) {
             $h = $config['header'];
-            $title = empty($h['title'])
-                ? ''
-                : Util\detectTitle($h['title']);
+            $title = empty($h['title']) ? '' : Util\detectTitle($h['title']);
 
             if (!empty($h['showTotal'])) {
                 $title .= ' ({total})';

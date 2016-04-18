@@ -62,8 +62,9 @@ class Config extends Singleton
     public static function load($cfg = [])
     {
         // Merging configs from platform, from casebox database and from core itself
-        $cfg = array_merge($cfg, static::getPlatformDBConfig());
-        $cfg = array_merge($cfg, static::getPlatformConfigForCore($cfg['coreName']));
+        // @todo - Extend configs
+        //$cfg = array_merge($cfg, static::getPlatformDBConfig());
+        //$cfg = array_merge($cfg, static::getPlatformConfigForCore($cfg['coreName']));
 
         $coreDBConfig = static::getCoreDBConfig();
 
@@ -72,7 +73,7 @@ class Config extends Singleton
         // Detect available languages
         $languages = empty($coreDBConfig['languages']) ? $cfg['languages'] : $coreDBConfig['languages'];
 
-        //prepare language properties to be decoded and merged
+        // prepare language properties to be decoded and merged
         $languages = explode(',', $languages);
         foreach ($languages as $l) {
             $l = 'language_'.$l;
@@ -84,7 +85,7 @@ class Config extends Singleton
             }
             $propertiesToMerge[] = $l;
         }
-
+        
         $cfg = static::mergeConfigs($cfg, $coreDBConfig, $propertiesToMerge);
 
         static::$config = static::adjustConfig($cfg);
@@ -92,10 +93,8 @@ class Config extends Singleton
 
         // Set max file version count
         if (isset(static::$config['files']['max_versions'])) {
-            __autoload('Casebox\\CoreBundle\\Service\\Files');
             Files::setMFVC(static::$config['files']['max_versions']);
         } elseif (isset(static::$config['max_files_version_count'])) { //backward compatibility check
-            __autoload('Casebox\\CoreBundle\\Service\\Files');
             Files::setMFVC(static::$config['max_files_version_count']);
         }
 
@@ -212,7 +211,7 @@ class Config extends Singleton
             }
         }
 
-        //iterate and collect resulting items
+        // iterate and collect resulting items
         foreach ($ref as &$r) {
             if (empty($r['pid'])) {
                 $rez[$r['param']] = $r['value'];

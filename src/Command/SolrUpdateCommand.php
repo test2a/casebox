@@ -42,12 +42,13 @@ class SolrUpdateCommand extends ContainerAwareCommand
         $system->bootstrap($container);
 
         $coreName = $container->getParameter('kernel.environment');
-
+        $all = $input->getOption('all');
+        
         $solr = new Client();
 
         $params = [
             'core' => $coreName,
-            'all' => (!empty($input->getOption('all'))) ? $input->getOption('all') : null,
+            'all' => (isset($all)) ? true : null,
             'cron_id' => null,
             'nolimit' => (!empty($input->getOption('nolimit'))) ? $input->getOption('nolimit') : null,
         ];
