@@ -1,9 +1,9 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\DataModel as DM;
+use Casebox\CoreBundle\Service\Files;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 
 /**
@@ -92,10 +92,10 @@ class Config extends Singleton
 
         // Set max file version count
         if (isset(static::$config['files']['max_versions'])) {
-            __autoload('Casebox\\CoreBundle\\Service\\Files');
+            // __autoload('Casebox\\CoreBundle\\Service\\Files');
             Files::setMFVC(static::$config['files']['max_versions']);
         } elseif (isset(static::$config['max_files_version_count'])) { //backward compatibility check
-            __autoload('Casebox\\CoreBundle\\Service\\Files');
+            // __autoload('Casebox\\CoreBundle\\Service\\Files');
             Files::setMFVC(static::$config['max_files_version_count']);
         }
 
@@ -330,7 +330,7 @@ class Config extends Singleton
      * set an environment core varibale
      *
      * @param string $varName
-     * @param array $value
+     * @param array  $value
      */
     public static function setEnvVar($varName, $value)
     {
@@ -341,7 +341,7 @@ class Config extends Singleton
      * get defined plugins for right panel for given object type
      *
      * @param string $objectType
-     * @param string $from defines subgroup plugin definition (window - object edit window)
+     * @param string $from       defines subgroup plugin definition (window - object edit window)
      *
      * @return array
      */
@@ -626,7 +626,7 @@ class Config extends Singleton
      * extend the given $customization from value set in $cutomization["extends"] if present under container
      *
      * @param string $container
-     * @param array $customization
+     * @param array  $customization
      *
      * @return array
      */
@@ -697,7 +697,7 @@ class Config extends Singleton
      * set flag value
      *
      * @param string $name
-     * @param array $value
+     * @param array  $value
      *
      * @return array return false if not set
      */

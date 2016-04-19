@@ -29,8 +29,12 @@ class MinCssCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // code...
+        $container = $this->getcontainer();
 
-        $output->writeln('<info>[x] CSS minify finish.</info>');
+        $minService = $container->get('casebox_core.service.minify');
+
+        $minService->execute('css', $output);
+
+        $output->writeln('<info>[x] CSS minify done.</info>');
     }
 }

@@ -43,3 +43,7 @@ services:
 
     casebox_core.service.objects:
         class: Casebox\CoreBundle\Service\Objects
+
+    casebox_core.service.minify:
+        class: Casebox\CoreBundle\Service\Minify
+        arguments: [ "@service_container" ]
