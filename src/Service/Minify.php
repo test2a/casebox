@@ -78,67 +78,20 @@ class Minify
 
             ob_start();
             \Minify::serve($min_serveController, $min_serveOptions);
-            // include $minDir . 'index.php';
-            $content = //'//' . $group . ": \n".
-            ob_get_clean();
+            $content = ob_get_clean();
 
             file_put_contents($min_documentRoot . 'min/' . $group . ".$ext", $content);
 
-            // $_GET['debug'] = 1;
             $min_serveOptions['debug'] = true;
 
             ob_start();
             \Minify::serve($min_serveController, $min_serveOptions);
-            // include $minDir . 'index.php';
-            $content = //'//' . $group . "-debug: \n".
-            ob_get_clean();
+            $content = ob_get_clean();
 
             file_put_contents($min_documentRoot . 'min/' . $group . "-debug.$ext", $content);
+
             unset($_GET['debug']);
         }
 
-    }
-
-    /**
-     * Set a variable value into the cache
-     *
-     * @param string $name name of variable
-     * @param  $value
-     */
-    public static function set($name, $value)
-    {
-        static::getInstance()->{$name} = $value;
-    }
-
-    /**
-     * Unset or remove a variable from the cache
-     *
-     * @param string $name name of variable
-     */
-    public static function remove($name)
-    {
-        unset(static::getInstance()->{$name});
-    }
-
-    /**
-     * Get a variable value From the cache
-     *
-     * @param string $name         Name of variable
-     * @param array  $defaultValue
-     *
-     * @return array|string|null|\PDO
-     */
-    public static function get($name, $defaultValue = null)
-    {
-        if (static::exist($name)) {
-            return static::getInstance()->{$name};
-        }
-
-        return $defaultValue;
-    }
-
-    public static function getAll()
-    {
-        return static::getInstance();
     }
 }

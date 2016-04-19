@@ -3,9 +3,7 @@
 namespace Casebox\CoreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -25,7 +23,7 @@ class MinAssetsCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return null
@@ -33,7 +31,7 @@ class MinAssetsCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $container = $this->getContainer();
-        $cmd = $container->getParameter('kernel.root_dir').'/../bin/console';
+        $cmd = 'php ' . $container->getParameter('kernel.root_dir').'/../bin/console';
 
         system($cmd.' casebox:min:css');
         system($cmd.' casebox:min:js');
@@ -49,9 +47,14 @@ class MinAssetsCommand extends ContainerAwareCommand
         $fs = new Filesystem();
 
         foreach ($symlinks as $key => $symlink) {
+            if ($fs->exists([$symlink])) {
+                continue;
+            }
+
             system('rm '.$symlink);
 
             $src = 'bundles/caseboxcore/'.$key;
+
             $dst = $symlink;
 
             $output->writeln(sprintf("<info>[*] Add '%s' symlink.</info>", $symlink));
