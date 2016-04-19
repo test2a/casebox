@@ -65,14 +65,11 @@ class IndexController extends Controller
     }
 
     /**
+     * @Route("/c/{coreName}/photo/.png", name="app_core_get_default_user_photo")
      * @Route(
      *     "/c/{coreName}/photo/{userId}.{extension}",
-     *     defaults={"extension": "(jpg|png)"},
-     *     name="app_core_get_user_photo",
-     *     requirements = {
-     *         "coreName": "[a-z0-9_\-]+",
-     *         "userId": "[0-9]+"
-     *     }
+     *     defaults={"extension":"(jpg|png)"},
+     *     name="app_core_get_user_photo"
      * )
      * @param Request $request
      * @param string $coreName
@@ -81,7 +78,7 @@ class IndexController extends Controller
      * @return Response
      * @throws \Exception
      */
-    public function getUserPhotoAction(Request $request, $coreName, $userId)
+    public function getUserPhotoAction(Request $request, $coreName, $userId = null)
     {
         $auth = $this->container->get('casebox_core.service_auth.authentication');
 
@@ -89,9 +86,14 @@ class IndexController extends Controller
             return $this->redirectToRoute('app_core_login', ['coreName' => $coreName]);
         }
 
-        $photoFile = User::getPhotoFilename($userId, isset($_GET['32']));
+        $photo = $this->container->getParameter('kernel.root_dir').'/../web/css/i/ico/32/user-male.png';
 
-        return new BinaryFileResponse($photoFile);
+        if (!empty($userId)) {
+            $q = (!empty($request->get('32'))) ? $request->get('32') : false;
+            $photo = User::getPhotoFilename($userId, $q);
+        }
+
+        return new BinaryFileResponse($photo);
     }
 
     /**
