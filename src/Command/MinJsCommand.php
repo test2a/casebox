@@ -3,9 +3,7 @@
 namespace Casebox\CoreBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -24,15 +22,19 @@ class MinJsCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return null
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        // code...
+        $container = $this->getcontainer();
 
-        $output->writeln('<info>[x] JS minify finish</info>');
+        $minService = $container->get('casebox_core.service.minify');
+
+        $minService->execute('js', $output);
+
+        $output->writeln('<info>[x] JS minify done</info>');
     }
 }
