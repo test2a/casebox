@@ -93,10 +93,9 @@ class Config extends Singleton
 
         // Set max file version count
         if (isset(static::$config['files']['max_versions'])) {
-            // __autoload('Casebox\\CoreBundle\\Service\\Files');
             Files::setMFVC(static::$config['files']['max_versions']);
-        } elseif (isset(static::$config['max_files_version_count'])) { //backward compatibility check
-            // __autoload('Casebox\\CoreBundle\\Service\\Files');
+        } elseif (isset(static::$config['max_files_version_count'])) { 
+            // backward compatibility check
             Files::setMFVC(static::$config['max_files_version_count']);
         }
 
