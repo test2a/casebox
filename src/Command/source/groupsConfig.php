@@ -246,15 +246,13 @@ return array(
         )
 
         ,'jsplugins' => array(
-            '//../src/CB/Plugins/DisplayColumns/DisplayColumns.js'
-
-            ,'//../src/CB/Plugins/Export/Init.js'
-            ,'//../src/CB/Plugins/Export/Button.js'
-
-            ,'//../src/CB/Plugins/Search/Init.js'
-            ,'//../src/CB/Plugins/Search/Button.js'
-            ,'//../src/CB/Plugins/Search/Form.js'
-            ,'//../src/CB/Plugins/Search/ResultForm.js'
+            '//js/CB/plugin/DisplayColumns.js',
+            '//js/CB/plugin/ExportInit.js',
+            '//js/CB/plugin/ExportButton.js',
+            '//js/CB/plugin/SearchInit.js',
+            '//js/CB/plugin/SearchButton.js',
+            '//js/CB/plugin/SearchForm.js',
+            '//js/CB/plugin/SearchResultForm.js',
         )
 
       );
