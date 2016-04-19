@@ -285,7 +285,7 @@ class Template extends Object
      * @param  boolean     $showInfo add info if not empty to the end of returned result
      * @return string     formated value
      */
-    public static function formatValueForDisplay($field, $value, $html = true, $showInfo = false)
+    public function formatValueForDisplay($field, $value, $html = true, $showInfo = false)
     {
         $cacheVarName = '';
 
