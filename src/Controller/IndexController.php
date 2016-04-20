@@ -57,6 +57,7 @@ class IndexController extends Controller
             'rtl' => Config::get('rtl') ? '-rtl' : '',
             'cssUserColors' => '<style>'.implode("\n", $colors).'</style>',
             'styles' => $this->container->get('casebox_core.service.styles_service')->getRendered(),
+            'locale' => $this->container->getParameter('locale'),
         ];
 
         $vars['javascript'] = $this->container->get('casebox_core.service.javascript_service')->getRendered($vars);
@@ -253,7 +254,10 @@ class IndexController extends Controller
      */
     public function indexAction()
     {
-        // code...
-        return $this->render('CaseboxCoreBundle::no-core-found.html.twig');
+        $vars = [
+            'locale' => $this->container->getParameter('locale'),
+        ];
+
+        return $this->render('CaseboxCoreBundle::no-core-found.html.twig', $vars);
     }
 }

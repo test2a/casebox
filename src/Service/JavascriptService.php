@@ -79,10 +79,10 @@ class JavascriptService
                     'inline' => "if (typeof(L) !== 'undefined') { LL = L; }",
                 ],
                 'ext-locale' => [
-                    'src' => '/js/ext/packages/ext-locale/build/ext-locale-{{ app.request.locale }}.js',
+                    'src' => '/js/ext/packages/ext-locale/build/ext-locale-{{ locale }}.js',
                 ],
                 'locale' => [
-                    'src' => '/min/locale/{{ app.request.locale }}.js',
+                    'src' => '/min/locale/{{ locale }}.js',
                 ],
                 'highlight' => [
                     'src' => '/js/highlight/highlight.pack.js',

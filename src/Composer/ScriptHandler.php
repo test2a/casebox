@@ -151,7 +151,7 @@ class ScriptHandler
     }
 
     /**
-     * Clears the Symfony cache.
+     * Export Casebox assets
      *
      * @param $event CommandEvent A instance
      */
@@ -164,5 +164,21 @@ class ScriptHandler
         }
 
         static::executeCommand($event, $consoleDir, 'casebox:min:assets');
+    }
+
+    /**
+     * Clears the Symfony cache.
+     *
+     * @param $event CommandEvent A instance
+     */
+    public static function buildTranslations(CommandEvent $event)
+    {
+        $consoleDir = static::getConsoleDir($event, 'clear the cache');
+
+        if (null === $consoleDir) {
+            return;
+        }
+
+        static::executeCommand($event, $consoleDir, 'casebox:translations:export');
     }
 }
