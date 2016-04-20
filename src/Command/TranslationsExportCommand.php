@@ -49,18 +49,13 @@ class TranslationsExportCommand extends ContainerAwareCommand
 
         foreach ($locales as $locale) {
             $catalog = $translator->getCatalogue($locale);
-
             $domains = $catalog->getDomains();
 
             $d = $input->getOption('domain');
-
             if (!empty($d)) {
-                if (empty($domains[$d])) {
-                    $output->writeln('<error>[!] Wrong domain provided.</error>');
-                    exit();
+                if (in_array($d, $domains)) {
+                    $translations[$locale] = $this->getTranslationsByDomain($d, $catalog);
                 }
-
-                $translations[$locale] = $this->getTranslationsByDomain($d, $catalog);
             } else {
                 foreach ($domains as $domain) {
                     $translations[$locale] = $this->getTranslationsByDomain($domain, $catalog);
