@@ -29,106 +29,37 @@ class Minify
     }
 
     /**
-     * generates minified files
+     * Generates minified files
      *
      * @param  array $groupName css|js
      * @param  OutputInterface $output
-     *
-     * @return void
      */
     public function execute($groupName, OutputInterface $output = null)
     {
-        $kernerRootDir = $this->container->getParameter('kernel.root_dir');
-        define('MINIFY_MIN_DIR', $kernerRootDir.'/../vendor/mrclay/minify/min/');
+        $public = $this->container->get('kernel')->locateResource('@CaseboxCoreBundle/Resources/public');
+        $assets = $this->getDefaultAssests();
+        
+        $options['quiet'] = true;
+        $options['debug'] = false;
 
-        // set config path defaults
-        $min_configPaths = [
-            'base' => MINIFY_MIN_DIR.'/config.php',
-            'test' => MINIFY_MIN_DIR.'/config-test.php',
-            'groups' => __DIR__.'/../Command/source/groupsConfig.php',
-        ];
-
-        // load config
-        require $min_configPaths['base'];
-
-        require_once "$min_libPath/Minify/Loader.php";
-        \Minify_Loader::register();
-
-        $min_documentRoot = realpath(__DIR__.'/..').'/Resources/public/';
-
-        $_SERVER['DOCUMENT_ROOT'] = $min_documentRoot;
-        \Minify::$isDocRootSet = true;
-
-        $_SERVER['REQUEST_URI'] = '/';
-        $_SERVER['QUERY_STRING'] = '';
-
-        $min_serveOptions['minApp']['groups'] = (require $min_configPaths['groups']);
-
-        if (!isset($min_serveController)) {
-            $min_serveController = new \Minify_Controller_MinApp();
-        }
-
-        foreach ($min_serveOptions['minApp']['groups'] as $group => $files) {
-            $content = '';
+        foreach ($assets as $group => $files) {
             $ext = (substr($group, 0, 2) == 'js') ? 'js' : 'css';
             if ($ext !== $groupName) {
                 continue;
             }
 
-            if ($output) {
-                $output->writeln($group);
+            foreach ($files as $key => $file) {
+                $options['files'][$key] = $public.'/'.$file;
             }
 
-            $_GET['g'] = $group;
-            $min_serveOptions['debug'] = false;
+            // Normal
+            $output = \Minify::serve(new \Minify_Controller_Files(), $options);
+            file_put_contents($public.'/min/'.$group.'.'.$ext, $output['content']);
 
-            ob_start();
-            \Minify::serve($min_serveController, $min_serveOptions);
-            $content = ob_get_clean();
-
-            file_put_contents($min_documentRoot.'min/'.$group.".$ext", $content);
-
-            $min_serveOptions['debug'] = true;
-
-            ob_start();
-            \Minify::serve($min_serveController, $min_serveOptions);
-            $content = ob_get_clean();
-
-            file_put_contents($min_documentRoot.'min/'.$group."-debug.$ext", $content);
-
-            unset($_GET['debug']);
-        }
-    }
-
-    /**
-     * @param string $groupName css|js
-     * @param OutputInterface $output
-     *
-     * @return void
-     */
-    public function execute1($groupName, OutputInterface $output = null)
-    {
-        $public = $this->container->get('kernel')->locateResource('@CaseboxCoreBundle/Resources/public');
-
-        $assets = $this->getDefaultAssests();
-        foreach ($assets as $group => $files) {
-            if ($groupName == 'css') {
-                $minifier = new CSS();
-            } else {
-                $minifier = new JS();
-            }
-
-            foreach ($files as $file) {
-                $ext = (substr($file, 0, 2) == 'js') ? 'js' : 'css';
-
-                if ($ext !== $groupName) {
-                    continue;
-                }
-
-                $minifier->add($public.'/'.$file);
-            }
-
-            $minifier->minify($public.'/min/'.$group.'.'.$ext);
+            // Debug
+            $options['debug'] = true;
+            $output = \Minify::serve(new \Minify_Controller_Files(), $options);
+            file_put_contents($public.'/min/'.$group.'-debug.'.$ext, $output['content']);
         }
     }
 
@@ -159,12 +90,12 @@ class Minify
                 'css/template_icons.css',
                 'css/common.css',
             ],
-            
+
             'csstheme' => [
                 'css/default/ribbon.css',
                 'css/default/theme.css',
             ],
-            
+
             'js' => [
                 'js/CB/DB/Models.js',
                 'js/iso8601.min.js',
@@ -227,7 +158,7 @@ class Minify
                 'js/CB/plugin/field/RemainingCharsHint.js',
                 'js/ux/Ext.ux.htmlEditor.js',
                 'js/ux/Ext.ux.plugins.defaultButton.js',
-                 // 'js/ux/Ext.ux.plugins.IconCombo.js',
+                // 'js/ux/Ext.ux.plugins.IconCombo.js',
                 'js/CB/CB.TextEditWindow.js',
                 'js/CB/CB.HtmlEditWindow.js',
                 'js/CB/facet/Base.js',
@@ -238,7 +169,7 @@ class Minify
                 'js/CB/CB.Clipboard.js',
                 'js/CB/CB.FilterPanel.js',
                 'js/CB/favorites/Panel.js',
-                 // 'js/CB/favorites/Button.js',
+                // 'js/CB/favorites/Button.js',
                 'js/CB/plugin/dd/FilesDropZone.js',
                 'js/CB/CB.Uploader.js',
                 'js/CB/CB.Security.js',
@@ -295,7 +226,7 @@ class Minify
                 'js/CB/widget/block/Pivot.js',
                 'js/CB/widget/block/Template.js',
             ],
-            
+
             'jsdev' => [
                 'js/CB/app.js',
                 'js/CB/controller/Browsing.js',
@@ -305,9 +236,9 @@ class Minify
                 'js/CB/view/BoundListKeyNav.js',
                 'js/CB/notifications/View.js',
                 'js/CB/notifications/SettingsWindow.js',
-                 // 'js/CB/overrides/form/action/Submit.js',
+                // 'js/CB/overrides/form/action/Submit.js',
             ],
-            
+
             'jsoverrides' => [
                 'js/overrides/Ajax.js',
                 'js/overrides/Patches.js',
@@ -330,7 +261,7 @@ class Minify
                 'js/overrides/util/AbstractMixedCollection.js',
                 'js/overrides/util/Format.js',
             ],
-            
+
             'jsplugins' => [
                 'js/CB/plugin/DisplayColumns.js',
                 'js/CB/plugin/ExportInit.js',
