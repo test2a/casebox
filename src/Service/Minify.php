@@ -38,7 +38,9 @@ class Minify
     {
         $public = $this->container->get('kernel')->locateResource('@CaseboxCoreBundle/Resources/public');
         $assets = $this->getDefaultAssests();
-        
+
+        \Minify::setDocRoot($public);
+
         $options['quiet'] = true;
         $options['debug'] = false;
 
