@@ -1,10 +1,13 @@
 <?php
 namespace Casebox\CoreBundle\Service\Objects;
 
+use Casebox\CoreBundle\Event\GetTimeCostEvent;
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Config as CBConfig;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Log;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class TimeTracking extends Object
 {
@@ -81,7 +84,7 @@ class TimeTracking extends Object
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('onGetTimeCost', new BeforeNodeDbCreateEvent($eventParams));
+        $dispatcher->dispatch('onGetTimeCost', new GetTimeCostEvent($eventParams));
 
         return $rez;
     }

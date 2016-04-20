@@ -2,6 +2,7 @@
 
 namespace Casebox\CoreBundle\Event;
 
+use Casebox\CoreBundle\Service\Objects\Object as ObjectsObject;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
@@ -10,23 +11,24 @@ use Symfony\Component\EventDispatcher\Event;
 class NodeLoadEvent extends Event
 {
     /**
-     * @var array
+     * @var ObjectsObject
      */
-    protected $params;
+    protected $object;
 
     /**
      * NodeLoadEvent constructor
+     * @param ObjectsObject $object
      */
-    public function __construct(array $params)
+    public function __construct(ObjectsObject $object)
     {
-        $this->params = $params;
+        $this->object = $object;
     }
 
     /**
-     * @return array
+     * @return ObjectsObject
      */
-    public function getParams()
+    public function getObject()
     {
-        return $this->params;
+        return $this->object;
     }
 }

@@ -49,9 +49,7 @@ class CreateMenu
         $menu = static::getMenuRules();
 
         $user = Cache::get('session')->get('user');
-        $ugids = isset($user['groups'])
-            ? $user['groups']
-            : [];
+        $ugids = isset($user['groups']) ? $user['groups'] : [];
 
         $ugids[] = $user['id'];
 

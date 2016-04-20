@@ -4,10 +4,12 @@ namespace Casebox\CoreBundle\EventSubscriber;
 
 use Casebox\CoreBundle\Event\BeforeNodeSolrUpdateEvent;
 use Casebox\CoreBundle\Event\BeforeSolrCommitEvent;
+use Casebox\CoreBundle\Event\BeforeSolrQueryEvent;
 use Casebox\CoreBundle\Event\BeforeSolrUpdateEvent;
 use Casebox\CoreBundle\Event\NodeSolrUpdateEvent;
 use Casebox\CoreBundle\Event\SolrCommitEvent;
 use Casebox\CoreBundle\Event\SolrQueryEvent;
+use Casebox\CoreBundle\Event\SolrQueryWarmUpEvent;
 use Casebox\CoreBundle\Event\SolrUpdateEvent;
 use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Solr\Client;
@@ -20,27 +22,29 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class SolrSubscriber implements EventSubscriberInterface
 {
     /**
-     * @param SolrQueryEvent $event
+     * @param SolrQueryWarmUpEvent $event
      */
-    public function onSolrQueryWarmUp(SolrQueryEvent $event)
+    public function onSolrQueryWarmUp(SolrQueryWarmUpEvent $event)
     {
-        // Dispatch display columns
+        $params = $event->getParams();
+
         $this
             ->container
             ->get('casebox_core.service_plugins_display_columns.display_columns')
-            ->onSolrQueryWarmUp($event->getParams());
+            ->onSolrQueryWarmUp($params);
     }
 
     /**
-     * @param SolrQueryEvent $event
+     * @param BeforeSolrQueryEvent $event
      */
-    public function onBeforeSolrQuery(SolrQueryEvent $event)
+    public function onBeforeSolrQuery(BeforeSolrQueryEvent $event)
     {
-        // Dispatch display columns
+        $params = $event->getParams();
+
         $this
             ->container
             ->get('casebox_core.service_plugins_display_columns.display_columns')
-            ->onBeforeSolrQuery($event->getParams());
+            ->onBeforeSolrQuery($params);
     }
     
     /**
@@ -48,11 +52,12 @@ class SolrSubscriber implements EventSubscriberInterface
      */
     public function onSolrQuery(SolrQueryEvent $event)
     {
-        // Dispatch display columns
+        $params = $event->getParams();
+
         $this
             ->container
             ->get('casebox_core.service_plugins_display_columns.display_columns')
-            ->onSolrQuery($event->getParams());
+            ->onSolrQuery($params);
     }
     
     /**
@@ -132,7 +137,7 @@ class SolrSubscriber implements EventSubscriberInterface
             'onSolrQueryWarmUp' => 'onSolrQueryWarmUp',
             'onBeforeSolrQuery' => 'onBeforeSolrQuery',
             'onSolrQuery' => 'onSolrQuery',
-            'casebox.solr.ontreeupdate' => 'onTreeUpdate',
+            'onSolrTreeUpdate' => 'onTreeUpdate',
             'onBeforeSolrUpdate' => 'onBeforeSolrUpdate',
             'onSolrUpdate' => 'onSolrUpdate',
             'beforeNodeSolrUpdate' => 'onBeforeNodeSolrUpdate',

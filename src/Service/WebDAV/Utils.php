@@ -8,6 +8,7 @@ use Casebox\CoreBundle\Service\Files;
 use Casebox\CoreBundle\Service\Objects\File;
 use Casebox\CoreBundle\Service\Objects\Object;
 use Casebox\CoreBundle\Service\Search;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class Utils
@@ -202,8 +203,9 @@ class Utils
         $temp = $temp->create($item);
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return $temp;
     }
@@ -243,8 +245,9 @@ class Utils
         $fl->upload($param);
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
     }
 
     /**
@@ -267,8 +270,9 @@ class Utils
         $file->update();
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
     }
 
     /**
@@ -280,7 +284,8 @@ class Utils
         $node->delete();
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
     }
 }

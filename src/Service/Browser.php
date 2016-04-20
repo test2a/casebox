@@ -234,7 +234,8 @@ class Browser
 
             $rez['name'] = @Util\adjustTextForDisplay($rez['name']);
             $rez['path'] = '/'.implode('/', $idsPath);
-            $rez['menu'] = $this->path[sizeof($this->path) - 1]->getCreateMenu($this->requestParams);
+            $rp = $this->requestParams;
+            $rez['menu'] = $this->path[sizeof($this->path) - 1]->getCreateMenu($rp);
         }
 
         return $rez;
@@ -682,8 +683,9 @@ class Browser
         }
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return [
             'success' => true,
@@ -724,8 +726,9 @@ class Browser
         }
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return ['success' => true, 'ids' => $ids];
     }
@@ -971,8 +974,9 @@ class Browser
         $files->storeFiles($p); // If everything is ok then store files
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         $rez = [
             'success' => true,
@@ -1033,8 +1037,9 @@ class Browser
         }
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         $rez = ['success' => true, 'data' => ['pid' => $a['pid']]];
         $files->attachPostUploadInfo($a['files'], $rez);

@@ -1194,8 +1194,9 @@ class Files
         Objects::updateCaseUpdateInfo($id);
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return $rez;
     }
@@ -1230,8 +1231,9 @@ class Files
         Objects::updateCaseUpdateInfo($id);
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return $rez;
     }
@@ -1302,8 +1304,9 @@ class Files
         // Objects::updateCaseUpdateInfo($id);
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return ['success' => true, 'rez' => $ids];
     }

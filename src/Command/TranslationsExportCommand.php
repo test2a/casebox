@@ -51,14 +51,20 @@ class TranslationsExportCommand extends ContainerAwareCommand
             $catalog = $translator->getCatalogue($locale);
             $domains = $catalog->getDomains();
 
+            $translations[$locale] = [];
+
             $d = $input->getOption('domain');
+
             if (!empty($d)) {
                 if (in_array($d, $domains)) {
                     $translations[$locale] = $this->getTranslationsByDomain($d, $catalog);
                 }
             } else {
                 foreach ($domains as $domain) {
-                    $translations[$locale] = $this->getTranslationsByDomain($domain, $catalog);
+                    $translations[$locale] = array_merge(
+                        $translations[$locale],
+                        $this->getTranslationsByDomain($domain, $catalog)
+                    );
                 }
             }
         }

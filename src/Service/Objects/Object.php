@@ -12,6 +12,7 @@ use Casebox\CoreBundle\Event\NodeDbCreateOrUpdateEvent;
 use Casebox\CoreBundle\Event\NodeDbDeleteEvent;
 use Casebox\CoreBundle\Event\NodeDbRestoreEvent;
 use Casebox\CoreBundle\Event\NodeDbUpdateEvent;
+use Casebox\CoreBundle\Event\NodeLoadEvent;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\DataModel as DM;
@@ -420,7 +421,7 @@ class Object
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('onObjectLoad', new BeforeNodeDbCreateEvent($this));
+        $dispatcher->dispatch('onNodeLoad', new NodeLoadEvent($this));
 
         return $this->data;
     }
@@ -1962,9 +1963,7 @@ class Object
         $top .= $body;
 
         if (!empty($top)) {
-            $rtl = empty(Config::get('rtl'))
-                ? ''
-                : ' drtl';
+            $rtl = empty(Config::get('rtl')) ? '' : ' drtl';
             $top = '<table class="obj-preview' . $rtl . '"><tbody>' . $top . '</tbody></table><br />';
         }
 

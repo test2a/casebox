@@ -10,6 +10,7 @@ use Casebox\CoreBundle\Service\Solr;
 use Casebox\CoreBundle\Service\Security;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class Actions
@@ -189,8 +190,9 @@ class Actions
         ];
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return $rez;
     }
@@ -241,8 +243,9 @@ class Actions
         ];
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return $rez;
     }
@@ -435,8 +438,9 @@ class Actions
         }
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return $rez;
     }

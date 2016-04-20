@@ -523,6 +523,7 @@ class Search extends Solr\Client
 
     private function executeQuery()
     {
+        $a = 1;
         try {
             $eventParams = [
                 'class' => &$this,
@@ -535,7 +536,7 @@ class Search extends Solr\Client
 
             /** @var EventDispatcher $dispatcher */
             $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-            $dispatcher->dispatch('beforeSolrQuery', new BeforeSolrQueryEvent($eventParams));
+            //$dispatcher->dispatch('onBeforeSolrQuery', new BeforeSolrQueryEvent($eventParams));
 
             $this->replaceSortFields();
 
@@ -565,7 +566,7 @@ class Search extends Solr\Client
                 );
             }
         } catch (\Exception $e) {
-            throw new \Exception("An error occured: \n\n {$e->__toString()}");
+            throw new \Exception(sprintf("Solr error occurred: %s", $e->getMessage()));
         }
     }
 
@@ -650,7 +651,7 @@ class Search extends Solr\Client
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('solrQuery', new SolrQueryEvent($eventParams));
+        $dispatcher->dispatch('onSolrQuery', new SolrQueryEvent($eventParams));
 
         $this->results = $rez;
     }
@@ -774,7 +775,7 @@ class Search extends Solr\Client
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('solrQueryWarmUp', new SolrQueryWarmUpEvent($eventParams));
+        $dispatcher->dispatch('onSolrQueryWarmUp', new SolrQueryWarmUpEvent($eventParams));
 
         return $requiredIds;
     }

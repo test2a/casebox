@@ -4,12 +4,14 @@ namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Event\BeforeNodeDbCreateEvent;
 use Casebox\CoreBundle\Event\NodeLoadEvent;
+use Casebox\CoreBundle\Event\NodeObjectsLoadEvent;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Objects\Plugins;
 use Casebox\CoreBundle\Service\Templates\SingletonCollection;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class Objects
@@ -106,8 +108,9 @@ class Objects
             'menu' => Browser\CreateMenu::getMenuForPath($p['id']),
         ];
 
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('onLoad', new NodeLoadEvent($rez));
+        $dispatcher->dispatch('onObjectsLoad', new NodeObjectsLoadEvent($rez));
 
         return $rez;
     }
@@ -148,8 +151,9 @@ class Objects
         $id = $object->create($p);
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         $rez = $this->load(['id' => $id]);
         $rez['data']['isNew'] = true;
@@ -357,8 +361,9 @@ class Objects
         DM\Tree::updateOwner($ids, $userId);
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return $rez;
     }
@@ -498,6 +503,7 @@ class Objects
         if (!empty($toLoad)) {
             $tc = SingletonCollection::getInstance();
             $data = DataModel\Objects::readAllData($toLoad);
+            /** @var EventDispatcher $dispatcher */
             $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
 
             foreach ($data as $objData) {
@@ -938,8 +944,9 @@ class Objects
         $id = $co->create($data);
 
         // Solr tree Update
+        /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-        $dispatcher->dispatch('casebox.solr.ontreeupdate');
+        $dispatcher->dispatch('onSolrTreeUpdate');
 
         return [
             'success' => true,
@@ -971,8 +978,9 @@ class Objects
             $comment->update($commentData);
 
             // Solr tree Update
+            /** @var EventDispatcher $dispatcher */
             $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-            $dispatcher->dispatch('casebox.solr.ontreeupdate');
+            $dispatcher->dispatch('onSolrTreeUpdate');
 
             $rez = [
                 'success' => true,
@@ -1008,8 +1016,9 @@ class Objects
             $comment->delete();
 
             // Solr tree Update
+            /** @var EventDispatcher $dispatcher */
             $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
-            $dispatcher->dispatch('casebox.solr.ontreeupdate');
+            $dispatcher->dispatch('onSolrTreeUpdate');
 
             $rez['success'] = true;
         }
