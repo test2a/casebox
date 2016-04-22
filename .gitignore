@@ -4,3 +4,4 @@ vendor/
 src/Resources/public/min/*.js
 src/Resources/public/min/*.css
 src/Resources/public/min/locale/*.js
+*sublime*
