@@ -47,3 +47,8 @@ services:
     casebox_core.service.minify:
         class: Casebox\CoreBundle\Service\Minify
         arguments: [ "@service_container" ]
+
+    casebox_core.service.web_dav_service:
+        class: Casebox\CoreBundle\Service\WebDavService
+        calls:
+            - [setContainer, ['@service_container']]

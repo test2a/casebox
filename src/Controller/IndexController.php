@@ -250,6 +250,78 @@ class IndexController extends Controller
     }
 
     /**
+     * @Route("/dav/{coreName}/{action}/{filename}", name="app_core_file_webdav")
+     * @param Request $request
+     * @param string $coreName
+     * @param string $action
+     * @param string $filename
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function webdavAction(Request $request, $coreName, $action, $filename)
+    {
+        $result = [
+            'success' => false,
+        ];
+
+        //$ary = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+        // error_log("initEnv: " . $_SERVER['REQUEST_URI']);
+        // echo(print_r($ary, true));
+
+        // remove URIPREFIX
+        //array_shift($ary);
+
+        $r = [];
+
+        $r['core'] = $coreName;
+
+        // current version
+        // /dav/{core}/edit-{nodeId}/{filename}
+        //
+        // version history
+        // /dav/{core}/edit-{nodeId}-{versionId}/{filename}
+        // /dav/{core}/edit-{nodeId}-{versionId}/
+        // also support a direct folder request /edit-{nodeId}
+        if (preg_match('/^edit-(\d+)/', $action, $m)) {
+            $r['mode'] = 'edit';
+
+            $r['nodeId'] = $m[1];
+
+            // /{core}/edit-{nodeId}-{versionId}/
+            $r['editFolder'] = $action;
+
+            // /edit-{nodeId}-{versionId}  ?
+            if (preg_match('/^edit-(\d+)-(\d+)\//', $action, $m)) {
+                $r['versionId'] = $m[2];
+            }
+
+            // {core}/edit-{nodeId}-{versionId}/{filename}
+            // only if filename is specified
+            if (!empty($filename)) {
+                $r['filename'] = $filename;
+            }
+
+            // root Sabredav folder, serve all requests from here: /dav/{core}/edit-{nnn}
+            // i.e. dav client should not try to get out of this folder
+            $r['rootFolder'] = '/' . $r['editFolder'];
+        } else {
+            // $r['core'] = $m[1];
+            $r['mode'] = 'browse';
+            $r['rootFolder'] = '';
+        }
+
+        //$_GET['core'] = $r['core'];
+
+        $webdav = $this->get('casebox_core.service.web_dav_service')->serve($r);
+        if (!empty($webdav)) {
+            $result = $webdav;
+        }
+
+        return new Response($result, 200, []);
+    }
+
+    /**
      * @Route("/", name="app_default")
      */
     public function indexAction()
