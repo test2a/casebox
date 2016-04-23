@@ -94,16 +94,16 @@ class JavascriptService
                     'src' => '/c/{{ coreName }}/remote/api',
                 ],
                 'js' => [
-                    'src' => '/min/js.js',
+                    'src' => '/min/js-debug.js',
                 ],
-                'jsdev' => [
-                    'src' => '/min/jsdev.js',
-                ],
-//                'jsoverrides' => [
-//                    'src' => '/min/jsoverrides.js',
-//                ],
+                // 'jsdev' => [
+                //     'src' => '/min/jsdev-debug.js',
+                // ],
+               'jsoverrides' => [
+                   'src' => '/min/jsoverrides-debug.js',
+               ],
                 'jsplugins' => [
-                    'src' => '/min/jsplugins.js',
+                    'src' => '/min/jsplugins-debug.js',
                 ],
                 'CB_Browser_SearchRouter' => [
                     'inline' => "CB.plugin.config = {'Search': {'handler': 'CB_Browser_SearchRouter.search'}};",
@@ -152,7 +152,7 @@ class JavascriptService
                         $template = $this->getTwig()->createTemplate($script['inline']);
                         $script['inline'] = $template->render($vars);
 
-                        $ords[(string)$script['weight']] = $this->getTwig()->render(
+                        $ords[(string) $script['weight']] = $this->getTwig()->render(
                             'CaseboxCoreBundle:render:javascript_inline_render.html.twig',
                             $script
                         );
@@ -160,7 +160,7 @@ class JavascriptService
                         $template = $this->getTwig()->createTemplate($script['src']);
                         $script['src'] = $template->render($vars);
 
-                        $ords[(string)$script['weight']] = $this->getTwig()->render(
+                        $ords[(string) $script['weight']] = $this->getTwig()->render(
                             'CaseboxCoreBundle:render:javascript_render.html.twig',
                             $script
                         );

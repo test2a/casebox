@@ -31,8 +31,8 @@ class Minify
     /**
      * Generates minified files
      *
-     * @param  array $groupName css|js
-     * @param  OutputInterface $output
+     * @param array           $groupName css|js
+     * @param OutputInterface $output
      */
     public function execute($groupName, OutputInterface $output = null)
     {
@@ -42,7 +42,6 @@ class Minify
         \Minify::setDocRoot($public);
 
         $options['quiet'] = true;
-        $options['debug'] = false;
 
         foreach ($assets as $group => $files) {
             $ext = (substr($group, 0, 2) == 'js') ? 'js' : 'css';
@@ -50,11 +49,13 @@ class Minify
                 continue;
             }
 
+            $options['files'] = [];
             foreach ($files as $key => $file) {
                 $options['files'][$key] = $public.'/'.$file;
             }
 
             // Normal
+            $options['debug'] = false;
             $output = \Minify::serve(new \Minify_Controller_Files(), $options);
             file_put_contents($public.'/min/'.$group.'.'.$ext, $output['content']);
 
@@ -62,6 +63,8 @@ class Minify
             $options['debug'] = true;
             $output = \Minify::serve(new \Minify_Controller_Files(), $options);
             file_put_contents($public.'/min/'.$group.'-debug.'.$ext, $output['content']);
+
+            unset($output);
         }
     }
 
@@ -227,9 +230,7 @@ class Minify
                 'js/CB/widget/block/Map.js',
                 'js/CB/widget/block/Pivot.js',
                 'js/CB/widget/block/Template.js',
-            ],
 
-            'jsdev' => [
                 'js/CB/app.js',
                 'js/CB/controller/Browsing.js',
                 'js/CB/controller/History.js',
@@ -238,7 +239,6 @@ class Minify
                 'js/CB/view/BoundListKeyNav.js',
                 'js/CB/notifications/View.js',
                 'js/CB/notifications/SettingsWindow.js',
-                // 'js/CB/overrides/form/action/Submit.js',
             ],
 
             'jsoverrides' => [

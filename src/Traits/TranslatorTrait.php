@@ -1,10 +1,8 @@
 <?php
-
 namespace Casebox\CoreBundle\Traits;
 
 use Casebox\CoreBundle\Service\Cache;
 use Symfony\Component\DependencyInjection\Container;
-use Symfony\Component\Translation\Loader\XliffFileLoader;
 use Symfony\Component\Translation\Translator;
 
 /**
@@ -19,7 +17,7 @@ trait TranslatorTrait
      *
      * @return string
      */
-    public function trans($name)
+    public static function trans($name)
     {
         /** @var Translator $translator */
         $translator = Cache::get('symfony.container')->get('translator');
