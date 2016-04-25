@@ -76,21 +76,28 @@ class Base
         $p = array_intersect_key($p, static::$tableFields);
 
         $fields = array_keys($p);
-        $values = array_values($p);
+        $inValues = array_values($p);
+        $outValues = [];
 
         // Prepare params
-        $params = array_keys($values);
-        $params[] = sizeof($params);
-        array_shift($params);
+        $params = [];
+        $k = 0;
 
         for ($i = 0; $i < sizeof($fields); $i++) {
-            $params[$i] = '$'.$params[$i];
+            if ($inValues[$i] === 'CURRENT_TIMESTAMP') {
+                $params[$i] = 'CURRENT_TIMESTAMP';
+
+            } else {
+                $k++;
+                $params[$i] = '$' . $k;
+                $outValues[] = $inValues[$i];
+            }
         }
 
         return [
             'fields' => $fields,
             'params' => $params,
-            'values' => $values,
+            'values' => $outValues
         ];
     }
 
@@ -233,8 +240,12 @@ class Base
 
         foreach ($p as $k => $v) {
             if ($k !== 'id') {
-                $assignments[] = "`$k` = \$" . $i++;
-                $values[] = $v;
+                if ($v === 'CURRENT_TIMESTAMP') {
+                    $assignments[] = "`$k` = CURRENT_TIMESTAMP";
+                } else {
+                    $assignments[] = "`$k` = \$" . $i++;
+                    $values[] = $v;
+                }
             }
         }
 
@@ -281,7 +292,7 @@ class Base
 
     /**
      * check if a record exists by its id or name field
-     * @param string $idOrName
+     * @param  string  $idOrName
      * @return boolean
      */
     public static function exists($idOrName)
@@ -298,10 +309,10 @@ class Base
 
     /**
      * get name for given id or return same result if numeric
-     * @param string $idOrName
-     * @param string $nameField to search by
-     * @param  int     $pid       filter by pid if set
-     * @return int     | null
+     * @param  string $idOrName
+     * @param  string $nameField to search by
+     * @param  int    $pid       filter by pid if set
+     * @return int    | null
      */
     public static function toId($idOrName, $nameField = 'name', $pid = false)
     {

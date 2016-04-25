@@ -3,7 +3,7 @@
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Config;
-use Casebox\CoreBundle\Service\Files;
+use Casebox\CoreBundle\Service\Files as FilesService;
 use Casebox\CoreBundle\Service\Objects\Object;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\DataModel as DM;
@@ -213,7 +213,7 @@ class Comments extends Base
                     '"><img class="fit-img" src="/c/' . Config::get('core_name') . '/download/' . $file['id'] . '/" /></a>';
 
         } else {
-            $rez = '<a class="click obj-ref icon-padding ' . Files::getIcon($file['name']) . '" itemid="' . $file['id'] .
+            $rez = '<a class="click obj-ref icon-padding ' . FilesService::getIcon($file['name']) . '" itemid="' . $file['id'] .
                 '" templateid= "' . $file['template_id'] .
                 '">' . $file['name'] . '</a>';
         }

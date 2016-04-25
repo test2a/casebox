@@ -25,7 +25,7 @@ class ObjectSubscriber implements EventSubscriberInterface
      * @var Container
      */
     protected $container;
-    
+
     /**
      * @param BeforeNodeDbCreateEvent $event
      */
@@ -49,13 +49,13 @@ class ObjectSubscriber implements EventSubscriberInterface
     /**
      * @param NodeDbCreateOrUpdateEvent $event
      */
-    public function onNodeDbCreateOrUpdate(NodeDbCreateOrUpdateEvent $event)
+    public function onBeforeNodeDbCreateOrUpdate(NodeDbCreateOrUpdateEvent $event)
     {
         // Dispatch auto set fields plugin
         $this
             ->container
             ->get('casebox_core.service_plugins.auto_set_fields')
-            ->onNodeDbCreateOrUpdate($event->getObject());
+            ->onBeforeNodeDbCreateOrUpdate($event->getObject());
     }
 
     /**
@@ -105,15 +105,15 @@ class ObjectSubscriber implements EventSubscriberInterface
     {
         // code...
     }
-    
+
     /**
      * @param NodeObjectsLoadEvent $event
      */
     public function onObjectsLoad(NodeObjectsLoadEvent $event)
     {
         // code...
-    }    
-    
+    }
+
     /**
      * @param NodeLoadEvent $event
      */
@@ -125,12 +125,12 @@ class ObjectSubscriber implements EventSubscriberInterface
     /**
      * @return array
      */
-    static function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return [
             'beforeNodeDbCreate' => 'onBeforeNodeDbCreate',
+            'beforeNodeDbCreateOrUpdate' => 'onBeforeNodeDbCreateOrUpdate',
             'nodeDbCreate' => 'onNodeDbCreate',
-            'nodeDbCreateOrUpdate' => 'onNodeDbCreateOrUpdate',
             'beforeNodeDbUpdate' => 'onBeforeNodeDbUpdate',
             'nodeDbUpdate' => 'onNodeDbUpdate',
             'beforeNodeDbDelete' => 'onBeforeNodeDbDelete',

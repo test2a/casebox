@@ -136,6 +136,7 @@ class Object
         /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
         $dispatcher->dispatch('beforeNodeDbCreate', new BeforeNodeDbCreateEvent($this));
+        $dispatcher->dispatch('beforeNodeDbCreateOrUpdate', new NodeDbCreateOrUpdateEvent($this));
 
         $p = &$this->data;
 
@@ -478,6 +479,7 @@ class Object
         /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');
         $dispatcher->dispatch('beforeNodeDbUpdate', new BeforeNodeDbUpdateEvent($this));
+        $dispatcher->dispatch('beforeNodeDbCreateOrUpdate', new NodeDbCreateOrUpdateEvent($this));
 
         $p = &$this->data;
 

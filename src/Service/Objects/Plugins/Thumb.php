@@ -2,7 +2,7 @@
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Config;
-use Casebox\CoreBundle\Service\Files;
+use Casebox\CoreBundle\Service\Files as FilesService;
 use Casebox\CoreBundle\Service\Util;
 
 /**
@@ -37,7 +37,7 @@ class Thumb extends Base
         $maxDisplaySize = Util\coalesce(Config::get('images_display_size'), 1024 * 1024);
 
         if ((substr($data['content_type'], 0, 5) == 'image') && ($data['size'] < $maxDisplaySize)) {
-            $preview = Files::generatePreview($data['id']);
+            $preview = FilesService::generatePreview($data['id']);
             if (!empty($preview['filename'])) {
                 $fn = Config::get('files_preview_dir').$preview['filename'];
                 $rez['data']['html'] = $fn;
@@ -46,7 +46,7 @@ class Thumb extends Base
                 }
             }
         } else {
-            $rez['data']['cls'] = 'pr-th-'.Files::getExtension($data['name']);
+            $rez['data']['cls'] = 'pr-th-' . FilesService::getExtension($data['name']);
         }
 
         return $rez;
