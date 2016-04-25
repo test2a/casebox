@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Plugins;
 
 use Casebox\CoreBundle\Service\Util;
@@ -10,11 +9,11 @@ use Casebox\CoreBundle\Service\Util;
 class AutoSetFields
 {
     /**
-     * @param  object $o
+     * @param object $o
      *
      * @return void
      */
-    public function onNodeDbCreateOrUpdate($o)
+    public function onBeforeNodeDbCreateOrUpdate($o)
     {
         if (!is_object($o)) {
             return;
@@ -57,7 +56,7 @@ class AutoSetFields
     /**
      * Generate title string using given object data and titleTemplate
      *
-     * @param  object $object
+     * @param object $object
      *
      * @return string
      */
