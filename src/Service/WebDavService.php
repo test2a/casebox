@@ -8,7 +8,6 @@ use Sabre\DAV\Server;
 use Sabre\DAV\TemporaryFileFilterPlugin;
 use Symfony\Component\DependencyInjection\Container;
 
-
 /**
  * Class WebDavService
  */
@@ -18,7 +17,7 @@ class WebDavService
      * server urls 'https://casebox.org/dav/{core}/edit-{id}/'
      */
     const URIPREFIX = 'dav';
-    
+
     /**
      * @var Container
      */
@@ -37,10 +36,10 @@ class WebDavService
             'nodeId' => 1,
             'parentDir' => null,
         ];
-        
+
         // The root folder = parentNode fo the file, if mode == 'edit'
         if ($params['mode'] == 'edit') {
-            $p['nodeId'] = WebDAV\Utils::getParentNodeId ($params['nodeId']);
+            $p['nodeId'] = WebDAV\Utils::getParentNodeId($params['nodeId']);
         }
 
         $rootNode = new WebDAV\Directory($params['rootFolder'], $p, $params);

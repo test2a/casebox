@@ -252,6 +252,9 @@ class IndexController extends Controller
 
     /**
      * @Route("/dav/{coreName}/{action}/{filename}", name="app_core_file_webdav")
+     * @Route("/dav/{coreName}/{action}", name="app_core_file_webdav_action")
+     * @Route("/dav/{coreName}", name="app_core_file_webdav_core")
+     * @Route("/dav/", name="app_core_file_webdav_root")
      * @param Request $request
      * @param string $coreName
      * @param string $action
