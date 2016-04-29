@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Controller;
 
 use Casebox\CoreBundle\Service\Auth\CaseboxAuth;
@@ -6,7 +7,9 @@ use Casebox\CoreBundle\Service\Browser;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Files;
+use Casebox\CoreBundle\Service\PreviewExtractor;
 use Casebox\CoreBundle\Service\User;
+use Casebox\CoreBundle\Service\Vocabulary\CountryVocabulary;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -32,8 +35,6 @@ class IndexController extends Controller
      */
     public function coreAction(Request $request, $coreName)
     {
-        $configService = $this->get('casebox_core.service.config');
-
         /** @var CaseboxAuth $auth */
         $auth = $this->container->get('casebox_core.service_auth.authentication');
 
@@ -51,9 +52,9 @@ class IndexController extends Controller
         }
 
         $vars = [
-            'projectName' => $configService->getProjectName(),
+            'projectName' => Config::getProjectName(),
             'coreName' => $request->attributes->get('coreName'),
-            'rtl' => $configService->get('rtl') ? '-rtl' : '',
+            'rtl' => Config::get('rtl') ? '-rtl' : '',
             'cssUserColors' => '<style>'.implode("\n", $colors).'</style>',
             'styles' => $this->container->get('casebox_core.service.styles_service')->getRendered(),
             'locale' => $this->container->getParameter('locale'),
@@ -72,8 +73,8 @@ class IndexController extends Controller
      *     name="app_core_get_user_photo"
      * )
      * @param Request $request
-     * @param string  $coreName
-     * @param int     $userId
+     * @param string $coreName
+     * @param int $userId
      *
      * @return Response
      * @throws \Exception
@@ -90,7 +91,7 @@ class IndexController extends Controller
 
         if (!empty($userId)) {
             $q = (!empty($request->get('32'))) ? $request->get('32') : false;
-            $photo = $this->container->get('casebox_core.service.user')->getPhotoFilename($userId, $q);
+            $photo = User::getPhotoFilename($userId, $q);
         }
 
         return new BinaryFileResponse($photo);
@@ -99,14 +100,13 @@ class IndexController extends Controller
     /**
      * @Route("/c/{coreName}/upload/", name="app_core_file_upload", requirements = {"coreName": "[a-z0-9_\-]+"})
      * @param Request $request
-     * @param string  $coreName
+     * @param string $coreName
      *
      * @return Response
      * @throws \Exception
      */
     public function uploadAction(Request $request, $coreName)
     {
-        $configService = $this->get('casebox_core.service.config');
         $auth = $this->container->get('casebox_core.service_auth.authentication');
 
         if (!$auth->isLogged(false)) {
@@ -120,7 +120,7 @@ class IndexController extends Controller
         if (isset($_SERVER['HTTP_X_FILE_OPTIONS'])) {
             $file = Util\jsonDecode($_SERVER['HTTP_X_FILE_OPTIONS']);
             $file['error'] = UPLOAD_ERR_OK;
-            $file['tmp_name'] = tempnam($configService->get('incomming_files_dir'), 'cbup');
+            $file['tmp_name'] = tempnam(Config::get('incomming_files_dir'), 'cbup');
             $file['name'] = urldecode($file['name']);
 
             if (empty($file['content_id'])) {
@@ -149,15 +149,14 @@ class IndexController extends Controller
     /**
      * @Route("/c/{coreName}/view/{id}/", name="app_core_file_view", requirements = {"coreName": "[a-z0-9_\-]+"})
      * @param Request $request
-     * @param string  $coreName
-     * @param string  $id
+     * @param string $coreName
+     * @param string $id
      *
      * @return Response
      * @throws \Exception
      */
     public function viewAction(Request $request, $coreName, $id)
     {
-        $configService = $this->get('casebox_core.service.config');
         $auth = $this->container->get('casebox_core.service_auth.authentication');
 
         if (!$auth->isLogged(false)) {
@@ -178,7 +177,7 @@ class IndexController extends Controller
                     $result .= $top.'<hr />';
                 }
 
-                $filesPreviewDir = $configService->get('files_preview_dir');
+                $filesPreviewDir = Config::get('files_preview_dir');;
 
                 if (!empty($preview['filename'])) {
                     $fn = $filesPreviewDir.$preview['filename'];
@@ -200,8 +199,8 @@ class IndexController extends Controller
     /**
      * @Route("/c/{coreName}/download/{id}/", name="app_core_file_download", requirements = {"coreName": "[a-z0-9_\-]+"})
      * @param Request $request
-     * @param string  $coreName
-     * @param string  $id
+     * @param string $coreName
+     * @param string $id
      *
      * @return Response
      * @throws \Exception
@@ -277,10 +276,10 @@ class IndexController extends Controller
 
         $r['core'] = $coreName;
 
-        // current version
+        // Current version
         // /dav/{core}/edit-{nodeId}/{filename}
         //
-        // version history
+        // Version history
         // /dav/{core}/edit-{nodeId}-{versionId}/{filename}
         // /dav/{core}/edit-{nodeId}-{versionId}/
         // also support a direct folder request /edit-{nodeId}
