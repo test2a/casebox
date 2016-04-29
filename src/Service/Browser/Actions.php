@@ -61,10 +61,11 @@ class Actions
     private function trivialChecks(&$p)
     {
         $dbs = Cache::get('casebox_dbs');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
 
         // Dummy check if not pasting an object over itself
         // but maybe in this case we can make a copy of the object with prefix 'Copy of ...'
-        if (!Config::get('allow_duplicates', false)) {
+        if (!$configService->get('allow_duplicates', false)) {
             $res = $dbs->query(
                 'SELECT id FROM tree WHERE pid = $1 AND id IN ('.implode(',', $p['sourceIds']).')',
                 $p['targetId']
@@ -104,8 +105,9 @@ class Actions
     private function overwriteCheck($sourceIds, $targetId)
     {
         $rez = false;
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
 
-        if (Config::get('allow_duplicates', false)) {
+        if ($configService->get('allow_duplicates', false)) {
             return $rez;
         }
 

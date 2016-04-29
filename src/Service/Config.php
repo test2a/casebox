@@ -1,6 +1,7 @@
 <?php
 namespace Casebox\CoreBundle\Service;
 
+use Symfony\Component\DependencyInjection\Container;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Files;
@@ -9,48 +10,56 @@ use Casebox\CoreBundle\Traits\TranslatorTrait;
 /**
  * Class Config
  */
-class Config extends Singleton
+class Config
 {
     use TranslatorTrait;
 
     /**
      * @var array
      */
-    protected static $config = [];
+    protected $config = [];
 
     /**
      * @var array
      */
-    protected static $environmentVars = [];
+    protected $environmentVars = [];
 
     /**
      * @var array
      */
-    protected static $plugins = [];
+    protected $plugins = [];
 
     /**
      * @var int
      */
-    public static $CORESTATUS_DISABLED = 0;
+    public $CORESTATUS_DISABLED = 0;
 
     /**
      * @var int
      */
-    public static $CORESTATUS_ACTIVE = 1;
+    public $CORESTATUS_ACTIVE = 1;
 
     /**
      * @var int
      */
-    public static $CORESTATUS_MAINT = 2;
+    public $CORESTATUS_MAINT = 2;
 
     /**
      * @var array
      */
-    protected static $flags = [
+    protected $flags = [
         'disableTriggers' => false,
         'disableSolrIndexing' => false,
         'disableActivityLog' => false,
     ];
+
+    /**
+     * Config constructor
+     */
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
 
     /**
      * Method for loading core config
@@ -59,14 +68,9 @@ class Config extends Singleton
      *
      * @return array throw an exception if core is not defined in db
      */
-    public static function load($cfg = [])
+    public function load($cfg = [])
     {
-        // Merging configs from platform, from casebox database and from core itself
-        // @todo - Extend configs
-        //$cfg = array_merge($cfg, static::getPlatformDBConfig());
-        //$cfg = array_merge($cfg, static::getPlatformConfigForCore($cfg['coreName']));
-
-        $coreDBConfig = static::getCoreDBConfig();
+        $coreDBConfig = $this->getCoreDBConfig();
 
         $propertiesToMerge = ['files'];
 
@@ -85,30 +89,30 @@ class Config extends Singleton
             }
             $propertiesToMerge[] = $l;
         }
-        
-        $cfg = static::mergeConfigs($cfg, $coreDBConfig, $propertiesToMerge);
 
-        static::$config = static::adjustConfig($cfg);
-        static::$environmentVars = static::getEnvironmentVars(static::$config);
+        $cfg = $this->mergeConfigs($cfg, $coreDBConfig, $propertiesToMerge);
+
+        $this->config = $this->adjustConfig($cfg);
+        $this->environmentVars = $this->getEnvironmentVars($this->config);
 
         // Set max file version count
-        if (isset(static::$config['files']['max_versions'])) {
-            Files::setMFVC(static::$config['files']['max_versions']);
-        } elseif (isset(static::$config['max_files_version_count'])) { 
+        if (isset($this->config['files']['max_versions'])) {
+            Files::setMFVC($this->config['files']['max_versions']);
+        } elseif (isset($this->config['max_files_version_count'])) {
             // backward compatibility check
-            Files::setMFVC(static::$config['max_files_version_count']);
+            Files::setMFVC($this->config['max_files_version_count']);
         }
 
-        ini_set('error_log', static::$environmentVars['error_log']);
+        ini_set('error_log', $this->environmentVars['error_log']);
 
-        return static::$config;
+        return $this->config;
     }
 
     /**
      * Reading configuration file
      * @return array
      */
-    public static function loadConfigFile($filename)
+    public function loadConfigFile($filename)
     {
         if (file_exists($filename)) {
             $rez = parse_ini_file($filename);
@@ -120,58 +124,12 @@ class Config extends Singleton
     }
 
     /**
-     * get casebox config stored in database
-     *
-     * TODO: remove this method after config migration
-     * @return array
-     */
-    public static function getPlatformDBConfig()
-    {
-        $rez = [];
-
-        // $recs = DM\GlobalConfig::readAll();
-
-        // foreach ($recs as $r) {
-        //     if (!empty($r['pid'])) {
-        //         $rez[$r['param']] = $r['value'];
-        //     }
-        // }
-        return $rez;
-    }
-
-    /**
-     * get core config stored in casebox.cores table
-     *
-     * @return array
-     */
-    public static function getPlatformConfigForCore($coreName)
-    {
-        $rez = [];
-
-        // $r = DM\Core::read($coreName);
-
-        // if (isset($r['cfg'])) {
-        //     $rez = $r['cfg'];
-        //     $rez['core_id'] = $r['id'];
-        //     $rez['core_status'] = $r['active'];
-
-        // } else {
-        //     trigger_error(
-        //         "ERROR: Config::getPlatformConfigForCore(" . $coreName . ") cfg=" . print_r($r, true),
-        //         E_USER_WARNING
-        //     );
-        //     // throw new \Exception('Error getting core config', 1);
-        // }
-        return $rez;
-    }
-
-    /**
      * get core config stored in database
      *
      * TODO: remove this method after config migration
      * @return array
      */
-    private static function getCoreDBConfig()
+    private function getCoreDBConfig()
     {
         $rez = [];
 
@@ -227,22 +185,22 @@ class Config extends Singleton
      * if cannot be found - coreName is returned
      * @return string
      */
-    public static function getProjectName()
+    public function getProjectName()
     {
-        $userLanguage = Config::get('user_language', 'en');
+        $userLanguage = $this->get('user_language', 'en');
 
-        $rez = static::get('project_name_'.$userLanguage);
+        $rez = $this->get('project_name_'.$userLanguage);
 
         if (empty($rez)) {
-            $rez = static::get('project_name');
+            $rez = $this->get('project_name');
         }
 
         if (empty($rez)) {
-            $rez = static::get('project_name_en');
+            $rez = $this->get('project_name_en');
         }
 
         if (empty($rez)) {
-            $rez = static::get('coreName');
+            $rez = $this->get('coreName');
         }
 
         return $rez;
@@ -252,7 +210,7 @@ class Config extends Singleton
      * get environment variables from given config
      * @return array
      */
-    private static function getEnvironmentVars($config)
+    private function getEnvironmentVars($config)
     {
         $coreName = $config['coreName'];
         $ds = DIRECTORY_SEPARATOR;
@@ -336,9 +294,9 @@ class Config extends Singleton
      * @param string $varName
      * @param array  $value
      */
-    public static function setEnvVar($varName, $value)
+    public function setEnvVar($varName, $value)
     {
-        static::$environmentVars[$varName] = $value;
+        $this->environmentVars[$varName] = $value;
     }
 
     /**
@@ -349,10 +307,10 @@ class Config extends Singleton
      *
      * @return array
      */
-    public static function getObjectTypePluginsConfig($objectType, $from = '')
+    public function getObjectTypePluginsConfig($objectType, $from = '')
     {
         $rez = [];
-        $tmp = static::get('object_type_plugins');
+        $tmp = $this->get('object_type_plugins');
 
         if (!empty($from)) {
             $tmp = @$tmp[$from];
@@ -361,7 +319,7 @@ class Config extends Singleton
         if (!empty($tmp[$objectType])) {
             $rez = $tmp[$objectType];
         } else {
-            $tmp = static::get('default_object_plugins');
+            $tmp = $this->get('default_object_plugins');
 
             if (!empty($from)) {
                 $tmp = @$tmp[$from];
@@ -379,126 +337,122 @@ class Config extends Singleton
      * return default columns available for griv view
      * @return array
      */
-    public static function getDefaultGridViewColumns()
+    public function getDefaultGridViewColumns()
     {
-        $instance = static::getInstance();
-
-        if (empty($instance->defaultGridViewColumns)) {
-            $instance->defaultGridViewColumns = [
+        if (empty($this->defaultGridViewColumns)) {
+            $this->defaultGridViewColumns = [
                 'nid' => 'ID',
-                'name' => self::trans('Name'),
-                'path' => self::trans('Path'),
-                'case' => self::trans('Project'),
-                'date' => self::trans('Date'),
-                'size' => self::trans('Size'),
-                'cid' => self::trans('Creator'),
-                'oid' => self::trans('Owner'),
-                'uid' => self::trans('UpdatedBy'),
-                'comment_user_id' => self::trans('CommentedBy'),
-                'cdate' => self::trans('CreatedDate'),
-                'udate' => self::trans('UpdatedDate'),
-                'comment_date' => self::trans('CommentedDate'),
-                'date_end' => self::trans('EndDate'),
+                'name' => $this->trans('Name'),
+                'path' => $this->trans('Path'),
+                'case' => $this->trans('Project'),
+                'date' => $this->trans('Date'),
+                'size' => $this->trans('Size'),
+                'cid' => $this->trans('Creator'),
+                'oid' => $this->trans('Owner'),
+                'uid' => $this->trans('UpdatedBy'),
+                'comment_user_id' => $this->trans('CommentedBy'),
+                'cdate' => $this->trans('CreatedDate'),
+                'udate' => $this->trans('UpdatedDate'),
+                'comment_date' => $this->trans('CommentedDate'),
+                'date_end' => $this->trans('EndDate'),
             ];
         }
 
-        return $instance->defaultGridViewColumns;
+        return $this->defaultGridViewColumns;
     }
 
     /**
      * return default configs for known grid columns
      * @return array
      */
-    public static function getDefaultGridColumnConfigs()
+    public function getDefaultGridColumnConfigs()
     {
-        $instance = static::getInstance();
-
-        if (empty($instance->defaultGridColumnConfigs)) {
-            $userConfig = &Cache::get('session')->get('user')['cfg'];
+        if (empty($this->defaultGridColumnConfigs)) {
+            $userConfig = Cache::get('session')->get('user')['cfg'];
             $dateFormat = $userConfig['short_date_format'];
             $dateTimeFormat = $dateFormat.' '.$userConfig['time_format'];
 
-            $instance->defaultGridColumnConfigs = [
+            $this->defaultGridColumnConfigs = [
                 'nid' => [
                     'title' => 'ID',
                     'width' => 80,
                 ],
                 'name' => [
-                    'title' => self::trans('Name'),
+                    'title' => $this->trans('Name'),
                     'width' => 300,
                 ],
                 'path' => [
-                    'title' => self::trans('Path'),
+                    'title' => $this->trans('Path'),
                     'width' => 150,
                 ],
                 'case' => [
-                    'title' => self::trans('Project'),
+                    'title' => $this->trans('Project'),
                     "solr_column_name" => "case_id",
                     "fieldType" => "_objects",
                     'width' => 150,
                 ],
                 'date' => [
-                    'title' => self::trans('Date'),
+                    'title' => $this->trans('Date'),
                     'width' => 130,
                     'xtype' => 'datecolumn',
                     'format' => $dateTimeFormat,
                 ],
                 'size' => [
-                    'title' => self::trans('Size'),
+                    'title' => $this->trans('Size'),
                     'width' => 80,
                 ],
                 'cid' => [
-                    'title' => self::trans('Creator'),
+                    'title' => $this->trans('Creator'),
                     'width' => 200,
                 ],
                 'oid' => [
-                    'title' => self::trans('Owner'),
+                    'title' => $this->trans('Owner'),
                     'width' => 200,
                 ],
                 'uid' => [
-                    'title' => self::trans('UpdatedBy'),
+                    'title' => $this->trans('UpdatedBy'),
                     'width' => 200,
                 ],
                 'did' => [
-                    'title' => self::trans('DeletedBy'),
+                    'title' => $this->trans('DeletedBy'),
                     'width' => 200,
                 ],
                 'comment_user_id' => [
-                    'title' => self::trans('CommentedBy'),
+                    'title' => $this->trans('CommentedBy'),
                     'width' => 200,
                 ],
                 'cdate' => [
-                    'title' => self::trans('CreatedDate'),
+                    'title' => $this->trans('CreatedDate'),
                     'width' => 130,
                     'xtype' => 'datecolumn',
                     'format' => $dateTimeFormat,
                 ],
                 'udate' => [
-                    'title' => self::trans('UpdatedDate'),
+                    'title' => $this->trans('UpdatedDate'),
                     'width' => 130,
                     'xtype' => 'datecolumn',
                     'format' => $dateTimeFormat,
                 ],
                 'ddate' => [
-                    'title' => self::trans('DeletedDate'),
+                    'title' => $this->trans('DeletedDate'),
                     'width' => 130,
                     'xtype' => 'datecolumn',
                     'format' => $dateTimeFormat,
                 ],
                 'comment_date' => [
-                    'title' => self::trans('CommentedDate'),
+                    'title' => $this->trans('CommentedDate'),
                     'width' => 130,
                     'xtype' => 'datecolumn',
                     'format' => $dateTimeFormat,
                 ],
                 'date_end' => [
-                    'title' => self::trans('EndDate'),
+                    'title' => $this->trans('EndDate'),
                     'width' => 130,
                     'xtype' => 'datecolumn',
                     'format' => $dateTimeFormat,
                 ],
                 'order' => [
-                    'title' => self::trans('Order'),
+                    'title' => $this->trans('Order'),
                     //we shouldnt set solr_column_name by default
                     //because there are templates that could extract values from objects
                     // ,'solr_column_name' => 'order'
@@ -508,47 +462,47 @@ class Config extends Singleton
 
                 ],
                 'task_u_assignee' => [
-                    'title' => self::trans('Assignee'),
+                    'title' => $this->trans('Assignee'),
                     'width' => 200,
                 ],
                 'task_u_started' => [
-                    'title' => self::trans('StartedBy'),
+                    'title' => $this->trans('StartedBy'),
                     'width' => 200,
                 ],
                 'task_u_ongoing' => [
-                    'title' => self::trans('Ongoing'),
+                    'title' => $this->trans('Ongoing'),
                     'width' => 200,
                 ],
                 'task_u_done' => [
-                    'title' => self::trans('DoneBy'),
+                    'title' => $this->trans('DoneBy'),
                     'width' => 200,
                 ],
                 'task_u_blocker' => [
-                    'title' => self::trans('Blocker'),
+                    'title' => $this->trans('Blocker'),
                     'width' => 200,
                 ],
                 'task_u_all' => [
-                    'title' => self::trans('All'),
+                    'title' => $this->trans('All'),
                     'width' => 200,
                 ],
                 'task_d_closed' => [
-                    'title' => self::trans('ClosedDate'),
+                    'title' => $this->trans('ClosedDate'),
                     "solr_column_name" => "task_d_closed",
                     'width' => 130,
                     'xtype' => 'datecolumn',
                     'format' => $dateTimeFormat,
                 ],
                 'task_status' => [
-                    'title' => self::trans('Status'),
+                    'title' => $this->trans('Status'),
                     'width' => 70,
                 ],
             ];
         }
 
-        return $instance->defaultGridColumnConfigs;
+        return $this->defaultGridColumnConfigs;
     }
 
-    private static function adjustConfig($cfg)
+    private function adjustConfig($cfg)
     {
         //facet definitions defined globally in casebox config
         $dfd = [];
@@ -634,12 +588,12 @@ class Config extends Singleton
      *
      * @return array
      */
-    public static function extend($container, $customization)
+    public function extend($container, $customization)
     {
         $rez = $customization;
 
         if (!empty($rez['extends'])) {
-            $container = static::get($container);
+            $container = $this->get($container);
 
             if (!empty($container[$rez['extends']])) {
                 $rez = array_merge($container[$rez['extends']], $rez);
@@ -656,23 +610,23 @@ class Config extends Singleton
      *
      * @return array | null
      */
-    public static function get($optionName, $defaultValue = null)
+    public function get($optionName, $defaultValue = null)
     {
-        if (isset(static::$environmentVars[$optionName])) {
-            return static::$environmentVars[$optionName];
+        if (isset($this->environmentVars[$optionName])) {
+            return $this->environmentVars[$optionName];
         }
 
-        if (isset(static::$config[$optionName])) {
-            return static::$config[$optionName];
+        if (isset($this->config[$optionName])) {
+            return $this->config[$optionName];
         }
 
         return $defaultValue;
     }
 
-    public static function getDCConfig($alias)
+    public function getDCConfig($alias)
     {
         $rez = [];
-        $conf = static::get('DCConfigs');
+        $conf = $this->get('DCConfigs');
 
         if (!empty($conf[$alias])) {
             $rez = $conf[$alias];
@@ -688,10 +642,10 @@ class Config extends Singleton
      *
      * @return array return false if not set
      */
-    public static function getFlag($name)
+    public function getFlag($name)
     {
-        if (isset(static::$flags[$name])) {
-            return static::$flags[$name];
+        if (isset($this->flags[$name])) {
+            return $this->flags[$name];
         }
 
         return false;
@@ -705,9 +659,9 @@ class Config extends Singleton
      *
      * @return array return false if not set
      */
-    public static function setFlag($name, $value)
+    public function setFlag($name, $value)
     {
-        static::$flags[$name] = $value;
+        $this->flags[$name] = $value;
     }
 
     /**
@@ -721,7 +675,7 @@ class Config extends Singleton
      *
      * @return array
      */
-    public static function mergeConfigs($cfg1, $cfg2, $properties)
+    public function mergeConfigs($cfg1, $cfg2, $properties)
     {
         foreach ($cfg2 as $k => $v) {
             if (in_array($k, $properties) && is_array($v)) {

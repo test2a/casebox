@@ -16,6 +16,9 @@ services:
     casebox_core.service_objects_plugins.files:
         class: Casebox\CoreBundle\Service\Objects\Plugins\Files
 
+    casebox_core.service_objects_plugins.html:
+        class: Casebox\CoreBundle\Service\Objects\Plugins\Html
+
     casebox_core.service_objects_plugins.meta:
         class: Casebox\CoreBundle\Service\Objects\Plugins\Meta
 

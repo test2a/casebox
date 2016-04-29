@@ -1,7 +1,6 @@
 <?php
 namespace Casebox\CoreBundle\Service\Objects;
 
-use Casebox\CoreBundle\Service\Config as CBConfig;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\DataModel as DM;
 
@@ -13,14 +12,6 @@ class Shortcut extends Object
      * @var int
      */
     protected $targetId = null;
-
-    // public function __construct($id = null, $loadTemplate = false)
-    // {
-    //     if (is_numeric($id)) {
-    //         $this->id = $id;
-    //     }
-    //     $this->loadTemplate = false;
-    // }
 
     /**
      * create an object with specified params
@@ -50,7 +41,7 @@ class Shortcut extends Object
         $p['name'] = 'link to #' . $p['target_id'];
 
         if (empty($p['template_id'])) {
-            $p['template_id'] = CBConfig::get('default_shortcut_template');
+            $p['template_id'] = $this->configService->get('default_shortcut_template');
         }
 
         $this->data = $p;
@@ -91,7 +82,7 @@ class Shortcut extends Object
         $this->data = $p;
 
         if (empty($p['template_id'])) {
-            $p['template_id'] = CBConfig::get('default_shortcut_template');
+            $p['template_id'] = $this->configService->get('default_shortcut_template');
         }
 
         return parent::update($p);

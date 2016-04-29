@@ -255,7 +255,7 @@ class FacetNav extends Query
             return $this->LevelFieldConfigs;
         }
 
-        $facetsDefinitions = Config::get('facet_configs');
+        $facetsDefinitions = $this->configService->get('facet_configs');
 
         if (!empty($this->config['level_fields'])) {
             $fields = $this->config['level_fields'];

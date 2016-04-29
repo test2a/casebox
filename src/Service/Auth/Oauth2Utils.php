@@ -28,8 +28,7 @@ class Oauth2Utils
         }
 
         $provider = null;
-        if (
-            isset($GPlus['web']) &&
+        if (isset($GPlus['web']) &&
             isset($GPlus['web']['client_id']) &&
             isset($GPlus['web']['client_secret']) &&
             isset($GPlus['web']['redirect_uris']) &&
@@ -54,7 +53,8 @@ class Oauth2Utils
      */
     public static function getGoogleConfig()
     {
-        $useGoogleOauth2_json = Config::get('oauth2_credentials_google');
+        $useGoogleOauth2_json = Cache::get('symfony.container')->get('casebox_core.service.config')->get('oauth2_credentials_google');
+
         if ($useGoogleOauth2_json && $GPlus = Util\jsonDecode($useGoogleOauth2_json)) {
             return $GPlus;
         }
@@ -77,7 +77,7 @@ class Oauth2Utils
             // $random_state = $generator->generateString(32);
 
             $state = [
-                'core' => Config::get('core_name'),
+                'core' => Cache::get('symfony.container')->get('casebox_core.service.config')->get('core_name'),
                 'state' => session_id(),
             ];
 

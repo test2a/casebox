@@ -1,7 +1,6 @@
 <?php
 namespace Casebox\CoreBundle\Service\Objects;
 
-use Casebox\CoreBundle\Service\Config as CBConfig;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Objects;
@@ -30,11 +29,11 @@ class Comment extends Object
 
         //disable default log from parent Object class
         //we'll set comments add as comment action for parent
-        CBConfig::setFlag('disableActivityLog', true);
+        $this->configService->setFlag('disableActivityLog', true);
 
         $rez = parent::create($p);
 
-        CBConfig::setFlag('disableActivityLog', false);
+        $this->configService->setFlag('disableActivityLog', false);
 
         $this->updateParentFollowers();
 
@@ -59,11 +58,11 @@ class Comment extends Object
     {
         //disable default log from parent Object class
         //we'll set comments add as comment action for parent
-        CBConfig::setFlag('disableActivityLog', true);
+        $this->configService->setFlag('disableActivityLog', true);
 
         $rez = parent::update($p);
 
-        CBConfig::setFlag('disableActivityLog', false);
+        $this->configService->setFlag('disableActivityLog', false);
 
         $p = &$this->data;
 

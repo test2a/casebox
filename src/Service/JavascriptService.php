@@ -72,6 +72,9 @@ class JavascriptService
                 'ext-theme-classic-debug' => [
                     'src' => '/js/ext/packages/ext-theme-classic/build/ext-theme-classic.js',
                 ],
+                'extjs-ace-init-path' => [
+                    'inline' => "bravojs = {url: window.location.protocol + '//' + window.location.host + '/js/extjs-ace/Component.js'};",
+                ],
                 'extjs-ace-component' => [
                     'src' => '/js/extjs-ace/Component.js',
                 ],

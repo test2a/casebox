@@ -3,7 +3,6 @@ namespace Casebox\CoreBundle\Service\Objects;
 
 use Casebox\CoreBundle\Event\GetTimeCostEvent;
 use Casebox\CoreBundle\Service\Cache;
-use Casebox\CoreBundle\Service\Config as CBConfig;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Log;
@@ -25,11 +24,11 @@ class TimeTracking extends Object
         $p['data']['cost'] = $this->getTimeCost();
 
         //disable default log from parent Object class
-        CBConfig::setFlag('disableActivityLog', true);
+        $this->configService->setFlag('disableActivityLog', true);
 
         $rez = parent::create($p);
 
-        CBConfig::setFlag('disableActivityLog', false);
+        $this->configService->setFlag('disableActivityLog', false);
 
         $this->addParentSpentTime();
 
@@ -50,11 +49,11 @@ class TimeTracking extends Object
         $p['data']['cost'] = $this->getTimeCost();
 
         //disable default log from parent Object class
-        CBConfig::setFlag('disableActivityLog', true);
+        $this->configService->setFlag('disableActivityLog', true);
 
         $rez = parent::update($p);
 
-        CBConfig::setFlag('disableActivityLog', false);
+        $this->configService->setFlag('disableActivityLog', false);
 
         $this->recalculateParentSpentTime();
 

@@ -25,6 +25,7 @@ class JSDBController extends Controller
      */
     public function indexAction($coreName, Request $request)
     {
+        $configService = $this->get('casebox_core.service.config');
         $loginService = $this->get('casebox_core.service_auth.authentication');
         $ts = $this->get('translator');
 
@@ -73,7 +74,7 @@ class JSDBController extends Controller
         $data['roles'] = Util\jsonEncode($roles);
 
         $ti = [];
-        $templateIcons = Config::get('templateIcons');
+        $templateIcons = $configService->get('templateIcons');
 
         if (!empty($templateIcons)) {
             $ti = explode(',', $templateIcons);
@@ -89,10 +90,10 @@ class JSDBController extends Controller
         $data['templatesIconSet'] = Util\jsonEncode($ti);
 
         /* languages */
-        $coreLanguage = Config::get('language');
-        $coreLanguages = Config::get('languagesUI');
+        $coreLanguage = $configService->get('language');
+        $coreLanguages = $configService->get('languagesUI');
 
-        $ls = Config::get('language_settings');
+        $ls = $configService->get('language_settings');
 
         $arr = [];
         for ($i = 0; $i < sizeof($coreLanguages); $i++) {

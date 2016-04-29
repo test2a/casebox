@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Solr;
 
 use Casebox\CoreBundle\Event\BeforeNodeSolrUpdateEvent;
@@ -7,7 +6,6 @@ use Casebox\CoreBundle\Event\BeforeSolrCommitEvent;
 use Casebox\CoreBundle\Event\NodeSolrUpdateEvent;
 use Casebox\CoreBundle\Event\SolrCommitEvent;
 use Casebox\CoreBundle\Service\Cache;
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Util;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -66,14 +64,16 @@ class Service
      */
     public function __construct($p = [])
     {
+        $this->configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         if (empty($p)) {
             // Get params from config
-            $this->schema = Config::get('solr_schema', 'http');
-            $this->host = Config::get('solr_host', '127.0.0.1');
-            $this->port = Config::get('solr_port', 8983);
-            $this->core = Config::get('solr_core');
-            $this->username = Config::get('solr_username', null);
-            $this->password = Config::get('solr_password', null);
+            $this->schema = $this->configService->get('solr_schema', 'http');
+            $this->host = $this->configService->get('solr_host', '127.0.0.1');
+            $this->port = $this->configService->get('solr_port', 8983);
+            $this->core = $this->configService->get('solr_core');
+            $this->username = $this->configService->get('solr_username', null);
+            $this->password = $this->configService->get('solr_password', null);
         } else {
             // Get params from specified arguments
             $this->schema = empty($p['schema']) ? 'http' : $p['schema'];
@@ -291,9 +291,9 @@ class Service
 
     /**
      * @param string $query
-     * @param int $start
-     * @param int $rows
-     * @param array $params
+     * @param int    $start
+     * @param int    $rows
+     * @param array  $params
      *
      * @return \Apache_Solr_Response
      * @throws \Apache_Solr_InvalidArgumentException
@@ -364,7 +364,7 @@ class Service
     /**
      * convert an array to solr document class
      *
-     * @param  array $arr
+     * @param array $arr
      *
      * @return \Apache_Solr_Document
      *

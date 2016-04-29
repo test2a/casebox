@@ -92,6 +92,8 @@ class Object
             $this->id = $id;
         }
 
+        $this->configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         $this->loadTemplate = $loadTemplate;
     }
 
@@ -707,7 +709,7 @@ class Object
         $tpl = $this->getTemplate();
         $tplCfg = [];
 
-        $languages = Config::get('languages');
+        $languages = $this->configService->get('languages');
 
         if (!empty($tpl)) {
             $fields = $tpl->getFields();
@@ -1450,7 +1452,7 @@ class Object
         $rez = $d['name'];
 
         if ($language === false) {
-            $language = Config::get('user_language');
+            $language = $this->configService->get('user_language');
         }
 
         if (is_string($language) && !empty($d['sys_data']['solr']['title_'.$language.'_t'])) {
@@ -1965,7 +1967,7 @@ class Object
         $top .= $body;
 
         if (!empty($top)) {
-            $rtl = empty(Config::get('rtl')) ? '' : ' drtl';
+            $rtl = empty($this->configService->get('rtl')) ? '' : ' drtl';
             $top = '<table class="obj-preview' . $rtl . '"><tbody>' . $top . '</tbody></table><br />';
         }
 
@@ -2011,7 +2013,7 @@ class Object
     protected function logAction($type, $params = [])
     {
         if (!Cache::get('disable_logs', false) &&
-            !Config::getFlag('disableActivityLog')
+            !$this->configService->getFlag('disableActivityLog')
         ) {
             $params['type'] = $type;
 

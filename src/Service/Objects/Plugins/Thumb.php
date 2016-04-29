@@ -1,7 +1,6 @@
 <?php
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Files as FilesService;
 use Casebox\CoreBundle\Service\Util;
 
@@ -34,12 +33,12 @@ class Thumb extends Base
         $data = $o->getData();
 
         // Don't display thumb for images less then 1MB
-        $maxDisplaySize = Util\coalesce(Config::get('images_display_size'), 1024 * 1024);
+        $maxDisplaySize = Util\coalesce($this->configService->get('images_display_size'), 1024 * 1024);
 
         if ((substr($data['content_type'], 0, 5) == 'image') && ($data['size'] < $maxDisplaySize)) {
             $preview = FilesService::generatePreview($data['id']);
             if (!empty($preview['filename'])) {
-                $fn = Config::get('files_preview_dir').$preview['filename'];
+                $fn = $this->configService->get('files_preview_dir').$preview['filename'];
                 $rez['data']['html'] = $fn;
                 if (file_exists($fn)) {
                     $rez['data']['html'] = str_replace('fit-img', 'click fit-img', file_get_contents($fn));

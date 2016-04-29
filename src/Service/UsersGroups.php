@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Service\DataModel as DM;
@@ -17,7 +16,7 @@ class UsersGroups
     /**
      * Get the child list to be displayed in user management window in left tree
      *
-     * @param  array $p
+     * @param array $p
      *
      * @return array
      * @throws \Exception
@@ -145,7 +144,6 @@ class UsersGroups
             }
         }
 
-
         return $rez;
     }
 
@@ -164,14 +162,16 @@ class UsersGroups
 
         $dbs = Cache::get('casebox_dbs');
 
-        $res = $dbs->query('SELECT user_id FROM users_groups_association WHERE user_id = $1 AND group_id = $2',
+        $res = $dbs->query(
+            'SELECT user_id FROM users_groups_association WHERE user_id = $1 AND group_id = $2',
             [$user_id, $group_id]
         );
         if ($res->fetch()) {
             throw new \Exception($this->trans('UserAlreadyInOffice'));
         }
         unset($res);
-        $dbs->query('INSERT INTO users_groups_association (user_id, group_id, cid) VALUES ($1, $2, $3)',
+        $dbs->query(
+            'INSERT INTO users_groups_association (user_id, group_id, cid) VALUES ($1, $2, $3)',
             [
                 $user_id,
                 $group_id,
@@ -201,7 +201,8 @@ class UsersGroups
 
         $dbs = Cache::get('casebox_dbs');
 
-        $res = $dbs->query('DELETE FROM users_groups_association WHERE user_id = $1 AND group_id = $2',
+        $res = $dbs->query(
+            'DELETE FROM users_groups_association WHERE user_id = $1 AND group_id = $2',
             [$user_id, $group_id]
         );
 
@@ -212,7 +213,8 @@ class UsersGroups
         //return if the user is associated to another office,
         //otherwise it shoul be added to Users out of office folder
         $outOfGroup = true;
-        $res = $dbs->query('SELECT group_id FROM users_groups_association WHERE user_id = $1 LIMIT 1',
+        $res = $dbs->query(
+            'SELECT group_id FROM users_groups_association WHERE user_id = $1 LIMIT 1',
             $user_id
         );
         if ($r = $res->fetch()) {
@@ -244,6 +246,7 @@ class UsersGroups
             'msg' => $this->trans('Missing_required_fields'),
         ];
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
         $dbs = Cache::get('casebox_dbs');
 
         $p['name'] = strip_tags($p['name']);
@@ -294,7 +297,7 @@ class UsersGroups
             'first_name' => $p['first_name'],
             'last_name' => $p['last_name'],
             'cid' => User::getId(),
-            'language_id' => (!empty(Config::get('language_index'))) ? Config::get('language_index') : 1,
+            'language_id' => (!empty($configService->get('language_index'))) ? $configService->get('language_index') : 1,
             'email' => $p['email'],
             'salt' => md5(uniqid(null, true)),
             'roles' => json_encode([UsersGroupsEntity::ROLE_USER => UsersGroupsEntity::ROLE_USER]),
@@ -372,7 +375,8 @@ class UsersGroups
 
         $dbs = Cache::get('casebox_dbs');
 
-        $res = $dbs->query('UPDATE users_groups SET did = $2 ,ddate = CURRENT_TIMESTAMP WHERE id = $1',
+        $res = $dbs->query(
+            'UPDATE users_groups SET did = $2 ,ddate = CURRENT_TIMESTAMP WHERE id = $1',
             [
                 $user_id,
                 User::getId(),
@@ -467,7 +471,7 @@ class UsersGroups
     /**
      * get display data for given ids
      *
-     * @param  string|array $ids
+     * @param string|array $ids
      *
      * @return array
      */
@@ -571,7 +575,9 @@ class UsersGroups
         }
 
         if (!empty($deleting_groups)) {
-            $dbs->query('DELETE FROM users_groups_association WHERE user_id = $1 AND group_id IN ('.implode(', ', $deleting_groups).')',
+            $dbs->query(
+                'DELETE FROM users_groups_association WHERE user_id = $1 AND group_id IN (' .
+                implode(', ', $deleting_groups).')',
                 $user_id
             );
         }
@@ -600,7 +606,8 @@ class UsersGroups
 
         $dbs = Cache::get('casebox_dbs');
 
-        $res = $dbs->query('SELECT group_id FROM users_groups_association WHERE user_id = $1',
+        $res = $dbs->query(
+            'SELECT group_id FROM users_groups_association WHERE user_id = $1',
             $user_id
         );
 
@@ -615,7 +622,7 @@ class UsersGroups
     /**
      * Change user password.
      *
-     * @param array $p
+     * @param array     $p
      * @param bool|true $verify
      *
      * @return array
@@ -653,7 +660,7 @@ class UsersGroups
         if (!Security::canEditUser($user_id) && $verify) {
             throw new \Exception($this->trans('Access_denied'));
         }
-        
+
         $dbs->query(
             'UPDATE users_groups SET `password` = $2, uid = $3 WHERE id = $1',
             [
@@ -672,7 +679,7 @@ class UsersGroups
      * Send recovery password email for given user id so that the user can set new password and enter the system
      *
      * @param integer|string $userId
-     * @param string $template
+     * @param string         $template
      *
      * @return bool
      */
@@ -691,6 +698,8 @@ class UsersGroups
             return false;
         }
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         // generating invite hash and sending mail
         $hash = User::generateRecoveryHash($userId, $userId.$userEmail.date(DATE_ISO8601));
 
@@ -705,7 +714,7 @@ class UsersGroups
 
         // Replacing placeholders in template and subject
         $vars = [
-            'projectTitle' => Config::getProjectName(),
+            'projectTitle' => $configService->getProjectName(),
             'name' => User::getDisplayName($userData),
             'fullName' => User::getDisplayName($userData),
             'username' => User::getUsername($userData),
@@ -746,7 +755,7 @@ class UsersGroups
     /**
      * Shortcut to previous function to return json response
      *
-     * @param  int $userId
+     * @param int $userId
      *
      * @return array
      */
@@ -810,7 +819,8 @@ class UsersGroups
 
         $dbs = Cache::get('casebox_dbs');
 
-        $dbs->query('UPDATE users_groups SET `name` = $2, uid = $3 WHERE id = $1',
+        $dbs->query(
+            'UPDATE users_groups SET `name` = $2, uid = $3 WHERE id = $1',
             [
                 $user_id,
                 $name,
@@ -873,7 +883,8 @@ class UsersGroups
 
         $dbs = Cache::get('casebox_dbs');
 
-        $dbs->query('UPDATE users_groups SET name = $2, uid = $3 WHERE id = $1 AND type = 1',
+        $dbs->query(
+            'UPDATE users_groups SET name = $2, uid = $3 WHERE id = $1 AND type = 1',
             [
                 $id,
                 $title,

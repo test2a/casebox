@@ -1,9 +1,7 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Service\Vocabulary\CountryPhoneCodesVocabulary;
-use Casebox\CoreBundle\Service\Vocabulary\CountryVocabulary;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -14,7 +12,7 @@ class System
 {
     /**
      * @param Container $container
-     * @param Request $request
+     * @param Request   $request
      */
     public function bootstrap(Container $container, Request $request = null)
     {
@@ -57,8 +55,10 @@ class System
             // Set database service handler into cache for quick access
             Cache::set('casebox_dbs', $dbs);
 
+            $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
             // Loading full config of the core
-            $configs = Config::load($platformConfig);
+            $configs = $configService->load($platformConfig);
             foreach ($configs as $key => $config) {
                 Cache::set($key, $config);
             }
@@ -118,7 +118,7 @@ class System
     /**
      * Check a given timezon to be valid
      *
-     * @param  tring $timezone valid php timezone
+     * @param tring $timezone valid php timezone
      *
      * @return boolean
      */
@@ -174,29 +174,32 @@ class System
     /**
      * Admin notification by mail method
      *
-     * @param  string $subject
-     * @param  string $body
+     * @param string $subject
+     * @param string $body
      *
      * @return boolean
      */
     public static function notifyAdmin($subject, $body)
     {
-        return static::sendMail(Config::get('admin_email'), $subject, $body);
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        return static::sendMail($configService->get('admin_email'), $subject, $body);
     }
 
     /**
      * Common send mail function
      *
-     * @param  string $email
-     * @param  string $subject
-     * @param  string $body
+     * @param string $email
+     * @param string $subject
+     * @param string $body
      *
      * @return boolean
      */
     public static function sendMail($email, $subject, $body)
     {
-        $coreName = Config::get('core_name');
-        $sender = Config::get('sender_email');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+        $coreName = $configService->get('core_name');
+        $sender = $configService->get('sender_email');
         $sender = "\"$sender ($coreName)\" <$sender>";
         $header = "Content-type: text/html; charset=utf-8\r\nFrom: ".$sender."\r\n";
 

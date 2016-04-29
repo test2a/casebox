@@ -1,8 +1,7 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
-use Casebox\CoreBundle\Service\Config;
+use Casebox\CoreBundle\Service\Cache;
 
 /**
  * Class used to purify values
@@ -24,7 +23,9 @@ class Purify
      */
     final private function __construct()
     {
-        require_once Config::get('HTML_PURIFIER');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        require_once $configService->get('HTML_PURIFIER');
         require_once 'HTMLPurifier.func.php';
 
         //create default config
@@ -65,8 +66,8 @@ class Purify
     /**
      * Purify given html value
      *
-     * @param  string $value
-     * @param  array $options associative array of purify library options
+     * @param string $value
+     * @param array  $options associative array of purify library options
      *
      * @return string
      */
@@ -118,7 +119,7 @@ class Purify
     /**
      * Purify Solr field name
      *
-     * @param  string $name
+     * @param string $name
      *
      * @return string
      */

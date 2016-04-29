@@ -27,7 +27,7 @@ class PreviewExtractor
 
     /**
      * @param string $html
-     * @param array $options
+     * @param array  $options
      *
      * @return mixed|string
      */
@@ -104,7 +104,9 @@ class PreviewExtractor
             exit(0);
         }
 
-        $filesPreviewDir = Config::get('files_preview_dir');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $filesPreviewDir = $configService->get('files_preview_dir');
 
         $sql = 'SELECT c.id `content_id`, c.path, p.status, (SELECT name FROM files f WHERE f.content_id = c.id LIMIT 1) `name`
                 FROM file_previews p
@@ -123,7 +125,7 @@ class PreviewExtractor
             $ext = explode('.', $r['name']);
             $ext = array_pop($ext);
             $ext = strtolower($ext);
-            $fn = Config::get('files_dir').$r['path'].DIRECTORY_SEPARATOR.$r['content_id'];
+            $fn = $configService->get('files_dir').$r['path'].DIRECTORY_SEPARATOR.$r['content_id'];
             $nfn = $filesPreviewDir.$r['content_id'].'_.'.$ext;
             $pfn = $filesPreviewDir.$r['content_id'].'_.html';
 
@@ -131,7 +133,7 @@ class PreviewExtractor
             file_put_contents($pfn, '');
 
             // Refactoring using ConvertDocument API
-            switch (Config::get('converter')) {
+            switch ($configService->get('converter')) {
                 case self::CONVERTER_API:
                     $this->convertDocApiRequest($nfn, $pfn);
                     $returnStatus = null;
@@ -139,7 +141,7 @@ class PreviewExtractor
                     break;
 
                 case self::CONVERTER_UNOCONV:
-                    $cmd = Config::get('convert_doc_unoconv_cmd').' -v -f html -o '.$pfn.' '.$nfn;
+                    $cmd = $configService->get('convert_doc_unoconv_cmd').' -v -f html -o '.$pfn.' '.$nfn;
                     exec($cmd, $output, $returnStatus);
 
                     break;
@@ -150,12 +152,12 @@ class PreviewExtractor
 
             if (empty($returnStatus) && file_exists($pfn)) {
                 $params = [
-                    'URI.Base' => '/'.Config::get('core_name').'/view/',
+                    'URI.Base' => '/'.$configService->get('core_name').'/view/',
                     'URI.MakeAbsolute' => true,
                 ];
 
                 $content = '<div style="padding: 5px">'.$this->purify(file_get_contents($pfn), $params).'</div>';
-                
+
                 file_put_contents($pfn, $content);
 
                 $params = [
@@ -197,8 +199,10 @@ class PreviewExtractor
             'file' => curl_file_create($source, mime_content_type($source)),
         ];
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, Config::get('convert_doc_url'));
+        curl_setopt($ch, CURLOPT_URL, $configService->get('convert_doc_url'));
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

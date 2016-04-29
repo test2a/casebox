@@ -49,7 +49,7 @@ class RequestListener
                 $this->container->get('casebox_core.service_auth.authentication')->logout();
 
                 $parameters = [
-                    'projectName' => Config::getProjectName(),
+                    'projectName' => $this->container->get('casebox_core.service.config')->getProjectName(),
                     'coreName' => $env,
                 ];
                 $url = $this->container->get('router')->generate('app_core_login', $parameters);

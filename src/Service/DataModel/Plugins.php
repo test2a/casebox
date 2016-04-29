@@ -1,7 +1,7 @@
 <?php
 namespace Casebox\CoreBundle\Service\DataModel;
 
-use Casebox\CoreBundle\Service\Config as CBConfig;
+use Casebox\CoreBundle\Service\Cache;
 
 class Plugins extends Base
 {
@@ -25,7 +25,9 @@ class Plugins extends Base
 
     public static function getTableName()
     {
-        $dbName = CBConfig::get('prefix') . '__casebox';
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $dbName = $configService->get('prefix') . '__casebox';
 
         return "`$dbName`.`" . static::$tableName . '`';
     }

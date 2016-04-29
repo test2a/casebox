@@ -24,18 +24,20 @@ class AuthController extends Controller
      *     requirements={"coreName": "[a-z0-9_\-]+", "action": "getForm|auth|2step"}
      * )
      * @param Request $request
-     * @param string $coreName
-     * @param string $action
+     * @param string  $coreName
+     * @param string  $action
      * @Method({"GET", "POST"})
      *
      * @return Response
      */
     public function indexAction(Request $request, $coreName, $action)
     {
+        $configService = $this->get('casebox_core.service.config');
+        $translatorService = $this->get('translator');
         $loginService = $this->get('casebox_core.service_auth.authentication');
 
         $vars = [
-            'projectName' => Config::getProjectName(),
+            'projectName' => $configService->getProjectName(),
             'coreName' => $coreName,
             'action' => $action,
         ];
@@ -43,13 +45,13 @@ class AuthController extends Controller
         switch ($action) {
             case 'auth':
                 if (empty($request->get('u'))) {
-                    $this->addFlash('notice', $this->get('translator')->trans('Specify_username'));
+                    $this->addFlash('notice', $translatorService->trans('Specify_username'));
 
                     return $this->redirectToRoute('app_core', $vars);
                 }
 
                 if (empty($request->get('p'))) {
-                    $this->addFlash('notice', $this->get('translator')->trans('Specify_password'));
+                    $this->addFlash('notice', $translatorService->trans('Specify_password'));
 
                     return $this->redirectToRoute('app_core', $vars);
                 }
@@ -68,7 +70,7 @@ class AuthController extends Controller
 
                     return $this->redirectToRoute('app_core', $vars);
                 } else {
-                    $this->addFlash('notice', $this->get('translator')->trans('Auth_fail'));
+                    $this->addFlash('notice', $translatorService->trans('Auth_fail'));
 
                     return $this->redirectToRoute('app_core', $vars);
                 }
@@ -80,7 +82,7 @@ class AuthController extends Controller
 
                 if ($request->getMethod() === 'POST') {
                     if (empty($request->get('c'))) {
-                        $this->addFlash('notice', $this->get('translator')->trans('EnterCode'));
+                        $this->addFlash('notice', $translatorService->trans('EnterCode'));
 
                         return $this->redirectToRoute('app_core_login', $vars);
                     }
@@ -111,7 +113,7 @@ class AuthController extends Controller
     /**
      * @Route("/c/{coreName}/logout", name="app_core_logout", requirements={"coreName": "[a-z0-9_\-]+"})
      * @param Request $request
-     * @param string $coreName
+     * @param string  $coreName
      * @Method({"GET", "POST"})
      *
      * @return Response
@@ -127,14 +129,16 @@ class AuthController extends Controller
      * @Route("/c/{coreName}/recover/forgot-password", name="app_core_recovery")
      * @Method({"GET", "POST"})
      * @param Request $request
-     * @param string $coreName
+     * @param string  $coreName
      *
      * @return Response
      */
     public function recoveryAction(Request $request, $coreName)
     {
+        $configService = $this->get('casebox_core.service.config');
+
         $vars = [
-            'projectName' => Config::getProjectName(),
+            'projectName' => $configService->getProjectName(),
             'coreName' => $coreName,
         ];
 
@@ -142,7 +146,7 @@ class AuthController extends Controller
             if (empty($request->get('u')) && empty($request->get('e'))) {
                 $this->addFlash('notice', $this->get('translator')->trans('Specify_username'));
 
-                return $this->redirectToRoute('app_core_recovery', ['coreName' => $coreName]);    
+                return $this->redirectToRoute('app_core_recovery', ['coreName' => $coreName]);
             }
 
             if (!empty($request->get('u'))) {
@@ -151,9 +155,9 @@ class AuthController extends Controller
                     $this->addFlash('notice', $this->get('translator')->trans('Specify_username'));
 
                     return $this->redirectToRoute('app_core_recovery', ['coreName' => $coreName]);
-                } 
+                }
             }
-            
+
             if (!empty($request->get('e'))) {
                 $user = $this->getDoctrine()->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($request->get('e'));
                 if (!$user instanceof UsersGroups) {
@@ -162,7 +166,7 @@ class AuthController extends Controller
                     return $this->redirectToRoute('app_core_recovery', ['coreName' => $coreName]);
                 }
             }
-            
+
             $this->get('casebox_core.service.users_groups')->sendResetPasswordMail($user->getId(), 'recover');
 
             return $this->render('CaseboxCoreBundle::reset-password.html.twig', $vars);
@@ -171,20 +175,21 @@ class AuthController extends Controller
         return $this->render('CaseboxCoreBundle:forms:forgot-password.html.twig', $vars);
     }
 
-
     /**
      * @Route("/c/{coreName}/recover/reset-password", name="app_core_reset")
      * @QueryParam(name="h", nullable=true)
      * @Method({"GET", "POST"})
      * @param Request $request
-     * @param string $coreName
+     * @param string  $coreName
      *
      * @return Response
      */
     public function resetAction(Request $request, $coreName)
     {
+        $configService = $this->get('casebox_core.service.config');
+
         $vars = [
-            'projectName' => Config::getProjectName(),
+            'projectName' => $configService->getProjectName(),
             'coreName' => $coreName,
         ];
 

@@ -1,7 +1,6 @@
 <?php
 namespace Casebox\CoreBundle\Service\TreeNode;
 
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\Security;
 use Casebox\CoreBundle\Service\User;
@@ -27,7 +26,7 @@ class ActionLog extends Base
     protected function createDefaultFilter()
     {
         $this->fq = array(
-            'core_id:' . Config::get('core_id')
+            'core_id:' . $this->configService->get('core_id')
         );
     }
 

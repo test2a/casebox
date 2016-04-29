@@ -1,7 +1,7 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
@@ -94,7 +94,9 @@ class Files
 
         $data = $file->load();
 
-        $contentFile = Config::get('files_dir').@$data['content_path'].'/'.@$data['content_id'];
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $contentFile = $configService->get('files_dir').@$data['content_path'].'/'.@$data['content_id'];
 
         if (file_exists($contentFile) && !is_dir($contentFile)) {
             $rez['data'] = Util\toUTF8String(file_get_contents($contentFile));
@@ -126,8 +128,10 @@ class Files
         $file = new Objects\File($p['id']);
         $data = $file->load();
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         $content = [
-            'tmp_name' => tempnam(Config::get('incomming_files_dir'), 'cbup'),
+            'tmp_name' => tempnam($configService->get('incomming_files_dir'), 'cbup'),
             'date' => date('Y-m-d'),
             'name' => $data['name'],
             'type' => $data['type'],
@@ -141,23 +145,26 @@ class Files
         $data['content_id'] = $content['content_id'];
         $file->update($data);
 
-        // $contentFile = Config::get('files_dir') . $data['content_path'] . '/'.$data['content_id'];
+        // $contentFile = $configService->get('files_dir') . $data['content_path'] . '/'.$data['content_id'];
         // file_put_contents($contentFile, $p['data']);
-
         return ['success' => true];
     }
 
     /**
-     * @param integer $id
+     * @param integer           $id
      * @param integer|bool|null $versionId
-     * @param bool $asAttachment
-     * @param integer|bool $forUseId
+     * @param bool              $asAttachment
+     * @param integer|bool      $forUseId
      *
      * @throws \Exception
      */
     public static function download($id, $versionId = null, $asAttachment = true, $forUseId = false)
     {
-        $r = empty($versionId) ? DM\Files::read($id) : DM\FilesVersions::read($versionId);
+        if (empty($versionId)) {
+            $r = DM\Files::read($id);
+        } else {
+            $r = DM\FilesVersions::read($versionId);
+        }
 
         if (!empty($r)) {
             $content = DM\FilesContent::read($r['content_id']);
@@ -166,6 +173,8 @@ class Files
             if (!Security::canDownload($r['id'], $forUseId)) {
                 throw new \Exception(self::trans('Access_denied'));
             }
+
+            $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
 
             header('Content-Description: File Transfer');
             header('Content-Type: '.$content['type'].'; charset=UTF-8');
@@ -179,7 +188,7 @@ class Files
             header('Cache-Control: must-revalidate');
             header('Pragma: public');
             header('Content-Length: '.$content['size']);
-            readfile(Config::get('files_dir').$content['path'].DIRECTORY_SEPARATOR.$content['id']);
+            readfile($configService->get('files_dir').$content['path'].DIRECTORY_SEPARATOR.$content['id']);
 
         } else {
             throw new \Exception(self::trans('Object_not_found'));
@@ -190,7 +199,7 @@ class Files
      * Save current file version into versions table
      * and delete versions exceeding mfvc
      *
-     * @param int $id file Id
+     * @param int            $id   file Id
      * @param int|bool|false $mfvc Max file version count
      *
      * @return bool
@@ -228,7 +237,10 @@ class Files
         $archive = $file['name'];
         $ext = Files::getExtension($archive);
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
-        $incommingFilesDir = Config::get('incomming_files_dir');
+
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $incommingFilesDir = $configService->get('incomming_files_dir');
 
         switch ($ext) {
             case 'rar':
@@ -297,14 +309,18 @@ class Files
      */
     public function moveUploadedFilesToIncomming(&$F)
     {
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $incommingFilesDir = $configService->get('incomming_files_dir');
+
+        @mkdir($incommingFilesDir, 0777, true);
+
         foreach ($F as $fk => $f) {
             if (!empty($f['content_id'])) {
                 // File content was not uploaded. Its content_id were sent as header param
                 continue;
             }
-            $new_name = Config::get('incomming_files_dir').basename($f['name']);
-
-            @mkdir(Config::get('incomming_files_dir'), 0777, true);
+            $new_name = $incommingFilesDir . basename($f['name']);
 
             if ($f['tmp_name'] == $new_name) {
                 continue;
@@ -333,7 +349,7 @@ class Files
     }
 
     /**
-     * @param array $F
+     * @param array    $F
      * @param ineteger $pid
      *
      * @return array
@@ -414,7 +430,9 @@ class Files
      */
     public function checkExistentContents($p)
     {
-        $filesDir = Config::get('files_dir');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $filesDir = $configService->get('files_dir');
 
         foreach ($p as $k => $v) {
             $id = DM\FilesContent::toId($v, 'md5');
@@ -495,9 +513,9 @@ class Files
     /**
      * Checks if pid id exists in our tree or if filename exists under the pid.
      *
-     * @param int $pid
+     * @param int    $pid
      * @param string $name
-     * @param string $dir an optional relative path under pid
+     * @param string $dir  an optional relative path under pid
      *
      * @return array
      */
@@ -549,8 +567,8 @@ class Files
      * Checks if pid id exists in our tree or if filename exists under the pid.
      *
      * @param integer $pid
-     * @param string $name
-     * @param string $dir
+     * @param string  $name
+     * @param string  $dir
      *
      * @return bool
      */
@@ -589,8 +607,11 @@ class Files
      */
     public function saveUploadParams($p)
     {
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         $user = Cache::get('symfony.container')->get('session')->get('user');
-        file_put_contents(Config::get('incomming_files_dir').$user['id'], serialize($p));
+
+        file_put_contents($configService->get('incomming_files_dir').$user['id'], serialize($p));
     }
 
     /**
@@ -599,7 +620,10 @@ class Files
     public function getUploadParams()
     {
         $rez = false;
-        $incomingFilesDir = Config::get('incomming_files_dir');
+
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $incomingFilesDir = $configService->get('incomming_files_dir');
 
         $user = Cache::get('symfony.container')->get('session')->get('user');
         if (file_exists($incomingFilesDir.$user['id'])) {
@@ -622,6 +646,8 @@ class Files
      */
     public function storeFiles(&$p)
     {
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         // Here we'll iterate all files and comparing the md5 with already contained,
         // files will upload only new contents to our store. Existent contents will be reused
         foreach ($p['files'] as &$f) {
@@ -643,7 +669,7 @@ class Files
             @$f['date'] = Util\dateISOToMysql($p['date']);
 
             if (empty($f['template_id'])) {
-                $f['template_id'] = Config::get('default_file_template');
+                $f['template_id'] = $configService->get('default_file_template');
             }
 
             $this->storeContent($f);
@@ -741,7 +767,7 @@ class Files
 
     /**
      * @param integer $pid
-     * @param string $dir
+     * @param string  $dir
      *
      * @return int
      */
@@ -751,6 +777,7 @@ class Files
             return $pid;
         }
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
         $path = str_replace('\\', '/', $dir);
         $path = explode('/', $path);
         $userId = User::getId();
@@ -773,7 +800,7 @@ class Files
                         'type' => 1,
                         'cid' => $userId,
                         'uid' => $userId,
-                        'template_id' => Config::get('default_folder_template'),
+                        'template_id' => $configService->get('default_folder_template'),
                     ]
                 );
             }
@@ -798,15 +825,17 @@ class Files
 
     /**
      * @param array $f
-     * @param bool $filePath
+     * @param bool  $filePath
      *
      * @return bool
      * @throws \Exception
      */
     public function storeContent(&$f, $filePath = false)
     {
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         if ($filePath == false) {
-            $filePath = Config::get('files_dir');
+            $filePath = $configService->get('files_dir');
         }
         if (!empty($f['content_id']) && is_numeric($f['content_id'])) {
             return true; // content_id already defined
@@ -908,11 +937,13 @@ class Files
         }
 
         $rez = [];
-        $coreName = Config::get('core_name');
-        $coreUrl = Config::get('core_url');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
 
-        $filesDir = Config::get('files_dir');
-        $filesPreviewDir = Config::get('files_preview_dir');
+        $coreName = $configService->get('core_name');
+        $coreUrl = $configService->get('core_url');
+
+        $filesDir = $configService->get('files_dir');
+        $filesPreviewDir = $configService->get('files_preview_dir');
 
         @mkdir($filesPreviewDir, 0777, true);
 
@@ -1133,9 +1164,11 @@ class Files
      */
     public static function deletePreview($id)
     {
-        $filesPreviewDir = Config::get('files_preview_dir');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
 
-        if (Config::get('is_windows', false)) {
+        $filesPreviewDir = $configService->get('files_preview_dir');
+
+        if ($configService->get('is_windows', false)) {
             $cmd = 'del '.$filesPreviewDir.$id.'_*';
         } else {
             $cmd = 'find '.$filesPreviewDir.' -type f -name '.$id.'_* -print | xargs rm';
@@ -1463,7 +1496,8 @@ class Files
             }
         }
 
-        Config::setEnvVar('mfvc', $rez);
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+        $configService->setEnvVar('mfvc', $rez);
 
         return $rez;
     }
@@ -1486,7 +1520,9 @@ class Files
 
         $rez = 0;
 
-        $mfvc = Config::get('mfvc');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $mfvc = $configService->get('mfvc');
 
         if (empty($mfvc)) {
             return $rez;
@@ -1521,7 +1557,7 @@ class Files
      * }
      *    'file' name of the POST variable from Files when posting a file (multipart/form-data).
      *
-     * @return array responce
+     * @return array      responce
      * @throws \Exception
      */
     public function upload($p)
@@ -1531,6 +1567,8 @@ class Files
         if ($params_validation !== true) {
             throw new \Exception("Params validation failed: ".$params_validation, 1);
         }
+
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
 
         if (empty($p['data']) && !empty($p['tmplData'])) {
             $p['data'] = $p['tmplData'];
@@ -1543,7 +1581,7 @@ class Files
 
         if (!empty($p['localFile'])) {
             $file_name = basename($p['localFile']);
-            $tmp_name = Config::get('incomming_files_dir').$file_name;
+            $tmp_name = $configService->get('incomming_files_dir').$file_name;
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
             copy($p['localFile'], $tmp_name);
@@ -1583,12 +1621,14 @@ class Files
             return 'pid not valid';
         }
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         if (empty($p['template_id']) && !empty($p['tmplId'])) {
             $p['template_id'] = $p['tmplId'];
         }
 
         if (empty($p['template_id'])) {
-            $p['template_id'] = Config::get('default_file_template');
+            $p['template_id'] = $configService->get('default_file_template');
 
             if (empty($p['template_id'])) {
                 return 'template not specified';

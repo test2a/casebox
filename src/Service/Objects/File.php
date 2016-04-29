@@ -1,7 +1,6 @@
 <?php
 namespace Casebox\CoreBundle\Service\Objects;
 
-use Casebox\CoreBundle\Service\Config as CBConfig;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\User;
@@ -22,14 +21,13 @@ class File extends Object
     {
         //disable default log from parent Object class
         //we'll set comments add as comment action for parent
+        $disableLogFlag = $this->configService->getFlag('disableActivityLog');
 
-        $disableLogFlag = CBConfig::getFlag('disableActivityLog');
-
-        CBConfig::setFlag('disableActivityLog', true);
+        $this->configService->setFlag('disableActivityLog', true);
 
         $rez = parent::create($p);
 
-        CBConfig::setFlag('disableActivityLog', $disableLogFlag);
+        $this->configService->setFlag('disableActivityLog', $disableLogFlag);
 
         $p = &$this->data;
 
@@ -103,11 +101,11 @@ class File extends Object
     public function update($p = false)
     {
         //disable default log from parent Object class
-        CBConfig::setFlag('disableActivityLog', true);
+        $this->configService->setFlag('disableActivityLog', true);
 
         $rez = parent::update($p);
 
-        CBConfig::setFlag('disableActivityLog', false);
+        $this->configService->setFlag('disableActivityLog', false);
 
         $p = &$this->data;
 

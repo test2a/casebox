@@ -173,6 +173,8 @@ class TemplateField extends Object
      */
     protected function copyCustomDataTo($targetId)
     {
+        parent::copyCustomDataTo($targetId);
+
         DM\TemplatesStructure::copy(
             $this->id,
             $targetId,

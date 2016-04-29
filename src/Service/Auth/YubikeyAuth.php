@@ -1,8 +1,6 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Auth;
 
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Cache;
 
 /**
@@ -99,8 +97,6 @@ class YubikeyAuth implements AuthInterface
 
         $rez = curl_exec($ch);
 
-        file_put_contents(Config::get('debug_log').'_yubikey', $rez);
-
         if (curl_errno($ch)) {
             throw new \Exception("curl_error:".curl_error($ch), 1);
         }
@@ -172,7 +168,7 @@ class YubikeyAuth implements AuthInterface
     /**
      * Verify a given code
      *
-     * @param  string $code one tyme password
+     * @param string $code one tyme password
      *
      * @return bool
      */
