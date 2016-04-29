@@ -126,8 +126,10 @@ class Templates
         $d = $tpl->getData();
 
         if (!empty($d['sys_data']['solrConfigUpdated'])) {
+            $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
             $cmd = 'php -f '.BIN_DIR.'update_solr_prepared_data.php -- '.
-                '-c '.Config::get('core_name').' -a -t '.$templateId.' &';
+                '-c '.$configService->get('core_name').' -a -t '.$templateId.' &';
 
             shell_exec($cmd);
 

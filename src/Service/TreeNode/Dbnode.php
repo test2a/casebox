@@ -41,7 +41,7 @@ class Dbnode extends Base
 
         $p = &$requestParams;
 
-        $folderTemplates = Config::get('folder_templates');
+        $folderTemplates = $this->configService->get('folder_templates');
 
         $p['fl'] = 'id,pid,system,path,name,case_id,date,date_end,size,cid,'.
             'oid,cdate,uid,udate,template_id,acl_count,cls,status,task_status,versions,'.
@@ -110,7 +110,7 @@ class Dbnode extends Base
 
     /**
      * get create menu for current node
-     * @param  array   $rp request params
+     * @param  array  $rp request params
      * @return string menu config string
      */
     public function getCreateMenu(&$rp)
@@ -121,7 +121,7 @@ class Dbnode extends Base
     /**
      * get param for this node
      *
-     * @param string $param for now using to get 'facets' or 'DC'
+     * @param  string $param for now using to get 'facets' or 'DC'
      * @return array
      */
     public function getNodeParam($param = 'facets')

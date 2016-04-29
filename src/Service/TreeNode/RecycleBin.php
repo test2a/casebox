@@ -78,7 +78,7 @@ class RecycleBin extends Base
     {
         $p = &$this->requestParams;
 
-        $folderTemplates = Config::get('folder_templates');
+        $folderTemplates = $this->configService->get('folder_templates');
 
         $p['fl'] = 'id,system,path,name,case,date,date_end,size,cid,oid,cdate,uid,udate,template_id,acl_count,cls,status,task_status,dstatus';
 

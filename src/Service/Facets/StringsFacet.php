@@ -2,7 +2,7 @@
 
 namespace Casebox\CoreBundle\Service\Facets;
 
-use Casebox\CoreBundle\Service\Config;
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 
@@ -18,7 +18,9 @@ class StringsFacet
      */
     protected $config = [];
 
-    /**
+    protected $solrResultRoot = 'facet_counts';
+
+     /**
      * StringsFacet constructor
      */
     public function __construct($config)
@@ -125,8 +127,11 @@ class StringsFacet
     public function getTitle()
     {
         $rez = 'Facet';
-        $coreLanguage = Config::get('language');
-        $userLanguage = Config::get('user_language');
+
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $coreLanguage = $configService->get('language');
+        $userLanguage = $configService->get('user_language');
 
         if (!empty($this->config['title'])) {
             $t = &$this->config['title'];

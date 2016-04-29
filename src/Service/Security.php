@@ -1,9 +1,9 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Event\BeforeGetAccessForObjectEvent;
 use Casebox\CoreBundle\Event\GetAccessForObjectEvent;
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -230,8 +230,8 @@ class Security
     /**
      * Get objects acl list
      *
-     * @param array $p Client side request params with field config
-     * @param boolean $inherited Flag to include inherited rules also
+     * @param  array   $p         Client side request params with field config
+     * @param  boolean $inherited Flag to include inherited rules also
      * @return array
      */
     public function getObjectAcl($p, $inherited = true)
@@ -1599,15 +1599,14 @@ class Security
             'data' => array()
         );
 
-        // $photosPath = Config::get('photos_path');
-
+        $userService = Cache::get('symfony.container')->get('casebox_core.service.user');
         $users = DM\UsersGroups::getAvailableUsers();
 
         foreach ($users as $r) {
             $r['user'] = $r['name'];
-            $r['name'] = User::getDisplayName($r);
+            $r['name'] = $userService->getDisplayName($r);
 
-            $r['photo'] = User::getPhotoParam($r);
+            $r['photo'] = $userService->getPhotoParam($r);
 
             $rez['data'][] = $r;
         }

@@ -1,8 +1,6 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\Objects;
@@ -78,7 +76,7 @@ class ContentItems extends Base
             $rez['pid'] = $this->id;
             $rez['fq'] = ['(template_type:object) OR (target_type:object)'];
 
-            $folderTemplates = Config::get('folder_templates');
+            $folderTemplates = $this->configService->get('folder_templates');
             if (!empty($folderTemplates)) {
                 $rez['fq'][] = '!template_id:(' .
                     implode(' OR ', Util\toNumericArray($folderTemplates)) . ')';

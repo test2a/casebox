@@ -1,5 +1,9 @@
 services:
 
+    casebox_core.service.config:
+        class: Casebox\CoreBundle\Service\Config
+        arguments: [ "@service_container" ]
+
     casebox_core.service_auth.authentication:
         class: Casebox\CoreBundle\Service\Auth\CaseboxAuth
         arguments: [ "@service_container" ]

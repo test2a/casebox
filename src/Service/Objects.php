@@ -1,9 +1,7 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Event\BeforeNodeDbCreateEvent;
-use Casebox\CoreBundle\Event\NodeLoadEvent;
 use Casebox\CoreBundle\Event\NodeObjectsLoadEvent;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Objects\Plugins;
@@ -200,7 +198,9 @@ class Objects
 
         // Updating saved document into solr directly (before runing background cron)
         // so that it'll be displayed with new name without delay
-        if (!Config::getFlag('disableSolrIndexing')) {
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        if (!$configService->getFlag('disableSolrIndexing')) {
             $solrClient = new Solr\Client();
             $solrClient->updateTree(['id' => $d['id']]);
             // Running background cron to index other nodes
@@ -444,7 +444,7 @@ class Objects
 
     /**
      * Get name for an object id
-     * @param  int          $id
+     * @param  int         $id
      * @return string|null
      */
     public static function getName($id, $htmlSafe = false)
@@ -516,7 +516,7 @@ class Objects
 
                     Cache::set($varName, $o);
                     $rez[$objData['id']] = $o;
-                    
+
                     $dispatcher->dispatch('onObjectLoad', new BeforeNodeDbCreateEvent($o));
                 }
             }
@@ -834,8 +834,10 @@ class Objects
             $templateData = $templates->getTemplate($templateId)->getData();
         }
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         $objectPlugins = empty($templateData['cfg']['object_plugins'])
-            ? Config::get('default_object_plugins')
+            ? $configService->get('default_object_plugins')
             : $templateData['cfg']['object_plugins'];
 
         $rez['success'] = true;
@@ -854,7 +856,7 @@ class Objects
 
         /** @var Container $container */
         $container = Cache::get('symfony.container');
-        
+
         foreach ($objectPlugins as $k => $v) {
             if (is_scalar($v)) {
                 $className = $v;

@@ -1,13 +1,12 @@
 <?php
 namespace Casebox\CoreBundle\Service\Objects;
 
-use Casebox\CoreBundle\Service\Config as CBConfig;
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\UsersGroups;
 use Casebox\CoreBundle\Service\Search;
-use Casebox\CoreBundle\Service\Cache;
 
 /**
  * Template class
@@ -247,7 +246,7 @@ class Template extends Object
 
     /**
      * get field order
-     * @param string $fieldName
+     * @param  string $fieldName
      * @return int
      */
     public function getFieldOrder($fieldName)
@@ -279,11 +278,11 @@ class Template extends Object
 
     /**
      * formats a value for display according to it's field definition
-     * @param  array | int $field    array of field properties or field id
-     * @param  array|string     $value    field value to be formated
-     * @param  boolean     $html     default true - format for html, otherwise format for text display
-     * @param  boolean     $showInfo add info if not empty to the end of returned result
-     * @return string     formated value
+     * @param  array | int  $field    array of field properties or field id
+     * @param  array|string $value    field value to be formated
+     * @param  boolean      $html     default true - format for html, otherwise format for text display
+     * @param  boolean      $showInfo add info if not empty to the end of returned result
+     * @return string       formated value
      */
     public function formatValueForDisplay($field, $value, $html = true, $showInfo = false)
     {
@@ -356,7 +355,7 @@ class Template extends Object
                     break;
 
                 case '_language':
-                    @$value = @CBConfig::get('language_settings')[CBConfig::get('languages')[$value -1]][0];
+                    @$value = @$this->configService->get('language_settings')[$this->configService->get('languages')[$value -1]][0];
                     break;
 
                 case 'combo':

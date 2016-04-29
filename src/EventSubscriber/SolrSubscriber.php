@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\EventSubscriber;
 
 use Casebox\CoreBundle\Event\BeforeNodeSolrUpdateEvent;
@@ -46,7 +45,7 @@ class SolrSubscriber implements EventSubscriberInterface
             ->get('casebox_core.service_plugins_display_columns.display_columns')
             ->onBeforeSolrQuery($params);
     }
-    
+
     /**
      * @param SolrQueryEvent $event
      */
@@ -59,18 +58,18 @@ class SolrSubscriber implements EventSubscriberInterface
             ->get('casebox_core.service_plugins_display_columns.display_columns')
             ->onSolrQuery($params);
     }
-    
+
     /**
      * @var Container
      */
     protected $container;
-    
+
     /**
      * Update tree action
      */
     public function onTreeUpdate()
     {
-        if (Config::getFlag('disableSolrIndexing')) {
+        if ($this->container->get('casebox_core.service.config')->getFlag('disableSolrIndexing')) {
             return;
         }
 
@@ -131,7 +130,7 @@ class SolrSubscriber implements EventSubscriberInterface
     /**
      * @return array
      */
-    static function getSubscribedEvents()
+    public static function getSubscribedEvents()
     {
         return [
             'onSolrQueryWarmUp' => 'onSolrQueryWarmUp',

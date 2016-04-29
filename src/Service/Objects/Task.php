@@ -1,12 +1,11 @@
 <?php
 namespace Casebox\CoreBundle\Service\Objects;
 
-use Casebox\CoreBundle\Service\Config as CBConfig;
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Security;
 use Casebox\CoreBundle\Service\Tasks;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
-use Casebox\CoreBundle\Service\Cache;
 
 /**
  * Class Task
@@ -538,7 +537,9 @@ class Task extends Object
         $ownerRow = '';
         $assigneeRow = '';
         $contentRow = '';
-        $coreUri = CBConfig::get('core_uri');
+        $coreUri = $this->configService->get('core_uri');
+
+        $userService = Cache::get('symfony.container')->get('casebox_core.service.user');
 
         //create date and status row
         $ed = $this->getEndDate();
@@ -565,9 +566,8 @@ class Task extends Object
 
             $ownerRow = '<tr><td class="prop-key">'.$this->trans('Owner').':</td><td>'.
                 '<table class="prop-val people"><tbody>'.
-                '<tr><td class="user"><img class="photo32" src="'.$coreUri.'photo/'.$v.'.jpg?32='.User::getPhotoParam(
-                    $v
-                ).
+                '<tr><td class="user"><img class="photo32" src="' .
+                $coreUri.'photo/'.$v.'.jpg?32='. $userService->getPhotoParam($v) .
                 '" style="width:32px; height: 32px" alt="'.$cn.'" title="'.$cn.'"></td>'.
                 '<td><b>'.$cn.'</b><p class="gr">'.$this->trans('Created').': '.
                 '<span class="dttm" title="'.$cd.'">'.$cdt.'</span></p></td></tr></tbody></table>'.
@@ -598,7 +598,7 @@ class Task extends Object
                 }
 
                 $assigneeRow .= '<tr><td class="user"><div style="position: relative">'.
-                    '<img class="photo32" src="'.$coreUri.'photo/'.$id.'.jpg?32='.User::getPhotoParam($id).
+                    '<img class="photo32" src="'.$coreUri.'photo/'.$id.'.jpg?32='. $userService->getPhotoParam($id).
                     '" style="width:32px; height: 32px" alt="'.$un.'" title="'.$un.'">'.
                     ($completed ? '<img class="done icon icon-tick-circle" src="/css/i/s.gif" />' : "").
                     '</div></td><td><b>'.$un.'</b>'.
@@ -643,7 +643,7 @@ class Task extends Object
             $p = '';
         }
 
-        $rtl = empty(CBConfig::get('rtl')) ? '' : ' drtl';
+        $rtl = empty($this->configService->get('rtl')) ? '' : ' drtl';
 
          $pb[0] = $this->getPreviewActionsRow() .
             '<table class="obj-preview' . $rtl . '"><tbody>' .

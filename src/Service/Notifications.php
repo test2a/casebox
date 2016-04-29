@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Service\DataModel as DM;
@@ -426,9 +425,11 @@ class Notifications
      */
     public static function getMailBodyForAction(&$action, &$userData)
     {
-        $coreUrl = Config::get('core_url');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $coreUrl = $configService->get('core_url');
         $name = $action['data']['name'];
-        $languages = Config::get('languages');
+        $languages = $configService->get('languages');
         $lang = $languages[$userData['language_id'] -1];
 
         //set header row by default
@@ -629,12 +630,14 @@ class Notifications
      */
     public static function getSender($userId = false)
     {
-        $coreName = Config::get('core_name');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
 
-        $commentsEmail = Config::get('comments_email');
+        $coreName = $configService->get('core_name');
+
+        $commentsEmail = $configService->get('comments_email');
 
         $senderMail = empty($commentsEmail)
-            ? Config::get('sender_email')
+            ? $configService->get('sender_email')
             : $commentsEmail;
 
         $rez = '"' .

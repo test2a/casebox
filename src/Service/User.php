@@ -1,17 +1,15 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Entity\UsersGroups as UsersGroupsEntity;
 use Casebox\CoreBundle\Service\Auth\GoogleAuth;
 use Casebox\CoreBundle\Service\Auth\YubikeyAuth;
 use Casebox\CoreBundle\Service\DataModel as DM;
-use Casebox\CoreBundle\ConstantSets;
-use Casebox\CoreBundle\Service\Vocabulary\LanguageVocabulary;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 use Colors\RandomColor;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Class User
@@ -20,71 +18,20 @@ class User
 {
     use TranslatorTrait;
 
-    /**
-     * Set all sessions and cookie credentials after auth
-     *
-     * @param int $userId
-     * @param string $key
-     *
-     * @return array
-     */
-    public static function setAsLogged($userId, $key)
+    public function __construct(Container $container = null)
     {
-        $coreName = Config::get('core_name');
-
-        /** @var Session $session */
-        $session = Cache::get('symfony.container')->get('session');
-        $session->set('key', $key);
-        $_COOKIE['key'] = $key;
-
-        if (php_sapi_name() == "cli") {
-            $_COOKIE['key'] = $key;
-        } else {
-            setcookie('key', $key, 0, '/c/'.$coreName.'/', $_SERVER['SERVER_NAME'], !empty($_SERVER['HTTPS']), true);
+        if (empty($container)) {
+            $container = Cache::get('symfony.container');
         }
-
-        $rez = ['success' => true, 'user' => []];
-
-        $r = User::getPreferences($userId);
-        if (!empty($r)) {
-            $r['admin'] = Security::isAdmin($userId);
-            $r['manage'] = Security::canManage($userId);
-
-            $r['first_name'] = htmlentities($r['first_name'], ENT_QUOTES, 'UTF-8');
-            $r['last_name'] = htmlentities($r['last_name'], ENT_QUOTES, 'UTF-8');
-
-            //set default theme
-            if (empty($r['cfg']['theme'])) {
-                $r['cfg']['theme'] = 'classic';
-            }
-
-            // do not expose security params
-            unset($r['cfg']['security']);
-
-            $rez['user'] = $r;
-            $user = $r;
-
-            if (php_sapi_name() == "cli") {
-                $_COOKIE['key'] = $key;
-            } else {
-                setcookie('L', $r['language']);
-            }
-            // Set user groups
-            $rez['user']['groups'] = UsersGroups::getGroupIdsForUser();
-            $user['groups'] = $rez['user']['groups'];
-            $user['TSV_checked'] = true;
-
-            $session->set('user', $user);
-        }
-
-        return $rez;
+        $this->container = $container;
+        $this->configService = $container->get('casebox_core.service.config');
     }
 
     /**
      * Password verification method used for accessing sensitive data (like profile form)
      * or for additional identity check
      *
-     * @param  string $password
+     * @param string $password
      *
      * @return array response
      */
@@ -151,7 +98,7 @@ class User
         if (!in_array($p['method'], ['ga', 'sms', 'ybk'])) {
             return ['success' => false, 'msg' => 'Invalid authentication mechanism'];
         }
-        $data = empty($p['data']) ? [] : (array)$p['data'];
+        $data = empty($p['data']) ? [] : (array) $p['data'];
 
         /** @var Session $session */
         $session = Cache::get('symfony.container')->get('session');
@@ -229,12 +176,12 @@ class User
      */
     public function getLoginInfo()
     {
-        $coreName = Config::get('coreName');
+        $coreName = $this->configService->get('coreName');
 
-        $filesConfig = Config::get('files');
+        $filesConfig = $this->configService->get('files');
 
         if (empty($filesConfig['edit']['webdav'])) {
-            $webdavFiles = Config::get('webdav_files');
+            $webdavFiles = $this->configService->get('webdav_files');
         } else {
             $webdavFiles = $filesConfig['edit']['webdav'];
         }
@@ -257,13 +204,13 @@ class User
             'config' => [
                 'coreName' => $coreName,
                 'photoPath' => '/c/'.$coreName.'/photo/',
-                'rtl' => Config::get('rtl'),
-                'folder_templates' => Config::get('folder_templates'),
-                'default_task_template' => Config::get('default_task_template'),
-                'default_event_template' => Config::get('default_event_template'),
+                'rtl' => $this->configService->get('rtl'),
+                'folder_templates' => $this->configService->get('folder_templates'),
+                'default_task_template' => $this->configService->get('default_task_template'),
+                'default_event_template' => $this->configService->get('default_event_template'),
                 'files.edit' => $filesEdit,
-                'template_info_column' => Config::get('template_info_column'),
-                'leftRibbonButtons' => Config::get('leftRibbonButtons'),
+                'template_info_column' => $this->configService->get('template_info_column'),
+                'leftRibbonButtons' => $this->configService->get('leftRibbonButtons'),
             ],
             'user' => $userData,
         ];
@@ -271,7 +218,7 @@ class User
         $result['config']['files.edit'] = $filesEdit;
 
         // default root node config
-        $root = Config::get('rootNode');
+        $root = $this->configService->get('rootNode');
         if (is_null($root)) {
             $root = Browser::getRootProperties(Browser::getRootFolderId())['data'];
 
@@ -334,9 +281,9 @@ class User
             $cfg = $r['cfg'];
             unset($r['cfg']);
 
-            $language_index = empty($r['language_id']) ? Config::get('user_language_index') - 1 : $r['language_id'] - 1;
+            $language_index = empty($r['language_id']) ? $this->configService->get('user_language_index') - 1 : $r['language_id'] - 1;
 
-            $r['language'] = Config::get('languages')[$language_index];
+            $r['language'] = $this->configService->get('languages')[$language_index];
 
             if (empty($cfg['long_date_format'])) {
                 $language = Cache::get('symfony.container')
@@ -418,7 +365,7 @@ class User
     /**
      * Save user profile form data
      *
-     * @param  array $p
+     * @param array $p
      *
      * @return array
      * @throws \Exception
@@ -563,7 +510,7 @@ class User
             $u['email'] = $p['email'];
             $u['language_id'] = $p['language_id'];
 
-            $u['language'] = @Config::get('languages')[$p['language_id'] - 1];
+            $u['language'] = @$this->configService->get('languages')[$p['language_id'] - 1];
 
             $language = Cache::get('symfony.container')
                 ->get('casebox_core.service_vocabulary.language_vocabulary')
@@ -742,7 +689,7 @@ class User
      */
     public function setLanguage($id)
     {
-        $coreUILanguages = Config::get('languagesUI');
+        $coreUILanguages = $this->configService->get('languagesUI');
 
         if (isset($coreUILanguages[$id - 1])) {
             /** @var Session $session */
@@ -798,7 +745,7 @@ class User
      * Get the maximum rows displayed in grid
      * @return int
      */
-    public static function getGridMaxRows()
+    public function getGridMaxRows()
     {
         /** @var Session $session */
         $session = Cache::get('symfony.container')->get('session');
@@ -808,7 +755,7 @@ class User
             return $user['cfg']['max_rows'];
         }
 
-        return Config::get('max_rows');
+        return $this->configService->get('max_rows');
     }
 
     /**
@@ -871,7 +818,7 @@ class User
 
         $photoName = $p['id'].'_'.preg_replace('/[^a-z0-9\.]/i', '_', $f['name']).'.png';
 
-        $photosPath = Config::get('photos_path');
+        $photosPath = $this->configService->get('photos_path');
 
         $fs = new Filesystem();
         if (!$fs->exists($photosPath)) {
@@ -929,7 +876,7 @@ class User
         $r = DM\Users::read($p['id']);
 
         if (!empty($r['photo'])) {
-            @unlink(Config::get('photos_path').$r['photo']);
+            @unlink($this->configService->get('photos_path').$r['photo']);
         }
 
         // update db record
@@ -962,7 +909,7 @@ class User
     /**
      * Generate recovery hash for a given user
      *
-     * @param int $userId
+     * @param int    $userId
      * @param string $random
      *
      * @return string
@@ -984,8 +931,8 @@ class User
     /**
      * Set new password for a user by his recovery hash
      *
-     * @param string $hash
-     * @param string $password
+     * @param  string $hash
+     * @param  string $password
      * @return bool
      */
     public static function setNewPasswordByRecoveryHash($hash, $password)
@@ -1042,7 +989,7 @@ class User
     }
 
     /**
-     * @param string $authMechanism
+     * @param string     $authMechanism
      * @param array|null $data
      *
      * @return string
@@ -1066,7 +1013,7 @@ class User
 
     /**
      * @param integer|array|bool $idOrData
-     * @param string|bool $withEmail
+     * @param string|bool        $withEmail
      *
      * @return array|null|\PDO|string
      */
@@ -1170,11 +1117,11 @@ class User
      * Get a user photo if set
      *
      * @param integer|array|bool|false $idOrData Id or user data array
-     * @param string|bool $size32
+     * @param string|bool              $size32
      *
      * @return string
      */
-    public static function getPhotoFilename($idOrData = false, $size32 = false)
+    public function getPhotoFilename($idOrData = false, $size32 = false)
     {
         $data = [];
 
@@ -1204,7 +1151,7 @@ class User
             // set result to default placeholder
             $rez = $docRoot.'/css/i/ico/32/user-male.png';
 
-            $photosPath = Config::get('photos_path');
+            $photosPath = $this->configService->get('photos_path');
             $photoFile = $photosPath.@$data['photo'];
 
             if (file_exists($photoFile) && !is_dir($photoFile)) {
@@ -1244,7 +1191,7 @@ class User
      *
      * @return string
      */
-    public static function getPhotoParam($idOrData = false)
+    public function getPhotoParam($idOrData = false)
     {
         $data = [];
 
@@ -1271,7 +1218,7 @@ class User
 
             $rez = '';
 
-            $photosPath = Config::get('photos_path');
+            $photosPath = $this->configService->get('photos_path');
             $photoFile = $photosPath.$data['photo'];
 
             if (file_exists($photoFile)) {
@@ -1285,36 +1232,16 @@ class User
     }
 
     /**
-     * Outputs user photo directly to output
-     *
-     * @param int $userId
-     * @param boolean $size32
-     *
-     * @return void
-     */
-    public static function outputPhoto($userId, $size32 = false)
-    {
-        $photoFile = static::getPhotoFilename($userId, $size32);
-
-        $expires = 60 * 60 * 24 * 14;
-        header('Content-Type: image; charset=UTF-8');
-        header('Content-Transfer-Encoding: binary');
-        header("Cache-Control: maxage=".$expires);
-        header('Expires: '.gmdate('D, d M Y H:i:s', time() + $expires).' GMT');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        readfile($photoFile);
-    }
-
-    /**
      * Get user preferences
-     * @param integer $userId
+     * @param  integer    $userId
      * @return array|null
      */
     public static function getPreferences($userId)
     {
         $rez = [];
-        $coreLanguages = Config::get('languages');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $coreLanguages = $configService->get('languages');
 
         $data = DM\Users::read($userId);
 
@@ -1333,14 +1260,14 @@ class User
         $r = array_intersect_key($data, $params);
 
         if (!empty($r)) {
-            $language_index = empty($r['language_id']) ? Config::get('user_language_index') - 1 : $r['language_id'] - 1;
+            $language_index = empty($r['language_id']) ? $configService->get('user_language_index') - 1 : $r['language_id'] - 1;
 
             $ls = Cache::get('symfony.container')
                 ->get('casebox_core.service_vocabulary.language_vocabulary')
                 ->findByLanguage($coreLanguages[$r['language_id'] - 1]);
 
             if (empty($coreLanguages[$language_index])) {
-                $r['language_id'] = Config::get('language_index');
+                $r['language_id'] = $configService->get('language_index');
                 $language_index = $r['language_id'] - 1;
             }
 
@@ -1400,7 +1327,7 @@ class User
         $pref = ($session->has('user')) ? $session->get('user') : null;
 
         if ($userId !== false) {
-            $pref = User::getPreferences($userId);
+            $pref = static::getPreferences($userId);
         }
 
         if (!empty($pref['cfg']['timezone']) && System::isValidTimezone($pref['cfg']['timezone'])) {
@@ -1432,7 +1359,7 @@ class User
     }
 
     /**
-     * @param array $cfg
+     * @param array        $cfg
      * @param integer|bool $userId
      */
     private static function setUserConfig($cfg, $userId = false)
@@ -1450,7 +1377,7 @@ class User
     }
 
     /**
-     * @param string $name
+     * @param string      $name
      * @param string|null $default
      * @param bool|string $userId
      *
@@ -1466,9 +1393,9 @@ class User
     /**
      * Set users config param
      *
-     * @param string $name
+     * @param string          $name
      * @param string|int|bool $value
-     * @param string|bool $userId
+     * @param string|bool     $userId
      */
     public static function setUserConfigParam($name, $value, $userId = false)
     {
@@ -1532,7 +1459,7 @@ class User
     }
 
     /**
-     * @param array $p
+     * @param array        $p
      * @param integer|bool $userId
      *
      * @return array
@@ -1607,7 +1534,7 @@ class User
     /**
      * Check if reached specified interval for sending emails
      *
-     * @param integer|bool $userId
+     * @param  integer|bool $userId
      * @return string|bool
      *         false - if user not idle
      *         all - if user selected to receive all types of notifications
@@ -1652,8 +1579,8 @@ class User
     /**
      * Set the user enabled or disabled
      *
-     * @param integer $userId
-     * @param bool $enabled
+     * @param  integer $userId
+     * @param  bool    $enabled
      * @return array
      */
     public static function setEnabled($userId, $enabled)

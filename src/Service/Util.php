@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Util;
 
 use Casebox\CoreBundle\Service\Config;
@@ -752,7 +751,7 @@ function jsonDecode($var)
  */
 function detectTitle(&$arr)
 {
-    $l = Config::get('user_language');
+    $l = Cache::get('symfony.container')->get('casebox_core.service.config')->get('user_language');
 
     $rez = @coalesce(
         $arr[$l],
@@ -973,5 +972,5 @@ function getOption($optionName, $defaultValue = null)
         return $user['cfg'][$optionName];
     }
 
-    return Config::get($optionName, $defaultValue);
+    return Cache::get('symfony.container')->get('casebox_core.service.config')->get($optionName, $defaultValue);
 }

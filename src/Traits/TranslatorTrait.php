@@ -17,7 +17,7 @@ trait TranslatorTrait
      *
      * @return string
      */
-    public static function trans($name)
+    public function trans($name)
     {
         /** @var Translator $translator */
         $translator = Cache::get('symfony.container')->get('translator');

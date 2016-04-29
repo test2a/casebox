@@ -1,6 +1,7 @@
 <?php
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Templates;
 use Casebox\CoreBundle\Service\Util;
@@ -27,6 +28,8 @@ class Base
         }
 
         $this->config = $config;
+
+        $this->configService = Cache::get('symfony.container')->get('casebox_core.service.config');
     }
 
     /**

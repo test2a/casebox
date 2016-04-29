@@ -1,11 +1,9 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Plugins\DisplayColumns;
 
-use Casebox\CoreBundle\Service\Config;
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\User;
-use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\State;
 use Casebox\CoreBundle\Service\Search;
@@ -17,10 +15,15 @@ class Base
 {
     protected $fromParam = 'none';
 
+    public function __construct()
+    {
+        $this->configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+    }
+
     /**
      * Method used to implement custom logic on before solr query
      *
-     * @param  array $p search params
+     * @param array $p search params
      *
      * @return void
      */
@@ -71,7 +74,7 @@ class Base
     /**
      * AnalYze custom columns and add needed ids to preloaded objects
      *
-     * @param  array $p search params
+     * @param array $p search params
      *
      * @return void
      */
@@ -151,7 +154,7 @@ class Base
     /**
      * Method used to implement custom logic on solr query
      *
-     * @param  array $p search params
+     * @param array $p search params
      *
      * @return void
      */
@@ -314,7 +317,7 @@ class Base
         }
 
         // merge the state with display columns
-        $defaultColumns = array_keys(Config::getDefaultGridViewColumns());
+        $defaultColumns = array_keys($this->configService->getDefaultGridViewColumns());
 
         if (!empty($state['columns'])) {
             $rez = [];
@@ -389,7 +392,7 @@ class Base
     /**
      * analyze display columns config and create a generic columns array
      *
-     * @param  array $dc
+     * @param array $dc
      *
      * @return array
      */
@@ -399,7 +402,7 @@ class Base
 
         if (!empty($dc['data'])) {
             $idx = 0;
-            $userLanguage = Config::get('user_language');
+            $userLanguage = $this->configService->get('user_language');
 
             foreach ($dc['data'] as $k => $col) {
                 $fieldName = is_numeric($k) ? $col : $k;
@@ -442,7 +445,7 @@ class Base
     /**
      * Method to analize grouping params and add group column to result
      *
-     * @param  array $p search params
+     * @param array $p search params
      *
      * @return void
      */
@@ -556,11 +559,11 @@ class Base
         $ip = &$p['inputParams'];
 
         if (!empty($ip['query'])) {
-            $dc = Config::get('search_DC');
+            $dc = $this->configService->get('search_DC');
 
             // its a config reference, get it from config
             if (!empty($dc) && is_scalar($dc)) {
-                $dc = Config::getDCConfig($dc);
+                $dc = $this->configService->getDCConfig($dc);
             }
 
             $rez['data'] = $dc;
@@ -581,7 +584,7 @@ class Base
 
         // apply properties for default casebox columns
         if (!empty($rez['data'])) {
-            $defaults = Config::getDefaultGridColumnConfigs();
+            $defaults = $this->configService->getDefaultGridColumnConfigs();
             foreach ($rez['data'] as $k => $v) {
                 if (!empty($defaults[$k])) {
                     $rez['data'][$k] = array_merge($defaults[$k], $v);
@@ -595,7 +598,7 @@ class Base
     /**
      * Get state
      *
-     * @param  array $param some param if needed
+     * @param array $param some param if needed
      *
      * @return array
      */
@@ -617,7 +620,7 @@ class Base
 
         $ip = &$this->inputParams;
 
-        $defaultColumns = array_keys(Config::getDefaultGridViewColumns());
+        $defaultColumns = array_keys($this->configService->getDefaultGridViewColumns());
         $displayColumns = $this->getDC();
         $DC = empty($displayColumns['data']) ? [] : $displayColumns['data'];
 

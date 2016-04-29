@@ -59,7 +59,7 @@ class Search extends Solr\Client
     ];
 
     /**
-     * When requesting sort by a field the other convenient sorting field can be used designed for sorting. 
+     * When requesting sort by a field the other convenient sorting field can be used designed for sorting.
      * Used for string fields.
      */
     protected $replaceSortFields = [
@@ -76,8 +76,8 @@ class Search extends Solr\Client
     /**
      * Query solr
      *
-     * @param  array $p [description]
-     * @param  string $searchHandler
+     * @param array  $p             [description]
+     * @param string $searchHandler
      *
      * @return array
      */
@@ -115,7 +115,13 @@ class Search extends Solr\Client
         // initial parameters
         $this->query = empty($p['query']) ? '' : $p['query'];
 
-        $this->rows = isset($p['rows']) ? intval($p['rows']) : User::getGridMaxRows();
+        $userService = Cache::get('symfony.container')->get('casebox_core.service.user');
+
+        if (isset($p['rows'])) {
+            $this->rows = intval($p['rows']);
+        } else {
+            $this->rows = $userService->getGridMaxRows();
+        }
 
         if (empty($p['start'])) {
             $this->start = (empty($p['page']) ? 0 : $this->rows * (intval($p['page']) - 1));
@@ -123,7 +129,7 @@ class Search extends Solr\Client
         } else {
             $this->start = intval($p['start']);
         }
-        
+
         $this->params = [
             'defType' => 'dismax',
             'q.alt' => '*:*',
@@ -165,7 +171,7 @@ class Search extends Solr\Client
     /**
      * Get field list from given params
      *
-     * @param  array &$p
+     * @param array &$p
      *
      * @return string
      */
@@ -193,7 +199,7 @@ class Search extends Solr\Client
             }
 
             // add title field for current language
-            $field = 'title_'.Config::get('user_language').'_t';
+            $field = 'title_'.$this->configService->get('user_language').'_t';
             if (!in_array($field, $rez)) {
                 $rez[] = $field;
             }
@@ -205,7 +211,7 @@ class Search extends Solr\Client
     /**
      * Get filtering query array
      *
-     * @param  array &$p
+     * @param array &$p
      *
      * @return array
      */
@@ -277,7 +283,7 @@ class Search extends Solr\Client
             }
         }
 
-        // $folderTemplates = Config::get('folder_templates');
+        // $folderTemplates = $this->configService->get('folder_templates');
         // if (isset($p['folders']) && !empty($folderTemplates)) {
         //     $fq[] = '!template_id:('.implode(' OR ', $folderTemplates).')';
         // }
@@ -300,7 +306,7 @@ class Search extends Solr\Client
      * it's used in Objects fields where we show all nodes
      * without permission filtering
      *
-     * @param  array &$p
+     * @param array &$p
      *
      * @return string
      */
@@ -337,7 +343,7 @@ class Search extends Solr\Client
     /**
      * Get sort param from given params
      *
-     * @param  array &$p
+     * @param array &$p
      *
      * @return string
      */
@@ -419,7 +425,7 @@ class Search extends Solr\Client
     }
 
     /**
-     * @param  array &$p
+     * @param array &$p
      *
      * @return array
      */
@@ -542,7 +548,7 @@ class Search extends Solr\Client
 
             // don't escape query for BlockJoin faceting
             if ((substr($this->query, 0, 9) != '{!parent ')) {
-                $query = $this->escapeLuceneChars($this->query); 
+                $query = $this->escapeLuceneChars($this->query);
             } else {
                 $query = $this->query;
             }
@@ -591,7 +597,7 @@ class Search extends Solr\Client
         $sr = &$this->results;
 
         $shortcuts = [];
-        $titleField = 'title_'.Config::get('user_language').'_t';
+        $titleField = 'title_'.$this->configService->get('user_language').'_t';
 
         // iterate documents, add resulting record to $rez['data']
         // and collect shortcut records to be prepared
@@ -837,8 +843,8 @@ class Search extends Solr\Client
      * Method to get multiple object properties from solr
      * Multilanguage plugin works also
      *
-     * @param  array | string $ids
-     * @param  string $fieldList
+     * @param array | string $ids
+     * @param string         $fieldList
      *
      * @return array
      * @throws \Exception

@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Solr;
 
 use Casebox\CoreBundle\Event\BeforeSolrUpdateEvent;
@@ -149,12 +148,17 @@ class Client extends Service
         }
 
         if (!empty($fileRecords)) {
-            $filesDir = Config::get('files_dir');
+            $filesDir = $this->configService->get('files_dir');
 
             $cpaths = DM\Files::getContentPaths(array_keys($fileRecords));
 
             foreach ($cpaths as $id => $cpath) {
                 $r = &$fileRecords[$id];
+
+                if (!isset($r['content'])) {
+                    $r['content'] = '';
+                }
+
                 $filename = $filesDir.$cpath.'.gz';
 
                 if (file_exists($filename)) {
@@ -225,7 +229,7 @@ class Client extends Service
             'class' => &$this,
             'params' => &$p,
         ];
-        $this->folderTemplates = Config::get('folder_templates');
+        $this->folderTemplates = $this->configService->get('folder_templates');
 
         /** @var EventDispatcher $dispatcher */
         $dispatcher = Cache::get('symfony.container')->get('event_dispatcher');

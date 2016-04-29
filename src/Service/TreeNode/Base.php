@@ -1,8 +1,7 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\TreeNode;
 
-use Casebox\CoreBundle\Service\Config;
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Path;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Util;
@@ -32,6 +31,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
         $this->config = $config;
         $this->guid = @$config['guid'];
         $this->id = $id;
+        $this->configService = Cache::get('symfony.container')->get('casebox_core.service.config');
     }
 
     /**
@@ -82,7 +82,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * the the formated id (with plugin guid prefix) for a given node id
-     * @param string $id
+     * @param  string $id
      * @return string
      */
     public function getId($id = null)
@@ -106,10 +106,10 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
     {
         $rez = 'Unnamed';
         $cfg = &$this->config;
-        $l = Config::get('user_language');
+        $l = $this->configService->get('user_language');
 
         if (empty($cfg['title_'.$l])) {
-            $l = Config::get('language');
+            $l = $this->configService->get('language');
             if (empty($cfg['title_'.$l])) {
                 if (!empty($cfg['title'])) {
                     $rez = $cfg['title'];
@@ -211,7 +211,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
         //dashboards extention check
         if (!empty($rez['extends'])) {
-            $rez = Config::extend('dashboards', $rez);
+            $rez = $this->configService->extend('dashboards', $rez);
         }
 
         switch ($rez['type']) {
@@ -262,7 +262,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
                 foreach ($rez['items'] as $k => $v) {
                     if (!empty($v['extends'])) {
-                        $rez['items'][$k] = Config::extend('treeNodes', $v);
+                        $rez['items'][$k] = $this->configService->extend('treeNodes', $v);
                     }
 
                     $clsArr = Path::getNodeClasses($rez['items']);
@@ -376,7 +376,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
         }
 
         //creating facets
-        $facetsDefinitions = Config::get('facet_configs');
+        $facetsDefinitions = $this->configService->get('facet_configs');
 
         foreach ($cfg['data'] as $k => $v) {
             $name = $k;
@@ -473,7 +473,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * get create menu for current node
-     * @param  array   $rp request params
+     * @param  array  $rp request params
      * @return string menu config string
      */
     public function getCreateMenu(&$rp)
@@ -501,7 +501,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
     /**
      * Get param for current node(considered last node in active path)
      *
-     * @param string $param for now using to get 'facets' or 'DC'
+     * @param  string $param for now using to get 'facets' or 'DC'
      * @return array
      */
     public function getNodeParam($param = 'facets')
@@ -534,11 +534,11 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
         } else {
             //check in config
-            $paramConfigs = Config::get('node_'.$param);
+            $paramConfigs = $this->configService->get('node_'.$param);
 
             if (empty($paramConfigs[$this->getId($this->id)])) {
                 if (empty($this->parent)) {
-                    $default = Config::get('default_' . $param);
+                    $default = $this->configService->get('default_' . $param);
 
                     if (!empty($default)) {
                         $rez =  array(
@@ -571,7 +571,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
         //its a config reference, get it from config
         if (!empty($rez['data']) && is_scalar($rez['data'])) {
-            $rez['data'] = Config::getDCConfig($rez['data']);
+            $rez['data'] = $this->configService->getDCConfig($rez['data']);
         }
 
         return $rez;
@@ -582,7 +582,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
      *
      * Generally this method should work as getNodeParam but for
      * descendant class Dbnode this method should avoid checking templates config
-     * @param string $param same as for getNodeParam
+     * @param  string  $param same as for getNodeParam
      * @return variant
      */
     public function getParentNodeParam($param = 'facets')

@@ -1,8 +1,6 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Files as FilesService;
 use Casebox\CoreBundle\Service\Objects\Object;
 use Casebox\CoreBundle\Service\User;
@@ -47,7 +45,7 @@ class Comments extends Base
         }
 
         $limit = empty($p['beforeId']) ? 4 : 10;
-        $limit = Config::get('max_load_comments', $limit);
+        $limit = $this->configService->get('max_load_comments', $limit);
 
         $params = array(
             'pid' => $this->id
@@ -210,7 +208,7 @@ class Comments extends Base
             $rez = '<a class="click obj-ref" itemid="' . $file['id'] .
                     '" templateid= "' . $file['template_id'] .
                     '" title="' . $file['name'] .
-                    '"><img class="fit-img" src="/c/' . Config::get('core_name') . '/download/' . $file['id'] . '/" /></a>';
+                    '"><img class="fit-img" src="/c/' . $this->configService->get('core_name') . '/download/' . $file['id'] . '/" /></a>';
 
         } else {
             $rez = '<a class="click obj-ref icon-padding ' . FilesService::getIcon($file['name']) . '" itemid="' . $file['id'] .

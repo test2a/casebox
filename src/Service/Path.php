@@ -101,7 +101,9 @@ class Path
         $rez = [];
         $path = explode('/', $path);
 
-        $rootNodeCfg = Util\toJSONArray(Config::get('rootNode'));
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $rootNodeCfg = Util\toJSONArray($configService->get('rootNode'));
 
         while (!empty($path)) {
             $npid = null;
@@ -220,7 +222,9 @@ class Path
             return $rez;
         }
 
-        $treeNodeConfigs = Config::get('treeNodes', ['Dbnode' => []]);
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+        $treeNodeConfigs = $configService->get('treeNodes', ['Dbnode' => []]);
         $GUIDConfigs = [];
         $guids = static::getGUIDs(array_keys($treeNodeConfigs));
         foreach ($treeNodeConfigs as $plugin => $cfg) {

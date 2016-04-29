@@ -22,8 +22,10 @@ class Log
     {
         $userId = User::getId();
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         //check if log not disabled
-        if (Config::getFlag('disableActivityLog') || empty($userId)) {
+        if ($configService->getFlag('disableActivityLog') || empty($userId)) {
             return;
         }
 
@@ -287,9 +289,11 @@ class Log
         // $fu = @$p['activityData']['fu'];
         // $wu = @$p['activityData']['wu'];
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         $record = array(
-            'id' => Config::get('core_name') . '_' . $p['action_id']
-            ,'core_id' => Config::get('core_id')
+            'id' => $configService->get('core_name') . '_' . $p['action_id']
+            ,'core_id' => $configService->get('core_id')
             ,'action_id' => $p['action_id']
             ,'action_type' => $p['type']
             ,'action_date' => date('Y-m-d\TH:i:s\Z')
@@ -323,7 +327,9 @@ class Log
         $rez = Cache::get('solr_log_connection');
 
         if (empty($rez)) {
-            $cfg = Config::get('action_log');
+            $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
+            $cfg = $configService->get('action_log');
 
             if (empty($cfg['core'])) {
                 return;

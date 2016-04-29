@@ -1,8 +1,8 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Event\TreeInitializeEvent;
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -41,6 +41,8 @@ class Browser
      */
     public function getChildren($p)
     {
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         // Unset restricted query params from user input
         unset($p['fq']);
 
@@ -88,7 +90,7 @@ class Browser
         //but leave only SearchResults plugin when searching
         if (empty($p['search'])) {
             if (empty($p['query'])) {
-                $this->treeNodeConfigs = Config::get('treeNodes');
+                $this->treeNodeConfigs = $configService->get('treeNodes');
             }
 
             // default is only DBNode if nothing defined in cofig
@@ -160,9 +162,9 @@ class Browser
                 $av = $r['data'];
             }
         } else {
-            $r = Config::get('availableViews');
+            $r = $configService->get('availableViews');
             if (empty($r)) {
-                $r = Config::get('default_availableViews');
+                $r = $configService->get('default_availableViews');
             }
 
             if (!empty($r)) {
@@ -378,6 +380,8 @@ class Browser
      */
     public function getObjectsForField($p)
     {
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+
         // ,"scope": 'tree' //project, parent, self, $node_id
         // ,"field": <field_name> //for field type
 
@@ -435,7 +439,7 @@ class Browser
                 //analize facet sources
                 if (!empty($source['facet'])) {
                     //creating facets
-                    $facetsDefinitions = Config::get('facet_configs');
+                    $facetsDefinitions = $configService->get('facet_configs');
 
                     if (!empty($facetsDefinitions[$source['facet']])) {
                         $conf = $facetsDefinitions[$source['facet']];
@@ -544,6 +548,8 @@ class Browser
                 case 'project': /* limiting pid to project. If not in a project then to parent directory */
                     if (!empty($p['objectId']) && is_numeric($p['objectId'])) {
                         $pids = DM\Tree::getCaseId($p['objectId']);
+                    } elseif (!empty($p['objectPid']) && is_numeric($p['objectPid'])) {
+                        $pids = DM\Tree::getCaseId($p['objectPid']);
                     } elseif (!empty($p['path'])) {
                         $pids = DM\Tree::getCaseId(Path::detectRealTargetId($p['path']));
                     }
@@ -810,8 +816,8 @@ class Browser
      * This function is used to generate a new name lyke "Copy of <old file_name> (1).ext".
      * Usually used when copy/pasting objects and pasted object should receive a new name.
      *
-     * @param int $pid parent object/folder id
-     * @param string $name old/existing object name
+     * @param int     $pid              parent object/folder id
+     * @param string  $name             old/existing object name
      * @param boolean $excludeExtension if true then characters after last "." will remain unchanged
      *
      * @return string new name
@@ -842,7 +848,8 @@ class Browser
 
     public function saveFile($p)
     {
-        $incommingFilesDir = Config::get('incomming_files_dir');
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+        $incommingFilesDir = $configService->get('incomming_files_dir');
 
         $files = new Files();
 
@@ -1022,8 +1029,8 @@ class Browser
                         ),
                     ];
                 }
-            // $files->storeFiles($a);
-            // break;
+                // $files->storeFiles($a);
+                // break;
             case 'newversion':
             case 'replace':
             case 'autorename':
@@ -1167,6 +1174,7 @@ class Browser
             return 'icon-none';
         }
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
         $templates = Templates\SingletonCollection::getInstance();
         $templateData = $templates->getTemplate($data['template_id'])->getData();
 
@@ -1176,7 +1184,7 @@ class Browser
 
         switch ($templateData['type']) {
             case 'object':
-                if (in_array($data['template_id'], Config::get('folder_templates'))) {
+                if (in_array($data['template_id'], $configService->get('folder_templates'))) {
                     return 'icon-folder';
                 }
                 break;

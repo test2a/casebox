@@ -2,7 +2,6 @@
 namespace Export;
 
 use Casebox\CoreBundle\Service\Cache;
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
 
@@ -24,8 +23,9 @@ class Instance
             return $rez;
         }
 
+        $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
         // form columns
-        $defaultColumns = Config::getDefaultGridColumnConfigs();
+        $defaultColumns = $configService->getDefaultGridColumnConfigs();
         $columns = $defaultColumns;
 
         // retreive data

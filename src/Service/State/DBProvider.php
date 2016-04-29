@@ -78,7 +78,8 @@ class DBProvider
             $path = empty($p['params']['path']) ? $p['params']['id'] : $p['params']['path'];
 
             if (!empty($path)) {
-                $treeNodeConfigs = Config::get('treeNodes', ['Dbnode' => []]);
+                $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+                $treeNodeConfigs = $configService->get('treeNodes', ['Dbnode' => []]);
 
                 $treeNodeClasses = Path::getNodeClasses($treeNodeConfigs);
                 $treeNodeGUIDConfigs = [];

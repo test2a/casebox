@@ -1,7 +1,7 @@
 <?php
-
 namespace Casebox\CoreBundle\Service\Auth;
 
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Config;
 
 /**
@@ -35,7 +35,7 @@ class GoogleAuth implements AuthInterface
     protected $_codeLength = 6;
 
     /**
-     * @param array $p
+     * @param array       $p
      * @param string|null $data
      */
     public function __construct($p = [], $data = null)
@@ -106,7 +106,10 @@ class GoogleAuth implements AuthInterface
 
         $result = [
             'sd' => $spacedKey,
-            'url' => $this->getQRCodeGoogleUrl(Config::get('core_url'), $this->secretData['sk']),
+            'url' => $this->getQRCodeGoogleUrl(
+                Cache::get('symfony.container')->get('casebox_core.service.config')->get('core_url'),
+                $this->secretData['sk']
+            )
         ];
 
         return $result;
@@ -190,7 +193,7 @@ class GoogleAuth implements AuthInterface
     /**
      * Calculate the code, with given secret and point in time
      *
-     * @param string $secret
+     * @param string   $secret
      * @param int|null $timeSlice
      *
      * @return string
@@ -227,9 +230,9 @@ class GoogleAuth implements AuthInterface
      * Check if the code is correct. This will accept codes starting from $discrepancy*30sec ago to $discrepancy*30sec
      * from now
      *
-     * @param string $secret
-     * @param string $code
-     * @param int $discrepancy This is the allowed time drift in 30 second units (8 means 4 minutes before or after)
+     * @param string   $secret
+     * @param string   $code
+     * @param int      $discrepancy      This is the allowed time drift in 30 second units (8 means 4 minutes before or after)
      * @param int|null $currentTimeSlice time slice if we want use other that time()
      *
      * @return bool
@@ -302,7 +305,7 @@ class GoogleAuth implements AuthInterface
      * Helper class to encode base32
      *
      * @param string $secret
-     * @param bool $padding
+     * @param bool   $padding
      *
      * @return string
      */

@@ -899,6 +899,7 @@ function initApp() {
             ,grid: e.grid
             ,pidValue: e.pidValue
             ,objectId: e.objectId
+            ,objectPid: e.objectPid
             ,path: e.path
         };
         var w, th, ed, rez = null;
@@ -920,7 +921,7 @@ function initApp() {
                     cmp.expand();
                 }
             },
-            autoExpand = {'afterrender': expandHandler};
+            autoExpand = {'boxready': expandHandler};
 
         switch(type){
             case '_objects':
