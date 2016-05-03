@@ -1452,7 +1452,7 @@ class Object
         $rez = $d['name'];
 
         if ($language === false) {
-            $language = $this->configService->get('user_language');
+            $language = Cache::get('symfony.request')->getLocale();
         }
 
         if (is_string($language) && !empty($d['sys_data']['solr']['title_'.$language.'_t'])) {

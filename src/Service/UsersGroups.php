@@ -297,7 +297,7 @@ class UsersGroups
             'first_name' => $p['first_name'],
             'last_name' => $p['last_name'],
             'cid' => User::getId(),
-            'language_id' => (!empty($configService->get('language_index'))) ? $configService->get('language_index') : 1,
+            'language_id' => 1,
             'email' => $p['email'],
             'salt' => md5(uniqid(null, true)),
             'roles' => json_encode([UsersGroupsEntity::ROLE_USER => UsersGroupsEntity::ROLE_USER]),

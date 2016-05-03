@@ -82,10 +82,10 @@ class JavascriptService
                     'inline' => "if (typeof(L) !== 'undefined') { LL = L; }",
                 ],
                 'ext-locale' => [
-                    'src' => '/js/ext/packages/ext-locale/build/ext-locale-{{ locale }}.js',
+                    'src' => '/js/ext/packages/ext-locale/build/ext-locale-{{ app.request.locale }}.js',
                 ],
                 'locale' => [
-                    'src' => '/min/locale/{{ locale }}.js',
+                    'src' => '/min/locale/{{ app.request.locale }}.js',
                 ],
                 'highlight' => [
                     'src' => '/js/highlight/highlight.pack.js',

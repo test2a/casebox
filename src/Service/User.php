@@ -281,9 +281,12 @@ class User
             $cfg = $r['cfg'];
             unset($r['cfg']);
 
-            $language_index = empty($r['language_id']) ? $this->configService->get('user_language_index') - 1 : $r['language_id'] - 1;
+            $languageIndex = 0;
+            if (!empty($r['language_id'])) {
+                $languageIndex = $r['language_id'] - 1;
+            }
 
-            $r['language'] = $this->configService->get('languages')[$language_index];
+            $r['language'] = $this->configService->get('languages')[$languageIndex];
 
             if (empty($cfg['long_date_format'])) {
                 $language = Cache::get('symfony.container')
@@ -1260,18 +1263,16 @@ class User
         $r = array_intersect_key($data, $params);
 
         if (!empty($r)) {
-            $language_index = empty($r['language_id']) ? $configService->get('user_language_index') - 1 : $r['language_id'] - 1;
+            $languageIndex = 0;
+            if (!empty($r['language_id'])) {
+                $languageIndex = $r['language_id'] - 1;
+            }
 
             $ls = Cache::get('symfony.container')
                 ->get('casebox_core.service_vocabulary.language_vocabulary')
-                ->findByLanguage($coreLanguages[$r['language_id'] - 1]);
+                ->findByLanguage($coreLanguages[$languageIndex]);
 
-            if (empty($coreLanguages[$language_index])) {
-                $r['language_id'] = $configService->get('language_index');
-                $language_index = $r['language_id'] - 1;
-            }
-
-            $r['language'] = $coreLanguages[$language_index];
+            $r['language'] = $coreLanguages[$languageIndex];
             $r['locale'] = $ls['locale'];
 
             $r['cfg'] = Util\toJSONArray($r['cfg']);

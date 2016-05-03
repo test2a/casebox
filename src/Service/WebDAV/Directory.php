@@ -1,7 +1,7 @@
 <?php
 namespace Casebox\CoreBundle\Service\WebDAV;
 
-use Casebox\CoreBundle\Service\Config;
+use Casebox\CoreBundle\Service\Cache;
 use Sabre\DAV;
 
 /**
@@ -114,7 +114,7 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota
         // error_log("WebDAV/Directory.getChild(" . $name . ")");
 
         $childPath = $this->path . '/' . $name;
-        $fileTmpl =  Config::get('default_file_template');
+        $fileTmpl =  Cache::get('symfony.container')->get('casebox_core.service.config')->get('default_file_template');
 
         foreach ($this->content as $item) {
             if ($item['name'] == $name) {

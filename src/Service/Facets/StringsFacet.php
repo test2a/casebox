@@ -129,9 +129,10 @@ class StringsFacet
         $rez = 'Facet';
 
         $configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+        $request = Cache::get('symfony.request');
 
         $coreLanguage = $configService->get('language');
-        $userLanguage = $configService->get('user_language');
+        $userLanguage = $request->getLocale();
 
         if (!empty($this->config['title'])) {
             $t = &$this->config['title'];

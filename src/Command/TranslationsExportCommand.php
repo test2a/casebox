@@ -33,7 +33,7 @@ class TranslationsExportCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return null
@@ -79,7 +79,7 @@ class TranslationsExportCommand extends ContainerAwareCommand
                 ->locateResource('@CaseboxCoreBundle/Resources/public/min/locale');
 
             foreach ($translations as $lang => $values) {
-                $fs->dumpFile($public.'/'.$lang.'.js', "L = ".\json_encode($values));
+                $fs->dumpFile($public.'/'.$lang.'.js', "L = ".\json_encode($values, JSON_UNESCAPED_UNICODE));
             }
 
             $output->writeln('<info>[x] Translations exported.</info>');
@@ -89,7 +89,7 @@ class TranslationsExportCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param string $domain
+     * @param string                    $domain
      * @param MessageCatalogueInterface $catalog
      *
      * @return array

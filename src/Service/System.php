@@ -45,6 +45,7 @@ class System
             Cache::set('platformConfig', $platformConfig);
             Cache::set('session', $session);
             Cache::set('symfony.container', $container);
+            Cache::set('symfony.request', $request);
 
             require_once dirname(__DIR__).'/Service/Util.php';
 
@@ -67,7 +68,6 @@ class System
             $user = $session->get('user');
             $language = (!empty($user['language'])) ? $user['language'] : $request->getLocale();
             $request->setLocale($language);
-            $session->set('_locale', $request->getLocale());
         }
     }
 

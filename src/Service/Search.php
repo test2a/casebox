@@ -199,7 +199,8 @@ class Search extends Solr\Client
             }
 
             // add title field for current language
-            $field = 'title_'.$this->configService->get('user_language').'_t';
+            //
+            $field = 'title_' . Cache::get('symfony.request')->getLocale() . '_t';
             if (!in_array($field, $rez)) {
                 $rez[] = $field;
             }
@@ -597,7 +598,7 @@ class Search extends Solr\Client
         $sr = &$this->results;
 
         $shortcuts = [];
-        $titleField = 'title_'.$this->configService->get('user_language').'_t';
+        $titleField = 'title_' . Cache::get('symfony.request')->getLocale() . '_t';
 
         // iterate documents, add resulting record to $rez['data']
         // and collect shortcut records to be prepared

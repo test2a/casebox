@@ -187,9 +187,9 @@ class Config
      */
     public function getProjectName()
     {
-        $userLanguage = $this->get('user_language', 'en');
+        $locale = Cache::get('symfony.request')->getLocale();
 
-        $rez = $this->get('project_name_'.$userLanguage);
+        $rez = $this->get('project_name_' . $locale);
 
         if (empty($rez)) {
             $rez = $this->get('project_name');

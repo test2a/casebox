@@ -751,12 +751,13 @@ function jsonDecode($var)
  */
 function detectTitle(&$arr)
 {
-    $l = Cache::get('symfony.container')->get('casebox_core.service.config')->get('user_language');
+    $l = Cache::get('symfony.request')->getLocale();
 
     $rez = @coalesce(
         $arr[$l],
         $arr['title_'.$l],
         $arr['title'],
+        $arr['_title'],
         $arr['name'],
         (!empty($arr['fieldName'])) ? $arr['fieldName'] : ''
     );
