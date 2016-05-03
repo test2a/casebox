@@ -56,8 +56,10 @@ class IndexController extends Controller
             'rtl' => $configService->get('rtl') ? '-rtl' : '',
             'cssUserColors' => '<style>'.implode("\n", $colors).'</style>',
             'styles' => $this->container->get('casebox_core.service.styles_service')->getRendered(),
-            'locale' => $this->container->getParameter('locale'),
+            'locale' => $request->getLocale()
         ];
+
+        $this->get('translator')->setLocale($vars['locale']);
 
         $vars['javascript'] = $this->container->get('casebox_core.service.javascript_service')->getRendered($vars);
 
@@ -256,9 +258,9 @@ class IndexController extends Controller
      * @Route("/dav/{coreName}", name="app_core_file_webdav_core")
      * @Route("/dav/", name="app_core_file_webdav_root")
      * @param Request $request
-     * @param string $coreName
-     * @param string $action
-     * @param string $filename
+     * @param string  $coreName
+     * @param string  $action
+     * @param string  $filename
      *
      * @return Response
      * @throws \Exception
@@ -331,7 +333,7 @@ class IndexController extends Controller
     public function indexAction()
     {
         $vars = [
-            'locale' => $this->container->getParameter('locale'),
+            'locale' => $this->container->getParameter('locale')
         ];
 
         return $this->render('CaseboxCoreBundle::no-core-found.html.twig', $vars);

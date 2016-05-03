@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
 
 use Sabre\CardDAV\Plugin;
@@ -65,7 +64,7 @@ class WebDavService
         $server->addPlugin($authPlugin);
 
         // Where to store temp files: LOCK files and files created by TemporaryFileFilterPlugin
-        $tmpDir = Config::get('upload_temp_dir').'/';
+        $tmpDir = Cache::get('symfony.container')->get('casebox_core.service.config')->get('upload_temp_dir').'/';
         $lockFile = $tmpDir.'locks';
 
         // If there is no locking file for this core, create one

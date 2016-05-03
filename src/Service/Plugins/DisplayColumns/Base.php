@@ -402,7 +402,7 @@ class Base
 
         if (!empty($dc['data'])) {
             $idx = 0;
-            $userLanguage = $this->configService->get('user_language');
+            $userLanguage = Cache::get('symfony.request')->getLocale();
 
             foreach ($dc['data'] as $k => $col) {
                 $fieldName = is_numeric($k) ? $col : $k;

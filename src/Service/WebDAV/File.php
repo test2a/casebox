@@ -1,7 +1,7 @@
 <?php
 namespace Casebox\CoreBundle\Service\WebDAV;
 
-use Casebox\CoreBundle\Service\Config;
+use Casebox\CoreBundle\Service\Cache;
 use Sabre\DAV;
 
 /**
@@ -47,7 +47,7 @@ class File extends Node implements DAV\IFile
      */
     public function get()
     {
-        $filename = Config::get('files_dir') .
+        $filename = Cache::get('symfony.container')->get('casebox_core.service.config')->get('files_dir') .
                     $this->cbNode['content_path'] . '/' .
                     $this->cbNode['content_id'];
 
