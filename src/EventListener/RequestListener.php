@@ -45,7 +45,10 @@ class RequestListener
 
         if ($token instanceof UsernamePasswordToken) {
             $provider = $token->getProviderKey();
-            if ($provider != $env) {
+
+            $requestUri = $event->getRequest()->getRequestUri();
+
+            if ($provider != $env && strstr($requestUri, "/c/$env/")) {
                 $this->container->get('casebox_core.service_auth.authentication')->logout();
 
                 $parameters = [
