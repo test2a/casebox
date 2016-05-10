@@ -22,7 +22,7 @@
 
     <!-- Code coverage -->
     <logging>
-        <log type="coverage-clover" target="../../../../../var/logs/clover-core.xml"/>
+        <log type="coverage-clover" target="../../../../../build/logs/clover-core.xml"/>
     </logging>
 
     <!-- Add files not covered with tests into Code Coverage Analysis -->
