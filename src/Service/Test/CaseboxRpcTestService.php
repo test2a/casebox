@@ -38,13 +38,16 @@ class CaseboxRpcTestService extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param string $schema
+     * @param string $host
+     * @param integer $port
      * @return Client
      */
-    protected function getClient()
+    protected function getClient($schema = 'http', $host = 'locahost', $port = 8080)
     {
         $client = new Client(
             [
-                'base_uri' => 'http://127.0.0.1/',
+                'base_uri' => $schema.'://'.$host.':'.$port.'/',
                 'timeout' => 0,
                 'cookies' => true,
                 'exceptions' => false,
