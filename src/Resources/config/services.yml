@@ -56,3 +56,6 @@ services:
         class: Casebox\CoreBundle\Service\WebDavService
         calls:
             - [setContainer, ['@service_container']]
+
+    casebox_core.service.browser_tree:
+        class: Casebox\CoreBundle\Service\BrowserTree
