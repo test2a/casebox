@@ -3,6 +3,7 @@
 namespace Casebox\CoreBundle\Service\Test;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 
 /**
  * Class CaseboxRpcTestService
@@ -41,24 +42,31 @@ class CaseboxRpcTestService extends \PHPUnit_Framework_TestCase
      * @param string $schema
      * @param string $host
      * @param integer $port
+     *
      * @return Client
      */
-    protected function getClient($schema = 'http', $host = '127.0.0.1', $port = 80)
+    protected function getClient($schema = 'http', $host = '127.0.0.1', $port = 8080)
     {
-        $client = new Client(
-            [
-                'base_uri' => $schema.'://'.$host.':'.$port.'/',
-                'timeout' => 0,
-                'cookies' => true,
-                'exceptions' => false,
-                'allow_redirects' => [
-                    'max' => 3,
-                    'strict' => true,
-                    'referer' => true,
-                    'protocols' => ['http'],
-                ],
-            ]
-        );
+        try {
+            $client = new Client(
+                [
+                    'base_uri' => $schema.'://'.$host.':'.$port.'/',
+                    'timeout' => 0,
+                    'cookies' => true,
+                    'exceptions' => false,
+                    'allow_redirects' => [
+                        'max' => 3,
+                        'strict' => true,
+                        'referer' => true,
+                        'protocols' => ['http'],
+                    ],
+                ]
+            );
+        } catch (ConnectException $e) {
+            throw new \Exception($e->getMessage());
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
 
         return $client;
     }
