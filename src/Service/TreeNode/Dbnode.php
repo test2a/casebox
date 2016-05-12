@@ -8,7 +8,6 @@ use Casebox\CoreBundle\Service\Browser;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Search;
 use Casebox\CoreBundle\Service\Cache;
-use Casebox\CoreBundle\Service\Tasks;
 
 /**
  * Class Dbnode
@@ -84,7 +83,7 @@ class Dbnode extends Base
                     }
                 }
             }
-            Tasks::setTasksActionFlags($rez['data']);
+            \Casebox\CoreBundle\Service\Tasks::setTasksActionFlags($rez['data']);
         }
 
         return $rez;
