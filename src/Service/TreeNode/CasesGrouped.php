@@ -1,7 +1,7 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
-// - Cases by role / status  (update all cases, case.status = Active)
 use Casebox\CoreBundle\Service\Templates;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Search;
@@ -15,8 +15,10 @@ class CasesGrouped extends Base
     /**
      * check if current class is configured to return any result for
      * given path and request params
-     * @param  array   &$pathArray
-     * @param  array   &$requestParams
+     *
+     * @param  array &$pathArray
+     * @param  array &$requestParams
+     *
      * @return boolean
      */
     protected function acceptedPath(&$pathArray, &$requestParams)
@@ -38,7 +40,7 @@ class CasesGrouped extends Base
     protected function createDefaultFilter()
     {
 
-        $this->fq = array();
+        $this->fq = [];
 
         //select only case templates
         $caseTemplates = DM\Templates::getIdsByType('case');
@@ -104,53 +106,53 @@ class CasesGrouped extends Base
     protected function getRootNodes()
     {
         $fq = $this->fq;
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
         $sr = $s->query(
-            array(
-                'rows' => 0
-                ,'fq' => $fq
-                ,'facet' => true
-                ,'facet.field' => array(
-                    '{!ex=role_ids1 key=manager}role_ids1'
-                    ,'{!ex=role_ids2 key=lead}role_ids2'
-                    ,'{!ex=role_ids3 key=support}role_ids3'
-                )
-            )
+            [
+                'rows' => 0,
+                'fq' => $fq,
+                'facet' => true,
+                'facet.field' => [
+                    '{!ex=role_ids1 key=manager}role_ids1',
+                    '{!ex=role_ids2 key=lead}role_ids2',
+                    '{!ex=role_ids3 key=support}role_ids3',
+                ],
+            ]
         );
 
-        $rez = array('data' => array());
+        $rez = ['data' => []];
 
         if (!empty($sr['facets']->facet_fields->{'lead'}->{$this->user_id})) {
-            $rez['data'][] = array(
-                'name' => $this->getName(2)
-                ,'id' => $this->getId(2)
-                ,'iconCls' => 'icon-folder'
-                ,'has_childs' => true
-            );
+            $rez['data'][] = [
+                'name' => $this->getName(2),
+                'id' => $this->getId(2),
+                'iconCls' => 'icon-folder',
+                'has_childs' => true,
+            ];
         }
         if (!empty($sr['facets']->facet_fields->{'support'}->{$this->user_id})) {
-            $rez['data'][] = array(
-                'name' => $this->getName(3)
-                ,'id' => $this->getId(3)
-                ,'iconCls' => 'icon-folder'
-                ,'has_childs' => true
-            );
+            $rez['data'][] = [
+                'name' => $this->getName(3),
+                'id' => $this->getId(3),
+                'iconCls' => 'icon-folder',
+                'has_childs' => true,
+            ];
         }
         if (!empty($sr['facets']->facet_fields->{'manager'}->{$this->user_id})) {
-            $rez['data'][] = array(
-                'name' => $this->getName(1)
-                ,'id' => $this->getId(1)
-                ,'iconCls' => 'icon-folder'
-                ,'has_childs' => true
-            );
+            $rez['data'][] = [
+                'name' => $this->getName(1),
+                'id' => $this->getId(1),
+                'iconCls' => 'icon-folder',
+                'has_childs' => true,
+            ];
         }
         if (!empty($sr['facets']->facet_fields->{'lead'}) || !empty($sr['facets']->facet_fields->{'support'})) {
-            $rez['data'][] = array(
-                'name' => $this->getName(4)
-                ,'id' => $this->getId(4)
-                ,'iconCls' => 'i-magnifier'
-                ,'has_childs' => true
-            );
+            $rez['data'][] = [
+                'name' => $this->getName(4),
+                'id' => $this->getId(4),
+                'iconCls' => 'i-magnifier',
+                'has_childs' => true,
+            ];
         }
 
         return $rez;
@@ -168,27 +170,27 @@ class CasesGrouped extends Base
         }
 
         if (@$this->requestParams['from'] == 'tree') {
-            $s = new \Casebox\CoreBundle\Service\Search();
+            $s = new Search();
             $sr = $s->query(
-                array(
-                    'rows' => 0
-                    ,'fq' => $fq
-                    ,'facet' => true
-                    ,'facet.field' => array(
-                        '{!ex=status key=status}status'
-                    )
-                )
+                [
+                    'rows' => 0,
+                    'fq' => $fq,
+                    'facet' => true,
+                    'facet.field' => [
+                        '{!ex=status key=status}status',
+                    ],
+                ]
             );
 
-            $rez = array('data' => array());
+            $rez = ['data' => []];
             if (!empty($sr['facets']->facet_fields->{'status'})) {
                 foreach ($sr['facets']->facet_fields->{'status'} as $k => $v) {
-                    $rez['data'][] = array(
-                        'name' => $this->getName($k).' ('.$v.')'
-                        ,'id' => $this->getId($k)
-                        ,'iconCls' => 'icon-folder'
-                        ,'has_childs' => true
-                    );
+                    $rez['data'][] = [
+                        'name' => $this->getName($k).' ('.$v.')',
+                        'id' => $this->getId($k),
+                        'iconCls' => 'icon-folder',
+                        'has_childs' => true,
+                    ];
                 }
             }
 
@@ -196,8 +198,8 @@ class CasesGrouped extends Base
         }
 
         // for other views
-        $s = new \Casebox\CoreBundle\Service\Search();
-        $rez = $s->query(array('fq' => $fq));
+        $s = new Search();
+        $rez = $s->query(['fq' => $fq]);
 
         return $rez;
     }
@@ -218,8 +220,8 @@ class CasesGrouped extends Base
 
         $fq[] = 'status:'.$this->lastNode->id;
 
-        $s = new \Casebox\CoreBundle\Service\Search();
-        $rez = $s->query(array('fq' => $fq));
+        $s = new Search();
+        $rez = $s->query(['fq' => $fq]);
 
         return $rez;
     }

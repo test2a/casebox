@@ -1,12 +1,15 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects;
 
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Objects;
 
+/**
+ * Class Config
+ */
 class Config extends Object
 {
-
     /**
      * internal function used by create method for creating custom data
      * @return void
@@ -18,16 +21,12 @@ class Config extends Object
         $d = &$this->data;
         $dd = &$d['data'];
 
-        $p = array(
-            'id' => $this->id
-            ,'pid' => empty($d['pid'])
-                ? null
-                : $this->getDMPid($d['pid'])
-            ,'param' => $dd['_title']
-            ,'value' => empty($dd['value'])
-                ? ''
-                : $dd['value']
-        );
+        $p = [
+            'id' => $this->id,
+            'pid' => empty($d['pid']) ? null : $this->getDMPid($d['pid']),
+            'param' => $dd['_title'],
+            'value' => empty($dd['value']) ? '' : $dd['value'],
+        ];
 
         if (isset($dd['order'])) {
             $p['order'] = $dd['order'];
@@ -47,16 +46,12 @@ class Config extends Object
         $d = &$this->data;
         $dd = &$d['data'];
 
-        $p = array(
-            'id' => $d['id']
-            ,'pid' => empty($d['pid'])
-                ? null
-                : $this->getDMPid($d['pid'])
-            ,'param' => $dd['_title']
-            ,'value' => empty($dd['value'])
-                ? ''
-                : $dd['value']
-        );
+        $p = [
+            'id' => $d['id'],
+            'pid' => empty($d['pid']) ? null : $this->getDMPid($d['pid']),
+            'param' => $dd['_title'],
+            'value' => empty($dd['value']) ? '' : $dd['value'],
+        ];
 
         if (isset($dd['order'])) {
             $p['order'] = $dd['order'];
@@ -88,7 +83,9 @@ class Config extends Object
 
     /**
      * get data model pid that is different from tree one
+     *
      * @param  int $pid
+     *
      * @return int
      */
     protected function getDMPid($pid)
@@ -107,10 +104,10 @@ class Config extends Object
     protected function moveCustomDataTo($targetId)
     {
         DM\Config::update(
-            array(
-                'id' => $this->id
-                ,'pid' => $targetId
-            )
+            [
+                'id' => $this->id,
+                'pid' => $targetId,
+            ]
         );
     }
 }

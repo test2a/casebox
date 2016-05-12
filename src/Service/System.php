@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Service\Vocabulary\CountryPhoneCodesVocabulary;
@@ -12,7 +13,7 @@ class System
 {
     /**
      * @param Container $container
-     * @param Request   $request
+     * @param Request $request
      */
     public function bootstrap(Container $container, Request $request = null)
     {

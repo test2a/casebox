@@ -1,14 +1,18 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\DataModel as DM;
 
+/**
+ * Class Favorites
+ */
 class Favorites extends Base
 {
     protected function createDefaultFilter()
     {
-        $this->fq = array();
+        $this->fq = [];
     }
 
     public function getChildren(&$pathArray, $requestParams)
@@ -62,24 +66,24 @@ class Favorites extends Base
 
     protected function getRootNodes()
     {
-        return array(
-            'data' => array(
-                array(
-                    'name' => $this->getName('favorites')
-                    ,'id' => $this->getId('favorites')
-                    ,'iconCls' => 'i-star'
-                    ,'cls' => 'tree-header'
-                    ,'has_childs' => false
-                )
-            )
-        );
+        return [
+            'data' => [
+                [
+                    'name' => $this->getName('favorites'),
+                    'id' => $this->getId('favorites'),
+                    'iconCls' => 'i-star',
+                    'cls' => 'tree-header',
+                    'has_childs' => false,
+                ],
+            ],
+        ];
     }
 
     public function getContentItems()
     {
-        $rez = array(
-            'data' => array()
-        );
+        $rez = [
+            'data' => [],
+        ];
 
         $fa = DM\Favorites::readAll();
 

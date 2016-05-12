@@ -1,6 +1,8 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
+use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\Security;
 use Casebox\CoreBundle\Service\User;
@@ -11,8 +13,10 @@ class ActionLog extends Base
     /**
      * check if current class is configured to return any result for
      * given path and request params
-     * @param  array   &$pathArray
-     * @param  array   &$requestParams
+     *
+     * @param  array &$pathArray
+     * @param  array &$requestParams
+     *
      * @return boolean
      */
     protected function acceptedPath(&$pathArray, &$requestParams)
@@ -25,9 +29,9 @@ class ActionLog extends Base
 
     protected function createDefaultFilter()
     {
-        $this->fq = array(
-            'core_id:' . $this->configService->get('core_id')
-        );
+        $this->fq = [
+            'core_id:'.$this->configService->get('core_id'),
+        ];
     }
 
     public function getChildren(&$pathArray, $requestParams)
@@ -106,10 +110,10 @@ class ActionLog extends Base
                 break;
 
             case 't':
-                $rez = Util\coalesce($this->trans('at' . substr($id, 1)), substr($id, 1));
+                $rez = Util\coalesce($this->trans('at'.substr($id, 1)), substr($id, 1));
                 break;
+            
             default:
-
                 if (!empty($id) && is_numeric($id)) {
                     $r = DM\Log::read($id);
 
@@ -125,111 +129,111 @@ class ActionLog extends Base
 
     protected function getRootNodes()
     {
-        return array(
-            'data' => array(
-                array(
-                    'name' => $this->getName('actionLog')
-                    ,'id' => $this->getId('actionLog')
-                    ,'iconCls' => 'i-book-open'
-                    ,'has_childs' => true
-                )
-            )
-        );
+        return [
+            'data' => [
+                [
+                    'name' => $this->getName('actionLog'),
+                    'id' => $this->getId('actionLog'),
+                    'iconCls' => 'i-book-open',
+                    'has_childs' => true,
+                ],
+            ],
+        ];
     }
 
     public function getLogGroups()
     {
-        $rez = array('data' => array());
+        $rez = ['data' => []];
         $s = Log::getSolrLogConnection();
 
         if (empty($s)) {
             return $rez;
         }
 
-        $p = array(
-            'rows' => 0
-            ,'facet' => 'true'
-            ,'facet.mincount' => 1
-            ,'facet.sort' => 'index'
-            ,'facet.range' => 'action_date'
-            ,'facet.range.start' => 'NOW/DAY-7DAY'
-            ,'facet.range.end' => 'NOW/DAY+1DAY'
-            ,'facet.range.gap' => '+1DAY'
-            ,'fq' => $this->fq
-            ,'facet.query' => array(
-                '{!ex=action_date key=action_date}action_date:["' . date('Y-m') . '-01T00:00:00Z" TO *]'
-            )
-        );
+        $p = [
+            'rows' => 0,
+            'facet' => 'true',
+            'facet.mincount' => 1,
+            'facet.sort' => 'index',
+            'facet.range' => 'action_date',
+            'facet.range.start' => 'NOW/DAY-7DAY',
+            'facet.range.end' => 'NOW/DAY+1DAY',
+            'facet.range.gap' => '+1DAY',
+            'fq' => $this->fq,
+            'facet.query' => [
+                '{!ex=action_date key=action_date}action_date:["'.date('Y-m').'-01T00:00:00Z" TO *]',
+            ],
+        ];
 
         $sr = $s->query($p);
 
         if (!empty($sr->facet_counts->facet_ranges->action_date->counts)) {
             foreach ($sr->facet_counts->facet_ranges->action_date->counts as $k => $v) {
-                $k = 'd' . substr($k, 0, 10);
-                $rez['data'][$k] = array(
-                    'name' => $this->getName($k) . ' (' . $v . ')'
-                    ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-folder'
-                    ,'has_childs' => false
-                );
+                $k = 'd'.substr($k, 0, 10);
+                $rez['data'][$k] = [
+                    'name' => $this->getName($k).' ('.$v.')',
+                    'id' => $this->getId($k),
+                    'iconCls' => 'icon-folder',
+                    'has_childs' => false,
+                ];
             }
         }
         krsort($rez['data']);
         $rez['data'] = array_values($rez['data']);
 
         if (!empty($sr->facet_counts->facet_queries->action_date)) {
-                $k = 'month';
-                $rez['data'][] = array(
-                    'name' => $this->getName($k) . ' (' . $sr->facet_counts->facet_queries->action_date . ')'
-                    ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-folder'
-                    ,'has_childs' => false
-                );
+            $k = 'month';
+            $rez['data'][] = [
+                'name' => $this->getName($k).' ('.$sr->facet_counts->facet_queries->action_date.')',
+                'id' => $this->getId($k),
+                'iconCls' => 'icon-folder',
+                'has_childs' => false,
+            ];
         }
 
-        $rez['data'][] = array(
-            'name' => $this->getName('g')
-            ,'id' => $this->getId('g')
-            ,'iconCls' => 'icon-folder'
-            ,'has_childs' => true
-        );
+        $rez['data'][] = [
+            'name' => $this->getName('g'),
+            'id' => $this->getId('g'),
+            'iconCls' => 'icon-folder',
+            'has_childs' => true,
+        ];
 
-        $rez['data'][] = array(
-            'name' => $this->getName('q')
-            ,'id' => $this->getId('q')
-            ,'iconCls' => 'icon-folder'
-            ,'has_childs' => true
-        );
+        $rez['data'][] = [
+            'name' => $this->getName('q'),
+            'id' => $this->getId('q'),
+            'iconCls' => 'icon-folder',
+            'has_childs' => true,
+        ];
 
         return $rez;
     }
 
     public function getUsers()
     {
-        $rez = array('data' => array());
+        $rez = ['data' => []];
         $s = Log::getSolrLogConnection();
 
-        $p = array(
-            'rows' => 0
-            ,'facet' => 'true'
-            ,'facet.mincount' => 1
-            ,'fq' => $this->fq
-            ,'facet.field' => array(
-                '{!ex=user_id key=user_id}user_id'
-            )
-        );
+        $p = [
+            'rows' => 0,
+            'facet' => 'true',
+            'facet.mincount' => 1,
+            'fq' => $this->fq,
+            'facet.field' => [
+                '{!ex=user_id key=user_id}user_id',
+            ],
+        ];
 
         $sr = $s->search('*:*', 0, 0, $p);
 
         if (!empty($sr->facet_counts->facet_fields->user_id)) {
             foreach ($sr->facet_counts->facet_fields->user_id as $k => $v) {
-                $k = 'u' . $k;
-                $rez['data'][] = array(
-                    'name' => $this->getName($k) . ' (' . $v . ')'
-                    ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-user'
-                    ,'has_childs' => false
-                );
+                $k = 'u'.$k;
+                $rez['data'][] = [
+                    'name' => $this->getName($k).' ('.$v.')',
+                    'id' => $this->getId($k),
+                    'iconCls' => 'icon-user',
+                    'has_childs' => false,
+                ];
             }
         }
 
@@ -238,30 +242,30 @@ class ActionLog extends Base
 
     public function getTypes()
     {
-        $rez = array('data' => array());
+        $rez = ['data' => []];
         $s = Log::getSolrLogConnection();
 
-        $p = array(
-            'rows' => 0
-            ,'facet' => 'true'
-            ,'facet.mincount' => 1
-            ,'fq' => $this->fq
-            ,'facet.field' => array(
-                '{!ex=action_type key=action_type}action_type'
-            )
-        );
+        $p = [
+            'rows' => 0,
+            'facet' => 'true',
+            'facet.mincount' => 1,
+            'fq' => $this->fq,
+            'facet.field' => [
+                '{!ex=action_type key=action_type}action_type',
+            ],
+        ];
 
         $sr = $s->search('*:*', 0, 0, $p);
 
         if (!empty($sr->facet_counts->facet_fields->action_type)) {
             foreach ($sr->facet_counts->facet_fields->action_type as $k => $v) {
-                $k = 't' . $k;
-                $rez['data'][] = array(
-                    'name' => $this->getName($k) . ' (' . $v . ')'
-                    ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-folder'
-                    ,'has_childs' => false
-                );
+                $k = 't'.$k;
+                $rez['data'][] = [
+                    'name' => $this->getName($k).' ('.$v.')',
+                    'id' => $this->getId($k),
+                    'iconCls' => 'icon-folder',
+                    'has_childs' => false,
+                ];
             }
         }
 
@@ -272,24 +276,24 @@ class ActionLog extends Base
     {
         $s = Log::getSolrLogConnection();
 
-        $this->requestParams['sort'] = array('action_date desc');
+        $this->requestParams['sort'] = ['action_date desc'];
 
-        $p = array(
-            'rows' => 50
-            ,'fl' => 'id,action_id,user_id,object_id,object_pid,object_data'
-            ,'fq' => $this->fq
-            ,'strictSort' => 'action_date desc'
-        );
+        $p = [
+            'rows' => 50,
+            'fl' => 'id,action_id,user_id,object_id,object_pid,object_data',
+            'fq' => $this->fq,
+            'strictSort' => 'action_date desc',
+        ];
 
         $id = substr($this->lastNode->id, 1);
 
         switch (substr($this->lastNode->id, 0, 1)) {
             case 'd':
-                $p['fq'][] = 'action_date:["' . $id . 'T00:00:00Z" TO "' . $id . 'T23:59:99Z"]';
+                $p['fq'][] = 'action_date:["'.$id.'T00:00:00Z" TO "'.$id.'T23:59:99Z"]';
                 break;
 
             case 'm':
-                $p['fq'][] = 'action_date:["' . date('Y-m') . '-01T00:00:00Z" TO *]';
+                $p['fq'][] = 'action_date:["'.date('Y-m').'-01T00:00:00Z" TO *]';
                 break;
 
             case 't':
@@ -309,10 +313,10 @@ class ActionLog extends Base
         $rez = $s->query($p);
 
         foreach ($rez['data'] as &$doc) {
-            $k =  @$doc['action_id'];
+            $k = @$doc['action_id'];
             $data = Util\toJSONArray($doc['object_data']);
 
-            $doc['id']  = $this->getId($k);
+            $doc['id'] = $this->getId($k);
             $doc['pid'] = @$doc['object_pid'];
             unset($doc['object_pid']);
             $doc['name'] = Util\coalesce($data['name'], $doc['object_data']);

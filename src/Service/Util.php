@@ -1,7 +1,7 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Util;
 
-use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Sorter;

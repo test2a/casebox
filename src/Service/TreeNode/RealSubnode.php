@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
 class RealSubnode extends Base
@@ -6,8 +7,10 @@ class RealSubnode extends Base
     /**
      * check if current class is configured to return any result for
      * given path and request params
-     * @param  array   &$pathArray
-     * @param  array   &$requestParams
+     *
+     * @param  array &$pathArray
+     * @param  array &$requestParams
+     *
      * @return boolean
      */
     protected function acceptedPath(&$pathArray, &$requestParams)
@@ -29,7 +32,6 @@ class RealSubnode extends Base
 
     public function getChildren(&$pathArray, $requestParams)
     {
-        $rez = array();
         $this->path = $pathArray;
         $this->lastNode = @$pathArray[sizeof($pathArray) - 1];
         $this->requestParams = $requestParams;
@@ -39,16 +41,16 @@ class RealSubnode extends Base
         }
         /* should start with path check and see if child request is for a real db node*/
 
-        $rez = array(
-            'data' => array(
-                array(
-                    'name' => $this->config['title']
-                    ,'id' => $this->config['realNodeId']
-                    ,'iconCls' => 'icon-folder'
-                    ,'has_childs' => true
-                )
-            )
-        );
+        $rez = [
+            'data' => [
+                [
+                    'name' => $this->config['title'],
+                    'id' => $this->config['realNodeId'],
+                    'iconCls' => 'icon-folder',
+                    'has_childs' => true,
+                ],
+            ],
+        ];
 
         return $rez;
     }

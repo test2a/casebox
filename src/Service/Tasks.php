@@ -52,6 +52,7 @@ class Tasks
      * Set complete or incomplete status for a task responsible user
      *
      * @param array $p params
+     *
      * @return array
      * @throws \Exception
      */
@@ -87,6 +88,7 @@ class Tasks
      * Task completion method for currently authenticated user
      *
      * @param array $p
+     *
      * @return array
      * @throws \Exception
      */
@@ -115,6 +117,7 @@ class Tasks
      * Method for marking task as closed
      *
      * @param int $id task id
+     *
      * @return array response
      */
     public function close($id)
@@ -208,6 +211,7 @@ class Tasks
 
     /**
      * Set the flags for actions that could be made to the tasks by a specific or current user
+     *
      * @param array $tasksDataArray
      * @param integer|bool $userId
      */

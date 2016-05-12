@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
 use Casebox\CoreBundle\Service\Config;
@@ -7,37 +8,43 @@ use Casebox\CoreBundle\Service\Browser;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Search;
 use Casebox\CoreBundle\Service\Cache;
+use Casebox\CoreBundle\Service\Tasks;
 
+/**
+ * Class Dbnode
+ */
 class Dbnode extends Base
 {
     public function getChildren(&$pathArray, $requestParams)
     {
         $pid = null;
-        /* should start with path check and see if child request is for a real db node*/
+        // should start with path check and see if child request is for a real db node
         if (empty($pathArray)) {
             if (empty($requestParams['query'])) {
                 return;
             }
         } else {
-            $lastNode = @$pathArray[sizeof($pathArray)-1];
+            $lastNode = @$pathArray[sizeof($pathArray) - 1];
 
-            if (($lastNode instanceof Dbnode) || (get_class($lastNode) == 'Casebox\\CoreBundle\\Service\\TreeNode\\Base')) {
+            if (($lastNode instanceof Dbnode) || (get_class(
+                        $lastNode
+                    ) == 'Casebox\\CoreBundle\\Service\\TreeNode\\Base')
+            ) {
                 $pid = $lastNode->id;
             } else {
-                //we are under another node type
+                // we are under another node type
                 $cfg = $lastNode->getConfig();
                 if (!empty($cfg['realNodeId']) && ($lastNode instanceof RealSubnode)) {
                     $pid = $cfg['realNodeId'];
                 } else {
-                    return array();
+                    return [];
                 }
             }
         }
 
         if (empty($pid)) {
-            return array();
+            return [];
         }
-        /* end of check */
 
         $p = &$requestParams;
 
@@ -57,11 +64,11 @@ class Dbnode extends Base
             $p['pids'] = $pid;
         }
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
         $rez = $s->query($p);
 
         if (!empty($rez['data'])) {
-            for ($i=0; $i < sizeof($rez['data']); $i++) {
+            for ($i = 0; $i < sizeof($rez['data']); $i++) {
                 $d = &$rez['data'][$i];
 
                 $r = DM\Tree::read($d['id']);
@@ -77,7 +84,7 @@ class Dbnode extends Base
                     }
                 }
             }
-            \Casebox\CoreBundle\Service\Tasks::setTasksActionFlags($rez['data']);
+            Tasks::setTasksActionFlags($rez['data']);
         }
 
         return $rez;
@@ -110,7 +117,9 @@ class Dbnode extends Base
 
     /**
      * get create menu for current node
-     * @param  array  $rp request params
+     *
+     * @param  array $rp request params
+     *
      * @return string menu config string
      */
     public function getCreateMenu(&$rp)
@@ -122,6 +131,7 @@ class Dbnode extends Base
      * get param for this node
      *
      * @param  string $param for now using to get 'facets' or 'DC'
+     *
      * @return array
      */
     public function getNodeParam($param = 'facets')
@@ -131,16 +141,16 @@ class Dbnode extends Base
         $from = $this->getId();
 
         //check if cached
-        $cacheParam = 'nodeParam_' . $param . '_' . $from;
+        $cacheParam = 'nodeParam_'.$param.'_'.$from;
         if (Cache::exist($cacheParam)) {
             return Cache::get($cacheParam);
         }
 
-        $cfg = array();
+        $cfg = [];
 
         $templateId = null;
 
-        $tplCfg = array();
+        $tplCfg = [];
 
         if (!empty($this->id) && is_numeric($this->id)) {
             $r = DM\Tree::read($this->id);
@@ -168,7 +178,7 @@ class Dbnode extends Base
         } elseif (isset($tplCfg[$param])) {
             $cfg = $tplCfg;
             $rez = $cfg[$param];
-            $from = 'template_' . $templateId;
+            $from = 'template_'.$templateId;
         }
 
         //add grouping param for DC
@@ -185,10 +195,10 @@ class Dbnode extends Base
             $rez = parent::getNodeParam($param);
 
         } else {
-            $rez = array(
-                'from' => $from
-                ,'data' => $rez
-            );
+            $rez = [
+                'from' => $from,
+                'data' => $rez,
+            ];
         }
 
         Cache::set($cacheParam, $rez);

@@ -1,7 +1,9 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects;
 
 use Casebox\CoreBundle\Service\Cache;
+use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\DataModel as DM;
 
@@ -10,25 +12,19 @@ use Casebox\CoreBundle\Service\DataModel as DM;
  */
 class TemplateField extends Object
 {
-
     /**
      * available table fields in templates table
      * @var array
      */
-    protected $tableFields =  array(
-        'id'
-        ,'pid'
-        //,'template_id'
-        ,'name'
-        // ,'l1'
-        // ,'l2'
-        // ,'l3'
-        // ,'l4'
-        ,'type'
-        ,'order'
-        ,'cfg'
-        ,'solr_column_name'
-    );
+    protected $tableFields = [
+        'id',
+        'pid',
+        'name',
+        'type',
+        'order',
+        'cfg',
+        'solr_column_name',
+    ];
 
     /**
      * internal function used by create method for creating custom data
@@ -45,7 +41,7 @@ class TemplateField extends Object
         DM\TemplatesStructure::create($data);
 
         if ($this->isSolrConfigUpdated()) {
-            $tpl = \Casebox\CoreBundle\Service\Objects::getCachedObject($data['template_id']);
+            $tpl = Objects::getCachedObject($data['template_id']);
             $tpl->setSysDataProperty('solrConfigUpdated', true);
         }
     }
@@ -76,7 +72,7 @@ class TemplateField extends Object
             $this->data = array_merge($this->data, $r);
         } else {
             Cache::get('symfony.container')->get('logger')->error(
-                'Template field load error: no field found with id = ' . $this->id
+                'Template field load error: no field found with id = '.$this->id
             );
             // throw new \Exception("Template field load error: no field found with id = ".$this->id);
         }
@@ -102,16 +98,14 @@ class TemplateField extends Object
         DM\TemplatesStructure::update($data);
 
         if ($this->isSolrConfigUpdated()) {
-            $tpl = \Casebox\CoreBundle\Service\Objects::getCachedObject($data['template_id']);
+            $tpl = Objects::getCachedObject($data['template_id']);
             $tpl->setSysDataProperty('solrConfigUpdated', true);
         }
     }
 
     protected function detectParentTemplate($targetPid = false)
     {
-        $rez = ($targetPid === false)
-            ? $this->data['pid']
-            : $targetPid;
+        $rez = ($targetPid === false) ? $this->data['pid'] : $targetPid;
 
         if (empty($rez)) {
             return null;
@@ -132,34 +126,21 @@ class TemplateField extends Object
      */
     protected function isSolrConfigUpdated()
     {
-        $rez= false;
-
-        $old = empty($this->oldObject)
-            ? $this
-            : $this->oldObject;
+        $old = empty($this->oldObject) ? $this : $this->oldObject;
         $od = $old->getData();
         $nd = &$this->data;
 
         $d1 = &$od['data'];
         $d2 = &$nd['data'];
 
-        $cfg1 = empty($d1['cfg'])
-            ? array()
-            : Util\toJSONArray($d1['cfg']);
-        $cfg2 = empty($d2['cfg'])
-            ? array()
-            : Util\toJSONArray($d2['cfg']);
+        $cfg1 = empty($d1['cfg']) ? [] : Util\toJSONArray($d1['cfg']);
+        $cfg2 = empty($d2['cfg']) ? [] : Util\toJSONArray($d2['cfg']);
 
         $indexed1 = !empty($cfg1['indexed']) || !empty($cfg1['faceting']);
         $indexed2 = !empty($cfg2['indexed']) || !empty($cfg2['faceting']);
 
-        $field1 = empty($d1['solr_column_name'])
-            ? ''
-            : $d1['solr_column_name'];
-
-        $field2 = empty($d2['solr_column_name'])
-            ? ''
-            : $d2['solr_column_name'];
+        $field1 = empty($d1['solr_column_name']) ? '' : $d1['solr_column_name'];
+        $field2 = empty($d2['solr_column_name']) ? '' : $d2['solr_column_name'];
 
         $rez = (($indexed1 != $indexed2) || ($indexed1 && ($field1 != $field2)));
 
@@ -168,7 +149,9 @@ class TemplateField extends Object
 
     /**
      * copy data from templates structure table
-     * @param  int  $targetId
+     *
+     * @param  int $targetId
+     *
      * @return void
      */
     protected function copyCustomDataTo($targetId)

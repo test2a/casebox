@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Service\Cache;
@@ -67,7 +68,7 @@ class Purify
      * Purify given html value
      *
      * @param string $value
-     * @param array  $options associative array of purify library options
+     * @param array $options associative array of purify library options
      *
      * @return string
      */

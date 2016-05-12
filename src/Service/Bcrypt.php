@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service;
 
 class Bcrypt
@@ -8,7 +9,7 @@ class Bcrypt
     public function __construct($rounds = 12)
     {
         if (CRYPT_BLOWFISH != 1) {
-            throw new Exception("bcrypt not supported in this installation. See http://php.net/crypt");
+            throw new \Exception("bcrypt not supported in this installation. See http://php.net/crypt");
         }
 
         $this->rounds = $rounds;
@@ -73,7 +74,7 @@ class Bcrypt
             }
 
             for ($i = 0; $i < $count; $i += 16) {
-                $this->randomState = md5(microtime() . $this->randomState);
+                $this->randomState = md5(microtime().$this->randomState);
 
                 if (PHP_VERSION >= '5') {
                     $bytes .= md5($this->randomState, true);

@@ -23,9 +23,9 @@ class SystemFolders
         if (!is_object($o)) {
             return;
         }
-        
+
         $template = $o->getTemplate();
-        
+
         if (empty($template)) {
             return;
         }
@@ -55,11 +55,11 @@ class SystemFolders
              FROM tree
              WHERE pid in ('.implode(',', $folderIds).') AND dstatus = 0'
         );
-        
+
         while ($r = $res->fetch()) {
             $p['sourceIds'][] = $r['id'];
         }
-        
+
         unset($res);
 
         // $browserActionsClass->copy($p);

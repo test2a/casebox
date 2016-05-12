@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects;
 
 use Casebox\CoreBundle\Service\DataModel as DM;
@@ -12,10 +13,9 @@ use Casebox\CoreBundle\Service\Log;
  */
 class File extends Object
 {
-
     /**
      * create method
-     * @return void
+     * @return array
      */
     public function create($p = false)
     {
@@ -37,12 +37,12 @@ class File extends Object
 
         $this->logAction(
             'file_upload',
-            array(
-                'file' => array(
+            [
+                'file' => [
                     'id' => $p['id'],
-                    'name' => $p['name']
-                )
-            )
+                    'name' => $p['name'],
+                ],
+            ]
         );
 
         return $rez;
@@ -57,13 +57,13 @@ class File extends Object
         parent::createCustomData();
 
         DM\Files::create(
-            array(
-                'id' => $this->id
-                ,'content_id' => @$this->data['content_id']
-                ,'date' => @$this->data['date']
-                ,'name' => @$this->data['name']
-                ,'cid' => @$this->data['cid']
-            )
+            [
+                'id' => $this->id,
+                'content_id' => @$this->data['content_id'],
+                'date' => @$this->data['date'],
+                'name' => @$this->data['name'],
+                'cid' => @$this->data['cid'],
+            ]
         );
     }
 
@@ -95,7 +95,9 @@ class File extends Object
 
     /**
      * update file
-     * @param  array   $p optional properties. If not specified then $this-data is used
+     *
+     * @param  array $p optional properties. If not specified then $this-data is used
+     *
      * @return boolean
      */
     public function update($p = false)
@@ -111,12 +113,12 @@ class File extends Object
 
         $this->logAction(
             'file_update',
-            array(
-                'file' => array(
+            [
+                'file' => [
                     'id' => $p['id'],
-                    'name' => $p['name']
-                )
-            )
+                    'name' => $p['name'],
+                ],
+            ]
         );
 
         return $rez;
@@ -132,26 +134,26 @@ class File extends Object
         parent::updateCustomData();
 
         $updated = DM\Files::update(
-            array(
-                'id' => $this->id
-                ,'content_id' => @$this->data['content_id']
-                ,'date' => @$this->data['date']
-                ,'name' => @$this->data['name']
-                ,'cid' => @$this->data['cid']
-                ,'uid' => User::getId()
-            )
+            [
+                'id' => $this->id,
+                'content_id' => @$this->data['content_id'],
+                'date' => @$this->data['date'],
+                'name' => @$this->data['name'],
+                'cid' => @$this->data['cid'],
+                'uid' => User::getId(),
+            ]
         );
 
         //create record if doesnt exist yet
         if (!$updated) {
             DM\Files::create(
-                array(
-                    'id' => $this->id
-                    ,'content_id' => @$this->data['content_id']
-                    ,'date' => @$this->data['date']
-                    ,'name' => @$this->data['name']
-                    ,'cid' => @$this->data['cid']
-                )
+                [
+                    'id' => $this->id,
+                    'content_id' => @$this->data['content_id'],
+                    'date' => @$this->data['date'],
+                    'name' => @$this->data['name'],
+                    'cid' => @$this->data['cid'],
+                ]
             );
         }
     }
@@ -178,7 +180,9 @@ class File extends Object
 
     /**
      * copy costom files data to targetId
-     * @param  int  $targetId
+     *
+     * @param  int $targetId
+     *
      * @return void
      */
     protected function copyCustomDataTo($targetId)
@@ -198,11 +202,9 @@ class File extends Object
     {
         $posd = $this->parentObj->getSysData();
 
-        $newUserIds = array();
+        $newUserIds = [];
 
-        $wu = empty($posd['wu'])
-            ? array()
-            : $posd['wu'];
+        $wu = empty($posd['wu']) ? [] : $posd['wu'];
         $uid = User::getId();
 
         if (!in_array($uid, $wu)) {

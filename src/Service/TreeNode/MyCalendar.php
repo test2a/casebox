@@ -1,15 +1,19 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Templates;
 use Casebox\CoreBundle\Service\DataModel as DM;
 
+/**
+ * Class MyCalendar
+ */
 class MyCalendar extends Base
 {
     protected function createDefaultFilter()
     {
-        $this->fq = array();
+        $this->fq = [];
 
         //select only task templates
         $taskTemplates = DM\Templates::getIdsByType('task');
@@ -60,17 +64,17 @@ class MyCalendar extends Base
 
     protected function getRootNodes()
     {
-        return array(
-            'data' => array(
-                array(
-                    'name' => $this->getName(1)
-                    ,'id' => $this->getId(1)
-                    ,'iconCls' => 'icon-calendar'
-                    ,'cls' => 'tree-header'
-                    ,'view' => 'calendar'
-                )
-            )
-        );
+        return [
+            'data' => [
+                [
+                    'name' => $this->getName(1),
+                    'id' => $this->getId(1),
+                    'iconCls' => 'icon-calendar',
+                    'cls' => 'tree-header',
+                    'view' => 'calendar',
+                ],
+            ],
+        ];
     }
 
     protected function getChildrenTasks()
@@ -78,7 +82,7 @@ class MyCalendar extends Base
         $p = $this->requestParams;
 
         if (@$p['from'] == 'tree') {
-            return array();
+            return [];
         }
 
         $p['fq'] = $this->fq;

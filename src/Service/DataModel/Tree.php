@@ -22,42 +22,42 @@ class Tree extends Base
      *
      * @var array
      */
-    protected static $tableFields = array(
-        'id' => 'int'
-        ,'pid' => 'int'
-        ,'user_id' => 'int'
-        ,'system' => 'int'
-        // ,'type' => 'int'  // obsolete
-        ,'draft' => 'int'
-        ,'draft_pid' => 'varchar'
-        ,'template_id' => 'int'
-        // ,'tag_id' => 'int' // obsolete
-        ,'name' => 'varchar'
-        ,'target_id' => 'int'
-        ,'name' => 'varchar'
-        ,'date' => 'datetime'
-        ,'date_end' => 'datetime'
-        ,'size' => 'int' //..
-        ,'is_main' => 'int' //..
-        ,'cfg' => 'text'
-        ,'inherit_acl' => 'int'
-        ,'cid' => 'int'
-        ,'cdate' => 'datetime'
-        ,'uid' => 'int'
-        ,'udate' => 'datetime'
-        ,'updated' => 'int'
-        ,'oid' => 'int'
-        ,'did' => 'int'
-        ,'ddate' => 'datetime'
-        ,'dstatus' => 'int'
-    );
+    protected static $tableFields = [
+        'id' => 'int',
+        'pid' => 'int',
+        'user_id' => 'int',
+        'system' => 'int',
+        'draft' => 'int',
+        'draft_pid' => 'varchar',
+        'template_id' => 'int',
+        'name' => 'varchar',
+        'target_id' => 'int',
+        'name' => 'varchar', // @todo - remove this key?
+        'date' => 'datetime',
+        'date_end' => 'datetime',
+        'size' => 'int',
+        'is_main' => 'int',
+        'cfg' => 'text',
+        'inherit_acl' => 'int',
+        'cid' => 'int',
+        'cdate' => 'datetime',
+        'uid' => 'int',
+        'udate' => 'datetime',
+        'updated' => 'int',
+        'oid' => 'int',
+        'did' => 'int',
+        'ddate' => 'datetime',
+        'dstatus' => 'int',
+    ];
 
-    protected static $decodeJsonFields = array('cfg');
+    protected static $decodeJsonFields = ['cfg'];
 
     /**
      * delete a record by its id
+     *
      * @param  int | array $ids
-     * @param  boolean     $persistent
+     * @param  boolean $persistent
+     *
      * @return void
      */
     public static function delete($ids, $persistent = false)
@@ -76,21 +76,21 @@ class Tree extends Base
 
             } else {
                 static::update(
-                    array(
-                        'id' => $id
-                        ,'dstatus' => 1
-                        ,'did' => $userId
-                        ,'ddate' => 'CURRENT_TIMESTAMP'
-                        ,'updated' => 1
-                    )
+                    [
+                        'id' => $id,
+                        'dstatus' => 1,
+                        'did' => $userId,
+                        'ddate' => 'CURRENT_TIMESTAMP',
+                        'updated' => 1,
+                    ]
                 );
 
                 $dbs->query(
                     'CALL p_mark_all_childs_as_deleted($1, $2)',
-                    array(
-                        $id
-                        ,$userId
-                    )
+                    [
+                        $id,
+                        $userId,
+                    ]
                 );
             }
         }
@@ -98,7 +98,9 @@ class Tree extends Base
 
     /**
      * mark records as active (not deleted)
+     *
      * @param  int | array $ids
+     *
      * @return void
      */
     public static function restore($ids)
@@ -110,14 +112,14 @@ class Tree extends Base
 
         foreach ($ids as $id) {
             static::update(
-                array(
-                    'id' => $id
-                    ,'did' => null
-                    ,'dstatus' => 0
-                    ,'ddate' => null
-                    ,'updated' => 1
+                [
+                    'id' => $id,
+                    'did' => null,
+                    'dstatus' => 0,
+                    'ddate' => null,
+                    'updated' => 1,
 
-                )
+                ]
             );
 
             $dbs->query('CALL p_mark_all_childs_as_active($1)', $id);
@@ -127,12 +129,14 @@ class Tree extends Base
 
     /**
      * get base properties for a givent record id
-     * @param  int   $id
+     *
+     * @param  int $id
+     *
      * @return array
      */
     public static function getProperties($id)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -161,12 +165,14 @@ class Tree extends Base
     /**
      * Get basic info
      * should be reviewed
-     * @param  int   $id
+     *
+     * @param  int $id
+     *
      * @return array
      */
     public static function getBasicInfo($id)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -199,7 +205,9 @@ class Tree extends Base
      * Get case id for a given item
      * backward compatibility function
      * should be reviewed
+     *
      * @param  int $id
+     *
      * @return int
      */
     public static function getCaseId($id)
@@ -226,8 +234,10 @@ class Tree extends Base
 
     /**
      * Update owner for ginev ids
-     * @param  int  $ids
-     * @param  int  $ownerId
+     *
+     * @param  int $ids
+     * @param  int $ownerId
+     *
      * @return void
      */
     public static function updateOwner($ids, $ownerId)
@@ -242,12 +252,13 @@ class Tree extends Base
                 SET oid = $1
                     ,uid = $2
                     ,updated = 1
-                WHERE id IN (' . implode(',', $ids) . ')
+                WHERE id IN ('.implode(',', $ids).')
                     AND `system` = 0',
-                array(
+                [
                     $ownerId
-                    ,User::getId()
-                )
+                    ,
+                    User::getId(),
+                ]
             );
         }
     }
@@ -276,8 +287,10 @@ class Tree extends Base
 
     /**
      * get child record by name
-     * @param  int     $pid
+     *
+     * @param  int $pid
      * @param string $name
+     *
      * @return array
      */
     public static function getChildByName($pid, $name)
@@ -292,7 +305,7 @@ class Tree extends Base
             WHERE pid = $1
                 AND name = $2
                 AND dstatus = 0',
-            array($pid, $name)
+            [$pid, $name]
         );
 
         if ($r = $res->fetch()) {
@@ -305,14 +318,16 @@ class Tree extends Base
 
     /**
      * get child names under given pid that start with $name and have same extension as $ext
-     * @param  int     $pid
+     *
+     * @param  int $pid
      * @param string $name
      * @param string $ext
+     *
      * @return array
      */
     public static function getChildNames($pid, $name, $ext)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -322,10 +337,10 @@ class Tree extends Base
             WHERE pid = $1
                 AND name like $2
                 AND dstatus = 0',
-            array(
-                $pid
-                ,$name . '%' . '.'.$ext
-            )
+            [
+                $pid,
+                $name.'%'.'.'.$ext,
+            ]
         );
 
         while ($r = $res->fetch()) {
@@ -338,13 +353,15 @@ class Tree extends Base
 
     /**
      * get children count for given item ids
+     *
      * @param  array $ids
      * @param  array $templateIds filter children by template ids
+     *
      * @return array associative array of children per id
      */
     public static function getChildCount($ids, $templateIds = false)
     {
-        $rez = array();
+        $rez = [];
 
         $ids = Util\toNumericArray($ids);
 
@@ -359,14 +376,14 @@ class Tree extends Base
         } else {
             $templateIds = Util\toNumericArray($templateIds);
             if (!empty($templateIds)) {
-                $templateIds = ' AND template_id in (' . implode(',', $templateIds) . ')';
+                $templateIds = ' AND template_id in ('.implode(',', $templateIds).')';
             }
         }
 
         $sql = 'SELECT pid, count(*) `children`
             FROM tree
-            WHERE pid in (' . implode(',', $ids) . ')
-                AND dstatus = 0' . $templateIds . '
+            WHERE pid in ('.implode(',', $ids).')
+                AND dstatus = 0'.$templateIds.'
             GROUP BY pid';
 
         $res = $dbs->query($sql);
@@ -381,23 +398,24 @@ class Tree extends Base
 
     /**
      * activate child drafts
+     *
      * @param  array $id
+     *
      * @return void
      */
     public static function activateChildDrafts($id)
     {
         $dbs = Cache::get('casebox_dbs');
 
-        $dbs->query(
-            'call `p_mark_all_child_drafts_as_active`($1)',
-            $id
-        );
+        $dbs->query('call `p_mark_all_child_drafts_as_active`($1)', $id);
     }
 
     /**
      * assign draft children to real id
+     *
      * @param string $draftId
-     * @param  array   $id
+     * @param  array $id
+     *
      * @return void
      */
     public static function assignChildDrafts($draftId, $targetId)
@@ -411,10 +429,10 @@ class Tree extends Base
                 AND draft_pid = $1
                 AND cid = $2
                 AND (cdate > (CURRENT_TIMESTAMP - INTERVAL 1 HOUR))',
-            array(
-                $draftId
-                ,User::getId()
-            )
+            [
+                $draftId,
+                User::getId(),
+            ]
         );
 
         while ($r = $res->fetch()) {
@@ -429,7 +447,7 @@ class Tree extends Base
                     ,draft_pid = null
                     ,pid = $1
                     ,updated = 1
-                WHERE id in (' . implode(',', $children) . ')',
+                WHERE id in ('.implode(',', $children).')',
                 $targetId
             );
         }
@@ -437,8 +455,10 @@ class Tree extends Base
 
     /**
      * copy a source record under given $pid
+     *
      * @param  array $sourceId
      * @param  array $pid
+     *
      * @return int   created record id
      */
     public static function copy($sourceId, $pid)
@@ -498,11 +518,11 @@ class Tree extends Base
                 ,`dstatus`
             FROM `tree` t
             WHERE id = $1',
-            array(
-                $sourceId
-                ,$pid
-                ,User::getId()
-            )
+            [
+                $sourceId,
+                $pid,
+                User::getId(),
+            ]
         );
 
         return $dbs->lastInsertId();
@@ -510,8 +530,10 @@ class Tree extends Base
 
     /**
      * move active (non deleted) children to other parent
+     *
      * @param  array $sourceId
      * @param  array $targetId
+     *
      * @return bool
      */
     public static function moveActiveChildren($sourceId, $targetId)
@@ -524,10 +546,10 @@ class Tree extends Base
                 ,pid = $2
             WHERE pid = $1 AND
                 dstatus = 0',
-            array(
-                $sourceId
-                ,$targetId
-            )
+            [
+                $sourceId,
+                $targetId,
+            ]
         );
 
         return ($res->rowCount() > 0);

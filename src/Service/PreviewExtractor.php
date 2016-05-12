@@ -27,7 +27,7 @@ class PreviewExtractor
 
     /**
      * @param string $html
-     * @param array  $options
+     * @param array $options
      *
      * @return mixed|string
      */

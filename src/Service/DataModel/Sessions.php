@@ -1,8 +1,12 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\DataModel;
 
 use Casebox\CoreBundle\Service\Cache;
 
+/**
+ * Class Sessions
+ */
 class Sessions extends Base
 {
     /**
@@ -11,14 +15,14 @@ class Sessions extends Base
      */
     protected static $tableName = 'sessions';
 
-    protected static $tableFields = array(
-        'id' => 'varchar'
-        ,'pid' => 'varchar'
-        ,'last_action' => 'datetime'
-        ,'expires' => 'datetime'
-        ,'user_id' => 'int'
-        ,'data' => 'text'
-    );
+    protected static $tableFields = [
+        'id' => 'varchar',
+        'pid' => 'varchar',
+        'last_action' => 'datetime',
+        'expires' => 'datetime',
+        'user_id' => 'int',
+        'data' => 'text',
+    ];
 
     public static function read($id)
     {
@@ -28,7 +32,7 @@ class Sessions extends Base
 
         $res = $dbs->query(
             'SELECT *
-            FROM ' . static::getTableName() . '
+            FROM '.static::getTableName().'
             WHERE id = $1
                 AND (
                     (expires > CURRENT_TIMESTAMP)
@@ -50,17 +54,17 @@ class Sessions extends Base
         $dbs = Cache::get('casebox_dbs');
 
         $res = $dbs->query(
-            'UPDATE ' . static::getTableName() . '
+            'UPDATE '.static::getTableName().'
             SET expires = TIMESTAMPADD(SECOND, $3, CURRENT_TIMESTAMP)
             WHERE (
                 (id = $2) OR
                 (pid = $2)
                 ) and id <> $1',
-            array(
-                $id
-                ,$pid
-                ,$lifetime
-            )
+            [
+                $id,
+                $pid,
+                $lifetime,
+            ]
         );
 
         return ($res->rowCount() > 0);
@@ -79,17 +83,18 @@ class Sessions extends Base
                 ,last_action = CURRENT_TIMESTAMP
                 ,user_id = $4
                 ,data = $5',
-            array(
-                $data['id']
-                ,$data['pid']
-                ,$data['lifetime']
-                ,$data['user_id']
-                ,$data['data']
-            )
+            [
+                $data['id'],
+                $data['pid'],
+                $data['lifetime'],
+                $data['user_id'],
+                $data['data'],
+            ]
         );
 
         return ($res->rowCount() > 0);
     }
+
     /**
      * delete expired sessions or/and unlimited sessions older than 3 days.
      * @return boolean
@@ -112,10 +117,7 @@ class Sessions extends Base
     {
         $dbs = Cache::get('casebox_dbs');
 
-        $res = $dbs->query(
-            'DELETE FROM sessions WHERE user_id = $1',
-            $userId
-        );
+        $res = $dbs->query('DELETE FROM sessions WHERE user_id = $1', $userId);
 
         return ($res->rowCount() > 0);
     }

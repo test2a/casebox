@@ -41,7 +41,6 @@ class CountryVocabulary implements VocabularyInterface
             $file = __DIR__.'/mockup/country.json'; // @todo - use config param for this
             $terms = json_decode(file_get_contents($file), true);
 
-
             $redis->set(self::CACHE_KEY, serialize($terms), 60 * 24);
         } else {
             $terms = unserialize($redis->get(self::CACHE_KEY));
@@ -51,7 +50,8 @@ class CountryVocabulary implements VocabularyInterface
     }
 
     /**
-     * Find by contry code
+     * Find by country code
+     *
      * @param string $code
      *
      * @return array|null

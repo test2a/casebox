@@ -2,6 +2,8 @@
 
 namespace Casebox\CoreBundle\Service\Plugins;
 
+use Casebox\CoreBundle\Service\Singleton;
+
 /**
  * Templates singleton collection class
  */
@@ -10,23 +12,23 @@ class SingletonCollection extends Collection
     protected static $_instance = null;
 
     /**
-    * Prevent direct object creation
-    */
+     * Prevent direct object creation
+     */
     final private function __construct()
     {
     }
 
     /**
-    * Prevent object cloning
-    */
+     * Prevent object cloning
+     */
     final private function __clone()
     {
     }
 
     /**
-    * Returns new or existing Singleton instance
-    * @return Singleton
-    */
+     * Returns new or existing Singleton instance
+     * @return Singleton
+     */
     final public static function getInstance()
     {
         if (null !== static::$_instance) {

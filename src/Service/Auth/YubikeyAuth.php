@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Auth;
 
 use Casebox\CoreBundle\Service\Cache;

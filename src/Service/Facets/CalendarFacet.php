@@ -18,10 +18,10 @@ class CalendarFacet extends StringsFacet
 
     public function getSolrParams()
     {
-        return array();
+        return [];
     }
 
-    public function getClientData($options = array())
+    public function getClientData($options = [])
     {
         $rez = parent::getClientData();
 

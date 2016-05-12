@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
 use Casebox\CoreBundle\Service\Cache;
@@ -15,10 +16,12 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
     use TranslatorTrait;
 
     protected $config;
+
     public $guid = null;
+
     public $id = null;
 
-    public function __construct ($config = array(), $id = null)
+    public function __construct($config = [], $id = null)
     {
         if (!empty($config['pid']) && ($config['pid'] == 'root')) {
             $config['pid'] = \Casebox\CoreBundle\Service\Browser::getRootFolderId();
@@ -37,8 +40,10 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
     /**
      * check if current class is configured to return any result for
      * given path and request params
-     * @param  array   &$pathArray
-     * @param  array   &$requestParams
+     *
+     * @param  array &$pathArray
+     * @param  array &$requestParams
+     *
      * @return boolean
      */
     protected function acceptedPath(&$pathArray, &$requestParams)
@@ -71,18 +76,22 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * return the children for for input params
+     *
      * @param  array $pathArray
      * @param  array $requestParams
+     *
      * @return array
      */
     public function getChildren(&$pathArray, $requestParams)
     {
-        return array();
+        return [];
     }
 
     /**
      * the the formated id (with plugin guid prefix) for a given node id
+     *
      * @param  string $id
+     *
      * @return string
      */
     public function getId($id = null)
@@ -99,7 +108,9 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * get the name for a given node id
-     * @param  variant $id
+     *
+     * @param  string|bool|false $id
+     *
      * @return string
      */
     public function getName($id = false)
@@ -118,10 +129,10 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
                     $rez = $cfg['text'];
                 }
             } else {
-                $rez = $cfg['title_' . $l];
+                $rez = $cfg['title_'.$l];
             }
         } else {
-            $rez = $cfg['title_' . $l];
+            $rez = $cfg['title_'.$l];
         }
 
         return $rez;
@@ -133,7 +144,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
      */
     public function getData()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -147,13 +158,15 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * get view config for given view or default view if set in config
+     *
      * @param  array &$pathArray
-     * @param  array &$rp        requestParams
+     * @param  array &$rp requestParams
+     *
      * @return array
      */
     public function getViewConfig(&$pathArray, &$rp)
     {
-        $rez = array();
+        $rez = [];
 
         if (!$this->acceptedPath($pathArray, $rp)) {
             return $rez;
@@ -162,11 +175,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
         $cfg = &$this->config;
 
         if (!empty($cfg['view'])) {
-            $rez = is_scalar($cfg['view'])
-                ? array(
-                    'type' => $cfg['view']
-                )
-                : $cfg['view'];
+            $rez = is_scalar($cfg['view']) ? ['type' => $cfg['view'],] : $cfg['view'];
         }
 
         if (empty($rez['type'])) {
@@ -177,9 +186,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
         //update autodetected view if manually selected by user
         if (!empty($rp['userViewChange'])) {
-            $rez['type']  = empty($rp['view'])
-                ? $rp['from']
-                : $rp['view'];
+            $rez['type'] = empty($rp['view']) ? $rp['from'] : $rp['view'];
         }
 
         $rez = $this->adjustViewConfig($rez, $rp);
@@ -189,14 +196,16 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * analize and adjust view config if needed
+     *
      * @param  array $viewConfig
      * @param  array $rp
+     *
      * @return array
      */
     public function adjustViewConfig($viewConfig, &$rp)
     {
         if (empty($viewConfig)) {
-            return array();
+            return [];
         }
 
         $rez = $viewConfig;
@@ -221,12 +230,12 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
             case 'charts':
 
                 if (!empty($cfg['stats'])) {
-                    $stats = array();
+                    $stats = [];
                     foreach ($cfg['stats'] as $item) {
-                        $stats[] = array(
-                            'title' => Util\detectTitle($item)
-                            ,'field' => $item['field']
-                        );
+                        $stats[] = [
+                            'title' => Util\detectTitle($item),
+                            'field' => $item['field'],
+                        ];
                     }
                     $rez['stats'] = $stats;
 
@@ -254,11 +263,22 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
             case 'dashboard':
                 //analize dashboard items and merge referenced config if any
                 if (empty($rez['items'])) {
-                    $rez['items'] = array();
+                    $rez['items'] = [];
                 }
 
-                $this->subClasses = array();
-                $copyConfigProperties = ['title', 'cellCls', 'rowspan', 'colspan', 'width', 'height', 'minWidth', 'minHeight', 'maxWidth', 'maxHeight'];
+                $this->subClasses = [];
+                $copyConfigProperties = [
+                    'title',
+                    'cellCls',
+                    'rowspan',
+                    'colspan',
+                    'width',
+                    'height',
+                    'minWidth',
+                    'minHeight',
+                    'maxWidth',
+                    'maxHeight',
+                ];
 
                 foreach ($rez['items'] as $k => $v) {
                     if (!empty($v['extends'])) {
@@ -274,7 +294,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
                         }
 
                         $this->subClasses[$k] = $class;
-                        $path = array($class);
+                        $path = [$class];
                         $customRp = $rp;
                         unset($customRp['userViewChange']);
                         $vc = $class->getViewConfig($path, $customRp);
@@ -363,12 +383,14 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * get list of facets classes that should be available for this node
+     *
      * @param  array &$rp request params
+     *
      * @return array
      */
     public function getFacets(&$rp)
     {
-        $facets = array();
+        $facets = [];
         $cfg = $this->getNodeParam('facets');
 
         if (empty($cfg['data'])) {
@@ -389,17 +411,17 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
                     if (!empty($facetsDefinitions[$v])) {
                         $config = $facetsDefinitions[$v];
                     } else {
-                        $config = array('type' => $v);
+                        $config = ['type' => $v];
                     }
                     $name = $v;
                     $config['name'] = $v;
                 }
 
             } else {
-                $config = array(
-                    'name' => $k
-                    ,'type' => $k
-                );
+                $config = [
+                    'name' => $k,
+                    'type' => $k,
+                ];
             }
 
             $facets[$name] = \Casebox\CoreBundle\Service\Facets::getFacetObject($config);
@@ -450,12 +472,12 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
                     }
                 }
 
-                $config = array(
-                    'type' => 'pivot'
-                    ,'name' => 'pivot'
-                    ,'facet1' => $rows
-                    ,'facet2' => $cols
-                );
+                $config = [
+                    'type' => 'pivot',
+                    'name' => 'pivot',
+                    'facet1' => $rows,
+                    'facet2' => $cols,
+                ];
 
                 if (!empty($rp['selectedStat']['field'])) {
                     $config['stats'] = $rp['selectedStat'];
@@ -473,7 +495,9 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * get create menu for current node
-     * @param  array  $rp request params
+     *
+     * @param  array $rp request params
+     *
      * @return string menu config string
      */
     public function getCreateMenu(&$rp)
@@ -502,18 +526,19 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
      * Get param for current node(considered last node in active path)
      *
      * @param  string $param for now using to get 'facets' or 'DC'
+     *
      * @return array
      */
     public function getNodeParam($param = 'facets')
     {
-        $rez = array();
+        $rez = [];
 
         // check if directly set into node config
         if (isset($this->config[$param])) {
-            $rez = array(
-                'from' => $this->getClassRoot()->getId()
-                ,'data' => $this->config[$param]
-            );
+            $rez = [
+                'from' => $this->getClassRoot()->getId(),
+                'data' => $this->config[$param],
+            ];
 
             //add sorting if set in config
             if (!empty($this->config['sort'])) {
@@ -538,23 +563,23 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
             if (empty($paramConfigs[$this->getId($this->id)])) {
                 if (empty($this->parent)) {
-                    $default = $this->configService->get('default_' . $param);
+                    $default = $this->configService->get('default_'.$param);
 
                     if (!empty($default)) {
-                        $rez =  array(
-                            'from' => 'default'
-                            ,'data' => $default
-                        );
+                        $rez = [
+                            'from' => 'default',
+                            'data' => $default,
+                        ];
                     }
                 } else {
                     $rez = $this->getParentNodeParam($param);
                 }
 
             } else {
-                $rez =  array(
-                    'from' => $this->getId()
-                    ,'data' => $paramConfigs[$this->id]
-                );
+                $rez = [
+                    'from' => $this->getId(),
+                    'data' => $paramConfigs[$this->id],
+                ];
             }
         }
 
@@ -563,7 +588,7 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
 
     /**
      * get displaycolumns config
-     * @return json
+     * @return array
      */
     public function getDC()
     {
@@ -582,21 +607,23 @@ class Base implements \Casebox\CoreBundle\Service\Interfaces\TreeNode
      *
      * Generally this method should work as getNodeParam but for
      * descendant class Dbnode this method should avoid checking templates config
-     * @param  string  $param same as for getNodeParam
-     * @return variant
+     *
+     * @param  string $param same as for getNodeParam
+     *
+     * @return string
      */
     public function getParentNodeParam($param = 'facets')
     {
-        $rez = empty($this->parent)
-            ? array()
-            : $this->parent->getNodeParam($param);
+        $rez = empty($this->parent) ? [] : $this->parent->getNodeParam($param);
 
         return $rez;
     }
 
     /**
      * replace possible variables in a filter array for solr query
-     * @param  array reference &$filterArray
+     *
+     * @param  array &$filterArray
+     *
      * @return void
      */
     protected function replaceFilterVars(&$filterArray)

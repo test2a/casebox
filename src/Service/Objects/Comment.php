@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects;
 
 use Casebox\CoreBundle\Service\Util;
@@ -8,7 +9,6 @@ use Casebox\CoreBundle\Service\Log;
 
 class Comment extends Object
 {
-
     /**
      * create method
      * @return void
@@ -19,13 +19,13 @@ class Comment extends Object
             $p = &$this->data;
         }
 
-         // if (!empty($p['data']['_title'])) {
-         //     //all data is html escaped when indexed in solr
-         //     //so no need to encode it here
-         //     $msg = $this->processAndFormatMessage($p['data']['_title']);
-         //     $p['name'] = $msg;
-         //     $p['data']['_title'] = $msg;
-         // }
+        // if (!empty($p['data']['_title'])) {
+        //     //all data is html escaped when indexed in solr
+        //     //so no need to encode it here
+        //     $msg = $this->processAndFormatMessage($p['data']['_title']);
+        //     $p['name'] = $msg;
+        //     $p['data']['_title'] = $msg;
+        // }
 
         //disable default log from parent Object class
         //we'll set comments add as comment action for parent
@@ -39,11 +39,11 @@ class Comment extends Object
 
         $this->logAction(
             'comment',
-            array(
+            [
                 'new' => $this->getParentObject(),
                 'comment' => $p['data']['_title'],
-                'mentioned' => $this->lastMentionedUserIds
-            )
+                'mentioned' => $this->lastMentionedUserIds,
+            ]
         );
 
         return $rez;
@@ -51,7 +51,9 @@ class Comment extends Object
 
     /**
      * update comment
-     * @param  array   $p optional properties. If not specified then $this-data is used
+     *
+     * @param  array $p optional properties. If not specified then $this-data is used
+     *
      * @return boolean
      */
     public function update($p = false)
@@ -70,11 +72,11 @@ class Comment extends Object
 
         $this->logAction(
             'comment_update',
-            array(
-                'new' => Objects::getCachedObject($p['pid'])
-                ,'comment' => $p['data']['_title']
-                ,'mentioned' => $this->lastMentionedUserIds
-            )
+            [
+                'new' => Objects::getCachedObject($p['pid']),
+                'comment' => $p['data']['_title'],
+                'mentioned' => $this->lastMentionedUserIds,
+            ]
         );
 
         return $rez;
@@ -89,7 +91,7 @@ class Comment extends Object
      */
     protected function collectSolrData()
     {
-        $rez = array();
+        $rez = [];
 
         // parent::collectSolrData();
         //
@@ -113,16 +115,14 @@ class Comment extends Object
         $po = $this->getParentObject();
         $posd = $po->getSysData();
 
-        $newUserIds = array();
+        $newUserIds = [];
 
-        $posd['lastComment'] = array(
-            'user_id' => User::getId()
-            ,'date' => Util\dateMysqlToISO('now')
-        );
+        $posd['lastComment'] = [
+            'user_id' => User::getId(),
+            'date' => Util\dateMysqlToISO('now'),
+        ];
 
-        $wu = empty($posd['wu'])
-            ? array()
-            : $posd['wu'];
+        $wu = empty($posd['wu']) ? [] : $posd['wu'];
         $uid = User::getId();
 
         if (!in_array($uid, $wu)) {

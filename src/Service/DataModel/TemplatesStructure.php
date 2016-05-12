@@ -1,9 +1,13 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\DataModel;
 
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 
+/**
+ * Class TemplatesStructure
+ */
 class TemplatesStructure extends Base
 {
     /**
@@ -20,30 +24,32 @@ class TemplatesStructure extends Base
      *
      * @var array
      */
-    protected static $tableFields = array(
-        'id' => 'int'
-        ,'pid' => 'int'
-        ,'template_id' => 'int'
-        // ,'tag' => 'varchar' //obsolete
-        ,'level' => 'int'
-        ,'name' => 'varchar'
-        ,'type' => 'varchar'
-        ,'order' => 'int'
-        ,'cfg' => 'text'
-        ,'solr_column_name' => 'varchar'
-    );
+    protected static $tableFields = [
+        'id' => 'int',
+        'pid' => 'int',
+        'template_id' => 'int',
+        // ,'tag' => 'varchar' //obsolete,
+        'level' => 'int',
+        'name' => 'varchar',
+        'type' => 'varchar',
+        'order' => 'int',
+        'cfg' => 'text',
+        'solr_column_name' => 'varchar',
+    ];
 
-    protected static $decodeJsonFields = array('cfg');
+    protected static $decodeJsonFields = ['cfg'];
 
     /**
      * get only active (not deleted fields) for given template
-     * @param  int   $templateId optional, filter by a template
-     * @param  bool  $onlyActive to return only active (nit deleted fields)
+     *
+     * @param  int $templateId optional, filter by a template
+     * @param  bool $onlyActive to return only active (nit deleted fields)
+     *
      * @return array
      */
     public static function getFields($templateId = false, $onlyActive = true)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -139,11 +145,11 @@ class TemplatesStructure extends Base
                 ,`order` = ts.order
                 ,`cfg` = ts.cfg
                 ,solr_column_name = ts.solr_column_name',
-            array(
-                $sourceId
-                ,$targetId
-                ,$parentTemplate
-            )
+            [
+                $sourceId,
+                $targetId,
+                $parentTemplate,
+            ]
         );
     }
 
@@ -155,10 +161,10 @@ class TemplatesStructure extends Base
             'UPDATE templates_structure
             SET pid = $2
             WHERE id = $1',
-            array(
-                $sourceId
-                ,$targetId
-            )
+            [
+                $sourceId,
+                $targetId,
+            ]
         );
     }
 }

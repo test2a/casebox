@@ -1,15 +1,21 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
 use Casebox\CoreBundle\Service\Config;
+use Casebox\CoreBundle\Service\Objects;
+use Casebox\CoreBundle\Service\Search;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\DataModel as DM;
 
+/**
+ * Class RecycleBin
+ */
 class RecycleBin extends Base
 {
     protected function createDefaultFilter()
     {
-        $this->fq = array('did:' . User::getId());
+        $this->fq = ['did:'.User::getId()];
     }
 
     public function getChildren(&$pathArray, $requestParams)
@@ -52,7 +58,7 @@ class RecycleBin extends Base
                 return $this->trans('RecycleBin');
             default:
                 if (!empty($id) && is_numeric($id)) {
-                    $rez = \Casebox\CoreBundle\Service\Objects::getName($id);
+                    $rez = Objects::getName($id);
                 }
                 break;
         }
@@ -62,16 +68,16 @@ class RecycleBin extends Base
 
     protected function getRootNodes()
     {
-        return array(
-            'data' => array(
-                array(
-                    'name' => $this->getName('recycleBin')
-                    ,'id' => $this->getId('recycleBin')
-                    ,'iconCls' => 'icon-trash'
-                    ,'has_childs' => true
-                )
-            )
-        );
+        return [
+            'data' => [
+                [
+                    'name' => $this->getName('recycleBin'),
+                    'id' => $this->getId('recycleBin'),
+                    'iconCls' => 'icon-trash',
+                    'has_childs' => true,
+                ],
+            ],
+        ];
     }
 
     public function getContentItems()
@@ -94,11 +100,11 @@ class RecycleBin extends Base
 
         $p['fq'] = $this->fq;
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
         $rez = $s->query($p);
 
         if (!empty($rez['data'])) {
-            for ($i=0; $i < sizeof($rez['data']); $i++) {
+            for ($i = 0; $i < sizeof($rez['data']); $i++) {
                 $d = &$rez['data'][$i];
 
                 $r = DM\Tree::read($d['id']);
@@ -106,13 +112,7 @@ class RecycleBin extends Base
                 if (!empty($r)) {
                     $d['cfg'] = $r['cfg'];
 
-                    $r = DM\Tree::getChildCount(
-                        $d['id'],
-                        ((@$p['from'] == 'tree')
-                            ? $folderTemplates
-                            : false
-                        )
-                    );
+                    $r = DM\Tree::getChildCount($d['id'], ((@$p['from'] == 'tree') ? $folderTemplates : false));
 
                     $d['has_childs'] = !empty($r[$d['id']]);
                 }

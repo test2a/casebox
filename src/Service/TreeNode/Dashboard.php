@@ -1,13 +1,16 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
 use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\Search;
 
+/**
+ * Class Dashboard
+ */
 class Dashboard extends Base
 {
-
     public function getChildren(&$pathArray, $requestParams)
     {
         $this->path = $pathArray;
@@ -31,17 +34,17 @@ class Dashboard extends Base
 
     protected function getRootNode()
     {
-        return array(
-            'data' => array(
-                array(
-                    'name' => $this->getName('root')
-                    ,'id' => $this->getId('root')
-                    ,'iconCls' => Util\coalesce(@$this->config['iconCls'], 'icon-folder')
-                    ,'cls' => 'tree-header'
-                    ,'has_childs' => false
-                )
-            )
-        );
+        return [
+            'data' => [
+                [
+                    'name' => $this->getName('root'),
+                    'id' => $this->getId('root'),
+                    'iconCls' => Util\coalesce(@$this->config['iconCls'], 'icon-folder'),
+                    'cls' => 'tree-header',
+                    'has_childs' => false,
+                ],
+            ],
+        ];
     }
 
     /**
@@ -52,17 +55,17 @@ class Dashboard extends Base
     {
         $p = $this->requestParams;
         if ($p['view']['type'] != 'dashboard') {
-            return array();
+            return [];
         }
-        $rez = array(
-            'data' => array()
-        );
+        $rez = [
+            'data' => [],
+        ];
 
         $vc = $p['view'];
         $rp = $p;
 
         foreach ($this->subClasses as $k => &$class) {
-            $path = array(&$class);
+            $path = [&$class];
 
             if (isset($vc['items'][$k])) {
                 $rp['view'] = $vc['items'][$k];

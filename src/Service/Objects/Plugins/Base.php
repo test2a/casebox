@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Cache;
@@ -49,9 +50,9 @@ class Base
             return null;
         }
 
-        $rez = array(
-            'success' => true
-        );
+        $rez = [
+            'success' => true,
+        ];
 
         $config = $this->config;
 
@@ -185,8 +186,8 @@ class Base
         $method = $t[1];
 
         $params = [
-            'id' => $this->id
-            ,'config' => $this->config
+            'id' => $this->id,
+            'config' => $this->config,
         ];
 
         return $class->$method($params);

@@ -31,7 +31,7 @@ class Minify
     /**
      * Generates minified files
      *
-     * @param array           $groupName css|js
+     * @param array $groupName css|js
      * @param OutputInterface $output
      */
     public function execute($groupName, OutputInterface $output = null)

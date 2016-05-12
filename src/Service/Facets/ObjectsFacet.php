@@ -16,23 +16,23 @@ class ObjectsFacet extends StringsFacet
      *
      * @return array
      */
-    public function getClientData($options = array())
+    public function getClientData($options = [])
     {
-        $rez = array(
+        $rez = [
             'f' => $this->field,
             'title' => $this->getTitle(),
-            'items' => array()
-        );
+            'items' => [],
+        ];
 
-        $this->colors = $colors = empty($options['colors']) ? array() : $this->getColors();
+        $this->colors = $colors = empty($options['colors']) ? [] : $this->getColors();
 
         $dbnode = new TreeNode\Dbnode();
 
         foreach ($this->solrData as $k => $v) {
-            $rez['items'][$k] = array(
-                'name' => $dbnode->getName($k)
-                ,'count' => $v
-            );
+            $rez['items'][$k] = [
+                'name' => $dbnode->getName($k),
+                'count' => $v,
+            ];
 
             if (!empty($colors[$k])) {
                 $rez['items'][$k]['color'] = $colors[$k];
@@ -60,8 +60,8 @@ class ObjectsFacet extends StringsFacet
 
     protected function getColors()
     {
-        $rez = array();
-        $ids = array_keys((array) $this->solrData);
+        $rez = [];
+        $ids = array_keys((array)$this->solrData);
 
         $objects = Objects::getCachedObjects($ids);
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Search;
@@ -36,11 +37,7 @@ class Tasks extends Base
         $s = new Search();
         $sr = $s->query($params);
         foreach ($sr['data'] as $d) {
-            $d['ago_text'] = @Util\formatDateTimePeriod(
-                $d['date'],
-                null,
-                @Cache::get('session')->get('user')['cfg']['timezone']
-            );
+            $d['ago_text'] = @Util\formatDateTimePeriod($d['date'], null, @Cache::get('session')->get('user')['cfg']['timezone']);
             $d['user'] = User::getDisplayName($d['cid'], true);
 
             TaskService::setTaskActionFlags($d);

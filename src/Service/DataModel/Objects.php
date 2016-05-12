@@ -9,22 +9,24 @@ class Objects extends Base
 {
     protected static $tableName = 'objects';
 
-    protected static $tableFields = array(
-        'id' => 'int'
-        ,'data' => 'text'
-        ,'sys_data' => 'text'
-    );
+    protected static $tableFields = [
+        'id' => 'int',
+        'data' => 'text',
+        'sys_data' => 'text',
+    ];
 
-    protected static $decodeJsonFields = array('data', 'sys_data');
+    protected static $decodeJsonFields = ['data', 'sys_data'];
 
     /**
      * read all data for given ids in bulk manner
+     *
      * @param  array $ids
+     *
      * @return array
      */
     public static function readAllData($ids)
     {
-        $rez = array();
+        $rez = [];
         $ids = Util\toNumericArray($ids);
 
         if (!empty($ids)) {
@@ -43,7 +45,7 @@ class Objects extends Base
                     ON t.id = ti.id
                 LEFT JOIN objects o
                     ON t.id = o.id
-                WHERE t.id in (' . implode(',', $ids) .')';
+                WHERE t.id in ('.implode(',', $ids).')';
 
             $res = $dbs->query($sql);
 
@@ -60,21 +62,23 @@ class Objects extends Base
 
     /**
      * get child records by template for a given parent id
-     * @param  int   $pid
-     * @param  int   $templateId
-     * @param  bool  $active     only active (not deleted) records
+     *
+     * @param  int $pid
+     * @param  int $templateId
+     * @param  bool $active only active (not deleted) records
+     *
      * @return array
      */
     public static function getChildrenByTemplate($pid, $templateId, $active = true)
     {
-        $rez = array();
+        $rez = [];
         $dbs = Cache::get('casebox_dbs');
 
         $sql = 'SELECT o.*
             FROM tree t
             JOIN objects o
                 ON t.id = o.id
-            WHERE t.pid = $1 AND t.template_id = $2' .
+            WHERE t.pid = $1 AND t.template_id = $2'.
             ($active ? ' AND t.dstatus = 0' : '');
 
         $res = $dbs->query($sql, [$pid, $templateId]);
@@ -91,7 +95,9 @@ class Objects extends Base
 
     /**
      * check if the record with given id is marked as draft
-     * @param  int     $id
+     *
+     * @param  int $id
+     *
      * @return boolean
      */
     public static function isDraft($id)
@@ -109,7 +115,9 @@ class Objects extends Base
 
     /**
      * copy a record
-     * @param  int     $id
+     *
+     * @param  int $id
+     *
      * @return boolean
      */
     public static function copy($sourceId, $targetId)
@@ -127,10 +135,10 @@ class Objects extends Base
                 ,`sys_data`
             FROM `objects`
             WHERE id = $1',
-            array(
-                $sourceId
-                ,$targetId
-            )
+            [
+                $sourceId,
+                $targetId,
+            ]
         );
 
         return ($res->rowCount() > 0);

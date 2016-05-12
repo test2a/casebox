@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Auth;
 
 use Casebox\CoreBundle\Entity\UsersGroups as UsersGroupsEntity;
@@ -86,7 +87,7 @@ class CaseboxAuth
             return false;
         }
 
-        $roles =  $user->getRoles();
+        $roles = $user->getRoles();
         if (empty($roles)) {
             $roles = [UsersGroupsEntity::ROLE_USER => UsersGroupsEntity::ROLE_USER];
         }
@@ -193,6 +194,7 @@ class CaseboxAuth
     /**
      * @param string $password Plain password
      * @param string|null $salt
+     *
      * @return array
      */
     public function getEncodedPasswordAndSalt($password, $salt = null)

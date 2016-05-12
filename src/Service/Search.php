@@ -76,7 +76,7 @@ class Search extends Solr\Client
     /**
      * Query solr
      *
-     * @param array  $p             [description]
+     * @param array $p [description]
      * @param string $searchHandler
      *
      * @return array
@@ -200,7 +200,7 @@ class Search extends Solr\Client
 
             // add title field for current language
             //
-            $field = 'title_' . Cache::get('symfony.request')->getLocale() . '_t';
+            $field = 'title_'.Cache::get('symfony.request')->getLocale().'_t';
             if (!in_array($field, $rez)) {
                 $rez[] = $field;
             }
@@ -598,7 +598,7 @@ class Search extends Solr\Client
         $sr = &$this->results;
 
         $shortcuts = [];
-        $titleField = 'title_' . Cache::get('symfony.request')->getLocale() . '_t';
+        $titleField = 'title_'.Cache::get('symfony.request')->getLocale().'_t';
 
         // iterate documents, add resulting record to $rez['data']
         // and collect shortcut records to be prepared
@@ -845,7 +845,7 @@ class Search extends Solr\Client
      * Multilanguage plugin works also
      *
      * @param array | string $ids
-     * @param string         $fieldList
+     * @param string $fieldList
      *
      * @return array
      * @throws \Exception

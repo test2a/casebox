@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Solr;
 
 use Casebox\CoreBundle\Event\BeforeSolrUpdateEvent;
@@ -211,8 +212,8 @@ class Client extends Service
     /**
      * Update tree nodes into solr
      *
-     * @param string[ $p {
-     *
+     * @param array $p
+     
      * @type boolean $all if true then all nodes will be updated into solr,
      *          otherwise - only the nodes marked as updated will be reindexed in solr
      * @type int[] $id id or array of object ids to update
@@ -362,7 +363,7 @@ class Client extends Service
         // Prepare $where condition for sql
         $where = 'ti.id > $1';
         if (!empty($p['id'])) {
-            $ids = \Casebox\CoreBundle\Service\Util\toNumericArray($p['id']);
+            $ids = Util\toNumericArray($p['id']);
             $where = 'ti.id in (0'.implode(',', $ids).')';
         }
 

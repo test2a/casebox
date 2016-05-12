@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects;
 
 use Casebox\CoreBundle\Service\Cache;
@@ -375,6 +376,7 @@ class Task extends Object
      * Get user status for loaded task
      *
      * @param  int|bool|false $userId
+     *
      * @return integer
      */
     public function getUserStatus($userId = false)
@@ -400,7 +402,7 @@ class Task extends Object
     /**
      * Change user status for loaded task
      *
-     * @param integer            $status
+     * @param integer $status
      * @param integer|bool|false $userId
      *
      * @return boolean
@@ -552,9 +554,9 @@ class Task extends Object
         }
 
         if (!empty($sd['task_d_closed'])) {
-            $dateLines .= '<tr><td class="prop-key">' .
-                $this->trans('Completed') . ':</td><td>' .
-                Util\formatAgoTime($sd['task_d_closed']) . '</td></tr>';
+            $dateLines .= '<tr><td class="prop-key">'.
+                $this->trans('Completed').':</td><td>'.
+                Util\formatAgoTime($sd['task_d_closed']).'</td></tr>';
         }
 
         // Create owner row
@@ -562,12 +564,16 @@ class Task extends Object
         if (!empty($v)) {
             $cn = User::getDisplayName($v);
             $cdt = Util\formatAgoTime($data['cdate']);
-            $cd = Util\formatDateTimePeriod($data['cdate'], null, @Cache::get('session')->get('user')['cfg']['timezone']);
+            $cd = Util\formatDateTimePeriod(
+                $data['cdate'],
+                null,
+                @Cache::get('session')->get('user')['cfg']['timezone']
+            );
 
             $ownerRow = '<tr><td class="prop-key">'.$this->trans('Owner').':</td><td>'.
                 '<table class="prop-val people"><tbody>'.
-                '<tr><td class="user"><img class="photo32" src="' .
-                $coreUri.'photo/'.$v.'.jpg?32='. $userService->getPhotoParam($v) .
+                '<tr><td class="user"><img class="photo32" src="'.
+                $coreUri.'photo/'.$v.'.jpg?32='.$userService->getPhotoParam($v).
                 '" style="width:32px; height: 32px" alt="'.$cn.'" title="'.$cn.'"></td>'.
                 '<td><b>'.$cn.'</b><p class="gr">'.$this->trans('Created').': '.
                 '<span class="dttm" title="'.$cd.'">'.$cdt.'</span></p></td></tr></tbody></table>'.
@@ -580,7 +586,9 @@ class Task extends Object
         if (!empty($v['value'])) {
 
             $isOwner = $this->isOwner();
-            $assigneeRow .= '<tr><td class="prop-key">'.$this->trans('TaskAssigned').':</td><td><table class="prop-val people"><tbody>';
+            $assigneeRow .= '<tr><td class="prop-key">'.$this->trans(
+                    'TaskAssigned'
+                ).':</td><td><table class="prop-val people"><tbody>';
             $v = Util\toNumericArray($v['value']);
 
             $dateFormat = Util\getOption('long_date_format').' H:i:s';
@@ -598,24 +606,24 @@ class Task extends Object
                 }
 
                 $assigneeRow .= '<tr><td class="user"><div style="position: relative">'.
-                    '<img class="photo32" src="'.$coreUri.'photo/'.$id.'.jpg?32='. $userService->getPhotoParam($id).
+                    '<img class="photo32" src="'.$coreUri.'photo/'.$id.'.jpg?32='.$userService->getPhotoParam($id).
                     '" style="width:32px; height: 32px" alt="'.$un.'" title="'.$un.'">'.
                     ($completed ? '<img class="done icon icon-tick-circle" src="/css/i/s.gif" />' : "").
                     '</div></td><td><b>'.$un.'</b>'.
                     '<p class="gr" title="'.$cdt.'">'.(
                     $completed
-                        ? $this->trans('Completed') . $dateText .
-                            ($isOwner
-                                ? ' <a class="bt task-action click" action="markincomplete" uid="' . $id . '">' .
-                                    $this->trans('revoke').'</a>'
-                                : ''
-                            )
-                        : $this->trans('waitingForAction') .
-                            ($isOwner
-                                ? ' <a class="bt task-action click" action="markcomplete" uid="' . $id . '">' .
-                                    $this->trans('complete').'</a>'
-                                : ''
-                            )
+                        ? $this->trans('Completed').$dateText.
+                        ($isOwner
+                            ? ' <a class="bt task-action click" action="markincomplete" uid="'.$id.'">'.
+                            $this->trans('revoke').'</a>'
+                            : ''
+                        )
+                        : $this->trans('waitingForAction').
+                        ($isOwner
+                            ? ' <a class="bt task-action click" action="markcomplete" uid="'.$id.'">'.
+                            $this->trans('complete').'</a>'
+                            : ''
+                        )
                     ).'</p></td></tr>';
             }
 
@@ -645,13 +653,13 @@ class Task extends Object
 
         $rtl = empty($this->configService->get('rtl')) ? '' : ' drtl';
 
-         $pb[0] = $this->getPreviewActionsRow() .
-            '<table class="obj-preview' . $rtl . '"><tbody>' .
-            $dateLines .
-            $p .
-            $ownerRow .
-            $assigneeRow .
-            $contentRow .
+        $pb[0] = $this->getPreviewActionsRow().
+            '<table class="obj-preview'.$rtl.'"><tbody>'.
+            $dateLines.
+            $p.
+            $ownerRow.
+            $assigneeRow.
+            $contentRow.
             '<tbody></table>';
 
         return $pb;

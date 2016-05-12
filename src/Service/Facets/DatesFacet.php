@@ -13,7 +13,7 @@ class DatesFacet extends StringsFacet
 
     public function getSolrParams()
     {
-        $rez = array();
+        $rez = [];
         $cfg = &$this->config;
         switch ($cfg['facet']) {
             case "query":
@@ -34,9 +34,9 @@ class DatesFacet extends StringsFacet
 
     public function getFilters(&$p)
     {
-        $rez = array();
+        $rez = [];
         if (!empty($p['filters'][$this->field])) {
-            $condition = array();
+            $condition = [];
             foreach ($p['filters'][$this->field] as $v) {
                 if (empty($v['values'])) {
                     continue;
@@ -93,7 +93,7 @@ class DatesFacet extends StringsFacet
 
     public function loadSolrResult($solrResult)
     {
-        $this->solrData = array();
+        $this->solrData = [];
         $cfg = &$this->config;
 
         foreach ($cfg['queries'] as $key => $query) {
@@ -104,13 +104,13 @@ class DatesFacet extends StringsFacet
         }
     }
 
-    public function getClientData($options = array())
+    public function getClientData($options = [])
     {
-        $rez = array(
-            'f' => $this->field
-            ,'title' => $this->getTitle()
-            ,'items' => array()
-        );
+        $rez = [
+            'f' => $this->field,
+            'title' => $this->getTitle(),
+            'items' => [],
+        ];
 
         $cfg = &$this->config;
         if (!empty($cfg['manualPeriod'])) {
@@ -124,10 +124,10 @@ class DatesFacet extends StringsFacet
                     $name = $query;
                 }
 
-                $rez['items'][$query] = array(
-                    'name' => $name
-                    ,'count' => $this->solrData[$query]
-                );
+                $rez['items'][$query] = [
+                    'name' => $name,
+                    'count' => $this->solrData[$query],
+                ];
             }
         }
 
@@ -136,8 +136,8 @@ class DatesFacet extends StringsFacet
 
     public function currentWeekDiapazon()
     {
-          $time1 = strtotime('previous monday');
-          $time2 = strtotime('previous monday + 1 week');
+        $time1 = strtotime('previous monday');
+        $time2 = strtotime('previous monday + 1 week');
 
         return date('Y-m-d\TH:i:s\Z', $time1).' TO '.date('Y-m-d\TH:i:s\Z', $time2);
     }

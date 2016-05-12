@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Plugins\DisplayColumns;
 
 use Casebox\CoreBundle\Service\Cache;

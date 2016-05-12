@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects;
 
 use Casebox\CoreBundle\Event\BeforeGeneratePreviewEvent;
@@ -67,20 +68,20 @@ class Object
     protected $data = [];
 
     protected $tableFields = [
-        'pid'
-        ,'user_id'
-        ,'system'
-        ,'template_id'
-        ,'tag_id'
-        ,'target_id'
-        ,'name'
-        ,'date'
-        ,'date_end'
-        ,'size'
-        ,'cfg'
-        ,'oid'
-        ,'did'
-        ,'dstatus'
+        'pid',
+        'user_id',
+        'system',
+        'template_id',
+        'tag_id',
+        'target_id',
+        'name',
+        'date',
+        'date_end',
+        'size',
+        'cfg',
+        'oid',
+        'did',
+        'dstatus',
     ];
 
     /**
@@ -155,11 +156,6 @@ class Object
             throw new \Exception("No name specified for object creation", 1);
         }
 
-        // we admit object creation without template id
-        // if (empty($p['template_id']) || !is_numeric($p['template_id'])) {
-        //     throw new \Exception("No template_id specified for object creation", 1);
-        // }
-
         $this->id = DM\Tree::create(
             $this->collectModelData()
         );
@@ -184,9 +180,9 @@ class Object
         if (empty($p['draft'])) {
             $this->logAction(
                 'create',
-                array(
-                    'mentioned' => $this->lastMentionedUserIds
-                )
+                [
+                    'mentioned' => $this->lastMentionedUserIds,
+                ]
             );
         }
 
@@ -205,9 +201,7 @@ class Object
             $p['pid'] = null;
         }
 
-        $draftPid = empty($p['draftPid'])
-            ? null
-            : $p['draftPid'];
+        $draftPid = empty($p['draftPid']) ? null : $p['draftPid'];
 
         $isDraft = intval(!empty($draftPid) || !empty($p['draft']));
 
@@ -239,11 +233,11 @@ class Object
                 'draft' => $isDraft,
                 'draft_pid' => $draftPid,
                 'cdate' => Util\coalesce(@$r['cdate'], 'CURRENT_TIMESTAMP'),
-                'updated' => 1
+                'updated' => 1,
             ]
         );
 
-        //system flag shouldn't be updated if not set
+        // system flag shouldn't be updated if not set
         if (isset($r['system'])) {
             $r['system'] = intval($r['system']);
         }
@@ -696,7 +690,7 @@ class Object
         // Iterate template fields and collect fieldnames
         // to be indexed in solr, as well as title fields
         $rez = [
-            'content' => ''
+            'content' => '',
         ];
         $children = [];
         $indexAsChildrenIds = [];
@@ -725,9 +719,7 @@ class Object
 
                 if (!empty($f['cfg']['indexAsChildren'])) {
                     $indexAsChildrenIds[] = $f['id'];
-                    $indexAsChildrenIndexes[$f['id']] = empty($f['cfg']['indexingIdx'])
-                        ? $f['id']
-                        : $f['cfg']['indexingIdx'];
+                    $indexAsChildrenIndexes[$f['id']] = empty($f['cfg']['indexingIdx']) ? $f['id'] : $f['cfg']['indexingIdx'];
                 }
 
                 if (empty($f['solr_column_name']) && in_array($f['name'], $titleFields)) {
@@ -740,13 +732,11 @@ class Object
                 } elseif (!empty($f['cfg']['faceting']) || //backward compatible check
                     !empty($f['cfg']['indexed'])
                 ) {
-                    $pids[$f['id']] = empty($pids[$f['pid']])
-                        ? [$f['pid'], $f['id']]
-                        : array_merge($pids[$f['pid']], [$f['id']]);
+                    $pids[$f['id']] = empty($pids[$f['pid']]) ? [$f['pid'], $f['id']] : array_merge($pids[$f['pid']], [$f['id']]);
 
                     $childrenRecordIds = array_intersect($pids[$f['id']], $indexAsChildrenIds);
 
-                    $resultValue = array();
+                    $resultValue = [];
 
                     //iterate each duplicate
                     foreach ($values as $v) {
@@ -755,7 +745,7 @@ class Object
                             $resultValue[] = $value;
 
                             foreach ($childrenRecordIds as $crId) {
-                                $idx = $this->id . '_' . $indexAsChildrenIndexes[$crId] . '_' . intval($v['idx']);
+                                $idx = $this->id.'_'.$indexAsChildrenIndexes[$crId].'_'.intval($v['idx']);
                                 $children[$idx]['idx'] = $indexAsChildrenIndexes[$crId];
                                 $children[$idx][$f['solr_column_name']] = $value;
                             }
@@ -787,10 +777,8 @@ class Object
                 // add all textual fields to content
                 foreach ($values as $v) {
                     if (!empty($v['value'])) {
-                        $rez['content'] .= (in_array($f['name'], ['date_start', 'date_end', 'dates'])
-                            ? substr($v, 0, 10)
-                            : $v['value']
-                        )."\n";
+                        $rez['content'] .= (in_array($f['name'], ['date_start', 'date_end', 'dates']) ? substr($v, 0, 10) : $v['value']
+                            )."\n";
                     }
                 }
 
@@ -801,12 +789,12 @@ class Object
                 $rez['_childDocuments_'] = [];
                 foreach ($children as $k => $v) {
                     $rez['_childDocuments_'][] = array_merge(
-                        // $parentValues,
+                    // $parentValues,
                         $v,
                         [
                             'id' => $this->id,
                             'doc_id' => $k,
-                            'child' => 'true'
+                            'child' => 'true',
                         ]
                     );
                 }
@@ -873,7 +861,7 @@ class Object
     /**
      * Prepare a given value for solr according to its type
      *
-     * @param string $type  (checkbox,combo,date,datetime,float,html,int,memo,_objects,text,time,timeunits,string)
+     * @param string $type (checkbox,combo,date,datetime,float,html,int,memo,_objects,text,time,timeunits,string)
      * @param string $value
      *
      * @return string
@@ -994,14 +982,12 @@ class Object
     /**
      * Get action flags that a user can do this object
      *
-     * @param int $userId
+     * @param int|bool|false $userId
      *
      * @return array
      */
     public function getActionFlags($userId = false)
     {
-        $userId = $userId; //dummy assignment for codacy
-
         return [];
     }
 
@@ -1146,6 +1132,7 @@ class Object
      * Check if given user is owner of the task
      *
      * @param  integer|bool|false $userId
+     *
      * @return bool
      */
     public function isOwner($userId = false)
@@ -1156,9 +1143,7 @@ class Object
             $userId = User::getId();
         }
 
-        $ownerId = empty($d['oid'])
-            ? $d['cid']
-            : $d['oid'];
+        $ownerId = empty($d['oid']) ? $d['cid'] : $d['oid'];
 
         return ($ownerId == $userId);
     }
@@ -1168,7 +1153,7 @@ class Object
      *
      * This function return an array of values for duplicate fields
      *
-     * @param string  $fieldName  field name
+     * @param string $fieldName field name
      * @param integer $valueIndex optional value duplication index. default false
      *
      * @return array
@@ -1224,7 +1209,8 @@ class Object
     /**
      * get linear array of properties of object properties
      *
-     * @param  boolean    $sorted true to sort data according to template fields order
+     * @param  boolean $sorted true to sort data according to template fields order
+     *
      * @return array|null
      */
     public function getLinearData($sorted = false)
@@ -1243,6 +1229,7 @@ class Object
      * Get an associative linear array of field values
      *
      * @param  array $data template properties
+     *
      * @return array
      */
     public function getAssocLinearData()
@@ -1257,7 +1244,7 @@ class Object
                     'info' => 1,
                     'files' => 1,
                     'cond' => 1,
-                    'idx' => 1
+                    'idx' => 1,
                 ]
             );
 
@@ -1300,7 +1287,7 @@ class Object
 
     /**
      * @param array $data
-     * @param bool  $sorted
+     * @param bool $sorted
      *
      * @return array
      */
@@ -1327,9 +1314,7 @@ class Object
                 $prevHeaderField = $templateField;
 
             } else {
-                $headerField = (empty($headers[$fieldName]))
-                    ? false
-                    : $headers[$fieldName];
+                $headerField = (empty($headers[$fieldName])) ? false : $headers[$fieldName];
 
                 if (!empty($headerField) &&
                     (
@@ -1341,8 +1326,8 @@ class Object
 
                     if (!isset($data[$headerField['name']])) {
                         $rez[] = [
-                            'name' => $headerField['name']
-                            ,'value' => null
+                            'name' => $headerField['name'],
+                            'value' => null,
                         ];
                     }
                 }
@@ -1353,7 +1338,7 @@ class Object
             foreach ($fieldValue as $fv) {
                 $value = [
                     'name' => $fieldName,
-                    'idx' => $idx++
+                    'idx' => $idx++,
                 ];
 
                 if (is_scalar($fv) ||
@@ -1535,7 +1520,7 @@ class Object
      * But in this situation appears another problem with child nodes.
      * Childs should be moved to new parent.
      *
-     * @param int $pid      if not specified then will be set to pid of targetId
+     * @param int $pid if not specified then will be set to pid of targetId
      * @param int $targetId
      *
      * @return int the id of copied object
@@ -1624,10 +1609,10 @@ class Object
 
         $this->logAction(
             'copy',
-            array(
+            [
                 'old' => $this,
-                'new' => $newObj
-            )
+                'new' => $newObj,
+            ]
         );
 
         return $objectId;
@@ -1650,7 +1635,7 @@ class Object
      *
      * we'll use the same principle as for copy
      *
-     * @param int $pid      if not specified then will be set to pid of targetId
+     * @param int $pid if not specified then will be set to pid of targetId
      * @param int $targetId
      *
      * @return int the id of moved object or false
@@ -1733,14 +1718,13 @@ class Object
     protected function moveCustomDataTo($targetId)
     {
         $targetId = $targetId; //dummy assignment for codacy
-
     }
 
     /**
      * filter html field with through purify library
      *
-     * @param array   $fieldsArray
-     * @param boolean $htmlEncode  set true to encode all special chars from string fields
+     * @param array $fieldsArray
+     * @param boolean $htmlEncode set true to encode all special chars from string fields
      *
      * @return void
      */
@@ -1782,7 +1766,11 @@ class Object
                         $fieldsArray[$fn][$i] = $this->filterFieldValue($fv[$i], $purify, $htmlEncode);
 
                     } elseif (is_array($fv[$i]) && !empty($fv[$i]['value'])) {
-                        $fieldsArray[$fn][$i]['value'] = $this->filterFieldValue($fv[$i]['value'], $purify, $htmlEncode);
+                        $fieldsArray[$fn][$i]['value'] = $this->filterFieldValue(
+                            $fv[$i]['value'],
+                            $purify,
+                            $htmlEncode
+                        );
                         if (!empty($fv[$i]['childs'])) {
                             $this->filterHTMLFields($fieldsArray[$fn][$i]['childs']);
                         }
@@ -1795,7 +1783,7 @@ class Object
     /**
      * filter a given value
      *
-     * @param string  $value
+     * @param string $value
      * @param boolean $purify
      * @param boolean $htmlEncode
      *
@@ -1904,10 +1892,10 @@ class Object
 
                     $style .= empty($f['tf']['cfg']['style'])
                         ? ''
-                        : ';' . $f['tf']['cfg']['style'];
+                        : ';'.$f['tf']['cfg']['style'];
 
-                    $body .= '<tr class="prop-header"><th colspan="3" style="'. $style . '">' .
-                        $f['tf']['title'] .
+                    $body .= '<tr class="prop-header"><th colspan="3" style="'.$style.'">'.
+                        $f['tf']['title'].
                         '</th></tr>';
                     continue;
                 }
@@ -1922,19 +1910,15 @@ class Object
                 if (empty($f['tf']['cfg']['noHeader'])) {
                     $body .= '<td'.(
                         empty($f['tf']['level'])
-                        ? ''
-                        : ' style="padding-left: '.($f['tf']['level'] * 20).'px"'
-                    ) . ' class="prop-key">' . $f['tf']['title'] .'</td>' .
-                    '<td class="prop-val">';
+                            ? ''
+                            : ' style="padding-left: '.($f['tf']['level'] * 20).'px"'
+                        ).' class="prop-key">'.$f['tf']['title'].'</td>'.
+                        '<td class="prop-val">';
                 } else {
                     $body .= '<td class="prop-val" colspan="2">';
                 }
 
-                $body .= $v.
-                    (empty($f['info'])
-                        ? ''
-                        : '<p class="prop-info">'.$f['info'].'</p>'
-                    ) . '</td></tr>';
+                $body .= $v.(empty($f['info']) ? '' : '<p class="prop-info">'.$f['info'].'</p>').'</td></tr>';
             }
         }
 
@@ -1944,12 +1928,12 @@ class Object
             // Always show spent time for templates with timeTracking so we can click on it
             // to display the plugin
             // if ($timeSpent > 0) {
-                $body .= '<tr><td class="prop-key">' . $this->trans('TimeSpent') . '</td>' .
-                    '<td class="prop-val"><span class="time-spent click">' .
-                    gmdate("G\h i\m", $timeSpent['sec']) .
-                    ' / $' . number_format($timeSpent['money'], 2) .
-                    '</span> <a class="add-time-spent i-add click"></a>' .
-                    '</td></tr>';
+            $body .= '<tr><td class="prop-key">'.$this->trans('TimeSpent').'</td>'.
+                '<td class="prop-val"><span class="time-spent click">'.
+                gmdate("G\h i\m", $timeSpent['sec']).
+                ' / $'.number_format($timeSpent['money'], 2).
+                '</span> <a class="add-time-spent i-add click"></a>'.
+                '</td></tr>';
             // }
         }
 
@@ -1959,8 +1943,8 @@ class Object
                 if (empty($v)) {
                     continue;
                 }
-                $bottom .=  '<div class="obj-preview-h">' . $f['tf']['title'] . '</div>' .
-                    '<div style="padding: 0 5px">' . $v . '</div><br />';
+                $bottom .= '<div class="obj-preview-h">'.$f['tf']['title'].'</div>'.
+                    '<div style="padding: 0 5px">'.$v.'</div><br />';
             }
         }
 
@@ -1968,12 +1952,12 @@ class Object
 
         if (!empty($top)) {
             $rtl = empty($this->configService->get('rtl')) ? '' : ' drtl';
-            $top = '<table class="obj-preview' . $rtl . '"><tbody>' . $top . '</tbody></table><br />';
+            $top = '<table class="obj-preview'.$rtl.'"><tbody>'.$top.'</tbody></table><br />';
         }
 
         $rez = [
-            $this->getPreviewActionsRow() . $top,
-            $bottom
+            $this->getPreviewActionsRow().$top,
+            $bottom,
         ];
 
         $eventParams['result'] = &$rez;
@@ -1991,7 +1975,7 @@ class Object
     {
         $rez = [
             'sec' => 0,
-            'money' => 0
+            'money' => 0,
         ];
 
         $sd = $this->getSysData();
@@ -2006,7 +1990,7 @@ class Object
      * add action to log
      *
      * @param string $type
-     * @param array  $params
+     * @param array $params
      *
      * @return void
      */
@@ -2145,11 +2129,11 @@ class Object
 
                 $value = empty($ov)
                     ? ''
-                    : ('<div class="old-value">' . $template->formatValueForDisplay($field, $ov, false, true) . '</div>');
+                    : ('<div class="old-value">'.$template->formatValueForDisplay($field, $ov, false, true).'</div>');
 
                 $value .= empty($nv)
                     ? ''
-                    : ('<div class="new-value">' . $template->formatValueForDisplay($field, $nv, false, true) . '</div>');
+                    : ('<div class="new-value">'.$template->formatValueForDisplay($field, $nv, false, true).'</div>');
 
                 $rez[$title] = $value;
             }
@@ -2191,7 +2175,8 @@ class Object
                 $userId = DM\Users::getIdByName($match[1]);
                 if (is_numeric($userId)) {
                     $userName = $match[1];
-                    $replace = '<span class="cDB user-ref" title="'.User::getDisplayName($userId).'">@'.$userName.'</span>';
+                    $dn = User::getDisplayName($userId);
+                    $replace = '<span class="cDB user-ref" title="'.$dn.'">@'.$userName.'</span>';
                     $message = str_replace(
                         $match[0],
                         $replace,

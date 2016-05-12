@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Event\TreeInitializeEvent;
@@ -816,8 +817,8 @@ class Browser
      * This function is used to generate a new name lyke "Copy of <old file_name> (1).ext".
      * Usually used when copy/pasting objects and pasted object should receive a new name.
      *
-     * @param int     $pid              parent object/folder id
-     * @param string  $name             old/existing object name
+     * @param int $pid parent object/folder id
+     * @param string $name old/existing object name
      * @param boolean $excludeExtension if true then characters after last "." will remain unchanged
      *
      * @return string new name
@@ -1029,8 +1030,8 @@ class Browser
                         ),
                     ];
                 }
-                // $files->storeFiles($a);
-                // break;
+            // $files->storeFiles($a);
+            // break;
             case 'newversion':
             case 'replace':
             case 'autorename':

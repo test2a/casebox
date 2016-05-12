@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\User;
@@ -7,7 +8,6 @@ use Casebox\CoreBundle\Service\Objects;
 
 class ContentItems extends Base
 {
-
     public function getData($id = false)
     {
         if (!$this->isVisible()) {
@@ -43,8 +43,8 @@ class ContentItems extends Base
     protected function getSolrParams()
     {
         $rez = [
-            'fl' => 'id,pid,name,template_id,cdate,cid'
-            ,'sort' => 'cdate desc'
+            'fl' => 'id,pid,name,template_id,cdate,cid',
+            'sort' => 'cdate desc',
         ];
 
         $config = $this->config;
@@ -52,7 +52,7 @@ class ContentItems extends Base
         if (!empty($config['fn'])) {
             $ids = $this->getFunctionResult($config['fn']);
             if (!empty($ids)) {
-                $rez['fq'] = 'id:(' . implode(' OR ', $ids) . ')';
+                $rez['fq'] = 'id:('.implode(' OR ', $ids).')';
             }
 
         } elseif (isset($config['fq'])) {
@@ -66,7 +66,7 @@ class ContentItems extends Base
                     if (empty($v)) {
                         $v = 0;
                     }
-                    $fq = str_replace('$' . $fn, $v, $fq);
+                    $fq = str_replace('$'.$fn, $v, $fq);
                 }
             }
 
@@ -78,8 +78,7 @@ class ContentItems extends Base
 
             $folderTemplates = $this->configService->get('folder_templates');
             if (!empty($folderTemplates)) {
-                $rez['fq'][] = '!template_id:(' .
-                    implode(' OR ', Util\toNumericArray($folderTemplates)) . ')';
+                $rez['fq'][] = '!template_id:('.implode(' OR ', Util\toNumericArray($folderTemplates)).')';
             }
         }
 

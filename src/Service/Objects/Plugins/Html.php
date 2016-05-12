@@ -5,7 +5,6 @@ use Casebox\CoreBundle\Service\Objects;
 
 class Html extends Base
 {
-
     public function getData($id = false)
     {
         $config = $this->config;

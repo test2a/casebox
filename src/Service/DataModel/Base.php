@@ -5,6 +5,9 @@ namespace Casebox\CoreBundle\Service\DataModel;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 
+/**
+ * Class Base
+ */
 class Base
 {
     /**
@@ -21,16 +24,16 @@ class Base
      *
      * @var array
      */
-    protected static $tableFields = array(
-        'id' => 'int'
-    );
+    protected static $tableFields = [
+        'id' => 'int',
+    ];
 
     /**
      * decoded json fields on read operation
      *
      * @var array
      */
-    protected static $decodeJsonFields = array();
+    protected static $decodeJsonFields = [];
 
     /**
      * allow read of all records in bulk
@@ -40,7 +43,9 @@ class Base
 
     /**
      * add a record
+     *
      * @param  array $p associative array with table field values
+     *
      * @return int   created id
      */
     public static function create($p)
@@ -52,7 +57,10 @@ class Base
         $dbs = Cache::get('casebox_dbs');
 
         //prepare sql
-        $sql = 'INSERT INTO '.static::getTableName().' (`'.implode('`,`', $cp['fields']).'`) VALUES ('.implode(',', $cp['params']).')';
+        $sql = 'INSERT INTO '.static::getTableName().' (`'.implode('`,`', $cp['fields']).'`) VALUES ('.implode(
+                ',',
+                $cp['params']
+            ).')';
 
         //add database record
         $dbs->query($sql, $cp['values']);
@@ -64,7 +72,9 @@ class Base
 
     /**
      * get params for record creation
-     * @param  array  $p associative array with table field values
+     *
+     * @param  array $p associative array with table field values
+     *
      * @return array(
      *         array $fields
      *         array $params
@@ -89,7 +99,7 @@ class Base
 
             } else {
                 $k++;
-                $params[$i] = '$' . $k;
+                $params[$i] = '$'.$k;
                 $outValues[] = $inValues[$i];
             }
         }
@@ -97,25 +107,27 @@ class Base
         return [
             'fields' => $fields,
             'params' => $params,
-            'values' => $outValues
+            'values' => $outValues,
         ];
     }
 
     /**
      * read a record by id
-     * @param  int   $id
+     *
+     * @param  int $id
+     *
      * @return array | null
      */
     public static function read($id)
     {
         $rez = null;
 
-        static::validateParamTypes(array('id' => $id));
+        static::validateParamTypes(['id' => $id]);
 
         $dbs = Cache::get('casebox_dbs');
 
         // Read
-        $res = $dbs->query('SELECT * FROM ' . static::getTableName() . '  WHERE id = $1', $id);
+        $res = $dbs->query('SELECT * FROM '.static::getTableName().'  WHERE id = $1', $id);
 
         if ($r = $res->fetch()) {
             $rez = $r;
@@ -129,20 +141,22 @@ class Base
 
     /**
      * read records by ids
-     * @param  array   $ids   comma separated string or numeric array
+     *
+     * @param  array $ids comma separated string or numeric array
      * @param  boolean $assoc to return result as associative array by record id
+     *
      * @return array   records
      */
     public static function readByIds($ids, $assoc = false)
     {
-        $rez = array();
+        $rez = [];
 
         $ids = Util\toNumericArray($ids);
 
         $dbs = Cache::get('casebox_dbs');
 
         if (!empty($ids)) {
-            $res = $dbs->query('SELECT * FROM ' . static::getTableName() . ' WHERE id in (' . implode(',', $ids) . ')');
+            $res = $dbs->query('SELECT * FROM '.static::getTableName().' WHERE id in ('.implode(',', $ids).')');
 
             while ($r = $res->fetch()) {
                 static::decodeJsonFields($r);
@@ -168,15 +182,12 @@ class Base
      */
     public static function readAll()
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
         if (static::$allowReadAll === true) {
-            $res = $dbs->query(
-                'SELECT *
-                FROM ' . static::getTableName()
-            );
+            $res = $dbs->query('SELECT * FROM '.static::getTableName());
 
             while ($r = $res->fetch()) {
                 static::decodeJsonFields($r);
@@ -190,7 +201,9 @@ class Base
 
     /**
      * update a record
-     * @param  array   $p array with table properties
+     *
+     * @param  array $p array with table properties
+     *
      * @return boolean
      */
     public static function update($p)
@@ -207,9 +220,7 @@ class Base
         $dbs = Cache::get('casebox_dbs');
 
         //prepare sql
-        $sql = 'UPDATE ' . static::getTableName() .
-            ' SET ' . implode(',', $up['assignments']) .
-            ' WHERE id = $1';
+        $sql = 'UPDATE '.static::getTableName().' SET '.implode(',', $up['assignments']).' WHERE id = $1';
 
         //add database record
         $res = $dbs->query($sql, $up['values']);
@@ -221,7 +232,9 @@ class Base
 
     /**
      * get params for record update
-     * @param  array  $p associative array with table field values
+     *
+     * @param  array $p associative array with table field values
+     *
      * @return array(
      *         array $fields
      *         array $assignments
@@ -232,9 +245,9 @@ class Base
     {
         $p = array_intersect_key($p, static::$tableFields);
 
-        $fields = array_values(array_diff(array_keys($p), array('id')));
-        $assignments = array();
-        $values = array($p['id']);
+        $fields = array_values(array_diff(array_keys($p), ['id']));
+        $assignments = [];
+        $values = [$p['id']];
 
         $i = 2;
 
@@ -243,22 +256,24 @@ class Base
                 if ($v === 'CURRENT_TIMESTAMP') {
                     $assignments[] = "`$k` = CURRENT_TIMESTAMP";
                 } else {
-                    $assignments[] = "`$k` = \$" . $i++;
+                    $assignments[] = "`$k` = \$".$i++;
                     $values[] = $v;
                 }
             }
         }
 
-        return array(
-            'fields' => $fields
-            ,'assignments' => $assignments
-            ,'values' => $values
-        );
+        return [
+            'fields' => $fields,
+            'assignments' => $assignments,
+            'values' => $values,
+        ];
     }
 
     /**
      * delete a record by its id
+     *
      * @param  int | array $ids
+     *
      * @return boolean
      */
     public static function delete($ids)
@@ -267,20 +282,18 @@ class Base
 
         $dbs = Cache::get('casebox_dbs');
 
-        $sql = 'DELETE from ' . static::getTableName() .
-            ' WHERE id';
+        $sql = 'DELETE from '.static::getTableName().' WHERE id';
 
         if (is_scalar($ids)) {
-            static::validateParamTypes(array('id' => $ids));
-
-            $res = $dbs->query($sql . ' = $1', $ids);
+            static::validateParamTypes(['id' => $ids]);
+            $res = $dbs->query($sql.' = $1', $ids);
 
         } else {
             $ids = Util\toNumericArray($ids);
 
             if (!empty($ids)) {
                 $res = $dbs->query(
-                    $sql . ' IN (' . implode(',', $ids) . ')'
+                    $sql.' IN ('.implode(',', $ids).')'
                 );
             }
         }
@@ -292,7 +305,9 @@ class Base
 
     /**
      * check if a record exists by its id or name field
-     * @param  string  $idOrName
+     *
+     * @param  string $idOrName
+     *
      * @return boolean
      */
     public static function exists($idOrName)
@@ -309,9 +324,11 @@ class Base
 
     /**
      * get name for given id or return same result if numeric
+     *
      * @param  string $idOrName
      * @param  string $nameField to search by
-     * @param  int    $pid       filter by pid if set
+     * @param  int $pid filter by pid if set
+     *
      * @return int    | null
      */
     public static function toId($idOrName, $nameField = 'name', $pid = false)
@@ -322,12 +339,10 @@ class Base
 
         if (!is_numeric($idOrName)) {
 
-            $sql = 'SELECT id
-                FROM ' . static::getTableName() .
-                ' WHERE ' . $nameField . ' = $1';
+            $sql = 'SELECT id FROM '.static::getTableName().' WHERE '.$nameField.' = $1';
 
             if (($pid !== false) && is_numeric($pid)) {
-                $sql .= ' AND pid = ' . intval($pid);
+                $sql .= ' AND pid = '.intval($pid);
             }
 
             $res = $dbs->query($sql, $idOrName);
@@ -352,7 +367,9 @@ class Base
     /**
      * collect data from a given array corresponding to current table definition
      * also encodes json fields defined in static::$decodeJsonFields
+     *
      * @param  array $a
+     *
      * @return array associative array of fieldName => value
      */
     public static function collectData($a)
@@ -370,8 +387,10 @@ class Base
 
     /**
      * validate param types
+     *
      * @param  array $p
      * @param  array $fields - default is $tableFields
+     *
      * @return void  |  throws an exception on error
      */
     protected static function validateParamTypes($p, $fields = false)
@@ -395,8 +414,8 @@ class Base
 
                     break;
 
-                // case 'bool':
-                //     $valid = is_bool($p[$fn]);
+                    // case 'bool':
+                    //     $valid = is_bool($p[$fn]);
 
                     break;
 

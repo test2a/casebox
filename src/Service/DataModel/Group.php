@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\DataModel;
 
 class Group extends Users

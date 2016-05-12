@@ -2,6 +2,9 @@
 
 namespace Casebox\CoreBundle\Service\DataModel;
 
+/**
+ * Class TreeInfo
+ */
 class TreeInfo extends Base
 {
     /**
@@ -18,13 +21,13 @@ class TreeInfo extends Base
      *
      * @var array
      */
-    protected static $tableFields = array(
-        'id' => 'int'
-        ,'pids' => 'varchar'
-        ,'path' => 'varchar'
-        ,'case_id' => 'int'
-        ,'acl_count' => 'int'
-        ,'security_set_id' => 'int'
-        ,'updated' => 'int'
-    );
+    protected static $tableFields = [
+        'id' => 'int',
+        'pids' => 'varchar',
+        'path' => 'varchar',
+        'case_id' => 'int',
+        'acl_count' => 'int',
+        'security_set_id' => 'int',
+        'updated' => 'int',
+    ];
 }

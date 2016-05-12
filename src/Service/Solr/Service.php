@@ -291,9 +291,9 @@ class Service
 
     /**
      * @param string $query
-     * @param int    $start
-     * @param int    $rows
-     * @param array  $params
+     * @param int $start
+     * @param int $rows
+     * @param array $params
      *
      * @return \Apache_Solr_Response
      * @throws \Apache_Solr_InvalidArgumentException

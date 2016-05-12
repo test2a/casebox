@@ -5,6 +5,9 @@ namespace Casebox\CoreBundle\Service\DataModel;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 
+/**
+ * Class Users
+ */
 class Users extends UsersGroups
 {
     /**
@@ -15,7 +18,9 @@ class Users extends UsersGroups
 
     /**
      * add a record
+     *
      * @param  array $p associative array with table field values
+     *
      * @return int   created id
      */
     public static function create($p)
@@ -27,7 +32,9 @@ class Users extends UsersGroups
 
     /**
      * update a record
-     * @param  array   $p array with properties (id field is required for update)
+     *
+     * @param  array $p array with properties (id field is required for update)
+     *
      * @return boolean
      */
     public static function update($p)
@@ -46,7 +53,7 @@ class Users extends UsersGroups
         $passIdx = array_search('password', $rez['fields']);
         if ($passIdx !== false) {
             $a = explode('=', $rez['assignments'][$passIdx]);
-            $rez['assignments'][$passIdx] = $a[0] . '= MD51(CONCAT(\'aero\', ' . $a[1] . '))';
+            $rez['assignments'][$passIdx] = $a[0].'= MD51(CONCAT(\'aero\', '.$a[1].'))'; // @todo - remove this
         }
 
         return $rez;
@@ -54,15 +61,14 @@ class Users extends UsersGroups
 
     /**
      * update a record by username param
-     * @param  array   $p array with properties
+     *
+     * @param  array $p array with properties
+     *
      * @return boolean
      */
     public static function updateByName($p)
     {
-        Util\raiseErrorIf(
-            empty($p['name']),
-            'ErroneousInputData' //' no username specified for updateByName function'
-        );
+        Util\raiseErrorIf(empty($p['name']), 'ErroneousInputData');
 
         $p['id'] = static::toId($p['name']);
 
@@ -71,7 +77,9 @@ class Users extends UsersGroups
 
     /**
      * delete a record by its id
+     *
      * @param  []int   $ids
+     *
      * @return boolean
      */
     public static function delete($ids)
@@ -80,20 +88,19 @@ class Users extends UsersGroups
 
         $dbs = Cache::get('casebox_dbs');
 
-        $sql = 'DELETE from ' . static::getTableName() .
-            ' WHERE `type` = $1 and id';
+        $sql = 'DELETE from '.static::getTableName().' WHERE `type` = $1 and id';
 
         if (is_scalar($ids)) {
-            static::validateParamTypes(array('id' => $ids));
+            static::validateParamTypes(['id' => $ids]);
 
-            $res = $dbs->query($sql . ' = $2', array(static::$type, $ids));
+            $res = $dbs->query($sql.' = $2', [static::$type, $ids]);
 
         } else {
             $ids = Util\toNumericArray($ids);
 
             if (!empty($ids)) {
                 $res = $dbs->query(
-                    $sql . ' IN (' . implode(',', $ids) . ')',
+                    $sql.' IN ('.implode(',', $ids).')',
                     static::$type
                 );
             }
@@ -106,8 +113,10 @@ class Users extends UsersGroups
 
     /**
      * check if a given user id exists
-     * @param  int     $id
-     * @param  int     $onlyActive
+     *
+     * @param  int $id
+     * @param  int $onlyActive
+     *
      * @return boolean
      */
     public static function idExists($id, $onlyActive = true)
@@ -117,16 +126,13 @@ class Users extends UsersGroups
         $dbs = Cache::get('casebox_dbs');
 
         $sql = 'SELECT id
-            FROM `' . static::getTableName() . '`
-            WHERE id = $1  AND `type` = $2' .
-            ($onlyActive
-                ? ' AND enabled = 1'
-                : ''
-            );
+            FROM `'.static::getTableName().'`
+            WHERE id = $1  AND `type` = $2'.
+            ($onlyActive ? ' AND enabled = 1' : '');
 
         $res = $dbs->query(
             $sql,
-            array($id, static::$type)
+            [$id, static::$type]
         );
 
         if ($res->fetch()) {
@@ -139,8 +145,10 @@ class Users extends UsersGroups
 
     /**
      * get user id by username
+     *
      * @param string $username
-     * @param  int     $onlyActive
+     * @param  int $onlyActive
+     *
      * @return int
      */
     public static function getIdByName($username, $onlyActive = true)
@@ -150,16 +158,13 @@ class Users extends UsersGroups
         $dbs = Cache::get('casebox_dbs');
 
         $sql = 'SELECT id
-            FROM `' . static::getTableName() . '`
-            WHERE name = $1  AND `type` = $2' .
-            ($onlyActive
-                ? ' AND enabled = 1'
-                : ''
-            );
+            FROM `'.static::getTableName().'`
+            WHERE name = $1  AND `type` = $2'.
+            ($onlyActive ? ' AND enabled = 1' : '');
 
         $res = $dbs->query(
             $sql,
-            array($username, static::$type)
+            [$username, static::$type]
         );
 
         if ($r = $res->fetch()) {
@@ -172,7 +177,9 @@ class Users extends UsersGroups
 
     /**
      * get user id by email
+     *
      * @param string $email
+     *
      * @return int     | null
      */
     public static function getIdByEmail($email)
@@ -194,7 +201,7 @@ class Users extends UsersGroups
         while (($r = $res->fetch()) && empty($rez)) {
             $mails = Util\toTrimmedArray($r['email']);
 
-            for ($i=0; $i < sizeof($mails); $i++) {
+            for ($i = 0; $i < sizeof($mails); $i++) {
                 if (mb_strtolower($mails[$i]) == $email) {
                     $rez = $r['id'];
                 }
@@ -208,7 +215,9 @@ class Users extends UsersGroups
 
     /**
      * get user id by recovery hash
+     *
      * @param string $hash
+     *
      * @return int     | null
      */
     public static function getIdByRecoveryHash($hash)
@@ -234,7 +243,9 @@ class Users extends UsersGroups
 
     /**
      * get user owner id
+     *
      * @param  int $userId
+     *
      * @return int
      */
     public static function getOwnerId($userId)

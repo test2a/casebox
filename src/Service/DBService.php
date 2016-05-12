@@ -181,7 +181,8 @@ class DBService
     public function raiseError()
     {
         $info = $this->dbh->errorInfo()[2];
-        $result = date('Y-m-d H:i:s').": \n\r<br /><hr />Query error (".$this->lastParams['name']."): ".$info."<hr /><br />\n\r";
+        $name = ": \n\r<br /><hr />Query error (".$this->lastParams['name']."): ".$info."<hr /><br />\n\r";
+        $result = date('Y-m-d H:i:s').$name;
 
         if (!empty($this->lastQuery)) {
             $result .= "\n\r<br /><hr />Query: ".$this->lastQuery.$result;

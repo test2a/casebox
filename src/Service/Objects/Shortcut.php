@@ -1,12 +1,15 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects;
 
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\DataModel as DM;
 
+/**
+ * Class Shortcut
+ */
 class Shortcut extends Object
 {
-
     /**
      * target object id
      * @var int
@@ -15,7 +18,9 @@ class Shortcut extends Object
 
     /**
      * create an object with specified params
+     *
      * @param  array $p object properties
+     *
      * @return int   created id
      */
     public function create($p = false)
@@ -38,7 +43,7 @@ class Shortcut extends Object
             }
         }
 
-        $p['name'] = 'link to #' . $p['target_id'];
+        $p['name'] = 'link to #'.$p['target_id'];
 
         if (empty($p['template_id'])) {
             $p['template_id'] = $this->configService->get('default_shortcut_template');
@@ -63,7 +68,7 @@ class Shortcut extends Object
         }
 
         if (empty($d['data'])) {
-            $d['data'] = array();
+            $d['data'] = [];
         }
 
         $d['target_type'] = Objects::getType($d['target_id']);
@@ -71,7 +76,9 @@ class Shortcut extends Object
 
     /**
      * update object
-     * @param  array   $p optional properties. If not specified then $this-data is used
+     *
+     * @param  array $p optional properties. If not specified then $this-data is used
+     *
      * @return boolean
      */
     public function update($p = false)

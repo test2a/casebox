@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Event\BeforeNodeDbCreateEvent;
@@ -444,7 +445,9 @@ class Objects
 
     /**
      * Get name for an object id
-     * @param  int         $id
+     *
+     * @param  int $id
+     *
      * @return string|null
      */
     public static function getName($id, $htmlSafe = false)
@@ -543,7 +546,7 @@ class Objects
      * Get an instance of the class designed for specified type
      *
      * @param string $type
-     * @param int    $objectId
+     * @param int $objectId
      *
      * @return object
      */
@@ -591,7 +594,7 @@ class Objects
     /**
      * Copy an unknown object to a $pid or over a $targetId
      *
-     * @param int            $objectId
+     * @param int $objectId
      * @param int|bool|false $pid
      * @param int|bool|false $targetId
      *
@@ -608,7 +611,7 @@ class Objects
     /**
      * Move an unknown object to a $pid or over a $targetId
      *
-     * @param int            $objectId
+     * @param int $objectId
      * @param int|bool|false $pid
      * @param int|bool|false $targetId
      *
@@ -631,7 +634,7 @@ class Objects
      * Extension is considered any combination of chars delimited by dot
      * at the end of an object and its length is less than 5 chars.
      *
-     * @param int    $pid  parent id
+     * @param int $pid parent id
      * @param string $name desired name
      *
      * @return string new name
@@ -707,7 +710,7 @@ class Objects
     /**
      * Get a child node id by its name under specified $pid
      *
-     * @param int          $pid
+     * @param int $pid
      * @param string|array $name direct child name or the list of child, subchild, ...
      *
      * @return int|null
@@ -736,8 +739,9 @@ class Objects
     /**
      * Set subscription to an object for current user
      *
-     * @param  array      $p
-     * @return array      Array response
+     * @param  array $p
+     *
+     * @return array Array response
      * @throws \Exception
      */
     public function setSubscription($p)
@@ -848,7 +852,7 @@ class Objects
 
         if (!empty($templateData['cfg']['timeTracking']) && !isset($objectPlugins['timeTracking'])) {
             $objectPlugins['timeTracking'] = [
-                'order' => 1
+                'order' => 1,
             ];
         }
 
@@ -907,7 +911,8 @@ class Objects
     /**
      * Add comments for an objects
      *
-     * @param  array      $p input params (id, msg)
+     * @param  array $p input params (id, msg)
+     *
      * @return array
      * @throws \Exception
      */
@@ -959,7 +964,8 @@ class Objects
     /**
      * Update own comment
      *
-     * @param  array      $p input params (id, msg)
+     * @param  array $p input params (id, msg)
+     *
      * @return array
      * @throws \Exception
      */
@@ -997,7 +1003,8 @@ class Objects
     /**
      * Remove own comment
      *
-     * @param  array      $p input params (id)
+     * @param  array $p input params (id)
+     *
      * @return array
      * @throws \Exception
      */

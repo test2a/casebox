@@ -5,6 +5,9 @@ namespace Casebox\CoreBundle\Service\DataModel;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 
+/**
+ * Class Notifications
+ */
 class Notifications extends Base
 {
     /**
@@ -20,16 +23,16 @@ class Notifications extends Base
      *
      * @var array
      */
-    protected static $tableFields = array(
-        'id' => 'int'
-        ,'object_id' => 'int'
-        ,'action_id' => 'int'
-        ,'action_type' => 'varchar'
-        ,'from_user_id' => 'int'
-        ,'user_id' => 'int'
-        ,'seen' => 'int'
-        ,'read' => 'int'
-    );
+    protected static $tableFields = [
+        'id' => 'int',
+        'object_id' => 'int',
+        'action_id' => 'int',
+        'action_type' => 'varchar',
+        'from_user_id' => 'int',
+        'user_id' => 'int',
+        'seen' => 'int',
+        'read' => 'int',
+    ];
 
     /**
      * add a notification record
@@ -37,6 +40,7 @@ class Notifications extends Base
      * on key dupliaction
      *
      * @param  array $p associative array with table field values
+     *
      * @return int   created id
      */
     public static function add($p)
@@ -46,17 +50,17 @@ class Notifications extends Base
         $dbs = Cache::get('casebox_dbs');
 
         //prepare params
-        $params = array(
-            empty($p['object_id']) ? null : $p['object_id']
-            ,empty($p['action_id']) ? null : $p['action_id']
-            ,empty($p['action_type']) ? null : $p['action_type']
-            ,empty($p['from_user_id']) ? null : $p['from_user_id']
-            ,empty($p['user_id']) ? null : $p['user_id']
-            ,empty($p['seen']) ? 0 : $p['seen']
-        );
+        $params = [
+            empty($p['object_id']) ? null : $p['object_id'],
+            empty($p['action_id']) ? null : $p['action_id'],
+            empty($p['action_type']) ? null : $p['action_type'],
+            empty($p['from_user_id']) ? null : $p['from_user_id'],
+            empty($p['user_id']) ? null : $p['user_id'],
+            empty($p['seen']) ? 0 : $p['seen'],
+        ];
 
         //add database record
-        $sql = 'INSERT INTO `' . static::getTableName() . '` (
+        $sql = 'INSERT INTO `'.static::getTableName().'` (
             object_id
             ,action_id
             ,action_ids
@@ -85,14 +89,15 @@ class Notifications extends Base
     /**
      * get last notification records for a given user
      *
-     * @param  int   $userId
-     * @param  int   $limit  max number of records returned
-     * @param  int   $fromId return only notifications newer than given id
+     * @param  int $userId
+     * @param  int $limit max number of records returned
+     * @param  int $fromId return only notifications newer than given id
+     *
      * @return array
      */
     public static function getLast($userId, $limit = 200, $fromId = false)
     {
-        $rez = array();
+        $rez = [];
 
         //validate params
         Util\raiseErrorIf(
@@ -114,17 +119,17 @@ class Notifications extends Base
             ,n.user_id
             ,l.data
             ,l.action_time
-        FROM `' . static::getTableName() . '` n
+        FROM `'.static::getTableName().'` n
         JOIN action_log l
             ON n.action_id = l.id
         WHERE n.user_id = $1 '.
-        (empty($fromId) ? '' : ' AND n.action_id > $2 ') .
-        'ORDER BY l.action_time DESC, id DESC
-        LIMIT ' . $limit;
+            (empty($fromId) ? '' : ' AND n.action_id > $2 ').
+            'ORDER BY l.action_time DESC, id DESC
+        LIMIT '.$limit;
 
-        $params = array(
-            $userId
-        );
+        $params = [
+            $userId,
+        ];
         if (!empty($fromId)) {
             $params[] = $fromId;
         }
@@ -141,12 +146,13 @@ class Notifications extends Base
     /**
      * get notifications that were not seen
      *
-     * @param  int   $userId optional
+     * @param  int $userId optional
+     *
      * @return array
      */
     public static function getUnseen($userId = false)
     {
-        $rez = array();
+        $rez = [];
 
         //validate params
         Util\raiseErrorIf(
@@ -167,15 +173,15 @@ class Notifications extends Base
             ,l.action_time
             ,l.data
             ,l.activity_data_db
-        FROM `' . static::getTableName() . '` n
+        FROM `'.static::getTableName().'` n
             JOIN action_log l
                 ON n.action_id = l.id
         WHERE n.seen = 0 '.
-        (($userId == false)
-            ? ''
-            : ' AND user_id = $1 '
-        ) .
-        'ORDER BY n.user_id
+            (($userId == false)
+                ? ''
+                : ' AND user_id = $1 '
+            ).
+            'ORDER BY n.user_id
            ,l.`action_time` DESC';
 
         $res = $dbs->query($sql, $userId);
@@ -193,8 +199,9 @@ class Notifications extends Base
     /**
      * get last notifications count
      *
-     * @param  int   $userId
-     * @param  int   $fromId return only notifications newer than given id
+     * @param  int $userId
+     * @param  int $fromId return only notifications newer than given id
+     *
      * @return array
      */
     public static function getCount($userId, $fromId = false)
@@ -202,10 +209,7 @@ class Notifications extends Base
         $rez = 0;
 
         //validate params
-        Util\raiseErrorIf(
-            !is_numeric($userId),
-            'ErroneousInputData'
-        );
+        Util\raiseErrorIf(!is_numeric($userId), 'ErroneousInputData');
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -213,16 +217,14 @@ class Notifications extends Base
             $fromId = 0;
         }
 
-        $sql = 'SELECT count(*) `count`
-        FROM `' . static::getTableName() . '`
-        WHERE user_id = $1 AND action_id > $2';
+        $sql = 'SELECT count(*) `count`FROM `'.static::getTableName().'`WHERE user_id = $1 AND action_id > $2';
 
         $res = $dbs->query(
             $sql,
-            array(
-                $userId
-                ,$fromId
-            )
+            [
+                $userId,
+                $fromId,
+            ]
         );
 
         if ($r = $res->fetch()) {
@@ -236,17 +238,16 @@ class Notifications extends Base
 
     /**
      * mark user notifications as read
+     *
      * @param  int[] $ids
-     * @param  int   $userId
+     * @param  int $userId
+     *
      * @return void
      */
     public static function markAsRead($ids, $userId)
     {
         //validate params
-        Util\raiseErrorIf(
-            !is_numeric($userId),
-            'ErroneousInputData'
-        );
+        Util\raiseErrorIf(!is_numeric($userId), 'ErroneousInputData');
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -254,9 +255,9 @@ class Notifications extends Base
 
         if (!empty($ids)) {
             $dbs->query(
-                'UPDATE `' . static::getTableName() . '`
+                'UPDATE `'.static::getTableName().'`
                 SET `read` = 1
-                WHERE user_id = $1 AND id IN (' . implode(',', $ids) .')',
+                WHERE user_id = $1 AND id IN ('.implode(',', $ids).')',
                 $userId
             );
         }
@@ -264,52 +265,50 @@ class Notifications extends Base
 
     /**
      * mark user notifications as seen
-     * @param  int  $id
-     * @param  int  $userId
+     *
+     * @param  int $id
+     * @param  int $userId
+     *
      * @return void
      */
     public static function markAsSeenUpToActionId($id, $userId)
     {
         //validate params
-        Util\raiseErrorIf(
-            !is_numeric($userId),
-            'ErroneousInputData'
-        );
+        Util\raiseErrorIf(!is_numeric($userId), 'ErroneousInputData');
 
         $dbs = Cache::get('casebox_dbs');
 
         if (is_numeric($id)) {
             $dbs->query(
-                'UPDATE `' . static::getTableName() . '`
+                'UPDATE `'.static::getTableName().'`
                 SET `seen` = 1
                 WHERE user_id = $1 AND action_id <= $2 AND seen = 0',
-                array($userId, $id)
+                [$userId, $id]
             );
         }
     }
 
     /**
      * mark user notifications as seen
-     * @param string | array $id     notification ids
-     * @param  int             $userId
+     *
+     * @param string | array $id notification ids
+     * @param  int $userId
+     *
      * @return void
      */
     public static function markAsSeen($ids, $userId)
     {
-        Util\raiseErrorIf(
-            !is_numeric($userId),
-            'ErroneousInputData'
-        );
+        Util\raiseErrorIf(!is_numeric($userId), 'ErroneousInputData');
 
         $dbs = Cache::get('casebox_dbs');
 
         $ids = Util\toNumericArray($ids);
         if (!empty($ids)) {
             $dbs->query(
-                'UPDATE `' . static::getTableName() . '`
+                'UPDATE `'.static::getTableName().'`
                 SET `seen` = 1
                 WHERE user_id = $1
-                    AND id IN (' . implode(',', $ids) . ')
+                    AND id IN ('.implode(',', $ids).')
                     AND seen = 0',
                 $userId
             );
@@ -318,21 +317,20 @@ class Notifications extends Base
 
     /**
      * mark all notifications as read for given user
-     * @param  int  $userId
+     *
+     * @param  int $userId
+     *
      * @return void
      */
     public static function markAllAsRead($userId)
     {
         //validate params
-        Util\raiseErrorIf(
-            !is_numeric($userId),
-            'ErroneousInputData'
-        );
+        Util\raiseErrorIf(!is_numeric($userId), 'ErroneousInputData');
 
         $dbs = Cache::get('casebox_dbs');
 
         $dbs->query(
-            'UPDATE `' . static::getTableName() . '`
+            'UPDATE `'.static::getTableName().'`
             SET `read` = 1
             WHERE user_id = $1 AND `read` = 0',
             $userId

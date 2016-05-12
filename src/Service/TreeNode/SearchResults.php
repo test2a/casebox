@@ -1,15 +1,23 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
+use Casebox\CoreBundle\Service\Objects\Object;
+use Casebox\CoreBundle\Service\Search;
 use Casebox\CoreBundle\Service\Util;
 
+/**
+ * Class SearchResults
+ */
 class SearchResults extends Dbnode
 {
     /**
      * check if current class is configured to return any result for
      * given path and request params
-     * @param  array   &$pathArray
-     * @param  array   &$requestParams
+     *
+     * @param  array &$pathArray
+     * @param  array &$requestParams
+     *
      * @return boolean
      */
     protected function acceptedPath(&$pathArray, &$requestParams)
@@ -20,13 +28,10 @@ class SearchResults extends Dbnode
             $lastNode = $pathArray[sizeof($pathArray) - 1];
         }
 
-        if ((!empty($lastNode) &&
-            (get_class($lastNode) == get_class($this))
-        )
-        ) {
+        if (!empty($lastNode) && (get_class($lastNode) == get_class($this))) {
             // $data = $lastNode->getData();
             // if (!empty($this->requestParams['search']) || (@$data['template_type'] == 'search')) {
-                return true;
+            return true;
             // }
         }
 
@@ -35,7 +40,7 @@ class SearchResults extends Dbnode
 
     public function getChildren(&$pathArray, $requestParams)
     {
-        $rez = array();
+        $rez = [];
         $this->path = $pathArray;
         $this->lastNode = @$pathArray[sizeof($pathArray) - 1];
         $this->requestParams = $requestParams;
@@ -56,7 +61,7 @@ class SearchResults extends Dbnode
 
         $p = array_merge($requestParams, $p);
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
         $rez = $s->query($p);
 
         return $rez;
@@ -64,7 +69,9 @@ class SearchResults extends Dbnode
 
     /**
      * get create menu for current node
-     * @param  array   $rp request params
+     *
+     * @param  array $rp request params
+     *
      * @return string menu config string
      */
     public function getCreateMenu(&$rp)
@@ -87,7 +94,7 @@ class SearchResults extends Dbnode
     {
         $rez = parent::getNodeParam($param);
         if (!empty($this->config['template_id'])) {
-            $rez['from'] = 'template_' . $this->config['template_id'];
+            $rez['from'] = 'template_'.$this->config['template_id'];
         }
 
         return $rez;
@@ -95,13 +102,15 @@ class SearchResults extends Dbnode
 
     /**
      * get view config for given view or default view if set in config
+     *
      * @param  array &$pathArray
-     * @param  array &$rp        requestParams
+     * @param  array &$rp requestParams
+     *
      * @return array
      */
     public function getViewConfig(&$pathArray, &$rp)
     {
-        $copyParams = array('view', 'views', 'stats');
+        $copyParams = ['view', 'views', 'stats'];
 
         $sp = $this->getSearchParams($rp);
 
@@ -118,15 +127,15 @@ class SearchResults extends Dbnode
 
     /**
      * get search params for given request params
+     *
      * @param  array &$rp
+     *
      * @return array
      */
     protected function getSearchParams(&$rp) //searchObject
     {
-        $rez = array();
-
         // creating search object
-        $so = new \Casebox\CoreBundle\Service\Objects\Object();
+        $so = new Object();
 
         if (!empty($rp['search']['template_id'])) {
             // searching from a search form
@@ -153,7 +162,7 @@ class SearchResults extends Dbnode
         @$rez['template_id'] = $so->getData()['template_id'];
 
         if (empty($rez['fq'])) {
-            $rez['fq'] = array();
+            $rez['fq'] = [];
         }
 
         $ld = $so->getLinearData();
@@ -163,8 +172,6 @@ class SearchResults extends Dbnode
                 $rez['fq'][] = $condition;
             }
         }
-
-        // } else {
 
         if (!empty($td['cfg']['router'])) {
             $a = explode('.', $td['cfg']['router']);
@@ -233,24 +240,15 @@ class SearchResults extends Dbnode
                             $rez = $f.':["'.$this->toSolrDate($v).'" TO *]';
                             break;
                         case '!=':
-                            $rez = '-'.$f.':"' . $this->toSolrDate($v) . '"';
+                            $rez = '-'.$f.':"'.$this->toSolrDate($v).'"';
                             break;
 
                         case '=':
                         default:
-                            $rez = $f.':"' . $this->toSolrDate($v) . '"';
+                            $rez = $f.':"'.$this->toSolrDate($v).'"';
                             break;
                     }
                 }
-                /*cond = [
-                    {id: '=', name: '='}
-                    ,{id: '<', name: '<'}
-                    ,{id: '>', name: '>'}
-                    ,{id: '<=', name: '<='}
-                    ,{id: '>=', name: '>='}
-                    ,{id: '!=', name: '!='}
-                ];
-                // custom value formats (date1 .. date2, )/**/
                 break;
 
             case '_objects':
@@ -265,17 +263,23 @@ class SearchResults extends Dbnode
                     switch ($value['cond']) {
                         case '<=':
                             $rez = $f.':('.implode(' OR ', $v).')';
+                        
                             break;
+                        
                         case '>=':
                             $rez = $f.':('.implode(' AND ', $v).')';
+                            
                             break;
+                        
                         case '!=':
                             $rez = '-'.$f.':('.implode(' OR ', $v).')';
+                            
                             break;
 
                         case '=':
                         default:
                             $rez = $f.':('.implode(' AND ', $v).')'; // AND -'.$f.':[* TO *]
+                            
                             break;
                     }
                 }
@@ -285,20 +289,16 @@ class SearchResults extends Dbnode
                 switch ($value['cond']) {
                     case '!=':
                         $rez = '-'.$f.':'.$v;
+                        
                         break;
 
                     case '=':
                     default:
                         $rez = $f.':'.$v;
+                        
                         break;
                 }
-                /*cond = [
-                    {id: '<', name: 'contains any'}
-                    ,{id: '>', name: 'contains all'}
-                    ,{id: '=', name: 'equal'}
-                    ,{id: '!=', name: 'not equal'}
-                ];
-                //= (exact match), contains any, contains all, does not contain any, does not contain all/**/
+                
                 break;
 
             case '_auto_title':
@@ -308,24 +308,11 @@ class SearchResults extends Dbnode
             case 'html':
                 $rez = $f.':"'.$v.'"';
 
-                /*cond = [
-                    {id: 'contain', name: 'contain'}
-                    ,{id: 'start', name: 'start with'}
-                    ,{id: 'end', name: 'end with'}
-                    ,{id: 'not', name: 'does not contain'}
-                    ,{id: '=', name: 'equal'}
-                    ,{id: '!=', name: 'not equal'}
-                ];/**/
                 break;
 
             case 'checkbox':
-                $rez = (($value['cond'] == '=')
-                    ? ''
-                    : '-').$f.':'.$v;
-                /*cond = [
-                    {id: '=', name: 'is'}
-                    ,{id: '!=', name: 'is not'}
-                ];/**/
+                $rez = (($value['cond'] == '=') ? '' : '-').$f.':'.$v;
+ 
                 break;
         }
 

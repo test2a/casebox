@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
 use Casebox\CoreBundle\Service\Files as FilesService;
@@ -45,7 +46,7 @@ class Thumb extends Base
                 }
             }
         } else {
-            $rez['data']['cls'] = 'pr-th-' . FilesService::getExtension($data['name']);
+            $rez['data']['cls'] = 'pr-th-'.FilesService::getExtension($data['name']);
         }
 
         return $rez;

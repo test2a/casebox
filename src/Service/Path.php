@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Service\Cache;
@@ -92,7 +93,7 @@ class Path
      * create an array of node classes for given path and nodeConfigs
      *
      * @param string $path
-     * @param array  $treeNodeGUIDConfigs
+     * @param array $treeNodeGUIDConfigs
      *
      * @return array
      */
@@ -154,6 +155,7 @@ class Path
      * Get GUID for a given virtual tree node name
      *
      * @param  string $name
+     *
      * @return int
      */
     public static function getGUID($name)
@@ -168,6 +170,7 @@ class Path
      * Get GUIDs virtual tree node names array
      *
      * @param  array $names
+     *
      * @return int
      */
     public static function getGUIDs($names)
@@ -211,7 +214,9 @@ class Path
 
     /**
      * Try to detect real target id from a given path/path element
+     *
      * @param  string|null $p Path or path element
+     *
      * @return int         | null
      */
     public static function detectRealTargetId($p)

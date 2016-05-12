@@ -11,7 +11,7 @@ use Casebox\CoreBundle\Service\Util;
 class Collection
 {
     /**
-     * Array of \Casebox\CoreBundle\Service\Plugin classes
+     * Array of Plugin classes
      * @var array
      */
     public $items = [];

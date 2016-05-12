@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
 use Casebox\CoreBundle\Service\Config;
@@ -7,7 +8,6 @@ use Casebox\CoreBundle\Service\Search;
 
 class Query extends Base
 {
-
     public function getChildren(&$pathArray, $requestParams)
     {
         $this->path = $pathArray;
@@ -31,37 +31,35 @@ class Query extends Base
 
     protected function getRootNode()
     {
-        return array(
-            'data' => array(
-                array(
-                    'name' => $this->getName('root')
-                    ,'id' => $this->getId('root')
-                    ,'iconCls' => Util\coalesce(@$this->config['iconCls'], 'icon-folder')
-                    ,'cls' => 'tree-header'
-                    ,'has_childs' => false
-                )
-            )
-        );
+        return [
+            'data' => [
+                [
+                    'name' => $this->getName('root'),
+                    'id' => $this->getId('root'),
+                    'iconCls' => Util\coalesce(@$this->config['iconCls'], 'icon-folder'),
+                    'cls' => 'tree-header',
+                    'has_childs' => false,
+                ],
+            ],
+        ];
     }
 
     /**
      * getChildNodes description
-     * @return json response
+     * @return array response
      */
     protected function getChildNodes()
     {
         $p = $this->requestParams;
         unset($p['facets']);
 
-        $fq = empty($this->config['fq'])
-            ? array()
-            : $this->config['fq'];
+        $fq = empty($this->config['fq']) ? [] : $this->config['fq'];
 
         $this->replaceFilterVars($fq);
 
         $p['fq'] = $fq;
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
         $rez = $s->query($p);
 
         return $rez;

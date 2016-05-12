@@ -99,7 +99,7 @@ class Sorter
 
     /**
      * @param array $a
-     * @param array  $b
+     * @param array $b
      *
      * @return int
      */

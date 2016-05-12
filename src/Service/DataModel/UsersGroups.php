@@ -4,38 +4,40 @@ namespace Casebox\CoreBundle\Service\DataModel;
 
 use Casebox\CoreBundle\Service\Cache;
 
+/**
+ * Class UsersGroups
+ */
 class UsersGroups extends Base
 {
-
     protected static $tableName = 'users_groups';
 
-    protected static $tableFields = array(
-        'id' => 'int'
-        ,'type' => 'int' //strict value
-        ,'system' => 'int' //0, 1
-        ,'name' => 'varchar'
-        ,'first_name' => 'varchar'
-        ,'last_name' => 'varchar'
-        ,'sex' => 'char'
-        ,'email' => 'varchar'
-        ,'photo' => 'varchar'
-        ,'password' => 'varchar'
-        ,'salt' => 'varchar'
-        ,'roles' => 'longtext'
-        ,'recover_hash' => 'varchar'
-        ,'language_id' => 'int'
-        ,'cfg' => 'text'
-        ,'data' => 'text'
-        ,'last_action_time' => 'time'
-        ,'enabled' => 'int'
-        ,'cid' => 'int'
-        ,'uid' => 'int'
-        ,'did' => 'int'
-        ,'ddate' => 'timestamp'
-        ,'cdate' => 'int'
-    );
+    protected static $tableFields = [
+        'id' => 'int',
+        'type' => 'int', //strict value,
+        'system' => 'int', //0, 1,
+        'name' => 'varchar',
+        'first_name' => 'varchar',
+        'last_name' => 'varchar',
+        'sex' => 'char',
+        'email' => 'varchar',
+        'photo' => 'varchar',
+        'password' => 'varchar',
+        'salt' => 'varchar',
+        'roles' => 'longtext',
+        'recover_hash' => 'varchar',
+        'language_id' => 'int',
+        'cfg' => 'text',
+        'data' => 'text',
+        'last_action_time' => 'time',
+        'enabled' => 'int',
+        'cid' => 'int',
+        'uid' => 'int',
+        'did' => 'int',
+        'ddate' => 'timestamp',
+        'cdate' => 'int',
+    ];
 
-    protected static $decodeJsonFields = array('cfg', 'data');
+    protected static $decodeJsonFields = ['cfg', 'data'];
 
     protected static $allowReadAll = true;
 
@@ -45,7 +47,7 @@ class UsersGroups extends Base
      */
     public static function getAvailableGroups()
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -74,7 +76,7 @@ class UsersGroups extends Base
      */
     public static function getAvailableUsers()
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -100,14 +102,16 @@ class UsersGroups extends Base
         return $rez;
     }
 
-     /**
+    /**
      * get associated group ids for given user(group) id
-     * @param  int   $id
+     *
+     * @param  int $id
+     *
      * @return array
      */
     public static function getMemberGroupIds($id)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -126,14 +130,16 @@ class UsersGroups extends Base
         return $rez;
     }
 
-     /**
-      * get associated user ids for given group id
-      * @param  int $id
-      * @return array
-      */
+    /**
+     * get associated user ids for given group id
+     *
+     * @param  int $id
+     *
+     * @return array
+     */
     public static function getGroupUserIds($id)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -158,7 +164,7 @@ class UsersGroups extends Base
      */
     public static function getDisplayData()
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 

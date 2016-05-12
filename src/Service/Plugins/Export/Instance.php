@@ -1,6 +1,8 @@
 <?php
+
 namespace Export;
 
+use Casebox\CoreBundle\Service\BrowserView;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
@@ -18,7 +20,7 @@ class Instance
 
     protected function getData($p)
     {
-        $rez = array();
+        $rez = [];
         if (empty($p)) {
             return $rez;
         }
@@ -32,11 +34,11 @@ class Instance
         $p['start'] = 0;
         $p['rows'] = 500;
 
-        $sr = new \Casebox\CoreBundle\Service\BrowserView();
+        $sr = new BrowserView();
         $results = $sr->getChildren($p);
 
         if (!empty($results['DC'])) {
-            $columns = array();
+            $columns = [];
 
             foreach ($results['DC'] as $colName => $col) {
                 if (@$col['hidden'] !== true) {
@@ -45,11 +47,9 @@ class Instance
             }
         }
 
-        $colTitles = array();
+        $colTitles = [];
         foreach ($columns as $name => $col) {
-            $colTitles[] = empty($defaultColumns[$name])
-                ? @Util\coalesce($col['title'], $name)
-                : $defaultColumns[$name]['title'];
+            $colTitles[] = empty($defaultColumns[$name]) ? @Util\coalesce($col['title'], $name) : $defaultColumns[$name]['title'];
         }
 
         //insert header
@@ -57,7 +57,7 @@ class Instance
 
         while (!empty($results['data'])) {
             foreach ($results['data'] as $r) {
-                $record = array();
+                $record = [];
                 foreach ($columns as $colName => $col) {
 
                     if (@$col['xtype'] == 'datecolumn') {
@@ -73,13 +73,13 @@ class Instance
                                 $value = $tmp[0];
                             }
                         }
-                        $record[] =  $value;
+                        $record[] = $value;
 
                     } elseif (strpos($colName, 'date') === false) {
-                        if (in_array($colName, array('oid', 'cid', 'uid')) && !empty($r[$colName])) {
+                        if (in_array($colName, ['oid', 'cid', 'uid']) && !empty($r[$colName])) {
                             $record[] = User::getDisplayName($r[$colName]);
                         } else {
-                            $record[] =  @$r[$colName];
+                            $record[] = @$r[$colName];
                         }
                     }
 
@@ -91,7 +91,7 @@ class Instance
                 $p['start'] += $p['rows'];
                 $results = $sr->getChildren($p);
             } else {
-                $results['data'] = array();
+                $results['data'] = [];
             }
         }
 
@@ -105,28 +105,28 @@ class Instance
      */
     public function getCSV($p)
     {
-        $rez = array();
+        $rez = [];
         $records = $this->getData($p);
 
         $rez[] = implode(';', array_shift($records));
 
         foreach ($records as &$r) {
-            $record = array();
+            $record = [];
             foreach ($r as $t) {
                 $t = strip_tags($t);
 
                 if (!empty($t) && !is_numeric($t)) {
                     $t = str_replace(
-                        array(
-                            '"'
-                            ,"\n"
-                            ,"\r"
-                        ),
-                        array(
-                            '""'
-                            ,'\n'
-                            ,'\r'
-                        ),
+                        [
+                            '"',
+                            "\n",
+                            "\r",
+                        ],
+                        [
+                            '""',
+                            '\n',
+                            '\r',
+                        ],
                         $t
                     );
                     $t = '"'.$t.'"';
@@ -145,13 +145,13 @@ class Instance
 
     public function getHTML($p)
     {
-        $rez = array();
+        $rez = [];
         $records = $this->getData($p);
 
         $rez[] = '<th>'.implode('</th><th>', array_shift($records)).'</th>';
 
         foreach ($records as $r) {
-            $record = array();
+            $record = [];
             foreach ($r as $t) {
                 $t = strip_tags($t);
                 $record[] = $t;

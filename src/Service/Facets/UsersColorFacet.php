@@ -4,8 +4,7 @@ namespace Casebox\CoreBundle\Service\Facets;
 
 class UsersColorFacet extends UsersFacet
 {
-
-    public function getClientData($options = array())
+    public function getClientData($options = [])
     {
         $rez = parent::getClientData();
 

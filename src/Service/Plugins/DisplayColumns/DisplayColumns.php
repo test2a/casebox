@@ -13,7 +13,7 @@ class DisplayColumns
      * @var Container
      */
     protected $container;
-    
+
     /**
      * @param array $p
      */
@@ -56,7 +56,7 @@ class DisplayColumns
             default:
                 return;
         }
-        
+
         return $this->getPlugin($className)->onBeforeSolrQuery($p);
     }
 
@@ -128,7 +128,7 @@ class DisplayColumns
             $class = __NAMESPACE__.'\\'.ucfirst($plugin);
             $obj = new $class();
         }
-        
+
         return $obj;
     }
 

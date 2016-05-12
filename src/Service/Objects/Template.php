@@ -1,6 +1,8 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects;
 
+use Casebox\CoreBundle\Service\Browser;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Util;
@@ -13,59 +15,54 @@ use Casebox\CoreBundle\Service\Search;
  */
 class Template extends Object
 {
-
     /**
      * available table fields in templates table
      * @var array
      */
-    protected $tableFields =  array(
-        'id'
-        ,'pid'
-        ,'type'
-        ,'name'
-        // ,'l1'
-        // ,'l2'
-        // ,'l3'
-        // ,'l4'
-        ,'order'
-        ,'visible'
-        ,'iconCls'
-        ,'default_field'
-        ,'cfg'
-        ,'title_template'
-        ,'info_template'
-    );
+    protected $tableFields = [
+        'id',
+        'pid',
+        'type',
+        'name',
+        'order',
+        'visible',
+        'iconCls',
+        'default_field',
+        'cfg',
+        'title_template',
+        'info_template',
+    ];
 
     /**
      * table for quick accessing fields order (to avoid additional iterations)
      * @var array
      */
-    private $fieldsOrder = array();
+    private $fieldsOrder = [];
 
-    private static $fieldTypeNames =  array(
-        '_auto_title' => 'ftAutoTitle'
-        ,'checkbox' => 'ftCheckbox'
-        ,'combo' => 'ftCombo'
-        ,'date' => 'ftDate'
-        ,'datetime' => 'ftDatetime'
-        ,'float' => 'ftFloat'
-        ,'G' => 'ftGroup'
-        ,'H' => 'ftHeader'
-        ,'html' => 'ftHtml'
-        ,'iconcombo' => 'ftIconcombo'
-        ,'int' => 'ftInt'
-        ,'_language' => 'ftLanguage'
-        ,'memo' => 'ftMemo'
-        ,'_objects' => 'ftObjects'
-        ,'_sex' => 'ftSex'
-        ,'_short_date_format' => 'ftShortDateFormat'
-        ,'_fieldTypesCombo' => 'ftFieldTypesCombo'
-        ,'_templateTypesCombo' => 'ftTemplateTypesCombo'
-        ,'text' => 'ftText'
-        ,'time' => 'ftTime'
-        ,'timeunits' => 'ftTimeunits'
-        ,'varchar' => 'ftVarchar'
-    );
+    private static $fieldTypeNames = [
+        '_auto_title' => 'ftAutoTitle',
+        'checkbox' => 'ftCheckbox',
+        'combo' => 'ftCombo',
+        'date' => 'ftDate',
+        'datetime' => 'ftDatetime',
+        'float' => 'ftFloat',
+        'G' => 'ftGroup',
+        'H' => 'ftHeader',
+        'html' => 'ftHtml',
+        'iconcombo' => 'ftIconcombo',
+        'int' => 'ftInt',
+        '_language' => 'ftLanguage',
+        'memo' => 'ftMemo',
+        '_objects' => 'ftObjects',
+        '_sex' => 'ftSex',
+        '_short_date_format' => 'ftShortDateFormat',
+        '_fieldTypesCombo' => 'ftFieldTypesCombo',
+        '_templateTypesCombo' => 'ftTemplateTypesCombo',
+        'text' => 'ftText',
+        'time' => 'ftTime',
+        'timeunits' => 'ftTimeunits',
+        'varchar' => 'ftVarchar',
+    ];
 
     protected function collectCustomModelData()
     {
@@ -111,13 +108,13 @@ class Template extends Object
         $r = DM\Templates::read($this->id);
 
         if (!empty($r)) {
-            //dont override name from tree with name from templates table
+            // don't override name from tree with name from templates table
             unset($r['name']);
 
             $this->data = array_merge($this->data, $r);
 
         } else {
-            throw new \Exception("Template load error: no template found with id = " . $this->id);
+            throw new \Exception("Template load error: no template found with id = ".$this->id);
         }
 
         /* loading template fields */
@@ -160,21 +157,13 @@ class Template extends Object
         $d = &$this->data;
 
         //check if need to set solrConfigUpdated flag
-        $cfg1 = empty($od['data']['cfg'])
-            ? array()
-            : Util\toJSONArray($od['data']['cfg']);
+        $cfg1 = empty($od['data']['cfg']) ? [] : Util\toJSONArray($od['data']['cfg']);
 
-        $cfg2 = empty($d['data']['cfg'])
-            ? array()
-            : Util\toJSONArray($d['data']['cfg']);
+        $cfg2 = empty($d['data']['cfg']) ? [] : Util\toJSONArray($d['data']['cfg']);
 
-        $csf1 = empty($cfg1['copySolrFields'])
-            ? array()
-            : $cfg1['copySolrFields'];
+        $csf1 = empty($cfg1['copySolrFields']) ? [] : $cfg1['copySolrFields'];
 
-        $csf2 = empty($cfg2['copySolrFields'])
-            ? array()
-            : $cfg2['copySolrFields'];
+        $csf2 = empty($cfg2['copySolrFields']) ? [] : $cfg2['copySolrFields'];
 
         if ($csf1 != $csf2) {
             $d['sys_data']['solrConfigUpdated'] = true;
@@ -182,7 +171,7 @@ class Template extends Object
 
         parent::updateCustomData();
 
-        /* saving template data to templates and templates_structure tables */
+        // saving template data to templates and templates_structure tables
         $data = $this->collectCustomModelData();
 
         unset($data['id']);
@@ -203,9 +192,7 @@ class Template extends Object
     {
         $data = $this->getData();
 
-        $rez = empty($data['type'])
-            ? null
-            : $data['type'];
+        $rez = empty($data['type']) ? null : $data['type'];
 
         return $rez;
     }
@@ -216,7 +203,7 @@ class Template extends Object
      */
     public function getFields()
     {
-        $rez = array();
+        $rez = [];
 
         if (isset($this->data['fields'])) {
             $rez = $this->data['fields'];
@@ -227,7 +214,9 @@ class Template extends Object
 
     /**
      * get field properties
+     *
      * @param  int | varchar $field field id or name
+     *
      * @return array
      */
     public function getField($field)
@@ -246,7 +235,9 @@ class Template extends Object
 
     /**
      * get field order
+     *
      * @param  string $fieldName
+     *
      * @return int
      */
     public function getFieldOrder($fieldName)
@@ -271,17 +262,19 @@ class Template extends Object
         $d = &$this->data;
         $sd = &$d['sys_data'];
 
-        return array(
-            'updateSolrData' => !empty($sd['solrConfigUpdated'])
-        );
+        return [
+            'updateSolrData' => !empty($sd['solrConfigUpdated']),
+        ];
     }
 
     /**
      * formats a value for display according to it's field definition
-     * @param  array | int  $field    array of field properties or field id
-     * @param  array|string $value    field value to be formated
-     * @param  boolean      $html     default true - format for html, otherwise format for text display
-     * @param  boolean      $showInfo add info if not empty to the end of returned result
+     *
+     * @param  array | int $field array of field properties or field id
+     * @param  array|string $value field value to be formated
+     * @param  boolean $html default true - format for html, otherwise format for text display
+     * @param  boolean $showInfo add info if not empty to the end of returned result
+     *
      * @return string       formated value
      */
     public function formatValueForDisplay($field, $value, $html = true, $showInfo = false)
@@ -317,7 +310,7 @@ class Template extends Object
         if ($cacheValue) {
             $fid = empty($field['id']) ? $field['name'] : $field['id'];
 
-            $cacheVarName = 'dv' . $html . '_' . $showInfo . '_'. $fid . '_' . $value;
+            $cacheVarName = 'dv'.$html.'_'.$showInfo.'_'.$fid.'_'.$value;
 
             //check if value is in cache and return
             if (Cache::exist($cacheVarName)) {
@@ -326,9 +319,9 @@ class Template extends Object
         }
 
         /*check if field is not rezerved field for usernames (cid, oid, uid, did)*/
-        if (!empty($field['name']) && in_array($field['name'], array('cid', 'oid', 'uid', 'did'))) {
+        if (!empty($field['name']) && in_array($field['name'], ['cid', 'oid', 'uid', 'did'])) {
             $value = Util\toNumericArray($value);
-            for ($i=0; $i < sizeof($value); $i++) {
+            for ($i = 0; $i < sizeof($value); $i++) {
                 $value[$i] = User::getDisplayName($value[$i]);
             }
             $value = implode(', ', $value);
@@ -355,7 +348,9 @@ class Template extends Object
                     break;
 
                 case '_language':
-                    @$value = @$this->configService->get('language_settings')[$this->configService->get('languages')[$value -1]][0];
+                    @$value = @$this->configService->get('language_settings')[$this->configService->get(
+                        'languages'
+                    )[$value - 1]][0];
                     break;
 
                 case 'combo':
@@ -373,15 +368,15 @@ class Template extends Object
                         break;
                     }
 
-                    $value = array();
+                    $value = [];
 
                     if (in_array(
                         @$field['cfg']['source'],
-                        array(
-                            'users'
-                            ,'groups'
-                            ,'usersgroups'
-                        )
+                        [
+                            'users',
+                            'groups',
+                            'usersgroups',
+                        ]
                     )) {
 
                         $udp = UsersGroups::getDisplayData($ids);
@@ -397,14 +392,12 @@ class Template extends Object
                             if ($html) {
                                 switch (@$field['cfg']['renderer']) {
                                     case 'listGreenIcons':
-                                        $label = '<li class="icon-padding icon-element">' . $label . '</li>';
+                                        $label = '<li class="icon-padding icon-element">'.$label.'</li>';
                                         break;
 
                                     // case 'listObjIcons':
                                     default:
-                                        $icon = empty($r['iconCls'])
-                                            ? 'icon-none'
-                                            : $r['iconCls'];
+                                        $icon = empty($r['iconCls']) ? 'icon-none' : $r['iconCls'];
 
                                         $label = '<li class="icon-padding '.$icon.'">'.$label.'</li>';
                                         break;
@@ -430,38 +423,30 @@ class Template extends Object
 
                             if ($html && !empty($pids)) {
                                 $pids = str_replace(',', '/', $pids);
-                                $linkType = empty($field['cfg']['linkType'])
-                                    ? ''
-                                    : 'link-type-' . $field['cfg']['linkType'];
+                                $linkType = empty($field['cfg']['linkType']) ? '' : 'link-type-'.$field['cfg']['linkType'];
 
-                                $label = '<a class="click ' . $linkType . '" template_id="'.$d['template_id'].'" path="'.$pids.'" nid="'.$id.'">'.$label.'</a>';
+                                $label = '<a class="click '.$linkType.'" template_id="'.$d['template_id'].'" path="'.$pids.'" nid="'.$id.'">'.$label.'</a>';
                             }
 
                             switch (@$field['cfg']['renderer']) {
                                 case 'listGreenIcons':
-                                    $value[] =  $html
-                                        ? '<li class="icon-padding icon-element">'.$label.'</li>'
-                                        : $label;
+                                    $value[] = $html ? '<li class="icon-padding icon-element">'.$label.'</li>' : $label;
                                     break;
                                 // case 'listObjIcons':
                                 default:
-                                    $icon = \Casebox\CoreBundle\Service\Browser::getIcon($d);
+                                    $icon = Browser::getIcon($d);
 
                                     if (empty($icon)) {
                                         $icon = 'icon-none';
                                     }
 
-                                    $value[] = $html
-                                        ? '<li class="icon-padding '.$icon.'">'.$label.'</li>'
-                                        : $label;
+                                    $value[] = $html ? '<li class="icon-padding '.$icon.'">'.$label.'</li>' : $label;
                                     break;
                             }
                         }
                     }
 
-                    $value = $html
-                        ? '<ul class="clean">'.implode('', $value).'</ul>'
-                        : implode(', ', $value);
+                    $value = $html ? '<ul class="clean">'.implode('', $value).'</ul>' : implode(', ', $value);
                     break;
 
                 case '_fieldTypesCombo':
@@ -482,9 +467,7 @@ class Template extends Object
                         continue;
                     }
 
-                    $format = empty($field['format'])
-                        ? 'H:i'
-                        : $field['format'];
+                    $format = empty($field['format']) ? 'H:i' : $field['format'];
 
                     if (is_numeric($value)) {
                         $s = $value % 60;
@@ -492,17 +475,17 @@ class Template extends Object
                         $m = $value % 60;
                         $value = floor($value / 60);
                         if (strlen($value) < 2) {
-                            $value = '0' . $value;
+                            $value = '0'.$value;
                         }
                         if (strlen($m) < 2) {
-                            $m = '0' . $m;
+                            $m = '0'.$m;
                         }
-                        $value .= ':' . $m;
+                        $value .= ':'.$m;
                         if (!empty($s)) {
                             if (strlen($s) < 2) {
-                                $s = '0' . $s;
+                                $s = '0'.$s;
                             }
-                            $value .= ':' . $s;
+                            $value .= ':'.$s;
                         }
 
                     } else {
@@ -551,7 +534,7 @@ class Template extends Object
         }
 
         if ($showInfo) {
-            $value .= ' &nbsp; <span style="color: gray">' . Util\adjustTextForDisplay($info) . '</span>';
+            $value .= ' &nbsp; <span style="color: gray">'.Util\adjustTextForDisplay($info).'</span>';
         }
 
         if ($cacheValue) {

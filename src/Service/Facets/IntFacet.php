@@ -2,22 +2,24 @@
 
 namespace Casebox\CoreBundle\Service\Facets;
 
+/**
+ * Class IntFacet
+ */
 class IntFacet extends StringsFacet
 {
-
-    public function getClientData($options = array())
+    public function getClientData($options = [])
     {
-        $rez = array(
-            'f' => $this->field
-            ,'title' => $this->getTitle()
-            ,'items' => array()
-        );
+        $rez = [
+            'f' => $this->field,
+            'title' => $this->getTitle(),
+            'items' => [],
+        ];
 
         foreach ($this->solrData as $k => $v) {
-            $rez['items'][$k] = array(
-                'name' => $k
-                ,'count' => $v
-            );
+            $rez['items'][$k] = [
+                'name' => $k,
+                'count' => $v,
+            ];
         }
 
         return $rez;

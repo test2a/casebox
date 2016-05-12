@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Service\DataModel as DM;
@@ -529,6 +530,7 @@ class UsersGroups
 
     /**
      * Save access data specified for a user in UserManagement form (groups association)
+     *
      * @param string|array $p
      *
      * @return array
@@ -576,7 +578,7 @@ class UsersGroups
 
         if (!empty($deleting_groups)) {
             $dbs->query(
-                'DELETE FROM users_groups_association WHERE user_id = $1 AND group_id IN (' .
+                'DELETE FROM users_groups_association WHERE user_id = $1 AND group_id IN ('.
                 implode(', ', $deleting_groups).')',
                 $user_id
             );
@@ -592,6 +594,7 @@ class UsersGroups
     /**
      * Get an array of group ids for specified user.
      * If no user is passed then current logged user is analized.
+     *
      * @param bool $user_id
      *
      * @return array
@@ -622,7 +625,7 @@ class UsersGroups
     /**
      * Change user password.
      *
-     * @param array     $p
+     * @param array $p
      * @param bool|true $verify
      *
      * @return array
@@ -679,7 +682,7 @@ class UsersGroups
      * Send recovery password email for given user id so that the user can set new password and enter the system
      *
      * @param integer|string $userId
-     * @param string         $template
+     * @param string $template
      *
      * @return bool
      */

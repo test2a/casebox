@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Browser;
 
 use Casebox\CoreBundle\Service\Cache;
@@ -98,7 +99,7 @@ class Actions
      * Function to check if any objects name from sourceIds exists in targetId
      *
      * @param int|array $sourceIds
-     * @param int       $targetId
+     * @param int $targetId
      *
      * @return boolean|int False if not exists or id of existent target
      */
@@ -164,14 +165,14 @@ class Actions
 
         // Security checks
         foreach ($p['sourceIds'] as $sourceId) {
-            if (!\Casebox\CoreBundle\Service\Security::canRead($sourceId)) {
+            if (!Security::canRead($sourceId)) {
                 return ['success' => false, 'msg' => $this->trans('Access_denied')];
             }
         }
 
         // There could be a situation when overwriting existing objects
         // and in this case we should check for update rigths on those existing objects
-        if (!\Casebox\CoreBundle\Service\Security::canWrite($p['targetId'])) {
+        if (!Security::canWrite($p['targetId'])) {
             return ['success' => false, 'msg' => $this->trans('Access_denied')];
         }
 
@@ -256,8 +257,8 @@ class Actions
      * Internal function executing a copy or move action
      *
      * @param string $action
-     * @param array  $objectIds ids to be copied
-     * @param int    $targetId
+     * @param array $objectIds ids to be copied
+     * @param int $targetId
      *
      * @return array
      * @throws \Exception
@@ -279,12 +280,12 @@ class Actions
             $ss = [];
             switch ($action) {
                 case 'copy':
-                    $ss = \Casebox\CoreBundle\Service\Security::getSecuritySets();
+                    $ss = Security::getSecuritySets();
                     break;
 
                 case 'move':
                     // check if the user can move, because it doesnt anctually delete the obj, but just move it
-                    $ss = \Casebox\CoreBundle\Service\Security::getSecuritySets(false, 5);
+                    $ss = Security::getSecuritySets(false, 5);
                     break;
             }
 
@@ -306,7 +307,7 @@ class Actions
         unset($res);
 
         if (!empty($accessibleIds)) {
-            $this->objectsClass = new \Casebox\CoreBundle\Service\Objects();
+            $this->objectsClass = new Objects();
             $rez = $this->doRecursiveAction($action, $accessibleIds, $targetId);
         } else {
             throw new \Exception($this->trans('Access_denied'), 1);
@@ -320,9 +321,9 @@ class Actions
     /**
      * Recursive objects moving or copying
      *
-     * @param string    $action
+     * @param string $action
      * @param int|array $objectIds Source object ids
-     * @param int       $targetId  target id
+     * @param int $targetId target id
      *
      * @return array
      */

@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Plugins;
 
 use Casebox\CoreBundle\Service\Util;

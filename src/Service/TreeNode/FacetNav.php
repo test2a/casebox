@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
 use Casebox\CoreBundle\Service\Config;
@@ -7,6 +8,9 @@ use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Search;
 use Casebox\CoreBundle\Service\User;
 
+/**
+ * Class FacetNav
+ */
 class FacetNav extends Query
 {
     public function getName($id = false)
@@ -53,9 +57,9 @@ class FacetNav extends Query
 
     protected function getParentNodeFilters()
     {
-        $rez = array();
+        $rez = [];
 
-        $depth = $this->lastNodeDepth -1; //exclude root node
+        $depth = $this->lastNodeDepth - 1; //exclude root node
 
         $lfc = $this->getLevelFieldConfigs();
 
@@ -64,7 +68,7 @@ class FacetNav extends Query
         //iterate from last node to top and collect filters
         $pn = $this->lastNode;
         while ($config = array_pop($configs)) {
-            $rez[] = $config['field'] . ':' . $pn->id;
+            $rez[] = $config['field'].':'.$pn->id;
             $pn = $pn->parent;
         }
 
@@ -96,9 +100,9 @@ class FacetNav extends Query
      */
     protected function getChildNodes()
     {
-        $rez = array('data' => array());
+        $rez = ['data' => []];
 
-        $cffc  = $this->getCurrentFacetFieldConfig();
+        $cffc = $this->getCurrentFacetFieldConfig();
 
         $lfc = $this->getLevelFieldConfigs();
         $isLastFacetField = ($this->lastNodeDepth >= sizeOf($lfc));
@@ -110,9 +114,7 @@ class FacetNav extends Query
         $facetName = $cffc['name'];
         $facetField = $cffc['field'];
 
-        $fq = empty($this->config['fq'])
-            ? array()
-            : $this->config['fq'];
+        $fq = empty($this->config['fq']) ? [] : $this->config['fq'];
 
         $s = new \Casebox\CoreBundle\Service\Search();
 
@@ -125,14 +127,14 @@ class FacetNav extends Query
             $this->replaceFilterVars($fq);
 
             $sr = $s->query(
-                array(
-                    'rows' => 0
-                    ,'fq' => $fq
-                    ,'facet' => true
-                    ,'facet.field' => array(
-                        '{!ex=' . $facetField . ' key=' . $facetName . '}' . $facetField
-                    )
-                )
+                [
+                    'rows' => 0,
+                    'fq' => $fq,
+                    'facet' => true,
+                    'facet.field' => [
+                        '{!ex='.$facetField.' key='.$facetName.'}'.$facetField,
+                    ],
+                ]
             );
         } else { //BlockJoin query
             $query = '{!parent which=child:false}child:true';
@@ -140,12 +142,10 @@ class FacetNav extends Query
             $parentFilters = $this->getParentNodeFilters();
 
             if (!empty($parentFilters)) {
-                $query .= ' ' . implode(' ', $parentFilters);
+                $query .= ' '.implode(' ', $parentFilters);
             }
 
-            $domain = empty($cffc['domain'])
-                ? ['blockParent' => 'child:false']
-                : $cffc['domain'];
+            $domain = empty($cffc['domain']) ? ['blockParent' => 'child:false'] : $cffc['domain'];
 
             $sr = $s->query(
                 [
@@ -157,9 +157,9 @@ class FacetNav extends Query
                         $facetName => [
                             'type' => 'terms',
                             'field' => $facetField,
-                            'domain' => $domain
-                        ]
-                    ]
+                            'domain' => $domain,
+                        ],
+                    ],
                 ]
             );
 
@@ -181,7 +181,7 @@ class FacetNav extends Query
             !empty($sr['facets']->{$facetName})
         ) {
             $facetClass = Facets::getFacetObject($cffc);
-            $facetClass->loadSolrResult((object) $sr);
+            $facetClass->loadSolrResult((object)$sr);
             $facetData = $facetClass->getClientData();
             $showChilds = (!$isLastFacetField || !empty($this->config['show_in_tree']));
 
@@ -196,16 +196,16 @@ class FacetNav extends Query
 
                 if (!empty($this->config['show_count']) && !empty($count)) {
                     // $name .= ' (' . $count . ')';
-                    $name .= ' <span style="color: #AAA; font-size: 12px">' . $count . '</span>';
+                    $name .= ' <span style="color: #AAA; font-size: 12px">'.$count.'</span>';
 
                 }
 
-                $r = array(
-                    'name' => $name
-                    ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-folder'
+                $r = [
+                    'name' => $name,
+                    'id' => $this->getId($k),
+                    'iconCls' => 'icon-folder'
                     // ,'iconCls' => 'icon-none'
-                );
+                ];
 
                 if ($showChilds) {
                     $r['has_childs'] = true;
@@ -236,7 +236,7 @@ class FacetNav extends Query
             $p['child'] = true;
         }
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
 
         return $s->query($p);
     }
@@ -249,7 +249,7 @@ class FacetNav extends Query
      */
     protected function getLevelFieldConfigs()
     {
-        $rez = array();
+        $rez = [];
 
         if (isset($this->LevelFieldConfigs)) {
             return $this->LevelFieldConfigs;
@@ -267,7 +267,7 @@ class FacetNav extends Query
             foreach ($fields as $key => $value) {
                 if (is_scalar($value)) {
                     $key = trim($value);
-                    $value = array();
+                    $value = [];
                 }
 
                 if (!empty($facetsDefinitions[$key])) {

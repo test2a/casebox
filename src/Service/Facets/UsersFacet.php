@@ -23,10 +23,6 @@ class UsersFacet extends StringsFacet
             'items' => [],
         ];
 
-        // $colors = empty($options['colors'])
-        //     ? array()
-        //     : Users::getColors();
-
         foreach ($this->solrData as $k => $v) {
             $rez['items'][$k] = [
                 'name' => User::getDisplayName($k),

@@ -1,8 +1,13 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\DataModel;
 
 use Casebox\CoreBundle\Service\Cache;
+use Casebox\CoreBundle\Service\User;
 
+/**
+ * Class Favorites
+ */
 class Favorites extends Base
 {
     /**
@@ -19,26 +24,23 @@ class Favorites extends Base
      *
      * @var array
      */
-    protected static $tableFields = array(
-        'id' => 'int'
-        ,'user_id' => 'int'
-        ,'node_id' => 'varchar'
-        ,'data' => 'text'
-    );
+    protected static $tableFields = [
+        'id' => 'int',
+        'user_id' => 'int',
+        'node_id' => 'varchar',
+        'data' => 'text',
+    ];
 
-    protected static $decodeJsonFields = array('data');
+    protected static $decodeJsonFields = ['data'];
 
     public static function readAll()
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
         $res = $dbs->query(
-            'SELECT *
-            FROM ' . static::getTableName() .
-            ' WHERE user_id = $1',
-            \Casebox\CoreBundle\Service\User::getId()
+            'SELECT * FROM '.static::getTableName().' WHERE user_id = $1', User::getId()
         );
 
         while ($r = $res->fetch()) {
@@ -58,13 +60,12 @@ class Favorites extends Base
 
         $dbs = Cache::get('casebox_dbs');
 
-        $res = $dbs->query(
-            'DELETE FROM ' . static::getTableName() .
-            ' WHERE user_id = $1 AND node_id = $2',
-            array(
+        $res = $dbs->query('DELETE FROM '.static::getTableName().' WHERE user_id = $1 AND node_id = $2',
+            [
                 $userId
-                ,$nodeId
-            )
+                ,
+                $nodeId,
+            ]
         );
 
         $rez = ($res->rowCount() > 0);

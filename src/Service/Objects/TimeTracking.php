@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\Objects;
 
 use Casebox\CoreBundle\Event\GetTimeCostEvent;
@@ -8,9 +9,11 @@ use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Log;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
+/**
+ * Class TimeTracking
+ */
 class TimeTracking extends Object
 {
-
     /**
      * create method
      * @return void
@@ -36,8 +39,10 @@ class TimeTracking extends Object
     }
 
     /**
-     * update
-     * @param  array   $p optional properties. If not specified then $this-data is used
+     * Update
+     *
+     * @param  array $p optional properties. If not specified then $this-data is used
+     *
      * @return boolean
      */
     public function update($p = false)
@@ -78,7 +83,7 @@ class TimeTracking extends Object
 
         $eventParams = [
             'object' => &$this,
-            'result' => &$rez
+            'result' => &$rez,
         ];
 
         /** @var EventDispatcher $dispatcher */
@@ -90,7 +95,7 @@ class TimeTracking extends Object
 
     protected function collectSolrData()
     {
-        $rez = parent::collectSolrData();
+        parent::collectSolrData();
 
         $spent = $this->getSpentTime();
 
@@ -100,20 +105,16 @@ class TimeTracking extends Object
 
     /**
      * get spent time for current object
-     * @return void
+     * @return array
      */
     protected function getSpentTime()
     {
         $p = &$this->data;
         $d = &$p['data'];
 
-        $time = empty($d['time_spent'])
-            ? '0'
-            : $d['time_spent'];
+        $time = empty($d['time_spent']) ? '0' : $d['time_spent'];
 
-        $cost = empty($d['cost'])
-            ? 0
-            : intval($d['cost']);
+        $cost = empty($d['cost']) ? 0 : intval($d['cost']);
 
         $time = explode(':', $time);
 
@@ -130,40 +131,32 @@ class TimeTracking extends Object
         return [
             'sec' => $seconds,
             'cost' => $cost,
-            'money' => ($seconds / 60 / 60) * $cost
+            'money' => ($seconds / 60 / 60) * $cost,
         ];
     }
 
     /**
      * get spent time from parent object
-     * @return void
+     * @return array
      */
     protected function getParentSpentTime()
     {
         $po = $this->getParentObject();
         $posd = $po->getSysData();
 
-        $newUserIds = array();
+        $spentTime = empty($posd['spentTime']) ? [] : $posd['spentTime'];
 
-        $spentTime = empty($posd['spentTime'])
-            ? []
-            : $posd['spentTime'];
-
-        $seconds = empty($spentTime['sec'])
-            ? 0
-            : intval($spentTime['sec']);
-        $cost = empty($spentTime['money'])
-            ? 0
-            : intval($spentTime['money']);
+        $seconds = empty($spentTime['sec']) ? 0 : intval($spentTime['sec']);
+        $cost = empty($spentTime['money']) ? 0 : intval($spentTime['money']);
 
         return [
             'sec' => $seconds,
-            'money' => $cost
+            'money' => $cost,
         ];
     }
 
     /**
-     * update spennt time for parent object
+     * update spent time for parent object
      * @return void
      */
     protected function setParentSpentTime($spentTime)
@@ -193,7 +186,7 @@ class TimeTracking extends Object
 
     /**
      * recalculate spent time from parent object
-     * @return void
+     * @return array
      */
     protected function recalculateParentSpentTime()
     {
@@ -204,7 +197,7 @@ class TimeTracking extends Object
 
         $rez = [
             'sec' => 0,
-            'money' => 0
+            'money' => 0,
         ];
 
         foreach ($recs as $r) {

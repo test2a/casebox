@@ -39,6 +39,7 @@ class TwoStepAuth
     /**
      * @param UsersGroups $user
      * @param string $code
+     *
      * @return array|bool
      */
     public function authenticate(UsersGroups $user, $code = null)
@@ -58,7 +59,10 @@ class TwoStepAuth
         if (!$auth) {
             return [
                 'success' => false,
-                'message' => is_string($auth) ? htmlspecialchars($auth, ENT_COMPAT) : 'Wrong verification code. Please try again.'
+                'message' => is_string($auth) ? htmlspecialchars(
+                    $auth,
+                    ENT_COMPAT
+                ) : 'Wrong verification code. Please try again.',
             ];
         }
 

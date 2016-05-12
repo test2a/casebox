@@ -102,9 +102,9 @@ class JavascriptService
                 // 'jsdev' => [
                 //     'src' => '/min/jsdev-debug.js',
                 // ],
-               'jsoverrides' => [
-                   'src' => '/min/jsoverrides-debug.js',
-               ],
+                'jsoverrides' => [
+                    'src' => '/min/jsoverrides-debug.js',
+                ],
                 'jsplugins' => [
                     'src' => '/min/jsplugins-debug.js',
                 ],
@@ -155,7 +155,7 @@ class JavascriptService
                         $template = $this->getTwig()->createTemplate($script['inline']);
                         $script['inline'] = $template->render($vars);
 
-                        $ords[(string) $script['weight']] = $this->getTwig()->render(
+                        $ords[(string)$script['weight']] = $this->getTwig()->render(
                             'CaseboxCoreBundle:render:javascript_inline_render.html.twig',
                             $script
                         );
@@ -163,7 +163,7 @@ class JavascriptService
                         $template = $this->getTwig()->createTemplate($script['src']);
                         $script['src'] = $template->render($vars);
 
-                        $ords[(string) $script['weight']] = $this->getTwig()->render(
+                        $ords[(string)$script['weight']] = $this->getTwig()->render(
                             'CaseboxCoreBundle:render:javascript_render.html.twig',
                             $script
                         );

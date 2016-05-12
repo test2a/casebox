@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Entity\UsersGroups as UsersGroupsEntity;
@@ -98,7 +99,7 @@ class User
         if (!in_array($p['method'], ['ga', 'sms', 'ybk'])) {
             return ['success' => false, 'msg' => 'Invalid authentication mechanism'];
         }
-        $data = empty($p['data']) ? [] : (array) $p['data'];
+        $data = empty($p['data']) ? [] : (array)$p['data'];
 
         /** @var Session $session */
         $session = Cache::get('symfony.container')->get('session');
@@ -294,7 +295,7 @@ class User
                     ->findByLanguage($r['language']);
                 $r['long_date_format'] = $language['long_date_format'];
             } else {
-                $r['long_date_format'] =  $cfg['long_date_format'];
+                $r['long_date_format'] = $cfg['long_date_format'];
             }
 
             if (empty($cfg['short_date_format'])) {
@@ -303,7 +304,7 @@ class User
                     ->findByLanguage($r['language']);
                 $r['short_date_format'] = $language['short_date_format'];
             } else {
-                $r['short_date_format'] =  $cfg['short_date_format'];
+                $r['short_date_format'] = $cfg['short_date_format'];
             }
 
             if (!empty($cfg['country_code'])) {
@@ -912,7 +913,7 @@ class User
     /**
      * Generate recovery hash for a given user
      *
-     * @param int    $userId
+     * @param int $userId
      * @param string $random
      *
      * @return string
@@ -936,6 +937,7 @@ class User
      *
      * @param  string $hash
      * @param  string $password
+     *
      * @return bool
      */
     public static function setNewPasswordByRecoveryHash($hash, $password)
@@ -992,7 +994,7 @@ class User
     }
 
     /**
-     * @param string     $authMechanism
+     * @param string $authMechanism
      * @param array|null $data
      *
      * @return string
@@ -1016,7 +1018,7 @@ class User
 
     /**
      * @param integer|array|bool $idOrData
-     * @param string|bool        $withEmail
+     * @param string|bool $withEmail
      *
      * @return array|null|\PDO|string
      */
@@ -1120,7 +1122,7 @@ class User
      * Get a user photo if set
      *
      * @param integer|array|bool|false $idOrData Id or user data array
-     * @param string|bool              $size32
+     * @param string|bool $size32
      *
      * @return string
      */
@@ -1236,7 +1238,9 @@ class User
 
     /**
      * Get user preferences
-     * @param  integer    $userId
+     *
+     * @param  integer $userId
+     *
      * @return array|null
      */
     public static function getPreferences($userId)
@@ -1360,7 +1364,7 @@ class User
     }
 
     /**
-     * @param array        $cfg
+     * @param array $cfg
      * @param integer|bool $userId
      */
     private static function setUserConfig($cfg, $userId = false)
@@ -1378,7 +1382,7 @@ class User
     }
 
     /**
-     * @param string      $name
+     * @param string $name
      * @param string|null $default
      * @param bool|string $userId
      *
@@ -1394,9 +1398,9 @@ class User
     /**
      * Set users config param
      *
-     * @param string          $name
+     * @param string $name
      * @param string|int|bool $value
-     * @param string|bool     $userId
+     * @param string|bool $userId
      */
     public static function setUserConfigParam($name, $value, $userId = false)
     {
@@ -1460,7 +1464,7 @@ class User
     }
 
     /**
-     * @param array        $p
+     * @param array $p
      * @param integer|bool $userId
      *
      * @return array
@@ -1536,6 +1540,7 @@ class User
      * Check if reached specified interval for sending emails
      *
      * @param  integer|bool $userId
+     *
      * @return string|bool
      *         false - if user not idle
      *         all - if user selected to receive all types of notifications
@@ -1581,7 +1586,8 @@ class User
      * Set the user enabled or disabled
      *
      * @param  integer $userId
-     * @param  bool    $enabled
+     * @param  bool $enabled
+     *
      * @return array
      */
     public static function setEnabled($userId, $enabled)

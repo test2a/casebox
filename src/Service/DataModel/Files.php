@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\DataModel;
 
 use Casebox\CoreBundle\Service\Cache;
@@ -13,26 +14,28 @@ class Files extends Base
      */
     protected static $tableName = 'files';
 
-    protected static $tableFields = array(
-        'id' => 'int'
-        ,'content_id' => 'int'
-        ,'date' => 'date'
-        ,'name' => 'varchar'
-        ,'title' => 'varchar'
-        ,'cid' => 'int'
-        ,'cdate' => 'datetime'
-        ,'uid' => 'int'
-        ,'udate' => 'datetime'
-    );
+    protected static $tableFields = [
+        'id' => 'int',
+        'content_id' => 'int',
+        'date' => 'date',
+        'name' => 'varchar',
+        'title' => 'varchar',
+        'cid' => 'int',
+        'cdate' => 'datetime',
+        'uid' => 'int',
+        'udate' => 'datetime',
+    ];
 
     /**
      * get content data
+     *
      * @param  array $id
+     *
      * @return array
      */
     public static function getContentData($id)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -54,12 +57,14 @@ class Files extends Base
 
     /**
      * get tipes for given file ids
+     *
      * @param  array $ids
+     *
      * @return array associative array (id => type)
      */
     public static function getTypes($ids)
     {
-        $rez = array();
+        $rez = [];
         $ids = Util\toNumericArray($ids);
 
         if (!empty($ids)) {
@@ -70,7 +75,7 @@ class Files extends Base
                 FROM files f
                 JOIN files_content c
                     ON f.content_id = c.id
-                WHERE f.id in (' . implode(',', $ids) . ')'
+                WHERE f.id in ('.implode(',', $ids).')'
             );
 
             while ($r = $res->fetch()) {
@@ -84,12 +89,14 @@ class Files extends Base
 
     /**
      * get content ids for given file ids
+     *
      * @param  array $ids
+     *
      * @return array associative array (id => content_id)
      */
     public static function getContentIds($ids)
     {
-        $rez = array();
+        $rez = [];
         $ids = Util\toNumericArray($ids);
 
         if (!empty($ids)) {
@@ -97,7 +104,7 @@ class Files extends Base
 
             $sql = 'SELECT id, content_id
                 FROM files
-                WHERE id in (' . implode(',', $ids) .')';
+                WHERE id in ('.implode(',', $ids).')';
 
             $res = $dbs->query($sql);
             while ($r = $res->fetch()) {
@@ -112,12 +119,14 @@ class Files extends Base
     /**
      * get relative content paths for given file ids
      * path is relative to casebox files directory
+     *
      * @param  array $ids
+     *
      * @return array associative array (id => relative_content_path)
      */
     public static function getContentPaths($ids)
     {
-        $rez = array();
+        $rez = [];
         $ids = Util\toNumericArray($ids);
 
         if (!empty($ids)) {
@@ -127,11 +136,11 @@ class Files extends Base
                 FROM files f
                 JOIN files_content c
                     ON f.content_id = c.id
-                WHERE f.id in (' . implode(',', $ids) .')';
+                WHERE f.id in ('.implode(',', $ids).')';
 
             $res = $dbs->query($sql);
             while ($r = $res->fetch()) {
-                $rez[$r['id']] = $r['path'] . DIRECTORY_SEPARATOR . $r['content_id'];
+                $rez[$r['id']] = $r['path'].DIRECTORY_SEPARATOR.$r['content_id'];
             }
             unset($res);
         }
@@ -145,7 +154,7 @@ class Files extends Base
      */
     public static function getContentIdReferences($contentId)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -165,12 +174,14 @@ class Files extends Base
 
     /**
      * get duplicates files (with same content_id) for a given file id
-     * @param  int   $id
+     *
+     * @param  int $id
+     *
      * @return array
      */
     public static function getDuplicates($id)
     {
-        $rez = array();
+        $rez = [];
 
         if (!is_numeric($id)) {
             return $rez;
@@ -210,12 +221,14 @@ class Files extends Base
 
     /**
      * get file solr data
-     * @param  int   $id
+     *
+     * @param  int $id
+     *
      * @return array
      */
     public static function getSolrData($id)
     {
-        $rez = array();
+        $rez = [];
 
         $dbs = Cache::get('casebox_dbs');
 
@@ -243,8 +256,10 @@ class Files extends Base
 
     /**
      * copy file data, but without versions. Should we copy versions also?
-     * @param  int  $sourceId
-     * @param  int  $targetId
+     *
+     * @param  int $sourceId
+     * @param  int $targetId
+     *
      * @return void
      */
     public static function copy($sourceId, $targetId)
@@ -274,11 +289,11 @@ class Files extends Base
                 ,CURRENT_TIMESTAMP
             FROM `files`
             WHERE id = $1',
-            array(
-                $sourceId
-                ,$targetId
-                ,User::getId()
-            )
+            [
+                $sourceId,
+                $targetId,
+                User::getId(),
+            ]
         );
     }
 }

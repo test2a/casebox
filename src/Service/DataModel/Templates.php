@@ -24,14 +24,9 @@ class Templates extends Base
         'is_folder' => 'int',
         'type' => 'varchar',
         'name' => 'varchar',
-        // ,'l1' => 'varchar'
-        // ,'l2' => 'varchar'
-        // ,'l3' => 'varchar'
-        // ,'l4' => 'varchar',
         'order' => 'int',
         'visible' => 'int',
         'iconCls' => 'varchar',
-        // ,'default_field' => 'varchar' //??,
         'cfg' => 'text',
         'title_template' => 'varchar',
         'info_template' => 'varchar',

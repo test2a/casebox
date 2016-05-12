@@ -14,10 +14,11 @@ trait TranslatorTrait
      * Translate a given param.
      *
      * @param string $name
+     * @param string|null $lang
      *
      * @return string
      */
-    public function trans($name)
+    public function trans($name, $lang = null)
     {
         /** @var Translator $translator */
         $translator = Cache::get('symfony.container')->get('translator');

@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service;
 
 use Symfony\Component\DependencyInjection\Container;
@@ -189,7 +190,7 @@ class Config
     {
         $locale = Cache::get('symfony.request')->getLocale();
 
-        $rez = $this->get('project_name_' . $locale);
+        $rez = $this->get('project_name_'.$locale);
 
         if (empty($rez)) {
             $rez = $this->get('project_name');
@@ -258,7 +259,7 @@ class Config
         }
 
         foreach ($config as $k => $v) {
-            if (( strlen($k) == 11 ) && ( substr($k, 0, 9) == 'language_')) {
+            if ((strlen($k) == 11) && (substr($k, 0, 9) == 'language_')) {
                 $rez['language_settings'][substr($k, 9)] = Util\toJSONArray($v);
             }
         }
@@ -292,7 +293,7 @@ class Config
      * set an environment core varibale
      *
      * @param string $varName
-     * @param array  $value
+     * @param array $value
      */
     public function setEnvVar($varName, $value)
     {
@@ -303,7 +304,7 @@ class Config
      * get defined plugins for right panel for given object type
      *
      * @param string $objectType
-     * @param string $from       defines subgroup plugin definition (window - object edit window)
+     * @param string $from defines subgroup plugin definition (window - object edit window)
      *
      * @return array
      */
@@ -584,7 +585,7 @@ class Config
      * extend the given $customization from value set in $cutomization["extends"] if present under container
      *
      * @param string $container
-     * @param array  $customization
+     * @param array $customization
      *
      * @return array
      */
@@ -655,7 +656,7 @@ class Config
      * set flag value
      *
      * @param string $name
-     * @param array  $value
+     * @param array $value
      *
      * @return array return false if not set
      */

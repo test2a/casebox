@@ -1,6 +1,8 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
+use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\Search;
 
@@ -8,17 +10,17 @@ class RecentActivity extends Base
 {
     protected function createDefaultFilter()
     {
-        $this->fq = array();
+        $this->fq = [];
 
         if (!empty($this->config['includeTemplates'])) {
             $ids = Util\toNumericArray($this->config['includeTemplates']);
             if (!empty($ids)) {
-                $this->fq[] = 'template_id:(' . implode(' OR ', $ids) . ')';
+                $this->fq[] = 'template_id:('.implode(' OR ', $ids).')';
             }
         } elseif (!empty($this->config['excludeTemplates'])) {
             $ids = Util\toNumericArray($this->config['excludeTemplates']);
             if (!empty($ids)) {
-                $this->fq[] = '!template_id:(' . implode(' OR ', $ids) . ')';
+                $this->fq[] = '!template_id:('.implode(' OR ', $ids).')';
             }
         }
     }
@@ -34,8 +36,6 @@ class RecentActivity extends Base
         }
 
         $this->createDefaultFilter();
-
-        $rez = array();
 
         $ourPid = @$this->config['pid'];
 
@@ -83,44 +83,44 @@ class RecentActivity extends Base
 
     protected function getRootNode()
     {
-        return array(
-            'data' => array(
-                array(
-                    'name' => $this->getName('recent')
-                    ,'id' => $this->getId('recent')
-                    ,'iconCls' => 'icon-folder'
-                    ,'has_childs' => true
-                )
-            )
-        );
+        return [
+            'data' => [
+                [
+                    'name' => $this->getName('recent'),
+                    'id' => $this->getId('recent'),
+                    'iconCls' => 'icon-folder',
+                    'has_childs' => true,
+                ],
+            ],
+        ];
     }
 
     public function getGroups()
     {
         $isFromGrid = (@$this->requestParams['from'] == 'grid');
 
-        return array(
-            'data' => array(
-                array(
-                    'name' => $this->getName('commented')
-                    ,'id' => $this->getId('commented')
-                    ,'iconCls' => 'icon-folder'
-                    ,'has_childs' => $isFromGrid
-                )
-                ,array(
-                    'name' => $this->getName('modified')
-                    ,'id' => $this->getId('modified')
-                    ,'iconCls' => 'icon-folder'
-                    ,'has_childs' => $isFromGrid
-                )
-                ,array(
-                    'name' => $this->getName('added')
-                    ,'id' => $this->getId('added')
-                    ,'iconCls' => 'icon-folder'
-                    ,'has_childs' => $isFromGrid
-                )
-            )
-        );
+        return [
+            'data' => [
+                [
+                    'name' => $this->getName('commented'),
+                    'id' => $this->getId('commented'),
+                    'iconCls' => 'icon-folder',
+                    'has_childs' => $isFromGrid,
+                ],
+                [
+                    'name' => $this->getName('modified'),
+                    'id' => $this->getId('modified'),
+                    'iconCls' => 'icon-folder',
+                    'has_childs' => $isFromGrid,
+                ],
+                [
+                    'name' => $this->getName('added'),
+                    'id' => $this->getId('added'),
+                    'iconCls' => 'icon-folder',
+                    'has_childs' => $isFromGrid,
+                ],
+            ],
+        ];
 
     }
 
@@ -148,7 +148,7 @@ class RecentActivity extends Base
 
         }
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
         $rez = $s->query($params);
 
         return $rez;
@@ -158,31 +158,32 @@ class RecentActivity extends Base
      * get param for this node
      *
      * @param string $param for now using to get 'facets' or 'DC'
+     *
      * @return array
      */
     public function getNodeParam($param = 'facets')
     {
         $rez = false;
         $sort = null;
-        $id = $this->id . '_' . $param;
+        $id = $this->id.'_'.$param;
 
         if (!empty($this->config[$id])) {
             $rez = $this->config[$id];
         }
 
-        if (!empty($this->config[$id . '_sort'])) {
-            $sort = $this->config[$id . '_sort'];
+        if (!empty($this->config[$id.'_sort'])) {
+            $sort = $this->config[$id.'_sort'];
         }
 
         if ($rez === false) {
             return parent::getNodeParam($param);
         }
 
-        return array(
-            'from' => $this->getId()
-            ,'data' => $rez
-            ,'sort' => $sort
-        );
+        return [
+            'from' => $this->getId(),
+            'data' => $rez,
+            'sort' => $sort,
+        ];
 
     }
 }

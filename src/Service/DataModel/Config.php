@@ -1,4 +1,5 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\DataModel;
 
 use Casebox\CoreBundle\Service\Cache;

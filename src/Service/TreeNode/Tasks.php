@@ -1,17 +1,23 @@
 <?php
+
 namespace Casebox\CoreBundle\Service\TreeNode;
 
+use Casebox\CoreBundle\Service\Objects;
+use Casebox\CoreBundle\Service\Search;
 use Casebox\CoreBundle\Service\Templates;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\DataModel as DM;
 
+/**
+ * Class Tasks
+ */
 class Tasks extends Base
 {
     protected function createDefaultFilter()
     {
-        $this->fq = array();
+        $this->fq = [];
 
-        //select only task templates
+        // select only task templates
         $taskTemplates = DM\Templates::getIdsByType('task');
         if (!empty($taskTemplates)) {
             $this->fq[] = 'template_id:('.implode(' OR ', $taskTemplates).')';
@@ -39,7 +45,7 @@ class Tasks extends Base
 
         if (empty($this->lastNode) ||
             (($this->lastNode->id == $ourPid) && (get_class($this->lastNode) != get_class($this))) ||
-            (\Casebox\CoreBundle\Service\Objects::getType($this->lastNode->id) == 'case')
+            (Objects::getType($this->lastNode->id) == 'case')
         ) {
             $rez = $this->getRootNodes();
         } else {
@@ -81,7 +87,7 @@ class Tasks extends Base
                 return lcfirst($this->trans('Assignee'));
             default:
                 if (substr($id, 0, 3) == 'au_') {
-                    return \Casebox\CoreBundle\Service\User::getDisplayName(substr($id, 3));
+                    return User::getDisplayName(substr($id, 3));
                 }
         }
 
@@ -92,39 +98,40 @@ class Tasks extends Base
     {
         $p = $this->requestParams;
         $p['fq'] = $this->fq;
-        $p['fq'][] = 'task_u_all:' . User::getId();
+        $p['fq'][] = 'task_u_all:'.User::getId();
         $p['fq'][] = 'task_status:(1 OR 2)';
         $p['rows'] = 0;
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
         $rez = $s->query($p);
         $count = '';
         if (!empty($rez['total'])) {
-            $count = ' (' . $rez['total'] . ')';
             $count = $this->renderCount($rez['total']);
         }
 
-        return array(
-            'data' => array(
-                array(
-                    'name' => $this->trans('MyTasks') . $count
-                    ,'id' => $this->getId('tasks')
-                    ,'iconCls' => 'icon-task'
-                    ,'cls' => 'tree-header'
-                    ,'has_childs' => true
-                )
-            )
-        );
+        return [
+            'data' => [
+                [
+                    'name' => $this->trans('MyTasks').$count,
+                    'id' => $this->getId('tasks'),
+                    'iconCls' => 'icon-task',
+                    'cls' => 'tree-header',
+                    'has_childs' => true,
+                ],
+            ],
+        ];
     }
 
     /**
      *  returns a formatted total number for UI tree
-     *  @param  Int $n   the total count of tasks
-     *  @return String   formatted string
+     *
+     * @param  Int $n the total count of tasks
+     *
+     * @return String   formatted string
      */
     protected function renderCount($n)
     {
-        return ' <span style="color: #AAA; font-size: 12px">' . $n . '</span>';
+        return ' <span style="color: #AAA; font-size: 12px">'.$n.'</span>';
     }
 
     protected function getDepthChildren2()
@@ -133,34 +140,38 @@ class Tasks extends Base
         $p = $this->requestParams;
 
         $p['fq'] = $this->fq;
-        $p['fq'][] = 'task_u_all:' . $userId;
+        $p['fq'][] = 'task_u_all:'.$userId;
         $p['fq'][] = 'task_status:(1 OR 2)';
 
         if (@$this->requestParams['from'] == 'tree') {
             $s = new \Casebox\CoreBundle\Service\Search();
             $p['rows'] = 0;
             $p['facet'] = true;
-            $p['facet.field'] = array(
-                '{!ex=task_u_assignee key=1assigned}task_u_assignee'
-                ,'{!ex=cid key=2cid}cid'
-            );
+            $p['facet.field'] = [
+                '{!ex=task_u_assignee key=1assigned}task_u_assignee',
+                '{!ex=cid key=2cid}cid',
+            ];
             $sr = $s->query($p);
-            $rez = array('data' => array());
+            $rez = ['data' => []];
             if (!empty($sr['facets']->facet_fields->{'1assigned'}->{$userId})) {
-                $rez['data'][] = array(
-                    'name' => $this->trans('AssignedToMe') . $this->renderCount($sr['facets']->facet_fields->{'1assigned'}->{$userId})
-                    ,'id' => $this->getId(2)
-                    ,'iconCls' => 'icon-task'
-                    ,'has_childs' => true
-                );
+                $rez['data'][] = [
+                    'name' => $this->trans('AssignedToMe').$this->renderCount(
+                            $sr['facets']->facet_fields->{'1assigned'}->{$userId}
+                        ),
+                    'id' => $this->getId(2),
+                    'iconCls' => 'icon-task',
+                    'has_childs' => true,
+                ];
             }
             if (!empty($sr['facets']->facet_fields->{'2cid'}->{$userId})) {
-                $rez['data'][] = array(
-                    'name' => $this->trans('CreatedByMe') . $this->renderCount($sr['facets']->facet_fields->{'2cid'}->{$userId})
-                    ,'id' => $this->getId(3)
-                    ,'iconCls' => 'icon-task'
-                    ,'has_childs' => true
-                );
+                $rez['data'][] = [
+                    'name' => $this->trans('CreatedByMe').$this->renderCount(
+                            $sr['facets']->facet_fields->{'2cid'}->{$userId}
+                        ),
+                    'id' => $this->getId(3),
+                    'iconCls' => 'icon-task',
+                    'has_childs' => true,
+                ];
             }
 
             return $rez;
@@ -180,61 +191,65 @@ class Tasks extends Base
         $p['fq'] = $this->fq;
 
         if ($this->lastNode->id == 2) {
-            $p['fq'][] = 'task_u_ongoing:' . $userId;
+            $p['fq'][] = 'task_u_ongoing:'.$userId;
         } else {
-            $p['fq'][] = 'cid:' . $userId;
+            $p['fq'][] = 'cid:'.$userId;
         }
 
-        $rez = array();
-
         if (@$this->requestParams['from'] == 'tree') {
-            $s = new \Casebox\CoreBundle\Service\Search();
+            $s = new Search();
 
             $sr = $s->query(
-                array(
-                    'rows' => 0
-                    ,'fq' => $p['fq']
-                    ,'facet' => true
-                    ,'facet.field' => array(
-                        '{!ex=task_status key=0task_status}task_status'
-                    )
-                )
+                [
+                    'rows' => 0,
+                    'fq' => $p['fq'],
+                    'facet' => true,
+                    'facet.field' => [
+                        '{!ex=task_status key=0task_status}task_status',
+                    ],
+                ]
             );
-            $rez = array('data' => array());
+            $rez = ['data' => []];
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'1'})) {
-                $rez['data'][] = array(
-                    'name' => lcfirst($this->trans('Overdue')) . $this->renderCount($sr['facets']->facet_fields->{'0task_status'}->{'1'})
-                    ,'id' => $this->getId(4)
-                    ,'iconCls' => 'icon-task'
-                );
+                $rez['data'][] = [
+                    'name' => lcfirst($this->trans('Overdue')).$this->renderCount(
+                            $sr['facets']->facet_fields->{'0task_status'}->{'1'}
+                        ),
+                    'id' => $this->getId(4),
+                    'iconCls' => 'icon-task',
+                ];
             }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'2'})) {
-                $rez['data'][] = array(
-                    'name' => lcfirst($this->trans('Ongoing')) . $this->renderCount($sr['facets']->facet_fields->{'0task_status'}->{'2'})
-                    ,'id' => $this->getId(5)
-                    ,'iconCls' => 'icon-task'
-                );
+                $rez['data'][] = [
+                    'name' => lcfirst($this->trans('Ongoing')).$this->renderCount(
+                            $sr['facets']->facet_fields->{'0task_status'}->{'2'}
+                        ),
+                    'id' => $this->getId(5),
+                    'iconCls' => 'icon-task',
+                ];
             }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'3'})) {
-                $rez['data'][] = array(
-                    'name' => lcfirst($this->trans('Closed')) . $this->renderCount($sr['facets']->facet_fields->{'0task_status'}->{'3'})
-                    ,'id' => $this->getId(6)
-                    ,'iconCls' => 'icon-task'
-                );
+                $rez['data'][] = [
+                    'name' => lcfirst($this->trans('Closed')).$this->renderCount(
+                            $sr['facets']->facet_fields->{'0task_status'}->{'3'}
+                        ),
+                    'id' => $this->getId(6),
+                    'iconCls' => 'icon-task',
+                ];
             }
             // Add assignee node if there are any created tasks already added to result
             if (($this->lastNode->id == 3) && !empty($rez['data'])) {
-                $rez['data'][] = array(
-                    'name' => lcfirst($this->trans('Assignee'))
-                    ,'id' => $this->getId('assignee')
-                    ,'iconCls' => 'icon-task'
-                    ,'has_childs' => true
-                );
+                $rez['data'][] = [
+                    'name' => lcfirst($this->trans('Assignee')),
+                    'id' => $this->getId('assignee'),
+                    'iconCls' => 'icon-task',
+                    'has_childs' => true,
+                ];
             }
         } else {
             $p['fq'][] = 'task_status:(1 OR 2)';
 
-            $s = new \Casebox\CoreBundle\Service\Search();
+            $s = new Search();
             $rez = $s->query($p);
             foreach ($rez['data'] as &$n) {
                 $n['has_childs'] = true;
@@ -246,7 +261,7 @@ class Tasks extends Base
 
     protected function getChildrenTasks()
     {
-        $rez = array();
+        $rez = [];
 
         $userId = User::getId();
         $p = $this->requestParams;
@@ -255,7 +270,7 @@ class Tasks extends Base
         $parent = $this->lastNode->parent;
 
         if ($parent->id == 2) {
-            $p['fq'][] = 'task_u_ongoing:' . $userId;
+            $p['fq'][] = 'task_u_ongoing:'.$userId;
         } else {
             $p['fq'][] = 'cid:'.$userId;
         }
@@ -284,7 +299,7 @@ class Tasks extends Base
             return $rez;
         }
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
         $rez = $s->query($p);
 
         return $rez;
@@ -295,29 +310,29 @@ class Tasks extends Base
         $p = $this->requestParams;
         $p['fq'] = $this->fq;
 
-        $p['fq'][] = 'cid:' . User::getId();
+        $p['fq'][] = 'cid:'.User::getId();
         $p['fq'][] = 'task_status:[1 TO 2]';
 
         $p['rows'] = 0;
         $p['facet'] = true;
-        $p['facet.field'] = array(
-            '{!ex=task_u_ongoing key=task_u_ongoing}task_u_ongoing'
-        );
-        $rez = array();
+        $p['facet.field'] = [
+            '{!ex=task_u_ongoing key=task_u_ongoing}task_u_ongoing',
+        ];
+        $rez = [];
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
 
         $sr = $s->query($p);
 
-        $rez = array('data' => array());
+        $rez = ['data' => []];
         if (!empty($sr['facets']->facet_fields->{'task_u_ongoing'})) {
             foreach ($sr['facets']->facet_fields->{'task_u_ongoing'} as $k => $v) {
                 $k = 'au_'.$k;
-                $r = array(
-                    'name' => $this->getName($k) . $this->renderCount($v)
-                    ,'id' => $this->getId($k)
-                    ,'iconCls' => 'icon-user'
-                );
+                $r = [
+                    'name' => $this->getName($k).$this->renderCount($v),
+                    'id' => $this->getId($k),
+                    'iconCls' => 'icon-user',
+                ];
 
                 if (!empty($p['showFoldersContent']) ||
                     (@$this->requestParams['from'] != 'tree')
@@ -336,13 +351,13 @@ class Tasks extends Base
         $p = $this->requestParams;
         $p['fq'] = $this->fq;
 
-        $p['fq'][] = 'cid:' . User::getId();
+        $p['fq'][] = 'cid:'.User::getId();
         $p['fq'][] = 'task_status:[1 TO 2]';
 
         $user_id = substr($this->lastNode->id, 3);
-        $p['fq'][] = 'task_u_ongoing:' . $user_id;
+        $p['fq'][] = 'task_u_ongoing:'.$user_id;
 
-        $s = new \Casebox\CoreBundle\Service\Search();
+        $s = new Search();
 
         $sr = $s->query($p);
 

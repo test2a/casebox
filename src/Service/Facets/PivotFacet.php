@@ -2,18 +2,20 @@
 
 namespace Casebox\CoreBundle\Service\Facets;
 
+/**
+ * Class PivotFacet
+ */
 class PivotFacet extends StringsFacet
 {
-
     /**
      * variable to store total stats from solr query if present
      * @var array
      */
-    protected $totalStats = array();
+    protected $totalStats = [];
 
     public function getSolrParams()
     {
-        $rez = array();
+        $rez = [];
 
         $cfg = &$this->config;
 
@@ -25,16 +27,13 @@ class PivotFacet extends StringsFacet
 
         if (!empty($cfg['stats']['field'])) {
             $statsTag = '{!stats=pv1}';
-            $func = empty($cfg['stats']['type'])
-                ? 'min'
-                : $cfg['stats']['type'];
-
-            $rez['stats.field'][] = '{!tag=pv1 ' . $func . '=true}' . $cfg['stats']['field'];
+            $func = empty($cfg['stats']['type']) ? 'min' : $cfg['stats']['type'];
+            $rez['stats.field'][] = '{!tag=pv1 '.$func.'=true}'.$cfg['stats']['field'];
         }
 
         if (is_object($cfg['facet1'])) {
-            $cfg['field'] = $cfg['facet1']->field . ',' . $cfg['facet2']->field;
-            $rez['facet.pivot'][] = $statsTag . $cfg['field'];
+            $cfg['field'] = $cfg['facet1']->field.','.$cfg['facet2']->field;
+            $rez['facet.pivot'][] = $statsTag.$cfg['field'];
         }
 
         return $rez;
@@ -42,14 +41,14 @@ class PivotFacet extends StringsFacet
 
     public function getFilters(&$p)
     {
-        $rez = array();
+        $rez = [];
 
         return $rez;
     }
 
     public function loadSolrResult($solrResult, $statsSolrResult = null)
     {
-        $this->solrData = array();
+        $this->solrData = [];
         $cfg = &$this->config;
 
         if (!empty($cfg['field']) && !empty($solrResult->facet_pivot->{$cfg['field']})) {
@@ -61,37 +60,20 @@ class PivotFacet extends StringsFacet
         }
     }
 
-    public function getClientData($options = array())
+    public function getClientData($options = [])
     {
-        $rez = array(
-            'index' => 'pivot'
-        );
+        $rez = [
+            'index' => 'pivot',
+        ];
 
-        /*
-        Ex:
-         array (
-              0 =>
-              stdClass::__set_state(array(
-                 'field' => 'template_type',
-                 'value' => 'object',
-                 'count' => 30,
-                 'pivot' =>
-                array (
-                  0 =>
-                  stdClass::__set_state(array(
-                     'field' => 'cid',
-                     'value' => 1,
-                     'count' => 15,
-                  )),
-         */
         $cfg = &$this->config;
 
         if (empty($cfg['field'])) {
             return false;
         }
 
-        $f1d = array();
-        $f2d = array();
+        $f1d = [];
+        $f2d = [];
         // collect all distinct values available for both fields
         foreach ($this->solrData as &$v) {
             $f1d[$v->value] = 1;
@@ -108,32 +90,28 @@ class PivotFacet extends StringsFacet
         /* clone facet classes and get data for each separately */
         $facet1 = clone $cfg['facet1'];
         $facet1->solrData = $f1d;
-        $fd1  = $facet1->getClientData();
+        $fd1 = $facet1->getClientData();
 
         $facet2 = clone $cfg['facet2'];
         $facet2->solrData = $f2d;
-        $fd2  = $facet2->getClientData();
+        $fd2 = $facet2->getClientData();
 
         //collect titles into a 2 dimentional array
-        $titles = array(array(), array());
+        $titles = [[], []];
 
         foreach ($fd1['items'] as $k => $v) {
-            $title = is_array($v)
-                ? $v['name']
-                : $k;
+            $title = is_array($v) ? $v['name'] : $k;
             $titles[0][$k] = $title;
         }
 
         foreach ($fd2['items'] as $k => $v) {
-            $title = is_array($v)
-                ? $v['name']
-                : $k;
+            $title = is_array($v) ? $v['name'] : $k;
             $titles[1][$k] = $title;
         }
 
         $rez['f'] = $cfg['field'];
         $rez['titles'] = $titles;
-        $rez['stats'] =  $this->totalStats;
+        $rez['stats'] = $this->totalStats;
         $rez['data'] = $this->solrData;
 
         $this->adjustStatsPrecision($rez);
@@ -144,7 +122,9 @@ class PivotFacet extends StringsFacet
     /**
      * function to adjust stats precision if have stats calculated
      * and floadPrecision is set in config
+     *
      * @param  array &$result
+     *
      * @return void
      */
     protected function adjustStatsPrecision(&$result)
@@ -153,10 +133,8 @@ class PivotFacet extends StringsFacet
 
         if (!empty($cfg['stats']['field']) && !empty($cfg['stats']['floatPrecision'])) {
             $field = $cfg['stats']['field'];
-            $func = empty($cfg['stats']['type'])
-                ? 'min'
-                : $cfg['stats']['type'];
-            $result['sss'] = array('field' => $cfg['stats']['field'], 'type' => 'func');
+            $func = empty($cfg['stats']['type']) ? 'min' : $cfg['stats']['type'];
+            $result['sss'] = ['field' => $cfg['stats']['field'], 'type' => 'func'];
             foreach ($result['data'] as &$v) {
                 if (!empty($v->pivot)) {
                     foreach ($v->pivot as &$pv) {
