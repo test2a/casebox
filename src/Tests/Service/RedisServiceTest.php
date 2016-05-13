@@ -31,6 +31,11 @@ class RedisServiceTest extends CaseboxAppTestService
         $result = $this->redisService->get('foo');
         $this->assertNotEmpty($result);
         $this->assertEquals('foo', $result);
+
+        $this->redisService->set('bar', 'bar', 10);
+        $result = $this->redisService->get('bar');
+        $this->assertNotEmpty($result);
+        $this->assertEquals('bar', $result);
     }
 
     /**
@@ -69,5 +74,17 @@ class RedisServiceTest extends CaseboxAppTestService
         $this->redisService->del(['foo']);
         $result = $this->redisService->get('foo');
         $this->assertEmpty($result);
+    }
+
+    /**
+     * Test flushAll() method.
+     */
+    public function testflushAll()
+    {
+        $this->redisService->set('foo', 'foo');
+
+        $this->redisService->flushAll();
+        $result = $this->redisService->get('foo');
+        $this->assertNull($result);
     }
 }
