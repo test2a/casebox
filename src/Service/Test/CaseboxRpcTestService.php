@@ -10,7 +10,7 @@ use GuzzleHttp\Exception\ConnectException;
  */
 class CaseboxRpcTestService extends \PHPUnit_Framework_TestCase
 {
-    const CORE_NAME = 'test';
+    const CORE_NAME = 'cbtest';
     const USER_NAME = 'root';
     const USER_PASS = 'a';
 
