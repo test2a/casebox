@@ -189,6 +189,14 @@ Ext.define('CB.object.edit.Window', {
                 ,handler: this.onPermalinkClick
             })
 
+            ,popout: new Ext.Action({
+                iconCls: 'i-popout'
+                ,itemId: 'popout'
+                ,scope: this
+                ,hidden: (App.popOutEdit == true)
+                ,handler: this.onPopOutClick
+            })
+
             ,notifyOn: new Ext.Action({
                 text: L.NotifyOn
                 ,hidden: true
@@ -240,6 +248,7 @@ Ext.define('CB.object.edit.Window', {
             ,this.actions.star
             ,this.actions.unstar
             ,this.actions.refresh
+            ,this.actions.popout
             ,new Ext.Button({
                 qtip: L.More
                 ,itemId: 'more'
@@ -348,7 +357,7 @@ Ext.define('CB.object.edit.Window', {
         //hide infopanel switcher by default, for vertical layout
         this.actions.showInfoPanel.setHidden(true);
 
-        if((this.templateCfg.layout === 'horizontal') || (this.templateType === 'file')) {
+        if((this.templateCfg.layout !== 'vertical') || (this.templateType === 'file')) {
             this.complexFieldContainer.flex = 1;
             this.complexFieldContainer.layout = 'fit';
 
@@ -366,6 +375,7 @@ Ext.define('CB.object.edit.Window', {
                     }
                     ,items: [
                         this.titleContainer
+                        ,this.gridContainer
                         ,this.complexFieldContainer
                     ]
                 }, {
@@ -385,8 +395,7 @@ Ext.define('CB.object.edit.Window', {
 
                     ,width: 300
                     ,items: [
-                        ,this.gridContainer
-                        ,this.pluginsContainer
+                        this.pluginsContainer
                     ]
                 }
             ];
@@ -1010,6 +1019,14 @@ Ext.define('CB.object.edit.Window', {
 
     ,onBeforeClose: function(){
         if(this._confirmedClosing || !this._isDirty){
+            if (App.popOutEdit) {//when closing a popout window
+                App.confirmLeave = false;
+                window.close();
+            } else if(this.popOutOnClose) {//when poping out 
+                this.data.view = 'edit';
+                App.openObjectPopOutWindow(this.data);
+            }
+
             return true;
         }
 
@@ -1277,6 +1294,11 @@ Ext.define('CB.object.edit.Window', {
             'Copy to clipboard: Ctrl+C, Enter'
             , window.location.origin + '/' + App.config.coreName + '/view/' + this.data.id + '/'
         );
+    }
+
+    ,onPopOutClick: function(b, e) {
+        this.popOutOnClose = true;
+        this.close();
     }
 
     ,onStarClick: function(b, e) {

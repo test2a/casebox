@@ -1,6 +1,7 @@
 <?php
-
 namespace Casebox\CoreBundle\Service;
+
+use Casebox\CoreBundle\Service\Cache;
 
 /**
  * Class JavascriptService
@@ -84,9 +85,6 @@ class JavascriptService
                 'ext-locale' => [
                     'src' => '/js/ext/packages/ext-locale/build/ext-locale-{{ app.request.locale }}.js',
                 ],
-                'locale' => [
-                    'src' => '/min/locale/{{ app.request.locale }}.js',
-                ],
                 'highlight' => [
                     'src' => '/js/highlight/highlight.pack.js',
                 ],
@@ -96,28 +94,51 @@ class JavascriptService
                 'remote-api' => [
                     'src' => '/c/{{ coreName }}/remote/api',
                 ],
-                'js' => [
-                    'src' => '/min/js-debug.js',
-                ],
-                // 'jsdev' => [
-                //     'src' => '/min/jsdev-debug.js',
-                // ],
-                'jsoverrides' => [
-                    'src' => '/min/jsoverrides-debug.js',
-                ],
-                'jsplugins' => [
-                    'src' => '/min/jsplugins-debug.js',
-                ],
-                'CB_Browser_SearchRouter' => [
-                    'inline' => "CB.plugin.config = {'Search': {'handler': 'CB_Browser_SearchRouter.search'}};",
-                ],
-                'db_js' => [
-                    'src' => '/c/{{ coreName }}/js/DB.js',
-                ],
-                'progress-100' => [
-                    'inline' => "setProgress('{{ 'Initialization'|trans }}', '100%')",
+                'locale' => [
+                    'src' => '/min/locale/{{ app.request.locale }}.js',
                 ],
             ],
+        ];
+
+        $container = Cache::get('symfony.container');
+        if($container->hasParameter('devel')) {
+
+            $groups = $container->get('casebox_core.service.minify')->getDefaultAssests();
+            $addGroups = ['js', 'jsoverrides', 'jsplugins'];
+            foreach ($addGroups as $group) {
+                foreach ($groups[$group] as $script) {
+                    $scripts['footer'][$script]['src'] = '/' . $script;
+
+                }
+            }
+
+        } else {
+            $scripts['footer'] = array_merge(
+                $scripts['footer'],
+                [
+                    'js' => [
+                        'src' => '/min/js-debug.js',
+                    ],
+                    'jsoverrides' => [
+                        'src' => '/min/jsoverrides-debug.js',
+                    ],
+                    'jsplugins' => [
+                        'src' => '/min/jsplugins-debug.js',
+                    ],
+                ]
+            );
+        }
+
+        $scripts['footer']['CB_Browser_SearchRouter'] = [
+            'inline' => "CB.plugin.config = {'Search': {'handler': 'CB_Browser_SearchRouter.search'}};",
+        ];
+
+        $scripts['footer']['db_js'] = [
+            'src' => '/c/{{ coreName }}/js/DB.js',
+        ];
+
+        $scripts['footer']['progress-100'] = [
+            'inline' => "setProgress('{{ 'Initialization'|trans }}', '100%')",
         ];
 
         return $scripts;

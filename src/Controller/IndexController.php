@@ -7,6 +7,8 @@ use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Files;
 use Casebox\CoreBundle\Service\User;
+use Casebox\CoreBundle\Service\Objects;
+use Casebox\CoreBundle\Service\Security;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -149,6 +151,49 @@ class IndexController extends Controller
     }
 
     /**
+     * @Route("/c/{coreName}/edit/{templateId}/{id}",
+     *     name="app_core_item_edit",
+     *     requirements = {"coreName": "[a-z0-9_\-]+"},
+     *     defaults={"id" = null}
+     * )
+     * @param Request $request
+     * @param string  $coreName
+     * @param string  $id
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function editAction(Request $request, $coreName, $templateId, $id)
+    {
+        $configService = $this->get('casebox_core.service.config');
+        $auth = $this->container->get('casebox_core.service_auth.authentication');
+
+        if (!$auth->isLogged(false)) {
+            return $this->redirectToRoute('app_core_login', ['coreName' => $coreName]);
+        }
+
+        $colors = User::getColors();
+        foreach ($colors as $id => $c) {
+            $colors[$id] = '.user-color-'.$id."{background-color: $c}";
+        }
+
+        $vars = [
+            'projectName' => $configService->getProjectName(),
+            'coreName' => $request->attributes->get('coreName'),
+            'rtl' => $configService->get('rtl') ? '-rtl' : '',
+            'cssUserColors' => '<style>'.implode("\n", $colors).'</style>',
+            'styles' => $this->container->get('casebox_core.service.styles_service')->getRendered(),
+            'locale' => $request->getLocale()
+        ];
+
+        $this->get('translator')->setLocale($vars['locale']);
+
+        $vars['javascript'] = $this->container->get('casebox_core.service.javascript_service')->getRendered($vars);
+
+        return $this->render('CaseboxCoreBundle::edit.html.twig', $vars);
+    }
+    
+    /**
      * @Route("/c/{coreName}/view/{id}/", name="app_core_file_view", requirements = {"coreName": "[a-z0-9_\-]+"})
      * @param Request $request
      * @param string  $coreName
@@ -166,34 +211,65 @@ class IndexController extends Controller
             return $this->redirectToRoute('app_core_login', ['coreName' => $coreName]);
         }
 
-        $preview = Files::generatePreview($id, $request->get('v'));
+        list($id, $versionId) = explode('_', $id);
 
-        $result = '';
+        if (!Security::canRead($id)) {
+            return new Response($this->trans('Access_denied'));
+        }
 
-        if (is_array($preview)) {
-            if (!empty($preview['processing'])) {
-                $result .= '&#160';
+        $obj = Objects::getCachedObject($id);
+        $objData = $obj->getData();
+        $objType = $obj->getType();
 
-            } else {
-                $top = '';
-                if (!empty($top)) {
-                    $result .= $top.'<hr />';
+        switch ($objType) {
+            case 'file':
+                if (empty($preview)) {
+                    $preview = Files::generatePreview($id, $versionId); //$request->get('v')
                 }
 
-                $filesPreviewDir = $configService->get('files_preview_dir');
+                $result = '';
 
-                if (!empty($preview['filename'])) {
-                    $fn = $filesPreviewDir.$preview['filename'];
-                    if (file_exists($fn)) {
-                        $result .= file_get_contents($fn);
+                if (is_array($preview)) {
+                    if (!empty($preview['processing'])) {
+                        $result .= '&#160';
 
-                        $dbs = Cache::get('casebox_dbs');
-                        $dbs->query('UPDATE file_previews SET ladate = CURRENT_TIMESTAMP WHERE id = $1', $id);
+                    } else {
+                        $top = '';
+                        if (!empty($top)) {
+                            $result .= $top.'<hr />';
+                        }
+
+                        $filesPreviewDir = $configService->get('files_preview_dir');
+
+                        if (!empty($preview['filename'])) {
+                            $fn = $filesPreviewDir.$preview['filename'];
+                            if (file_exists($fn)) {
+                                $result .= file_get_contents($fn);
+
+                                $dbs = Cache::get('casebox_dbs');
+                                $dbs->query('UPDATE file_previews SET ladate = CURRENT_TIMESTAMP WHERE id = $1', $id);
+                            }
+                        } elseif (!empty($preview['html'])) {
+                            $result .= $preview['html'];
+                        }
                     }
-                } elseif (!empty($preview['html'])) {
-                    $result .= $preview['html'];
                 }
-            }
+            break;
+
+            default:
+                $preview = array();
+                $o = new Objects();
+                $pd = $o->getPluginsData(array('id' => $id));
+                $title = '';
+
+                if (!empty($pd['data']['objectProperties'])) {
+                    $data = $pd['data']['objectProperties']['data'];
+                    $title = '<div class="obj-header"><b class="">' . $data['name'] . '</div>';
+                    $preview = $data['preview'];
+                }
+
+                $result = $title . implode("\n", $preview);
+                break;
         }
 
         return new Response($result);

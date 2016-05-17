@@ -82,6 +82,15 @@ Ext.onReady(function(){
             rtl: (App.config.rtl === true)
         });
 
+        var path = window.location.pathname.split('/');
+
+        if(path[3] == 'edit') {
+            App.popOutEdit = true;
+            App.mainViewPort.items.each(function (i) {
+                i.hide()
+            });
+        }
+
         App.mainViewPort.doLayout();
         App.mainViewPort.initCB(r, e);
     });
@@ -706,6 +715,7 @@ function initApp() {
                 ,data: config
                 ,modal: Ext.valueFrom(config.modal, false)
             };
+        Ext.copyTo(wndCfg, config, 'maximized,maximizable,minimizable,resizable,closable,border,bodyBorder,plain');
 
         wndCfg.id = 'oew-' +
             (Ext.isEmpty(config.id)
@@ -717,6 +727,11 @@ function initApp() {
             ,winHeight = window.innerHeight;
 
         if(w) {
+            if(wndCfg.maximized) {
+                w.maximize();
+                return w;
+            }
+            
             if((winHeight > 0) && (w.getHeight() > winHeight)) {
                 w.setHeight(winHeight - 20);
             }
@@ -738,6 +753,8 @@ function initApp() {
 
             delete w.existing;
         }
+
+        return w;
     };
 
     App.openWindow = function(wndCfg) {
@@ -758,7 +775,6 @@ function initApp() {
 
         return w;
     };
-
 
     App.alignWindowNext = function (w) {
         w.alignTo(App.mainViewPort.getEl(), 'br-br?');
@@ -821,6 +837,22 @@ function initApp() {
         win.setXY(pos);
     };
 
+    App.openObjectPopOutWindow = function(data) {
+        var mode = 'view'
+            ,url = '/c/' + App.config.coreName + '/';
+
+        if (data.view == 'edit') {
+            mode = 'edit';
+        }
+
+        url = url + mode + '/' + data.template_id;
+        if(!Ext.isEmpty(data.id)) {
+            url += '/' + data.id;
+        }
+
+        window.open(url, '_blank');
+    }
+
     App.isFolder = function(template_id){
         return (App.config.folder_templates.indexOf( String(template_id) ) >= 0);
     };
@@ -871,7 +903,7 @@ function initApp() {
             zipped = false;
         }
 
-        var url = '/' + App.config.coreName + '/download/' + fileId;
+        var url = '/c/' + App.config.coreName + '/download/' + fileId;
 
         if(!Ext.isEmpty(versionId)) {
             url += '&v='+versionId;

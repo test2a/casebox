@@ -57,16 +57,6 @@ class StylesService
                 'type' => 'text/css',
                 'href' => '/js/extjs-ace/styles.css',
             ],
-            'min-css' => [
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => '/min/css.css',
-            ],
-            'csstheme' => [
-                'rel' => 'stylesheet',
-                'type' => 'text/css',
-                'href' => '/min/csstheme.css',
-            ],
             'caseboxindex' => [
                 'rel' => 'stylesheet',
                 'type' => 'text/css',
@@ -78,6 +68,39 @@ class StylesService
                 'href' => '/js/leaflet/leaflet.css',
             ],
         ];
+
+        $container = Cache::get('symfony.container');
+        if($container->hasParameter('devel')) {
+
+            $groups = $container->get('casebox_core.service.minify')->getDefaultAssests();
+            $addGroups = ['css', 'csstheme'];
+            foreach ($addGroups as $group) {
+                foreach ($groups[$group] as $script) {
+                    $styles[$script] = [
+                        'rel' => 'stylesheet',
+                        'type' => 'text/css',
+                        'href' => '/' . $script
+                    ];
+                }
+            }
+
+        } else {
+            $styles = array_merge(
+                $styles,
+                [
+                    'min-css' => [
+                        'rel' => 'stylesheet',
+                        'type' => 'text/css',
+                        'href' => '/min/css.css',
+                    ],
+                    'csstheme' => [
+                        'rel' => 'stylesheet',
+                        'type' => 'text/css',
+                        'href' => '/min/csstheme.css',
+                    ],
+                ]
+            );
+        }
 
         return $styles;
     }
