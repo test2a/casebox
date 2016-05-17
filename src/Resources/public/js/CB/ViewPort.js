@@ -492,24 +492,42 @@ Ext.define('CB.ViewPort', {
     }
 
     ,initCB: function(){
-        if( CB.DB && CB.DB.templates && (CB.DB.templates.getCount() > 0) ){
-            this.onLogin();
-            App.DD = new CB.DD();
+        if(CB.DB && CB.DB.templates && (CB.DB.templates.getCount() > 0)){
+            var path = window.location.pathname.split('/');
 
-            Ext.Function.defer(this.checkUrlLocate, 1500);
+                this.onLogin();
+                App.DD = new CB.DD();
 
-            App.initialized = true;
+                Ext.Function.defer(this.checkUrlLocate, 1500);
 
-            App.fireEvent('cbinit', this);
+                App.initialized = true;
 
-            // depress notifications button when view deactivated
-            App.explorer.notificationsView.on(
-                'deactivate'
-                ,function(){
-                    this.buttons.toggleNotificationsView.toggle(false, true);
-                }
-                ,this
-            );
+                App.fireEvent('cbinit', this);
+
+                // depress notifications button when view deactivated
+                App.explorer.notificationsView.on(
+                    'deactivate'
+                    , function () {
+                        this.buttons.toggleNotificationsView.toggle(false, true);
+                    }
+                    , this
+                );
+
+            if(path[3] == 'edit') {
+                var w = App.openObjectWindow({
+                    template_id: path[4]
+                    ,id: path[5]
+                    ,view: 'edit'
+                    ,maximized: true
+                    ,maximizable: false
+                    ,minimizable: false
+                    ,resizable: false
+                    ,closable: false
+                    ,plain: true
+                    ,border: false
+                    // ,bodyBorder: false
+                });
+            }
 
         } else {
 

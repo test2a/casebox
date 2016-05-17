@@ -689,7 +689,12 @@ Ext.define('CB.object.ViewContainer', {
         var data = Ext.apply({}, objectData);
         //edit object in popup window
         delete data.html;
-        App.openObjectWindow(data);
+
+        if (data.popOut) {
+            App.openObjectPopOutWindow(data);
+        } else {
+            App.openObjectWindow(data);
+        }
     }
 
     /**
@@ -829,6 +834,9 @@ Ext.define('CB.object.ViewContainer', {
         d.comment = this.getCommentValue();
 
         this.setCommentValue('');
+
+        d.popOut = true;
+        d.view = 'edit';
 
         this.openObjectWindow(d);
     }

@@ -1,5 +1,6 @@
 composer.phar
 composer.lock
+.idea/
 vendor/
 src/Resources/public/min/*.js
 src/Resources/public/min/*.css

@@ -1,5 +1,4 @@
 <?php
-
 namespace Casebox\CoreBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
