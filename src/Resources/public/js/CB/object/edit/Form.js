@@ -4,6 +4,7 @@ Ext.define('CB.object.edit.Form', {
     extend: 'Ext.Panel'
 
     ,alias: 'widget.CBEditObject'
+    ,xtype: 'CBObjectEditForm'
 
     ,tbarCssClass: 'x-panel-white'
     ,padding: 0
@@ -116,13 +117,15 @@ Ext.define('CB.object.edit.Form', {
 
     ,loadData: function(objectData) {
         this.requestedLoadData = objectData;
-        if(this._isDirty) {
-            this.confirmDiscardChanges();
+        if (this.confirmDiscardChanges()) {
             return;
         }
 
         this.clear();
-        // this.getEl().mask(L.LoadingData + ' ...', 'x-mask-loading');
+
+        if (Ext.isEmpty(objectData)) {
+            return;
+        }
 
         if(isNaN(objectData.id)) {
 
@@ -326,7 +329,18 @@ Ext.define('CB.object.edit.Form', {
         );
     }
 
-    ,confirmDiscardChanges: function(){
+    /**
+     * Display confirmation message if form is changed
+     * @return boolean false - if no confirmation needed
+     */
+    ,confirmDiscardChanges: function(callback){
+        this.confirmationCallback = callback;
+
+        if(!this._isDirty) {
+            this.callConfirmationCallback();
+            return false;
+        }
+
         //if confirmed
         //save
         //  save and load new requested data
@@ -348,13 +362,27 @@ Ext.define('CB.object.edit.Form', {
                         break;
                     case 'no':
                         this.clear();
-                        this.loadData(this.requestedLoadData);
+                        if (!this.callConfirmationCallback()) {
+                            this.loadData(this.requestedLoadData);
+                        }
                         break;
                     default:
                         delete this.requestedLoadData;
                 }
             }
         });
+
+        return true;
+    }
+
+    ,callConfirmationCallback: function() {
+        if (this.confirmationCallback) {
+            this.confirmationCallback();
+
+            return true;
+        }
+
+        return false;
     }
 
     ,readValues: function() {
@@ -415,6 +443,8 @@ Ext.define('CB.object.edit.Form', {
             this.saveCallback(this, form, action);
             delete this.saveCallback;
         }
+
+        this.callConfirmationCallback();
 
         App.fireEvent('objectchanged', r.data, this);
     }

@@ -66,7 +66,8 @@ Ext.define('CB.controller.Browsing', {
         //add view container listeners
         vc.on('viewloaded', this.onVCViewLoaded, this);
         vc.on('selectionchange', this.onVCSelectionChange, this);
-
+        vc.on('activeviewchange', this.onVCActiveViewChange, this);
+        vc.on('infoupdated', this.onVCActiveViewInfoUpdated, this);
         //add listeners for notifications view
         var nv = vc.notificationsView;
 
@@ -106,7 +107,6 @@ Ext.define('CB.controller.Browsing', {
         var params = {
             id: node.get('nid')
             ,from: 'tree'
-            // ,view: Ext.valueFrom(node.get('view'), 'grid')
         };
 
         App.openPath(node.getPath('nid'), params);
@@ -171,39 +171,23 @@ Ext.define('CB.controller.Browsing', {
      * @param  object options
      * @return void
      */
-    ,onVCViewLoaded: function(proxy, action, options) {
-        //change breadcrumb value for search template restults
-        var bvalue = Ext.valueFrom(action.pathtext, '')
-            ,fp = Ext.valueFrom(action.folderProperties, {})
-            ,path = fp.path
-            ,total = Ext.valueFrom(action.total, 0);
+    ,onVCViewLoaded: function(viewContainer, view) {
+        var info = view.getViewInfo();
 
-        if(options.search && !isNaN(options.search.template_id)) {
-            bvalue = L.SearchResultsTitleTemplate;
-            bvalue = bvalue.replace('{name}', CB.DB.templates.getName(options.search.template_id));
-            bvalue = bvalue.replace('{count}', total);
-            path = '/' + App.config.rootNode.nid;
-        } else if(!Ext.isEmpty(options.query)) {
-            bvalue = L.SearchResultsTitleTemplate;
-            bvalue = bvalue.replace('{name}', options.query);
-            bvalue = bvalue.replace('{count}', total);
-        }
-
-        this.updateBreadcrumbData(path, bvalue);
+        this.updateBreadcrumbData(info.path, info.pathtext);
 
         this.VC.updateCreateMenuItems(this.VP.buttons.create);
 
-
-        if(fp.path &&
-            Ext.isEmpty(this.VC.params.query) // dont sync on search query
+        if(info.path &&
+            Ext.isEmpty(this.VC.params.query) // don't sync on search query
         ) {
-            this.tree.updateCreateMenu(fp.menu);
+            this.tree.updateCreateMenu(info.menu);
 
             //check if rootnode id is set at the beginning of the path
             //its id could be missing if it's a virtual root node
-            var p = String(fp.path).split('/');
+            var p = String(info.path).split('/');
 
-            if (!Ext.isEmpty(fp.path) && (['/', '/0', '/' + App.config.rootNode.nid].indexOf(fp.path) < 0)) {
+            if (!Ext.isEmpty(info.path) && (['/', '/0', '/' + App.config.rootNode.nid].indexOf(info.path) < 0)) {
                 // add flag to avoid reloading viewport on tree node selection change
                 this.syncingTreePathWithViewContainer = true;
 
@@ -235,6 +219,34 @@ Ext.define('CB.controller.Browsing', {
         if(!this.VC.params.locatingObject) {
             this.updatePreview();
         }
+    }
+
+    ,onVCActiveViewChange: function(viewContainer, view) {
+        this.onVCActiveViewInfoUpdated(viewContainer, view);
+
+        var opPlugin = this.OP.down('CBObjectPluginObjectProperties');
+
+        switch(view.xtype) {
+            case 'CBObjectEditView':
+                //hide object properties plugin from right
+                if (opPlugin) {
+                    opPlugin.hide();
+                }
+                break;
+
+            default:
+                //show object properties plugin from right
+                if (opPlugin) {
+                    opPlugin.show();
+                }
+
+        }
+    }
+
+    ,onVCActiveViewInfoUpdated: function(viewContainer, view) {
+        var info = view.getViewInfo();
+
+        this.updateBreadcrumbData(info.path, info.pathtext);
     }
 
     //Notifications view methods
@@ -392,9 +404,9 @@ Ext.define('CB.controller.Browsing', {
         //or the currently opened object
         if(Ext.isEmpty(data)) {
             var ai = vc.containersPanel.getLayout().activeItem
-                ,s = (ai.xtype == 'CBNotificationsView')
-                    ? ai.currentSelection
-                    : ai.getLayout().activeItem.currentSelection;
+                ,s = ai.getSelection
+                    ? ai.getSelection
+                    : vc.getSelection();
 
             data = Ext.isEmpty(s)
                 ? {
@@ -495,7 +507,7 @@ Ext.define('CB.controller.Browsing', {
                     );
                     return;
                 }
-                App.openObjectWindow(r.data);
+                App.windowManager.openObjectWindow(r.data);
             }
             ,this
         );

@@ -70,7 +70,7 @@ class StylesService
         ];
 
         $container = Cache::get('symfony.container');
-        if($container->hasParameter('devel')) {
+        if (!empty($container) && $container->hasParameter('devel')) {
 
             $groups = $container->get('casebox_core.service.minify')->getDefaultAssests();
             $addGroups = ['css', 'csstheme'];

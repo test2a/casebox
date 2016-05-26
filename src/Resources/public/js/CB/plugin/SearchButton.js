@@ -59,7 +59,7 @@ Ext.define('CB.plugin.Search.Button', {
 
         config.data = Ext.apply({}, data);
 
-        var w  = App.openWindow(config);
+        var w  = App.windowManager.openWindow(config);
         if(!w.existing) {
             w.alignTo(App.mainViewPort.getEl(), 'bl-bl?');
         }

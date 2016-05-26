@@ -335,28 +335,11 @@ Ext.define('CB.ViewPort', {
         var cpl = App.explorer.containersPanel.getLayout()
             ,hideNotifications = cpl.activeItem.isXType('CBNotificationsView');
 
-        cpl.setActiveItem(hideNotifications ? 0 : 1);
-
-        if(hideNotifications) {
-            //set browser title
-            var proxy = App.explorer.store.getProxy()
-                ,action = Ext.valueFrom(proxy.reader.rawData, {})
-                ,options = proxy.extraParams;
-
-            App.controller.onVCViewLoaded(
-                proxy
-                ,action
-                ,options
-            );
-        } else {
-            // set Notifications title
-            App.mainViewPort.breadcrumb.setValue([
-                {
-                    id: -1
-                    ,name: L.Notifications
-                }
-            ]);
-        }
+        cpl.setActiveItem(
+            hideNotifications
+            ? Ext.valueFrom(App.explorer.previousActiveView, 0)
+            : 1
+        );
     }
 
     ,onLogin: function(){
@@ -408,7 +391,7 @@ Ext.define('CB.ViewPort', {
                 // ,iconCls: 'icon-user-' + App.loginData.sex
                 ,iconCls: 'icon-user-account'
                 ,handler: function(){
-                    App.openWindow({
+                    App.windowManager.openWindow({
                         xtype: 'CBAccount'
                         ,id: 'accountWnd'
                     });
@@ -452,7 +435,7 @@ Ext.define('CB.ViewPort', {
                                     if(cmp.success !== true) {
                                         cmp.destroy();
                                     } else {
-                                        App.openWindow({
+                                        App.windowManager.openWindow({
                                             xtype: 'CBUsersGroups'
                                             ,id: 'usersGroupsWnd'
                                         });
@@ -514,9 +497,10 @@ Ext.define('CB.ViewPort', {
                 );
 
             if(path[3] == 'edit') {
-                var w = App.openObjectWindow({
+                var w = App.windowManager.openObjectWindow({
                     template_id: path[4]
                     ,id: path[5]
+                    ,mode: 'window'
                     ,view: 'edit'
                     ,maximized: true
                     ,maximizable: false
@@ -687,24 +671,12 @@ Ext.define('CB.ViewPort', {
         }
     }
 
-    ,showNotificationsView: function(){
-        if(!App.activateTab(App.mainTabPanel, 'notificationsView')) {
-            App.addTab(
-                App.mainTabPanel
-                ,new CB.notifications.View({
-                    data: {id: 'notificationsView' }
-                    ,closable: false
-                })
-            );
-        }
-    }
-
     ,openPermissions: function(objectId) {
         if(isNaN(objectId)) {
             return;
         }
 
-        App.openWindow({
+        App.windowManager.openWindow({
             xtype: 'CBSecurityWindow'
             ,id: 'opw' + objectId //objects permission window
             ,data: {

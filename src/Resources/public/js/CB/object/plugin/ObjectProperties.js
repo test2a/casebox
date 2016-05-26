@@ -4,6 +4,8 @@ Ext.define('CB.object.plugin.ObjectProperties', {
     extend: 'CB.object.plugin.Base'
     ,alias: 'CBObjectPluginObjectProperties'
 
+    ,xtype: 'CBObjectPluginObjectProperties'
+
     ,initComponent: function(){
         Ext.apply(this, {
             html: ''

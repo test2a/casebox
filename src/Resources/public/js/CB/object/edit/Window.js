@@ -1022,9 +1022,10 @@ Ext.define('CB.object.edit.Window', {
             if (App.popOutEdit) {//when closing a popout window
                 App.confirmLeave = false;
                 window.close();
-            } else if(this.popOutOnClose) {//when poping out 
-                this.data.view = 'edit';
-                App.openObjectPopOutWindow(this.data);
+            } else if(this.popOutOnClose) {//when poping out
+                // this.data.view = 'edit';
+                this.data.popOut = true;
+                App.windowManager.openObjectWindow(this.data);
             }
 
             return true;
@@ -1117,7 +1118,7 @@ Ext.define('CB.object.edit.Window', {
             Ext.applyIf(data, this.data);
         }
 
-        App.openObjectWindow(Ext.clone(data), e);
+        App.windowManager.openObjectWindow(Ext.clone(data), e);
     }
 
     /**
@@ -1148,7 +1149,7 @@ Ext.define('CB.object.edit.Window', {
             this.viewMode = 'edit';
             this.doLoad();
         } else {
-            App.openObjectWindow(p);
+            App.windowManager.openObjectWindow(p);
         }
     }
 
@@ -1326,12 +1327,10 @@ Ext.define('CB.object.edit.Window', {
     }
 
     ,onTimeSpentClick: function(cmp) {
-        clog('onTimeSpentClick!');
         this.pluginsContainer.onTimeSpentClick(cmp);
     }
 
     ,onAddTimeSpentClick: function(cmp, e) {
-        clog('onAddTimeSpentClick!');
         this.pluginsContainer.onAddTimeSpentClick(cmp, e);
     }
 });

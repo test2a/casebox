@@ -478,6 +478,7 @@ Ext.define('CB.browser.ViewContainer', {
                     ,getProperty: getPropertyHandler
                 })
             ]
+            ,getViewInfo: this.getCardContainerViewInfo.bind(this)
             ,listeners: {
                 scope: this
                 ,add: function(o, c, idx) {
@@ -497,12 +498,30 @@ Ext.define('CB.browser.ViewContainer', {
                 }
                 ,selectionchange: this.onObjectsSelectionChange
                 ,objectopen: this.onObjectsOpenEvent
+                ,beforeactivate: this.onBeforeContainersPanelItemChange
+                ,activate: this.onContainersPanelItemChange
             }
         });
 
         this.notificationsView = new CB.notifications.View({
-
+            listeners: {
+                scope: this
+                ,beforeactivate: this.onBeforeContainersPanelItemChange
+                ,activate: this.onContainersPanelItemChange
+            }
         });
+
+        this.objectEditView = new CB.object.edit.View({
+            listeners: {
+                scope: this
+                ,beforeactivate: this.onBeforeContainersPanelItemChange
+                ,activate: this.onContainersPanelItemChange
+                ,actionconfirmed: this.onObjectEditActionConfirmed
+            }
+        });
+
+        this.objectEditView.dockedItems.items[0].add('->');
+        this.objectEditView.dockedItems.items[0].add(this.actions.preview);
 
         this.loadParamsTask = new Ext.util.DelayedTask(this.loadParams, this);
 
@@ -524,6 +543,7 @@ Ext.define('CB.browser.ViewContainer', {
                         ,items: [
                             this.cardContainer
                             ,this.notificationsView
+                            ,this.objectEditView
                         ]
                     }
                     ,this.objectPanel
@@ -544,13 +564,14 @@ Ext.define('CB.browser.ViewContainer', {
                 ,reload: this.onReloadClick
 
                 ,itemcontextmenu: this.onItemContextMenu
+
+                ,loaded: this.onInfoUpdated
             }
         });
 
         this.callParent(arguments);
 
         this.containersPanel = this.items.getAt(0).items.getAt(0);
-        this.notificationsView = this.containersPanel.items.getAt(1);
 
         this.enableBubble([
             'viewloaded'
@@ -683,6 +704,65 @@ Ext.define('CB.browser.ViewContainer', {
         this.onReloadClick();
     }
 
+
+    ,getCardContainerViewInfo: function() {
+        var proxy = this.store.getProxy()
+            ,action = Ext.valueFrom(proxy.reader.rawData, {})
+            ,options = proxy.extraParams
+            ,fp = Ext.valueFrom(action.folderProperties, {})
+            ,path = fp.path
+            ,pathtext = Ext.valueFrom(action.pathtext, '')
+            ,total = Ext.valueFrom(action.total, 0);
+
+        if(options.search && !isNaN(options.search.template_id)) {
+            pathtext = L.SearchResultsTitleTemplate;
+            pathtext = pathtext.replace('{name}', CB.DB.templates.getName(options.search.template_id));
+            pathtext = pathtext.replace('{count}', total);
+            path = '/' + App.config.rootNode.nid;
+        } else if(!Ext.isEmpty(options.query)) {
+            pathtext = L.SearchResultsTitleTemplate;
+            pathtext = bvalue.replace('{name}', options.query);
+            pathtext = bvalue.replace('{count}', total);
+        }
+
+        return {
+            path: path
+            ,pathtext: pathtext
+            ,menu: fp.menu
+        };
+    }
+
+    ,onBeforeContainersPanelItemChange: function(activeView, eOpts) {
+        if ((activeView == this.cardContainer) && this.objectEditView.isDirty()) {
+            this.containersPanel.getLayout().setActiveItem(this.objectEditView);
+            this.requestedActiveView = activeView;
+            this.objectEditView.confirmDiscardingChanges(this.switchViewAfterConfirming.bind(this));
+
+            return false;
+        }
+
+        this.requestedActiveView = activeView;
+    }
+
+    ,onContainersPanelItemChange: function(activeView, eOpts) {
+        if (arguments.length > 2) {
+            this.previousActiveView = arguments[1];
+        }
+
+        this.fireEvent('activeviewchange', this, activeView);
+        if (activeView == this.cardContainer) {
+            this.reloadView();
+        }
+    }
+
+    ,switchViewAfterConfirming: function() {
+        this.containersPanel.getLayout().setActiveItem(this.requestedActiveView);
+    }
+
+    ,onObjectEditActionConfirmed: function(view) {
+        this.containersPanel.getLayout().setActiveItem(this.previousActiveView);
+    }
+
     ,onReloadClick: function(){
         var av = this.getActiveView();
 
@@ -799,19 +879,6 @@ Ext.define('CB.browser.ViewContainer', {
         this.folderProperties.type = parseInt(this.folderProperties.type, 10);
         this.folderProperties.pathtext = result.pathtext;
 
-        //switch from NotificationView if active
-        if(!this.isRequestFromObjectChange) {
-            this.containersPanel.setActiveItem(this.cardContainer);
-            var proxy = this.store.proxy;
-            App.controller.onVCViewLoaded(
-                proxy
-                ,Ext.valueFrom(proxy.reader.rawData, {})
-                ,proxy.extraParams
-            );
-        } else {
-            delete this.isRequestFromObjectChange;
-        }
-
         this.descendantsCheckItem.setChecked(ep.descendants === true, true);
 
         this.setAvailableViews(result.availableViews);
@@ -835,8 +902,7 @@ Ext.define('CB.browser.ViewContainer', {
         }
 
         /* end of change view if set in loaded params */
-
-        this.fireEvent('viewloaded', this.store.proxy, result, ep);
+        this.fireEvent('viewloaded', this, this.cardContainer);
 
         this.updateCreateMenuItems(this.buttonCollection.get('create'));
 
@@ -1069,9 +1135,10 @@ Ext.define('CB.browser.ViewContainer', {
     }
 
     ,loadParams: function(){
+        this.containersPanel.setActiveItem(this.cardContainer);
+
         //check if not same params as previous request
         if(Ext.isEmpty(this.requestParams.forceLoad) && this.sameParams(this.params, this.requestParams)) {
-            this.containersPanel.setActiveItem(this.cardContainer);
             return;
         }
 
@@ -1081,7 +1148,11 @@ Ext.define('CB.browser.ViewContainer', {
 
         delete this.params.forceLoad;
 
-        this.reloadView();
+        //reload only if card container is active
+        //otherwise reload will be triggered on view activation
+        if (this.cardContainer.getEl().isVisible(true)) {
+            this.reloadView();
+        }
     }
 
     ,updateCreateMenuItems: function(menuButton) {
@@ -1276,7 +1347,7 @@ Ext.define('CB.browser.ViewContainer', {
                     data.view = 'edit';
 
                 default:
-                    App.openObjectWindow(data);
+                    App.windowManager.openObjectWindow(data);
                     break;
             }
 
@@ -1287,7 +1358,7 @@ Ext.define('CB.browser.ViewContainer', {
 
             if(cfg && (cfg.leaf === true)) {
                 data.view = 'edit';
-                App.openObjectWindow(data);
+                App.windowManager.openObjectWindow(data);
 
                 return;
             }
@@ -1390,7 +1461,7 @@ Ext.define('CB.browser.ViewContainer', {
         var data = Ext.clone(selection[0]);
         data.id = data.nid;
 
-        App.openObjectWindow(data);
+        App.windowManager.openObjectWindow(data);
     }
 
     ,onDeleteClick: function(b, e) {
@@ -1550,8 +1621,6 @@ Ext.define('CB.browser.ViewContainer', {
             isNaN(fp.id) || // virtual folders
             (objData.pid == fp.id)
         ) {
-            // App.locateObject(objData);
-            this.isRequestFromObjectChange = true;
             this.onReloadClick();
         }
     }
@@ -1661,6 +1730,10 @@ Ext.define('CB.browser.ViewContainer', {
         }
 
         this.contextMenu.showAt(e.getXY());
+    }
+
+    ,onInfoUpdated: function(form) {
+        this.fireEvent('infoupdated', this, this.containersPanel.getLayout().activeItem);
     }
 
     ,onExportClick: function(b, e) {

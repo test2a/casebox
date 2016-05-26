@@ -162,7 +162,9 @@ Ext.define('CB.notifications.View', {
     }
 
     ,updateSeenRecords: function() {
-        var visible = this.getEl().isVisible(true);
+        var el = this.getEl()
+            ,visible = el && el.isVisible(true);
+
         this.store.each(
             function(r) {
                 var seen = visible || (r.get('action_id') <= this.lastSeenActionId);
@@ -250,6 +252,12 @@ Ext.define('CB.notifications.View', {
         return rez;
     }
 
+    ,getViewInfo: function() {
+        return {
+            path: '-1'
+            ,pathtext: L.Notifications
+        };
+    }
     ,actionRenderer: function(v, m, r, ri, ci, s){
         var uid = r.get('user_id')
             ,rez = ''; //<span class="i-preview action-btn" title="' + L.Preview + '">&nbsp;</span> ';
@@ -298,7 +306,7 @@ Ext.define('CB.notifications.View', {
         var el = e.getTarget('.obj-ref')
             ,selectionData = null;
         if(el) {
-            App.openObjectWindow({
+            App.windowManager.openObjectWindow({
                 id: el.getAttribute('itemid')
                 ,template_id: el.getAttribute('templateid')
                 ,name: el.getAttribute('title')
@@ -403,6 +411,10 @@ Ext.define('CB.notifications.View', {
             ,this.onMarkAsRead
             ,this
         );
+    }
+
+    ,getSelection: function() {
+        return this.currentSelection;
     }
 
     ,onMarkAsRead: function(r, e) {

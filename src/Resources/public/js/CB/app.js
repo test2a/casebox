@@ -82,12 +82,17 @@ Ext.onReady(function(){
             rtl: (App.config.rtl === true)
         });
 
+        App.windowManager = Ext.create({
+            xtype: 'CBWindowManager'
+            ,statusBar: App.mainStatusBar //initialized by viewport component
+        });
+
         var path = window.location.pathname.split('/');
 
         if(path[3] == 'edit') {
             App.popOutEdit = true;
             App.mainViewPort.items.each(function (i) {
-                i.hide()
+                i.hide();
             });
         }
 
@@ -690,168 +695,6 @@ function initApp() {
 
         return App.htmlEditWindow;
     };
-
-    App.openObjectWindow = function(config) {
-        //at least template should be defined in config
-        if(Ext.isEmpty(config)) {
-            return;
-        }
-
-        if(Ext.isEmpty(config.template_id)) {
-            return Ext.Msg.alert(
-                'Error opening object'
-                ,'Template should be specified for object window to load.'
-            );
-        }
-
-        config.id = Ext.valueFrom(config.target_id, config.id);
-
-        var templateType = CB.DB.templates.getType(config.template_id)
-            ,wndCfg = {
-                xtype: (templateType === 'file'
-                    ? 'CBFileEditWindow'
-                    : 'CBObjectEditWindow'
-                )
-                ,data: config
-                ,modal: Ext.valueFrom(config.modal, false)
-            };
-        Ext.copyTo(wndCfg, config, 'maximized,maximizable,minimizable,resizable,closable,border,bodyBorder,plain');
-
-        wndCfg.id = 'oew-' +
-            (Ext.isEmpty(config.id)
-                ? Ext.id()
-                : config.id
-            );
-
-        var w = App.openWindow(wndCfg)
-            ,winHeight = window.innerHeight;
-
-        if(w) {
-            if(wndCfg.maximized) {
-                w.maximize();
-                return w;
-            }
-            
-            if((winHeight > 0) && (w.getHeight() > winHeight)) {
-                w.setHeight(winHeight - 20);
-            }
-
-            if(templateType === 'file') {
-                w.center();
-
-                if(config.name && (detectFileEditor(config.name) !== false)) {
-                    w.maximize();
-                }
-            } else {
-                if(config.alignWindowTo) {
-                    App.alignWindowToCoords(w, config.alignWindowTo);
-
-                } else if(!w.existing) {
-                    App.alignWindowNext(w);
-                }
-            }
-
-            delete w.existing;
-        }
-
-        return w;
-    };
-
-    App.openWindow = function(wndCfg) {
-        var w = Ext.getCmp(wndCfg.id);
-
-        if(w) {
-            App.mainStatusBar.setActiveButton(w.taskButton);
-            App.mainStatusBar.restoreWindow(w);
-            //set a flag that this was an existing window
-            w.existing = true;
-
-        } else {
-            w = Ext.create(wndCfg);
-            w.show();
-
-            w.taskButton = App.mainStatusBar.addTaskButton(w);
-        }
-
-        return w;
-    };
-
-    App.alignWindowNext = function (w) {
-        w.alignTo(App.mainViewPort.getEl(), 'br-br?');
-
-        //get anchored position
-        var pos = w.getXY();
-        //move above status bar and a bit from right side
-        pos[0] -= 15;
-        pos[1] -= 5;
-
-        //position to the left of an active window if any
-        var x = pos[0];
-        App.mainStatusBar.windowBar.items.each(
-            function(btn) {
-                if(btn.win && (btn.win != w) && btn.win.isVisible() && !btn.win.maximized && (btn.win.xtype !== 'CBSearchEditWindow')) {
-                    var wx = btn.win.getX() - btn.win.el.getWidth() - 15;
-                    if(x > wx) {
-                        x = wx;
-                    }
-                }
-            }
-            ,this
-        );
-        if(x < 15) {
-            x = 15;
-        }
-        pos[0] = x;
-
-        w.setXY(pos);
-    };
-
-    App.alignWindowToCoords = function (win, coords) {
-        var vpEl = App.mainViewPort.getEl();
-        win.alignTo(vpEl, 'br-br?');
-
-        //get anchored position
-        var pos = win.getXY()
-            ,w = win.getWidth()
-            ,h = win.getHeight();
-
-        //move above status bar and a bit from right side
-        pos[0] -= 15;
-        pos[1] -= 5;
-
-        //position to center and below of given coords
-        var x = pos[0];
-
-        pos[0] = coords[0] - w / 2;
-        pos[1] = coords[1] + 10;
-
-        // check if window didnt go outside of viewport
-        if (pos[0] + w > vpEl.getWidth()) {
-            pos[0] = vpEl.getWidth() - w - 10;
-        }
-
-        if (pos[1] + h > vpEl.getHeight()) {
-            pos[1] = vpEl.getHeight() - h - 20;
-        }
-
-        win.setXY(pos);
-    };
-
-    App.openObjectPopOutWindow = function(data) {
-        var mode = 'view'
-            ,url = '/c/' + App.config.coreName + '/';
-
-        if (data.view == 'edit') {
-            mode = 'edit';
-        }
-
-        url = url + mode + '/' + data.template_id;
-        if(!Ext.isEmpty(data.id)) {
-            url += '/' + data.id;
-        }
-
-        window.open(url, '_blank');
-    }
 
     App.isFolder = function(template_id){
         return (App.config.folder_templates.indexOf( String(template_id) ) >= 0);
