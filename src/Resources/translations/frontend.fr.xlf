@@ -1,0 +1,3218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="frontend.en.xlf">
+        <body>
+            <trans-unit id="2">
+                <source>Username</source>
+                <target>Nom d'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Password</source>
+                <target>Mot de passe</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Login</source>
+                <target>Login</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Reset</source>
+                <target>Réinitialiser</target>
+            </trans-unit>
+            <trans-unit id="10">
+                <source>Error</source>
+                <target>Erreur</target>
+            </trans-unit>
+            <trans-unit id="16">
+                <source>hour</source>
+                <target>heure</target>
+            </trans-unit>
+            <trans-unit id="17">
+                <source>hours</source>
+                <target>heures</target>
+            </trans-unit>
+            <trans-unit id="18">
+                <source>ofHours</source>
+                <target>heures</target>
+            </trans-unit>
+            <trans-unit id="20">
+                <source>minute</source>
+                <target>minute</target>
+            </trans-unit>
+            <trans-unit id="21">
+                <source>minutes</source>
+                <target>minutes</target>
+            </trans-unit>
+            <trans-unit id="22">
+                <source>ofMinutes</source>
+                <target>minutes</target>
+            </trans-unit>
+            <trans-unit id="23">
+                <source>yes</source>
+                <target>oui</target>
+            </trans-unit>
+            <trans-unit id="35">
+                <source>Property</source>
+                <target>Propriété</target>
+            </trans-unit>
+            <trans-unit id="36">
+                <source>Value</source>
+                <target>Valeur</target>
+            </trans-unit>
+            <trans-unit id="37">
+                <source>Additionally</source>
+                <target>De plus</target>
+            </trans-unit>
+            <trans-unit id="39">
+                <source>Files</source>
+                <target>Fichiers</target>
+            </trans-unit>
+            <trans-unit id="40">
+                <source>Author</source>
+                <target>Auteur</target>
+            </trans-unit>
+            <trans-unit id="41">
+                <source>Date</source>
+                <target>Date</target>
+            </trans-unit>
+            <trans-unit id="47">
+                <source>Status</source>
+                <target>Statut</target>
+            </trans-unit>
+            <trans-unit id="50">
+                <source>Offices</source>
+                <target>Bureaux</target>
+            </trans-unit>
+            <trans-unit id="73">
+                <source>pages</source>
+                <target>pages</target>
+            </trans-unit>
+            <trans-unit id="81">
+                <source>at</source>
+                <target>à</target>
+            </trans-unit>
+            <trans-unit id="85">
+                <source>ofDays</source>
+                <target>jours</target>
+            </trans-unit>
+            <trans-unit id="88">
+                <source>today</source>
+                <target>aujourd'hui</target>
+            </trans-unit>
+            <trans-unit id="93">
+                <source>Tasks</source>
+                <target>Tâches</target>
+            </trans-unit>
+            <trans-unit id="95">
+                <source>Created</source>
+                <target>Créé</target>
+            </trans-unit>
+            <trans-unit id="96">
+                <source>Deadline</source>
+                <target>Terme</target>
+            </trans-unit>
+            <trans-unit id="105">
+                <source>Case</source>
+                <target>Cas</target>
+            </trans-unit>
+            <trans-unit id="118">
+                <source>ofCase</source>
+                <target>du cas</target>
+            </trans-unit>
+            <trans-unit id="121">
+                <source>File</source>
+                <target>Fichier</target>
+            </trans-unit>
+            <trans-unit id="128">
+                <source>task</source>
+                <target>tâche</target>
+            </trans-unit>
+            <trans-unit id="132">
+                <source>for</source>
+                <target>pour</target>
+                    <note> used for logging, example "User1 changed password FOR User2" </note>
+            </trans-unit>
+            <trans-unit id="145">
+                <source>Manager</source>
+                <target>Gestionnaire</target>
+            </trans-unit>
+            <trans-unit id="148">
+                <source>User</source>
+                <target>Utilisateur</target>
+            </trans-unit>
+            <trans-unit id="149">
+                <source>LoginName</source>
+                <target>Utilisateur</target>
+            </trans-unit>
+            <trans-unit id="151">
+                <source>pagesAbr</source>
+                <target>p.</target>
+            </trans-unit>
+            <trans-unit id="152">
+                <source>Task_already_completed</source>
+                <target>Tâche est déjà terminée</target>
+            </trans-unit>
+            <trans-unit id="153">
+                <source>Pending</source>
+                <target>En attente</target>
+            </trans-unit>
+            <trans-unit id="155">
+                <source>missed</source>
+                <target>raté</target>
+            </trans-unit>
+            <trans-unit id="157">
+                <source>Next7Days</source>
+                <target>7 prochains jours</target>
+            </trans-unit>
+            <trans-unit id="159">
+                <source>Cases</source>
+                <target>Cas</target>
+            </trans-unit>
+            <trans-unit id="160">
+                <source>male</source>
+                <target>mâle</target>
+            </trans-unit>
+            <trans-unit id="161">
+                <source>female</source>
+                <target>femelle</target>
+            </trans-unit>
+            <trans-unit id="162">
+                <source>no</source>
+                <target>no</target>
+            </trans-unit>
+            <trans-unit id="656">
+                <source>Access</source>
+                <target>Accès</target>
+            </trans-unit>
+            <trans-unit id="657">
+                <source>AccessControl</source>
+                <target>Contrôle d'accès</target>
+            </trans-unit>
+            <trans-unit id="658">
+                <source>AccessControlHistory</source>
+                <target>Historique des événements dans l'accès au cas</target>
+            </trans-unit>
+            <trans-unit id="659">
+                <source>Accomplishing</source>
+                <target>Accomplishing</target>
+            </trans-unit>
+            <trans-unit id="660">
+                <source>AccomplishedDate</source>
+                <target>Date de l'accompli</target>
+            </trans-unit>
+            <trans-unit id="661">
+                <source>Action</source>
+                <target>Action</target>
+                    <note> from old Casebox (Action means a letter to court, a decision, i.e. any document) </note>
+            </trans-unit>
+            <trans-unit id="667">
+                <source>Active2</source>
+                <target>Active</target>
+            </trans-unit>
+            <trans-unit id="668">
+                <source>ActiveWithDeadlines</source>
+                <target>Active avec délais</target>
+            </trans-unit>
+            <trans-unit id="669">
+                <source>Activities</source>
+                <target>Activities</target>
+            </trans-unit>
+            <trans-unit id="670">
+                <source>Add</source>
+                <target>Activités</target>
+            </trans-unit>
+            <trans-unit id="671">
+                <source>AddCaseTask</source>
+                <target>Ajouter un tâche au cas</target>
+            </trans-unit>
+            <trans-unit id="674">
+                <source>addedByUser</source>
+                <target>ajouté par</target>
+                    <note> In Administrative UI, shows by whom a user was created </note>
+            </trans-unit>
+            <trans-unit id="675">
+                <source>AddedDate</source>
+                <target>Date de complément</target>
+            </trans-unit>
+            <trans-unit id="676">
+                <source>addFile</source>
+                <target>аjoutez le fichier</target>
+            </trans-unit>
+            <trans-unit id="677">
+                <source>AddFolder</source>
+                <target>Ajouter un dossier</target>
+            </trans-unit>
+            <trans-unit id="680">
+                <source>addReminder</source>
+                <target>ajouter un rappel</target>
+            </trans-unit>
+            <trans-unit id="681">
+                <source>Address</source>
+                <target>Adresse</target>
+            </trans-unit>
+            <trans-unit id="682">
+                <source>AddRow</source>
+                <target>ajouter une ligne</target>
+            </trans-unit>
+            <trans-unit id="683">
+                <source>AddTag</source>
+                <target>Ajoutez un balise</target>
+            </trans-unit>
+            <trans-unit id="684">
+                <source>AddTagGroup</source>
+                <target>Ajouter une groupe de balises</target>
+            </trans-unit>
+            <trans-unit id="685">
+                <source>AddTemplate</source>
+                <target>Ajouter modèle</target>
+            </trans-unit>
+            <trans-unit id="686">
+                <source>AddTask</source>
+                <target>Ajouter une tâche</target>
+            </trans-unit>
+            <trans-unit id="687">
+                <source>AddToFavorites</source>
+                <target>Ajouter aux favoris</target>
+            </trans-unit>
+            <trans-unit id="688">
+                <source>AddUser</source>
+                <target>Ajouter un utilisateur</target>
+            </trans-unit>
+            <trans-unit id="689">
+                <source>AddUserErrorMessage</source>
+                <target>Une erreur s'est produite lors de la création d'un compte d'utilisateur.</target>
+            </trans-unit>
+            <trans-unit id="691">
+                <source>Adjudicated</source>
+                <target>Tranchés</target>
+            </trans-unit>
+            <trans-unit id="692">
+                <source>Advanced</source>
+                <target>Advanced</target>
+            </trans-unit>
+            <trans-unit id="693">
+                <source>AdvancedMode</source>
+                <target>Mode avancé</target>
+            </trans-unit>
+            <trans-unit id="694">
+                <source>All</source>
+                <target>Tous</target>
+            </trans-unit>
+            <trans-unit id="695">
+                <source>allCaseFiles</source>
+                <target>tous les documents du cas</target>
+            </trans-unit>
+            <trans-unit id="698">
+                <source>AllWithDeadlines</source>
+                <target>Tout avec délais</target>
+            </trans-unit>
+            <trans-unit id="699">
+                <source>and</source>
+                <target>et</target>
+                    <note> Probably in search queries, to switch to boolean mode "AND" search </note>
+            </trans-unit>
+            <trans-unit id="704">
+                <source>Aspect</source>
+                <target>Aspect</target>
+                    <note> ??? will check what it means </note>
+            </trans-unit>
+            <trans-unit id="705">
+                <source>AssignedToMe</source>
+                <target>Attribué à moi</target>
+            </trans-unit>
+            <trans-unit id="706">
+                <source>Associate</source>
+                <target>Associé</target>
+            </trans-unit>
+            <trans-unit id="707">
+                <source>AssociateContact</source>
+                <target>Association du contact</target>
+            </trans-unit>
+            <trans-unit id="711">
+                <source>Authorization</source>
+                <target>Autorisation</target>
+            </trans-unit>
+            <trans-unit id="712">
+                <source>Authors</source>
+                <target>Auteurs</target>
+            </trans-unit>
+            <trans-unit id="713">
+                <source>Autoclose</source>
+                <target>Autofermer</target>
+            </trans-unit>
+            <trans-unit id="714">
+                <source>AutoGenerated</source>
+                <target>Sera généré automatiquement</target>
+            </trans-unit>
+            <trans-unit id="715">
+                <source>AvailableWhenDeadlineSpecified</source>
+                <target>Disponible lorsque le délai n'est spécifié</target>
+            </trans-unit>
+            <trans-unit id="716">
+                <source>Birthday</source>
+                <target>Date de naissance</target>
+            </trans-unit>
+            <trans-unit id="718">
+                <source>byDefault</source>
+                <target>par défaut</target>
+            </trans-unit>
+            <trans-unit id="719">
+                <source>byMail</source>
+                <target>par email</target>
+            </trans-unit>
+            <trans-unit id="720">
+                <source>bySystem</source>
+                <target>dans le système</target>
+                    <note> related to logging, need to check </note>
+            </trans-unit>
+            <trans-unit id="721">
+                <source>Calendar</source>
+                <target>Calendrier</target>
+            </trans-unit>
+            <trans-unit id="722">
+                <source>CalendarOpening</source>
+                <target>Ouvrir le calendrier</target>
+            </trans-unit>
+            <trans-unit id="724">
+                <source>CaseAccess</source>
+                <target>Accès au cas</target>
+            </trans-unit>
+            <trans-unit id="726">
+                <source>CaseBrowser</source>
+                <target>Navigateur de cas</target>
+            </trans-unit>
+            <trans-unit id="727">
+                <source>CaseCard</source>
+                <target>Fiche du cas</target>
+            </trans-unit>
+            <trans-unit id="728">
+                <source>CaseClosing</source>
+                <target>Fermeture du cas</target>
+            </trans-unit>
+            <trans-unit id="729">
+                <source>CaseClosingMessage</source>
+                <target>Êtes-vous sûr de vouloir fermer le cas?</target>
+            </trans-unit>
+            <trans-unit id="730">
+                <source>CaseDeletingMessage</source>
+                <target>Êtes-vous sûr de vouloir supprimer ce dossier?</target>
+            </trans-unit>
+            <trans-unit id="731">
+                <source>CaseEditedMessage</source>
+                <target>Le cas a été édité. Voulez-vous sauver les changements?</target>
+            </trans-unit>
+            <trans-unit id="732">
+                <source>CaseFiles</source>
+                <target>Documents du cas</target>
+            </trans-unit>
+            <trans-unit id="733">
+                <source>CaseGraph</source>
+                <target>Graphique du cas</target>
+            </trans-unit>
+            <trans-unit id="734">
+                <source>CaseInOfficeMessage</source>
+                <target>L'affaire est déjà dans ce bureau</target>
+            </trans-unit>
+            <trans-unit id="735">
+                <source>CaseName</source>
+                <target>Nom du cas</target>
+            </trans-unit>
+            <trans-unit id="736">
+                <source>CaseNotFound</source>
+                <target>Dossier non trouvé</target>
+            </trans-unit>
+            <trans-unit id="737">
+                <source>CaseNumber</source>
+                <target>Numéro du cas</target>
+            </trans-unit>
+            <trans-unit id="739">
+                <source>CasesDatabase</source>
+                <target>Base de données des cas</target>
+            </trans-unit>
+            <trans-unit id="740">
+                <source>CaseType</source>
+                <target>Type de cas</target>
+            </trans-unit>
+            <trans-unit id="741">
+                <source>ChangeCaseName</source>
+                <target>Changer le nom de cas</target>
+            </trans-unit>
+            <trans-unit id="742">
+                <source>ChangeLog</source>
+                <target>Changer le registre</target>
+            </trans-unit>
+            <trans-unit id="743">
+                <source>ChangePassword</source>
+                <target>Mot de passe change</target>
+            </trans-unit>
+            <trans-unit id="744">
+                <source>ChangeUsername</source>
+                <target>Changer le nom d'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="745">
+                <source>ChangeUsernameMessage</source>
+                <target>Entrer le nouveau nom d'utilisateur (utilisez uniquement des caractères alphanumériques: a-z, 0-9)</target>
+            </trans-unit>
+            <trans-unit id="746">
+                <source>ChooseValues</source>
+                <target>Choisissez des valeurs</target>
+            </trans-unit>
+            <trans-unit id="747">
+                <source>Citizenship</source>
+                <target>Citoyenneté</target>
+            </trans-unit>
+            <trans-unit id="750">
+                <source>ClearSelection</source>
+                <target>effacer la sélection</target>
+            </trans-unit>
+            <trans-unit id="751">
+                <source>ClearSelections</source>
+                <target>effacer la sélection</target>
+            </trans-unit>
+            <trans-unit id="752">
+                <source>Close</source>
+                <target>Fermer</target>
+                    <note> For Task management &amp; general term 'Close' applicable to a windows in the system </note>
+            </trans-unit>
+            <trans-unit id="753">
+                <source>Closing</source>
+                <target>Clôture</target>
+                    <note> Intermediary message while closing a task </note>
+            </trans-unit>
+            <trans-unit id="754">
+                <source>ClosingTask</source>
+                <target>Fermer la tâche</target>
+                    <note> For Task management </note>
+            </trans-unit>
+            <trans-unit id="755">
+                <source>ClosingTaskMessage</source>
+                <target>Voulez-vous vraiment fermer ce tâche?</target>
+            </trans-unit>
+            <trans-unit id="756">
+                <source>CollapseAllText</source>
+                <target>Effondrement tous</target>
+            </trans-unit>
+            <trans-unit id="757">
+                <source>Comment</source>
+                <target>Commentaire</target>
+            </trans-unit>
+            <trans-unit id="761">
+                <source>Complete</source>
+                <target>Compléter</target>
+            </trans-unit>
+            <trans-unit id="762">
+                <source>Completed</source>
+                <target>Terminé</target>
+            </trans-unit>
+            <trans-unit id="763">
+                <source>Completed2</source>
+                <target>Terminé</target>
+            </trans-unit>
+            <trans-unit id="764">
+                <source>CompletedWithDeadlines</source>
+                <target>Complété avec délais</target>
+            </trans-unit>
+            <trans-unit id="765">
+                <source>CompletingTask</source>
+                <target>Terminer la tâche</target>
+            </trans-unit>
+            <trans-unit id="767">
+                <source>Confidential</source>
+                <target>Confidentiel</target>
+            </trans-unit>
+            <trans-unit id="768">
+                <source>Confidentiality</source>
+                <target>Confidentialité</target>
+            </trans-unit>
+            <trans-unit id="769">
+                <source>Confirmation</source>
+                <target>Confirmation</target>
+            </trans-unit>
+            <trans-unit id="770">
+                <source>ConfirmPassword</source>
+                <target>Confirmer le mot de passe</target>
+            </trans-unit>
+            <trans-unit id="771">
+                <source>connection</source>
+                <target>connexion</target>
+            </trans-unit>
+            <trans-unit id="772">
+                <source>connections</source>
+                <target>connexions</target>
+            </trans-unit>
+            <trans-unit id="774">
+                <source>Contact</source>
+                <target>Contact</target>
+            </trans-unit>
+            <trans-unit id="775">
+                <source>Contacts</source>
+                <target>Contacts</target>
+            </trans-unit>
+            <trans-unit id="776">
+                <source>Content</source>
+                <target>Contenu</target>
+            </trans-unit>
+            <trans-unit id="777">
+                <source>contentSnippets</source>
+                <target>Montrer les extraits</target>
+            </trans-unit>
+            <trans-unit id="779">
+                <source>Create</source>
+                <target>Créer</target>
+            </trans-unit>
+            <trans-unit id="780">
+                <source>CreateCase</source>
+                <target>Créer un nouveau cas</target>
+            </trans-unit>
+            <trans-unit id="782">
+                <source>CreatedBy</source>
+                <target>Créé par</target>
+                    <note> In record properties panel, who created it </note>
+            </trans-unit>
+            <trans-unit id="783">
+                <source>CreatedDate</source>
+                <target>Date de création</target>
+            </trans-unit>
+            <trans-unit id="784">
+                <source>CreateNewTag</source>
+                <target>Créer nouvelle balise</target>
+            </trans-unit>
+            <trans-unit id="785">
+                <source>Critical</source>
+                <target>Critique</target>
+            </trans-unit>
+            <trans-unit id="786">
+                <source>currentMonth</source>
+                <target>mois en cours</target>
+            </trans-unit>
+            <trans-unit id="787">
+                <source>CurrentPassword</source>
+                <target>Mot de passe actuel</target>
+            </trans-unit>
+            <trans-unit id="788">
+                <source>CurrentSearch</source>
+                <target>Recherche actuelle</target>
+            </trans-unit>
+            <trans-unit id="790">
+                <source>Dates</source>
+                <target>Dates</target>
+            </trans-unit>
+            <trans-unit id="796">
+                <source>DefaultStatusIconClass</source>
+                <target>L'icône par défaut</target>
+            </trans-unit>
+            <trans-unit id="797">
+                <source>del</source>
+                <target>effacer</target>
+            </trans-unit>
+            <trans-unit id="798">
+                <source>Delete</source>
+                <target>Effacer</target>
+            </trans-unit>
+            <trans-unit id="799">
+                <source>deleteActionsAttachedFiles</source>
+                <target> supprimer les fichiers associés</target>
+            </trans-unit>
+            <trans-unit id="800">
+                <source>DeleteCase</source>
+                <target>Supprimer ce cas</target>
+            </trans-unit>
+            <trans-unit id="801">
+                <source>DeleteConfirmation</source>
+                <target>Confirmer la suppression</target>
+            </trans-unit>
+            <trans-unit id="802">
+                <source>DeleteFolder</source>
+                <target>Supprimer le dossier</target>
+            </trans-unit>
+            <trans-unit id="803">
+                <source>DeleteGroupConfirmationMessage</source>
+                <target>Voulez-vous vraiment effacer le groupe</target>
+            </trans-unit>
+            <trans-unit id="804">
+                <source>DeleteOrDetachFileMessage</source>
+                <target>Voulez-vous vraiment effacer le document {fileName}? Ce fichier est attaché à plus d'une lettre.</target>
+            </trans-unit>
+            <trans-unit id="805">
+                <source>DeleteRow</source>
+                <target>Effacter la ligne</target>
+            </trans-unit>
+            <trans-unit id="806">
+                <source>DeleteSelectedActionsMessage</source>
+                <target>Êtes-vous sûr que vous voulez supprimer certaines actions?</target>
+            </trans-unit>
+            <trans-unit id="807">
+                <source>DeleteSelectedTasksMessage</source>
+                <target>Êtes-vous sûr que vous voulez supprimer les tâches sélectionnés?</target>
+            </trans-unit>
+            <trans-unit id="808">
+                <source>DeleteTag</source>
+                <target>Supprimez la balise</target>
+            </trans-unit>
+            <trans-unit id="809">
+                <source>DeleteTagsGroup</source>
+                <target>Supprimez le groupe de balises</target>
+            </trans-unit>
+            <trans-unit id="810">
+                <source>DeleteUser</source>
+                <target>Supprimer l'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="811">
+                <source>Deleting</source>
+                <target>Suppression</target>
+            </trans-unit>
+            <trans-unit id="812">
+                <source>DeletingConfirmationMessage</source>
+                <target>Voulez-vous vraiment effacer</target>
+            </trans-unit>
+            <trans-unit id="813">
+                <source>DependentTasks</source>
+                <target>Tâches dépendantes</target>
+            </trans-unit>
+            <trans-unit id="814">
+                <source>Description</source>
+                <target>Description</target>
+            </trans-unit>
+            <trans-unit id="816">
+                <source>Details</source>
+                <target>Détails</target>
+            </trans-unit>
+            <trans-unit id="817">
+                <source>Download</source>
+                <target>Télécharger</target>
+            </trans-unit>
+            <trans-unit id="819">
+                <source>DownloadArchived</source>
+                <target>Télécharger archivés</target>
+                    <note> We had an option (will add it back), to download a bunch of files or folders as one archive </note>
+            </trans-unit>
+            <trans-unit id="820">
+                <source>Downloading</source>
+                <target>Téléchargement</target>
+            </trans-unit>
+            <trans-unit id="821">
+                <source>Edit</source>
+                <target>Editer</target>
+            </trans-unit>
+            <trans-unit id="823">
+                <source>EditCaseTask</source>
+                <target>Editer une tâche du cas</target>
+            </trans-unit>
+            <trans-unit id="824">
+                <source>EditFolder</source>
+                <target>Modifier le dossier</target>
+            </trans-unit>
+            <trans-unit id="825">
+                <source>EditingValue</source>
+                <target>Modification de valeur</target>
+            </trans-unit>
+            <trans-unit id="826">
+                <source>EditProperties</source>
+                <target>Modifier les propriétés</target>
+            </trans-unit>
+            <trans-unit id="827">
+                <source>EditReminder</source>
+                <target>Modifier le rappel</target>
+            </trans-unit>
+            <trans-unit id="828">
+                <source>EditTag</source>
+                <target>Modifiez la balise</target>
+            </trans-unit>
+            <trans-unit id="829">
+                <source>EditTagsGroup</source>
+                <target>Modifier le groupe de balises</target>
+            </trans-unit>
+            <trans-unit id="830">
+                <source>EditTask</source>
+                <target>Editer la tâche</target>
+            </trans-unit>
+            <trans-unit id="831">
+                <source>Email</source>
+                <target>E-mail</target>
+            </trans-unit>
+            <trans-unit id="832">
+                <source>EmptyRequiredFields</source>
+                <target>Tous les champs requis n'ont pas été remplis.</target>
+            </trans-unit>
+            <trans-unit id="833">
+                <source>erase</source>
+                <target>effacer</target>
+            </trans-unit>
+            <trans-unit id="835">
+                <source>ErrorOccured</source>
+                <target>Une erreur s'est produite. Merci de contacter l'administrateur</target>
+            </trans-unit>
+            <trans-unit id="836">
+                <source>exact</source>
+                <target>exact</target>
+                    <note> need to check, probably in a search query </note>
+            </trans-unit>
+            <trans-unit id="837">
+                <source>Exit</source>
+                <target>Déconnecter</target>
+            </trans-unit>
+            <trans-unit id="838">
+                <source>ExitConfirmation</source>
+                <target>Confirmer la déconnection</target>
+            </trans-unit>
+            <trans-unit id="839">
+                <source>ExitConfirmationMessage</source>
+                <target>Voulez-vous vraimener terminer?</target>
+            </trans-unit>
+            <trans-unit id="840">
+                <source>ExpandAllText</source>
+                <target>Développez tous</target>
+            </trans-unit>
+            <trans-unit id="841">
+                <source>Expires</source>
+                <target>Expire</target>
+            </trans-unit>
+            <trans-unit id="842">
+                <source>External</source>
+                <target>Externe</target>
+            </trans-unit>
+            <trans-unit id="843">
+                <source>External2</source>
+                <target>Externe</target>
+            </trans-unit>
+            <trans-unit id="845">
+                <source>ExtractUser</source>
+                <target>Ôter l'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="846">
+                <source>ExtractUserMessage</source>
+                <target>Voulez Vous ôter l'utilisateur "{user}" du groupe "{group}"?</target>
+            </trans-unit>
+            <trans-unit id="847">
+                <source>Fax</source>
+                <target>Télécopieur</target>
+            </trans-unit>
+            <trans-unit id="848">
+                <source>Favorites</source>
+                <target>Favoris</target>
+            </trans-unit>
+            <trans-unit id="850">
+                <source>Fields</source>
+                <target>Champs</target>
+                    <note> In template management, a template has fields </note>
+            </trans-unit>
+            <trans-unit id="852">
+                <source>FileDeletingMessage</source>
+                <target>Vous êtes certain que vous voulez supprimer le fichier</target>
+            </trans-unit>
+            <trans-unit id="853">
+                <source>FileDeletingError</source>
+                <target>Erreur de fichier suppression.</target>
+            </trans-unit>
+            <trans-unit id="854">
+                <source>FileRemoveMessage</source>
+                <target>Vous êtes sûr que vous voulez supprimer le fichier {filename} de l'action actuelle?</target>
+            </trans-unit>
+            <trans-unit id="857">
+                <source>FilesDeleting</source>
+                <target>Effacement les documents</target>
+            </trans-unit>
+            <trans-unit id="858">
+                <source>FilesRemoving</source>
+                <target>Деассоциирование файлов</target>
+            </trans-unit>
+            <trans-unit id="859">
+                <source>fileUploadingMessage</source>
+                <target>Télécharger le fichier, veuillez patienter ...</target>
+            </trans-unit>
+            <trans-unit id="860">
+                <source>Filter</source>
+                <target>Filtre</target>
+            </trans-unit>
+            <trans-unit id="861">
+                <source>FilterByUserTags</source>
+                <target>Filtrer par les balises de l'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="862">
+                <source>FilterTasks</source>
+                <target>Filtre tâches</target>
+            </trans-unit>
+            <trans-unit id="864">
+                <source>forAll</source>
+                <target>por tous</target>
+            </trans-unit>
+            <trans-unit id="865">
+                <source>forOffice</source>
+                <target>pour office</target>
+            </trans-unit>
+            <trans-unit id="866">
+                <source>forMe</source>
+                <target>pour mois</target>
+            </trans-unit>
+            <trans-unit id="867">
+                <source>from</source>
+                <target>de</target>
+            </trans-unit>
+            <trans-unit id="868">
+                <source>FullName</source>
+                <target>Nom complet</target>
+            </trans-unit>
+            <trans-unit id="869">
+                <source>general</source>
+                <target>commun</target>
+            </trans-unit>
+            <trans-unit id="870">
+                <source>Graph</source>
+                <target>Graphique</target>
+            </trans-unit>
+            <trans-unit id="872">
+                <source>Hidden</source>
+                <target>Caché</target>
+            </trans-unit>
+            <trans-unit id="873">
+                <source>HiddenF</source>
+                <target>Caché</target>
+            </trans-unit>
+            <trans-unit id="874">
+                <source>HiddenM</source>
+                <target>Caché</target>
+            </trans-unit>
+            <trans-unit id="875">
+                <source>HiddenTemplate</source>
+                <target>Modèle caché</target>
+            </trans-unit>
+            <trans-unit id="876">
+                <source>History</source>
+                <target>Historique</target>
+            </trans-unit>
+            <trans-unit id="877">
+                <source>HomeAddress</source>
+                <target>Adresse de domicile</target>
+            </trans-unit>
+            <trans-unit id="878">
+                <source>HomePhone</source>
+                <target>Numéro de téléphone résidentiel</target>
+            </trans-unit>
+            <trans-unit id="881">
+                <source>IconClass</source>
+                <target>Icône</target>
+            </trans-unit>
+            <trans-unit id="884">
+                <source>Important</source>
+                <target>Important</target>
+            </trans-unit>
+            <trans-unit id="890">
+                <source>inMenu</source>
+                <target>dans le menu</target>
+            </trans-unit>
+            <trans-unit id="892">
+                <source>Insert</source>
+                <target>Insert</target>
+            </trans-unit>
+            <trans-unit id="893">
+                <source>inTabsheet</source>
+                <target>dans l'onglet</target>
+                    <note> opening a record in its own tabsheet (like a browser tabsheet) </note>
+            </trans-unit>
+            <trans-unit id="894">
+                <source>InterfaceParamsChanged</source>
+                <target>Paramètres d'interface a changé</target>
+            </trans-unit>
+            <trans-unit id="895">
+                <source>InterfaceParamsChangedMessage</source>
+                <target>Paramètres d'interface ont été modifiées. Vous devez recharger la page pour que les modifications prennent effet complet. Si vous souhaitez recharger la page maintenant ?</target>
+            </trans-unit>
+            <trans-unit id="902">
+                <source>Language</source>
+                <target>Langue</target>
+            </trans-unit>
+            <trans-unit id="903">
+                <source>LanguageChange</source>
+                <target>Changement de langue</target>
+            </trans-unit>
+            <trans-unit id="904">
+                <source>LanguageChangeMessage</source>
+                <target>Changer la langue rechargera la page, enregistrer toutes les modifications avant de continuer. Voulez-vous continuer?</target>
+            </trans-unit>
+            <trans-unit id="905">
+                <source>lastAction</source>
+                <target>dernière action</target>
+            </trans-unit>
+            <trans-unit id="906">
+                <source>LastActionDate</source>
+                <target>Date de la dernière action</target>
+            </trans-unit>
+            <trans-unit id="907">
+                <source>LastUpdate</source>
+                <target>Dernière mise à jour</target>
+            </trans-unit>
+            <trans-unit id="908">
+                <source>LastUpdated</source>
+                <target>Dernière mise à jour</target>
+            </trans-unit>
+            <trans-unit id="913">
+                <source>Links</source>
+                <target>Liens</target>
+            </trans-unit>
+            <trans-unit id="914">
+                <source>LoadingData</source>
+                <target>Données en chargement</target>
+            </trans-unit>
+            <trans-unit id="915">
+                <source>LoadAction</source>
+                <target>Chargement des données</target>
+            </trans-unit>
+            <trans-unit id="916">
+                <source>Locate</source>
+                <target>Recherchez</target>
+            </trans-unit>
+            <trans-unit id="917">
+                <source>LogBrowser</source>
+                <target>Navigateur Journal</target>
+            </trans-unit>
+            <trans-unit id="919">
+                <source>LogJournal</source>
+                <target>Journal des opérations</target>
+            </trans-unit>
+            <trans-unit id="922">
+                <source>Management</source>
+                <target>Management</target>
+            </trans-unit>
+            <trans-unit id="924">
+                <source>MarkTaskAsClosed</source>
+                <target>Marquez la tâche comme fermé</target>
+            </trans-unit>
+            <trans-unit id="925">
+                <source>Message</source>
+                <target>Message</target>
+            </trans-unit>
+            <trans-unit id="926">
+                <source>Messages</source>
+                <target>Messages</target>
+            </trans-unit>
+            <trans-unit id="930">
+                <source>Mobile</source>
+                <target>Mobile</target>
+            </trans-unit>
+            <trans-unit id="931">
+                <source>MultipleFilesDeletingMessage</source>
+                <target>Êtes-vous sûr de que vouloir supprimer les fichiers sélectionnés?</target>
+            </trans-unit>
+            <trans-unit id="932">
+                <source>MultipleFilesRemoveMessage</source>
+                <target>Êtes-vous sûr de que vouloir supprimer les fichiers sélectionnés de l'action?</target>
+            </trans-unit>
+            <trans-unit id="933">
+                <source>MyCases</source>
+                <target>Mon cas</target>
+            </trans-unit>
+            <trans-unit id="934">
+                <source>Name</source>
+                <target>Nom</target>
+            </trans-unit>
+            <trans-unit id="935">
+                <source>Nationality</source>
+                <target>Nationalité</target>
+            </trans-unit>
+            <trans-unit id="936">
+                <source>New</source>
+                <target>Nouveau</target>
+            </trans-unit>
+            <trans-unit id="939">
+                <source>NewCase</source>
+                <target>Un nouveau cas</target>
+            </trans-unit>
+            <trans-unit id="940">
+                <source>NewCaseName</source>
+                <target>Nouveau nom du cas</target>
+            </trans-unit>
+            <trans-unit id="943">
+                <source>NewF</source>
+                <target>Nouveau</target>
+            </trans-unit>
+            <trans-unit id="944">
+                <source>NewFolder</source>
+                <target>Nouveau dossier</target>
+            </trans-unit>
+            <trans-unit id="945">
+                <source>NewlyAdded</source>
+                <target>Nouvellement ajouté</target>
+            </trans-unit>
+            <trans-unit id="946">
+                <source>NewM</source>
+                <target>Nouveau</target>
+            </trans-unit>
+            <trans-unit id="947">
+                <source>NewObject</source>
+                <target>Nouvel objet</target>
+            </trans-unit>
+            <trans-unit id="949">
+                <source>NewOffice</source>
+                <target>Nouveau Bureau</target>
+            </trans-unit>
+            <trans-unit id="950">
+                <source>NewReminder</source>
+                <target>Nouveau rappel</target>
+            </trans-unit>
+            <trans-unit id="955">
+                <source>NewTemplate</source>
+                <target>Nouveau modèle</target>
+            </trans-unit>
+            <trans-unit id="957">
+                <source>nextMonth</source>
+                <target>mois prochain</target>
+            </trans-unit>
+            <trans-unit id="959">
+                <source>noData</source>
+                <target><![CDATA[<span class="cG">vide</span>]]></target>
+            </trans-unit>
+            <trans-unit id="960">
+                <source>noDeadline</source>
+                <target>pas de date limite</target>
+            </trans-unit>
+            <trans-unit id="962">
+                <source>NoHeading</source>
+                <target>Pas de titre</target>
+            </trans-unit>
+            <trans-unit id="963">
+                <source>noName</source>
+                <target>pas de nom</target>
+            </trans-unit>
+            <trans-unit id="964">
+                <source>noStatus</source>
+                <target>pas de statut</target>
+            </trans-unit>
+            <trans-unit id="966">
+                <source>Nr</source>
+                <target>Nr.</target>
+            </trans-unit>
+            <trans-unit id="968">
+                <source>Objects</source>
+                <target>Objets</target>
+            </trans-unit>
+            <trans-unit id="972">
+                <source>Office</source>
+                <target>Bureau</target>
+            </trans-unit>
+            <trans-unit id="973">
+                <source>OfficeName</source>
+                <target>Nom du Bureau</target>
+            </trans-unit>
+            <trans-unit id="975">
+                <source>ofHour</source>
+                <target>heures</target>
+            </trans-unit>
+            <trans-unit id="977">
+                <source>ofMinute</source>
+                <target>minute</target>
+            </trans-unit>
+            <trans-unit id="985">
+                <source>ofWeeks</source>
+                <target>semaines</target>
+            </trans-unit>
+            <trans-unit id="986">
+                <source>on</source>
+                <target>sur</target>
+            </trans-unit>
+            <trans-unit id="987">
+                <source>Open</source>
+                <target>Ouvrir</target>
+            </trans-unit>
+            <trans-unit id="988">
+                <source>OpenCalendar</source>
+                <target>Ouvrir le calendrier</target>
+            </trans-unit>
+            <trans-unit id="989">
+                <source>OpenLogJournal</source>
+                <target>Ouvrez le journal </target>
+            </trans-unit>
+            <trans-unit id="990">
+                <source>OpenTransactionLog</source>
+                <target>Ouvrez le journal des transactions</target>
+            </trans-unit>
+            <trans-unit id="991">
+                <source>Options</source>
+                <target>Options</target>
+            </trans-unit>
+            <trans-unit id="992">
+                <source>or</source>
+                <target>ou</target>
+            </trans-unit>
+            <trans-unit id="993">
+                <source>Order</source>
+                <target>Ordre</target>
+            </trans-unit>
+            <trans-unit id="994">
+                <source>Organization</source>
+                <target>Organisation</target>
+            </trans-unit>
+            <trans-unit id="995">
+                <source>Organizations</source>
+                <target>Organisations</target>
+            </trans-unit>
+            <trans-unit id="996">
+                <source>OutOfOffice</source>
+                <target>Out of office</target>
+            </trans-unit>
+            <trans-unit id="997">
+                <source>Outgoing</source>
+                <target>Sortant</target>
+            </trans-unit>
+            <trans-unit id="998">
+                <source>OutgoingAction</source>
+                <target>Action sortant</target>
+            </trans-unit>
+            <trans-unit id="999">
+                <source>OutgoingActions</source>
+                <target>Actions sortant</target>
+            </trans-unit>
+            <trans-unit id="1000">
+                <source>Owner</source>
+                <target>Propriétaire</target>
+            </trans-unit>
+            <trans-unit id="1001">
+                <source>OwnedByMe</source>
+                <target>Appartenant à me</target>
+            </trans-unit>
+            <trans-unit id="1004">
+                <source>ParentTasks</source>
+                <target>Parents tâches</target>
+            </trans-unit>
+            <trans-unit id="1007">
+                <source>PasswordConfirmation</source>
+                <target>Confirmation du mot de passe</target>
+            </trans-unit>
+            <trans-unit id="1008">
+                <source>PasswordMissmatch</source>
+                <target>Les mots de passe ne correspondent pas.</target>
+            </trans-unit>
+            <trans-unit id="1009">
+                <source>PasteFromWord</source>
+                <target>Coller depuis Word</target>
+            </trans-unit>
+            <trans-unit id="1010">
+                <source>personal</source>
+                <target>personnels</target>
+            </trans-unit>
+            <trans-unit id="1011">
+                <source>Phase</source>
+                <target>Phase</target>
+            </trans-unit>
+            <trans-unit id="1012">
+                <source>Phases</source>
+                <target>Phases</target>
+            </trans-unit>
+            <trans-unit id="1013">
+                <source>Phones</source>
+                <target>Téléphones</target>
+            </trans-unit>
+            <trans-unit id="1014">
+                <source>Post</source>
+                <target>Position</target>
+            </trans-unit>
+            <trans-unit id="1015">
+                <source>PostalIndex</source>
+                <target>Indice postal</target>
+            </trans-unit>
+            <trans-unit id="1016">
+                <source>print</source>
+                <target>imprimer</target>
+            </trans-unit>
+            <trans-unit id="1017">
+                <source>Private</source>
+                <target>Privé</target>
+            </trans-unit>
+            <trans-unit id="1018">
+                <source>privatelyAvailable</source>
+                <target>privé</target>
+            </trans-unit>
+            <trans-unit id="1019">
+                <source>Properties</source>
+                <target>Propriétés</target>
+            </trans-unit>
+            <trans-unit id="1022">
+                <source>publiclyAvailable</source>
+                <target>public</target>
+            </trans-unit>
+            <trans-unit id="1023">
+                <source>Qualification</source>
+                <target>Qualification</target>
+            </trans-unit>
+            <trans-unit id="1024">
+                <source>Read</source>
+                <target>Lecture</target>
+            </trans-unit>
+            <trans-unit id="1025">
+                <source>ReadAccess</source>
+                <target>Accès en lecture</target>
+            </trans-unit>
+            <trans-unit id="1026">
+                <source>ReadByAllWriteByManagers</source>
+                <target>Lire pour tous + écrire pour gestionnaires</target>
+            </trans-unit>
+            <trans-unit id="1027">
+                <source>ReadForAll</source>
+                <target>Lecture pour tous</target>
+            </trans-unit>
+            <trans-unit id="1028">
+                <source>readDataErrorMessage</source>
+                <target>Une erreur s'est produite en essayant de lire les données. Voudriez-vous réessayer?</target>
+            </trans-unit>
+            <trans-unit id="1029">
+                <source>RecentlyUpdated</source>
+                <target>Mis à jour récemment</target>
+            </trans-unit>
+            <trans-unit id="1030">
+                <source>redress</source>
+                <target>réparation</target>
+            </trans-unit>
+            <trans-unit id="1032">
+                <source>refresh</source>
+                <target>actualiser</target>
+            </trans-unit>
+            <trans-unit id="1033">
+                <source>RefreshTasksList</source>
+                <target>Actualisez la liste de tâches</target>
+            </trans-unit>
+            <trans-unit id="1034">
+                <source>RefreshTransactionLog</source>
+                <target>Actualisez le journal des transactions</target>
+            </trans-unit>
+            <trans-unit id="1035">
+                <source>Regions</source>
+                <target>Régions</target>
+            </trans-unit>
+            <trans-unit id="1037">
+                <source>ReloadCase</source>
+                <target>Recharger le cas</target>
+            </trans-unit>
+            <trans-unit id="1038">
+                <source>Reminders</source>
+                <target>Rappels</target>
+            </trans-unit>
+            <trans-unit id="1039">
+                <source>Remove</source>
+                <target>Supprimer</target>
+            </trans-unit>
+            <trans-unit id="1040">
+                <source>RemoveAccess</source>
+                <target>Retirer l'accès</target>
+            </trans-unit>
+            <trans-unit id="1041">
+                <source>RemoveFileHint</source>
+                <target>Supprimer le fichier de cette action</target>
+            </trans-unit>
+            <trans-unit id="1042">
+                <source>RemoveFromFavorites</source>
+                <target>Retirer des favoris</target>
+            </trans-unit>
+            <trans-unit id="1043">
+                <source>RemoveManagementAccess</source>
+                <target>Retirer l'accès à la gestion</target>
+            </trans-unit>
+            <trans-unit id="1044">
+                <source>RemovingTask</source>
+                <target>Supprimer la tâche</target>
+            </trans-unit>
+            <trans-unit id="1045">
+                <source>RemovingTaskErrorMessage</source>
+                <target>Une erreur s'est produite en essayant de supprimer la tâche.</target>
+            </trans-unit>
+            <trans-unit id="1046">
+                <source>RemovingTaskMessage</source>
+                <target>Voulez-vous vraiment effacer ce tâche?</target>
+            </trans-unit>
+            <trans-unit id="1047">
+                <source>ResponsibleParty</source>
+                <target>Etat Partie</target>
+            </trans-unit>
+            <trans-unit id="1048">
+                <source>ResponsiblePerson</source>
+                <target>Personne en charge</target>
+            </trans-unit>
+            <trans-unit id="1049">
+                <source>ResponsiblePersons</source>
+                <target>Personnes en charge</target>
+            </trans-unit>
+            <trans-unit id="1050">
+                <source>Result</source>
+                <target>Résultat</target>
+            </trans-unit>
+            <trans-unit id="1051">
+                <source>Save</source>
+                <target>Save</target>
+            </trans-unit>
+            <trans-unit id="1052">
+                <source>SaveChangesConfirmationMessage</source>
+                <target>Enregistrer les modifications?</target>
+            </trans-unit>
+            <trans-unit id="1053">
+                <source>SavedSearches</source>
+                <target>Recherches enregistrées</target>
+            </trans-unit>
+            <trans-unit id="1054">
+                <source>SaveQuery</source>
+                <target>Enregistrez cette requête</target>
+            </trans-unit>
+            <trans-unit id="1055">
+                <source>SavingChangedDataMessage</source>
+                <target>Ceci a été modifié. Voulez-vous sauver les modifications?</target>
+            </trans-unit>
+            <trans-unit id="1056">
+                <source>SavingChanges</source>
+                <target>Changement en sauvegarde</target>
+            </trans-unit>
+            <trans-unit id="1057">
+                <source>SavingDataConfirmation</source>
+                <target>Confirmation des données d'épargne </target>
+            </trans-unit>
+            <trans-unit id="1058">
+                <source>Search</source>
+                <target>Recherche</target>
+            </trans-unit>
+            <trans-unit id="1059">
+                <source>SearchByName</source>
+                <target>Recherche par nom</target>
+            </trans-unit>
+            <trans-unit id="1060">
+                <source>SearchCase</source>
+                <target>Chercher dans le cas</target>
+            </trans-unit>
+            <trans-unit id="1061">
+                <source>SearchCaseBox</source>
+                <target>Rechercer pour CaseBox</target>
+            </trans-unit>
+            <trans-unit id="1062">
+                <source>SearchFiles</source>
+                <target>Recherche de fichiers</target>
+            </trans-unit>
+            <trans-unit id="1063">
+                <source>searching</source>
+                <target>Rechercher...</target>
+            </trans-unit>
+            <trans-unit id="1064">
+                <source>searchSwitchModeMessage</source>
+                <target>changer le mode de rechercher (ET / OU)</target>
+            </trans-unit>
+            <trans-unit id="1065">
+                <source>searchText</source>
+                <target>Texte de recherche</target>
+            </trans-unit>
+            <trans-unit id="1066">
+                <source>SendMessageTo</source>
+                <target>Send message to </target>
+            </trans-unit>
+            <trans-unit id="1068">
+                <source>SetAsCompleted</source>
+                <target>Définir comme terminé</target>
+            </trans-unit>
+            <trans-unit id="1069">
+                <source>SetAsIncomplete</source>
+                <target>Définir comme inachevé</target>
+            </trans-unit>
+            <trans-unit id="1070">
+                <source>SetIncompleteStatusFor</source>
+                <target>Jeu état incomplet pour </target>
+            </trans-unit>
+            <trans-unit id="1071">
+                <source>SetCompleteStatusFor</source>
+                <target>Jeu complet état pour </target>
+            </trans-unit>
+            <trans-unit id="1072">
+                <source>Settings</source>
+                <target>Paramètres</target>
+            </trans-unit>
+            <trans-unit id="1073">
+                <source>SetStatus</source>
+                <target>Définir l'état</target>
+            </trans-unit>
+            <trans-unit id="1074">
+                <source>Sex</source>
+                <target>Sexe</target>
+            </trans-unit>
+            <trans-unit id="1075">
+                <source>ShowMainFile</source>
+                <target>Grille de fichiers</target>
+            </trans-unit>
+            <trans-unit id="1076">
+                <source>showNames</source>
+                <target>afficher les noms</target>
+            </trans-unit>
+            <trans-unit id="1077">
+                <source>ShowSnippets</source>
+                <target>Extraits de l'émission</target>
+            </trans-unit>
+            <trans-unit id="1078">
+                <source>ShowSnippetsHint</source>
+                <target>Extraits de contenu de spectacle avec les mots trouvés</target>
+                    <note> for search results, turning on/off snippets, now this option is hidden </note>
+            </trans-unit>
+            <trans-unit id="1079">
+                <source>SimpleMode</source>
+                <target>Mode simple</target>
+            </trans-unit>
+            <trans-unit id="1080">
+                <source>Size</source>
+                <target>Taille</target>
+            </trans-unit>
+            <trans-unit id="1081">
+                <source>SpentTime</source>
+                <target>Temps consacré</target>
+            </trans-unit>
+            <trans-unit id="1082">
+                <source>Starting</source>
+                <target>Commençant par</target>
+            </trans-unit>
+            <trans-unit id="1084">
+                <source>Subject</source>
+                <target>Sujet</target>
+            </trans-unit>
+            <trans-unit id="1087">
+                <source>System</source>
+                <target>Système</target>
+            </trans-unit>
+            <trans-unit id="1088">
+                <source>SystemTags</source>
+                <target>Balises communes</target>
+            </trans-unit>
+            <trans-unit id="1093">
+                <source>Templates</source>
+                <target>Templates</target>
+            </trans-unit>
+            <trans-unit id="1096">
+                <source>TaskBrowser</source>
+                <target>Navigateur de tâche</target>
+            </trans-unit>
+            <trans-unit id="1097">
+                <source>TaskFor</source>
+                <target>Tâche pour</target>
+            </trans-unit>
+            <trans-unit id="1099">
+                <source>TasksAndReminders</source>
+                <target>Tâches et rappels</target>
+            </trans-unit>
+            <trans-unit id="1100">
+                <source>taskStatus4</source>
+                <target>en attente</target>
+            </trans-unit>
+            <trans-unit id="1101">
+                <source>taskStatus2</source>
+                <target>active</target>
+            </trans-unit>
+            <trans-unit id="1102">
+                <source>taskStatus3</source>
+                <target>fermé</target>
+            </trans-unit>
+            <trans-unit id="1104">
+                <source>Text</source>
+                <target>Texte</target>
+            </trans-unit>
+            <trans-unit id="1105">
+                <source>Thesauri</source>
+                <target>Thésaurus</target>
+            </trans-unit>
+            <trans-unit id="1106">
+                <source>Thesaurus</source>
+                <target>Thésaurus</target>
+            </trans-unit>
+            <trans-unit id="1107">
+                <source>Till</source>
+                <target>Jusqu'à</target>
+            </trans-unit>
+            <trans-unit id="1108">
+                <source>Time</source>
+                <target>Temps</target>
+            </trans-unit>
+            <trans-unit id="1109">
+                <source>Title</source>
+                <target>Titre</target>
+            </trans-unit>
+            <trans-unit id="1111">
+                <source>tomorrow</source>
+                <target>demain</target>
+            </trans-unit>
+            <trans-unit id="1112">
+                <source>TotalRow</source>
+                <target>demain</target>
+            </trans-unit>
+            <trans-unit id="1113">
+                <source>Transfer</source>
+                <target>Transfer</target>
+            </trans-unit>
+            <trans-unit id="1114">
+                <source>TransferCase</source>
+                <target>Transfert du cas</target>
+            </trans-unit>
+            <trans-unit id="1115">
+                <source>TransferingTask</source>
+                <target>Transfer la tâche</target>
+            </trans-unit>
+            <trans-unit id="1116">
+                <source>TransferingTaskMessage</source>
+                <target>Vous êtes certain que vous souhaitez transférer la tâche d'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="1117">
+                <source>TransferTask</source>
+                <target>Transfer la tâche</target>
+            </trans-unit>
+            <trans-unit id="1118">
+                <source>Type</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="1120">
+                <source>updatedAt</source>
+                <target>mise à jour</target>
+            </trans-unit>
+            <trans-unit id="1121">
+                <source>UpdatedDate</source>
+                <target>Mise à jour</target>
+            </trans-unit>
+            <trans-unit id="1122">
+                <source>Upload</source>
+                <target>Téléchargement</target>
+            </trans-unit>
+            <trans-unit id="1124">
+                <source>uploadAnother</source>
+                <target>télécharger un autre</target>
+            </trans-unit>
+            <trans-unit id="1125">
+                <source>UploadArchive</source>
+                <target>Télécharger l'archive</target>
+            </trans-unit>
+            <trans-unit id="1126">
+                <source>UploadFile</source>
+                <target>Télécharger le fichier</target>
+            </trans-unit>
+            <trans-unit id="1127">
+                <source>UploadMultipleFiles</source>
+                <target>Télécharger des fichiers multiples</target>
+            </trans-unit>
+            <trans-unit id="1129">
+                <source>UserDetails</source>
+                <target>Détails sur l'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="1130">
+                <source>UserManagement</source>
+                <target>Management des utlisateurs</target>
+            </trans-unit>
+            <trans-unit id="1132">
+                <source>UsernameCannotBeEmpty</source>
+                <target>Login ne peut pas être vide</target>
+            </trans-unit>
+            <trans-unit id="1133">
+                <source>UsernameInvalid</source>
+                <target>Login non valide spécifié. Veuillez utiliser des caractères alphanumériques uniquement (a-z, 0-9, ., _) sans espace ni virgule.</target>
+            </trans-unit>
+            <trans-unit id="1134">
+                <source>Users</source>
+                <target>Utilisateurs</target>
+            </trans-unit>
+            <trans-unit id="1135">
+                <source>UserTags</source>
+                <target>Étiquettes personnels</target>
+            </trans-unit>
+            <trans-unit id="1137">
+                <source>View</source>
+                <target>Vue</target>
+            </trans-unit>
+            <trans-unit id="1138">
+                <source>viewCaseFiles</source>
+                <target>vue les fichiers</target>
+            </trans-unit>
+            <trans-unit id="1142">
+                <source>visible</source>
+                <target>visible</target>
+            </trans-unit>
+            <trans-unit id="1143">
+                <source>WithDeadlines</source>
+                <target>Avec des délais</target>
+            </trans-unit>
+            <trans-unit id="1145">
+                <source>WorkAddress</source>
+                <target>Adresse de travail</target>
+            </trans-unit>
+            <trans-unit id="1146">
+                <source>WorkMobile</source>
+                <target>Travail mobile</target>
+            </trans-unit>
+            <trans-unit id="1147">
+                <source>WorkPhone</source>
+                <target>Téléphone-travail</target>
+            </trans-unit>
+            <trans-unit id="1148">
+                <source>Write</source>
+                <target>Écriture</target>
+            </trans-unit>
+            <trans-unit id="1149">
+                <source>WriteAccess</source>
+                <target>Accès en écriture</target>
+            </trans-unit>
+            <trans-unit id="1159">
+                <source>AssociateCase</source>
+                <target>Association du cas</target>
+            </trans-unit>
+            <trans-unit id="1161">
+                <source>PrivateArea</source>
+                <target>Espace privé</target>
+            </trans-unit>
+            <trans-unit id="1162">
+                <source>MyCaseBox</source>
+                <target>Mon CaseBox</target>
+            </trans-unit>
+            <trans-unit id="1163">
+                <source>Recent</source>
+                <target>Récents</target>
+            </trans-unit>
+            <trans-unit id="1164">
+                <source>Upcoming</source>
+                <target>Prochain</target>
+            </trans-unit>
+            <trans-unit id="1165">
+                <source>Unread</source>
+                <target>Non lus</target>
+            </trans-unit>
+            <trans-unit id="1167">
+                <source>PublicFolder</source>
+                <target>Public</target>
+            </trans-unit>
+            <trans-unit id="1168">
+                <source>Folder</source>
+                <target>Dossier</target>
+            </trans-unit>
+            <trans-unit id="1169">
+                <source>NewTask</source>
+                <target>Nouveau tâche</target>
+            </trans-unit>
+            <trans-unit id="1170">
+                <source>ShowFoldersContent</source>
+                <target>Afficher le contenu du dossier</target>
+            </trans-unit>
+            <trans-unit id="1171">
+                <source>Processing</source>
+                <target>Traitement</target>
+            </trans-unit>
+            <trans-unit id="1172">
+                <source>DeleteConfirmationMessage</source>
+                <target>Etes-vous sûr que vous voulez supprimer</target>
+            </trans-unit>
+            <trans-unit id="1173">
+                <source>Cut</source>
+                <target>Couper</target>
+            </trans-unit>
+            <trans-unit id="1174">
+                <source>Copy</source>
+                <target>Copier</target>
+            </trans-unit>
+            <trans-unit id="1175">
+                <source>Paste</source>
+                <target>Coller</target>
+            </trans-unit>
+            <trans-unit id="1176">
+                <source>PasteShortcut</source>
+                <target>Coller raccourci</target>
+            </trans-unit>
+            <trans-unit id="1177">
+                <source>CreateShortcut</source>
+                <target>Créer un raccourci</target>
+            </trans-unit>
+            <trans-unit id="1178">
+                <source>Rename</source>
+                <target>Rebaptiser</target>
+            </trans-unit>
+            <trans-unit id="1179">
+                <source>Expand</source>
+                <target>Étendre</target>
+            </trans-unit>
+            <trans-unit id="1180">
+                <source>Collapse</source>
+                <target>Еffondrement</target>
+            </trans-unit>
+            <trans-unit id="1181">
+                <source>Preview</source>
+                <target>Avant-première</target>
+            </trans-unit>
+            <trans-unit id="2649">
+                <source>Reload</source>
+                <target>Reload</target>
+            </trans-unit>
+            <trans-unit id="2650">
+                <source>Explorer</source>
+                <target>Liste</target>
+            </trans-unit>
+            <trans-unit id="2653">
+                <source>Path</source>
+                <target>Chemin</target>
+            </trans-unit>
+            <trans-unit id="2659">
+                <source>Events</source>
+                <target>Events</target>
+            </trans-unit>
+            <trans-unit id="2661">
+                <source>Day</source>
+                <target>Jour</target>
+            </trans-unit>
+            <trans-unit id="2662">
+                <source>Week</source>
+                <target>Semaine</target>
+            </trans-unit>
+            <trans-unit id="2663">
+                <source>Month</source>
+                <target>Mois</target>
+            </trans-unit>
+            <trans-unit id="2664">
+                <source>Today</source>
+                <target>Aujourd'hui</target>
+            </trans-unit>
+            <trans-unit id="2665">
+                <source>AllDay</source>
+                <target>Toute la journée</target>
+            </trans-unit>
+            <trans-unit id="2666">
+                <source>more</source>
+                <target>plus</target>
+            </trans-unit>
+            <trans-unit id="2669">
+                <source>Overwrite</source>
+                <target>Récrire</target>
+            </trans-unit>
+            <trans-unit id="2670">
+                <source>OverwriteAll</source>
+                <target>Ecraser tous</target>
+            </trans-unit>
+            <trans-unit id="2671">
+                <source>AutoRename</source>
+                <target>Auto renommer</target>
+            </trans-unit>
+            <trans-unit id="2672">
+                <source>FileExists</source>
+                <target>Fichier existe</target>
+            </trans-unit>
+            <trans-unit id="2674">
+                <source>NewFileName</source>
+                <target>Nouveau nom de fichier</target>
+            </trans-unit>
+            <trans-unit id="2675">
+                <source>Dashboard</source>
+                <target>Dashboard</target>
+            </trans-unit>
+            <trans-unit id="2676">
+                <source>Projects</source>
+                <target>Cases</target>
+            </trans-unit>
+            <trans-unit id="2678">
+                <source>Descendants</source>
+                <target>Descendants</target>
+            </trans-unit>
+            <trans-unit id="2679">
+                <source>OpenInNewWindow</source>
+                <target>Open in new tab</target>
+            </trans-unit>
+            <trans-unit id="2680">
+                <source>processing</source>
+                <target>traitement</target>
+            </trans-unit>
+            <trans-unit id="2681">
+                <source>NewWindow</source>
+                <target>Nouvelle fenêtre</target>
+            </trans-unit>
+            <trans-unit id="2682">
+                <source>RevisionHistory</source>
+                <target>Historique des versions</target>
+            </trans-unit>
+            <trans-unit id="2685">
+                <source>ago</source>
+                <target>avant</target>
+            </trans-unit>
+            <trans-unit id="2687">
+                <source>Restore</source>
+                <target>Restaurer</target>
+            </trans-unit>
+            <trans-unit id="2688">
+                <source>NewEvent</source>
+                <target>Nouvel événement</target>
+            </trans-unit>
+            <trans-unit id="2689">
+                <source>Missed</source>
+                <target>Raté</target>
+            </trans-unit>
+            <trans-unit id="2692">
+                <source>CurrentVersion</source>
+                <target>Version actuelle</target>
+            </trans-unit>
+            <trans-unit id="2694">
+                <source>Start</source>
+                <target>Démarrer</target>
+            </trans-unit>
+            <trans-unit id="2695">
+                <source>Due</source>
+                <target>Dû</target>
+            </trans-unit>
+            <trans-unit id="2696">
+                <source>Importance</source>
+                <target>Importance</target>
+            </trans-unit>
+            <trans-unit id="2697">
+                <source>Done</source>
+                <target>Fini</target>
+            </trans-unit>
+            <trans-unit id="2698">
+                <source>facet_activeFilters</source>
+                <target>Les filtres actifs</target>
+                    <note> Active filters in the Filter panel on the right </note>
+            </trans-unit>
+            <trans-unit id="2699">
+                <source>facet_due</source>
+                <target>Dû</target>
+            </trans-unit>
+            <trans-unit id="2700">
+                <source>facet_status</source>
+                <target>Statut</target>
+            </trans-unit>
+            <trans-unit id="2701">
+                <source>facet_assigned</source>
+                <target>Assigné</target>
+            </trans-unit>
+            <trans-unit id="2703">
+                <source>ResetAll</source>
+                <target>Réinitialiser tous les</target>
+            </trans-unit>
+            <trans-unit id="2704">
+                <source>ActiveFilters</source>
+                <target>Les filtres actifs</target>
+                    <note> same as above, will check which one is used now </note>
+            </trans-unit>
+            <trans-unit id="2705">
+                <source>due_next7days</source>
+                <target>Les 7 prochains jours</target>
+            </trans-unit>
+            <trans-unit id="2706">
+                <source>due_overdue</source>
+                <target>En retard</target>
+            </trans-unit>
+            <trans-unit id="2707">
+                <source>due_today</source>
+                <target>Aujourd'hui</target>
+            </trans-unit>
+            <trans-unit id="2708">
+                <source>due_next31days</source>
+                <target>Suivant 31 jours</target>
+            </trans-unit>
+            <trans-unit id="2709">
+                <source>due_thisWeek</source>
+                <target>Cette semaine</target>
+            </trans-unit>
+            <trans-unit id="2710">
+                <source>due_thisMonth</source>
+                <target>Ce mois-ci</target>
+            </trans-unit>
+            <trans-unit id="2712">
+                <source>TaskAssigned</source>
+                <target>Аssigné</target>
+            </trans-unit>
+            <trans-unit id="2713">
+                <source>Start_End</source>
+                <target>Début/Fin</target>
+            </trans-unit>
+            <trans-unit id="2714">
+                <source>Category</source>
+                <target>Catégorie</target>
+            </trans-unit>
+            <trans-unit id="2715">
+                <source>AttachFile</source>
+                <target>Joindre un fichier</target>
+            </trans-unit>
+            <trans-unit id="2716">
+                <source>AddReminder</source>
+                <target>Ajouter rappel</target>
+            </trans-unit>
+            <trans-unit id="2717">
+                <source>Low</source>
+                <target>Bas</target>
+            </trans-unit>
+            <trans-unit id="2718">
+                <source>Medium</source>
+                <target>Moyen</target>
+            </trans-unit>
+            <trans-unit id="2719">
+                <source>High</source>
+                <target>Haut</target>
+            </trans-unit>
+            <trans-unit id="2720">
+                <source>MoreDetails</source>
+                <target>Plus de détails</target>
+            </trans-unit>
+            <trans-unit id="2721">
+                <source>ViewTask</source>
+                <target>Voir la tâche</target>
+            </trans-unit>
+            <trans-unit id="2722">
+                <source>revoke</source>
+                <target>révoquer</target>
+            </trans-unit>
+            <trans-unit id="2723">
+                <source>waitingForAction</source>
+                <target>attente d'action</target>
+            </trans-unit>
+            <trans-unit id="2724">
+                <source>completed</source>
+                <target>terminé</target>
+            </trans-unit>
+            <trans-unit id="2725">
+                <source>complete</source>
+                <target>compléter</target>
+            </trans-unit>
+            <trans-unit id="2727">
+                <source>taskStatus1</source>
+                <target>en retard</target>
+            </trans-unit>
+            <trans-unit id="2728">
+                <source>facet_category_id</source>
+                <target>Catégorie</target>
+            </trans-unit>
+            <trans-unit id="2729">
+                <source>MergeFiles</source>
+                <target>Fusionner des fichiers</target>
+            </trans-unit>
+            <trans-unit id="2730">
+                <source>MergeFilesConfirmation</source>
+                <target>Etes-vous sûr que vous voulez fusionner les fichiers sélectionnés?</target>
+            </trans-unit>
+            <trans-unit id="2731">
+                <source>MergingFiles</source>
+                <target>Fusion de fichiers</target>
+            </trans-unit>
+            <trans-unit id="2733">
+                <source>due_yesterday</source>
+                <target>Hier</target>
+            </trans-unit>
+            <trans-unit id="2735">
+                <source>facet_cdate</source>
+                <target>Établi</target>
+            </trans-unit>
+            <trans-unit id="2736">
+                <source>facet_type</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="2737">
+                <source>facet_cid</source>
+                <target>Établi</target>
+            </trans-unit>
+            <trans-unit id="2738">
+                <source>Task</source>
+                <target>Tâche</target>
+            </trans-unit>
+            <trans-unit id="2739">
+                <source>facet_date</source>
+                <target>Date</target>
+            </trans-unit>
+            <trans-unit id="2740">
+                <source>facet_subtype</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="2742">
+                <source>ActiveTasks</source>
+                <target>Tâches actives</target>
+            </trans-unit>
+            <trans-unit id="2743">
+                <source>Modified</source>
+                <target>Modifié</target>
+            </trans-unit>
+            <trans-unit id="2744">
+                <source>facet_importance</source>
+                <target>Importance</target>
+            </trans-unit>
+            <trans-unit id="2745">
+                <source>FileVersionsCount</source>
+                <target>Les versions de fichier compter</target>
+            </trans-unit>
+            <trans-unit id="2746">
+                <source>Duplicates</source>
+                <target>Les doublons</target>
+            </trans-unit>
+            <trans-unit id="2747">
+                <source>OpenItemLocation</source>
+                <target>Ouvrez emplacement de l'élément</target>
+            </trans-unit>
+            <trans-unit id="2748">
+                <source>UploadNewVersion</source>
+                <target>Importer une nouvelle version</target>
+            </trans-unit>
+            <trans-unit id="2749">
+                <source>Unassigned</source>
+                <target>Non attribué</target>
+            </trans-unit>
+            <trans-unit id="2750">
+                <source>AddFile</source>
+                <target>Add file</target>
+            </trans-unit>
+            <trans-unit id="2751">
+                <source>clickToChooseFile</source>
+                <target>choisir le fichier</target>
+            </trans-unit>
+            <trans-unit id="2752">
+                <source>Event</source>
+                <target>Événement</target>
+            </trans-unit>
+            <trans-unit id="2753">
+                <source>ViewEvent</source>
+                <target>Voir l'événement</target>
+            </trans-unit>
+            <trans-unit id="2754">
+                <source>EditEvent</source>
+                <target>Modifier l'événement</target>
+            </trans-unit>
+            <trans-unit id="2755">
+                <source>fileDeleteConfirmation</source>
+                <target>Êtes-vous sûr de vouloir supprimer ce fichier et toutes ses versions?</target>
+            </trans-unit>
+            <trans-unit id="2756">
+                <source>versionDeleteConfirmation</source>
+                <target>Etes-vous sûr que vous voulez supprimer la version du fichier sélectionné?</target>
+            </trans-unit>
+            <trans-unit id="2757">
+                <source>DeleteSelectedConfirmationMessage</source>
+                <target>Êtes-vous sûr de vouloir supprimer les éléments sélectionnés?</target>
+            </trans-unit>
+            <trans-unit id="2766">
+                <source>DisplayOwnTasksMsg</source>
+                <target>Affichage des tâches actives appartenant ou qui vous est attribué.</target>
+            </trans-unit>
+            <trans-unit id="2767">
+                <source>active1</source>
+                <target>actif</target>
+            </trans-unit>
+            <trans-unit id="2768">
+                <source>active2</source>
+                <target>actifs</target>
+            </trans-unit>
+            <trans-unit id="2769">
+                <source>ThereAre</source>
+                <target>Il ya</target>
+            </trans-unit>
+            <trans-unit id="2770">
+                <source>outOf</source>
+                <target>de</target>
+            </trans-unit>
+            <trans-unit id="2771">
+                <source>tasks</source>
+                <target>tâches</target>
+            </trans-unit>
+            <trans-unit id="2772">
+                <source>ofTask</source>
+                <target>tâche</target>
+            </trans-unit>
+            <trans-unit id="2783">
+                <source>Reopen</source>
+                <target>Rouvrir</target>
+            </trans-unit>
+            <trans-unit id="2784">
+                <source>ReopeningTask</source>
+                <target>Réouverture tâche</target>
+            </trans-unit>
+            <trans-unit id="2785">
+                <source>ReopenTaskConfirmationMsg</source>
+                <target>Êtes-vous sûr de vouloir rouvrir cette tâche?</target>
+            </trans-unit>
+            <trans-unit id="2786">
+                <source>CompletedTasks</source>
+                <target>Les tâches terminées</target>
+            </trans-unit>
+            <trans-unit id="2787">
+                <source>ActiveTasksPerUser</source>
+                <target>Tâches actives par utilisateur</target>
+            </trans-unit>
+            <trans-unit id="2788">
+                <source>assignedToMe</source>
+                <target>qui m'était assigné</target>
+            </trans-unit>
+            <trans-unit id="2789">
+                <source>ownedByMe</source>
+                <target>détenue par moi</target>
+            </trans-unit>
+            <trans-unit id="2790">
+                <source>all</source>
+                <target>tous</target>
+            </trans-unit>
+            <trans-unit id="2791">
+                <source>modifiedByMe</source>
+                <target>modifiée par moi</target>
+            </trans-unit>
+            <trans-unit id="2792">
+                <source>modifiedByAnybody</source>
+                <target>modifiable à volonté par</target>
+            </trans-unit>
+            <trans-unit id="2793">
+                <source>thatCreatedTasksForMe</source>
+                <target>que les tâches créées pour moi</target>
+            </trans-unit>
+            <trans-unit id="2794">
+                <source>assignedToTasksCreatedByMe</source>
+                <target>affectés à des tâches créées par moi</target>
+            </trans-unit>
+            <trans-unit id="2795">
+                <source>createdTasks</source>
+                <target>tâches créées</target>
+            </trans-unit>
+            <trans-unit id="2796">
+                <source>assignedToTasks</source>
+                <target>affectées aux tâches</target>
+            </trans-unit>
+            <trans-unit id="2797">
+                <source>Project</source>
+                <target>Case</target>
+            </trans-unit>
+            <trans-unit id="2799">
+                <source>addDuplicateField</source>
+                <target>Dupliquer ce champ</target>
+            </trans-unit>
+            <trans-unit id="2800">
+                <source>delDuplicateField</source>
+                <target>Supprimer les doublon de champ</target>
+            </trans-unit>
+            <trans-unit id="2801">
+                <source>duplicate</source>
+                <target>double</target>
+            </trans-unit>
+            <trans-unit id="2802">
+                <source>facet_sys_tags</source>
+                <target>Balises</target>
+            </trans-unit>
+            <trans-unit id="2803">
+                <source>TakeOwnership</source>
+                <target>Prendre possession</target>
+            </trans-unit>
+            <trans-unit id="2804">
+                <source>TakeOwnershipConfirmation</source>
+                <target>Etes-vous sûr que vous voulez prendre en charge sur certains articles?</target>
+            </trans-unit>
+            <trans-unit id="2805">
+                <source>NewVersion</source>
+                <target>Nouvelle version</target>
+            </trans-unit>
+            <trans-unit id="2806">
+                <source>Replace</source>
+                <target>Remplacer</target>
+            </trans-unit>
+            <trans-unit id="2807">
+                <source>AllAsNewVersion</source>
+                <target>Toutes les version nouvelle</target>
+            </trans-unit>
+            <trans-unit id="2808">
+                <source>ReplaceAll</source>
+                <target>Remplacer tout</target>
+            </trans-unit>
+            <trans-unit id="2814">
+                <source>Info</source>
+                <target>Info</target>
+            </trans-unit>
+            <trans-unit id="2815">
+                <source>List</source>
+                <target>Liste</target>
+            </trans-unit>
+            <trans-unit id="2816">
+                <source>Tree</source>
+                <target>Arbre</target>
+                    <note> All the data in Casebox resides in one big Tree (thats how we call the left Panel) </note>
+            </trans-unit>
+            <trans-unit id="2817">
+                <source>Overview</source>
+                <target>Sommaire</target>
+            </trans-unit>
+            <trans-unit id="2818">
+                <source>facet_template_id</source>
+                <target>Template</target>
+            </trans-unit>
+            <trans-unit id="2819">
+                <source>CaseTemplate</source>
+                <target>Modèle de cas</target>
+            </trans-unit>
+            <trans-unit id="2820">
+                <source>Permissions</source>
+                <target>Autorisations</target>
+            </trans-unit>
+            <trans-unit id="2821">
+                <source>BrowseCase</source>
+                <target>Parcourir les cas</target>
+            </trans-unit>
+            <trans-unit id="2822">
+                <source>Refresh</source>
+                <target>Actualiser</target>
+            </trans-unit>
+            <trans-unit id="2823">
+                <source>addNew</source>
+                <target>ajouter un nouveau</target>
+            </trans-unit>
+            <trans-unit id="2824">
+                <source>edit</source>
+                <target>éditer</target>
+            </trans-unit>
+            <trans-unit id="2825">
+                <source>Security</source>
+                <target>Sécurité</target>
+            </trans-unit>
+            <trans-unit id="2826">
+                <source>Apply</source>
+                <target>Appliquer</target>
+            </trans-unit>
+            <trans-unit id="2827">
+                <source>FullControl</source>
+                <target>Contrôle complet</target>
+            </trans-unit>
+            <trans-unit id="2830">
+                <source>Modify</source>
+                <target>Modifier</target>
+            </trans-unit>
+            <trans-unit id="2831">
+                <source>Browse</source>
+                <target>Feuilleter</target>
+            </trans-unit>
+            <trans-unit id="2832">
+                <source>MyDocuments</source>
+                <target>Mes documents</target>
+            </trans-unit>
+            <trans-unit id="2833">
+                <source>UploadPhoto</source>
+                <target>Ajouter la photo</target>
+            </trans-unit>
+            <trans-unit id="2834">
+                <source>Groups</source>
+                <target>Groupes</target>
+            </trans-unit>
+            <trans-unit id="2835">
+                <source>Group</source>
+                <target>Groupe</target>
+            </trans-unit>
+            <trans-unit id="2836">
+                <source>Creator</source>
+                <target>Créateur</target>
+            </trans-unit>
+            <trans-unit id="2837">
+                <source>facet_tree_tags</source>
+                <target>Propriétés</target>
+            </trans-unit>
+            <trans-unit id="2838">
+                <source>RemoveAll</source>
+                <target>Retirez tous</target>
+            </trans-unit>
+            <trans-unit id="2839">
+                <source>RemoveUploaded</source>
+                <target>Retirer téléchargées</target>
+            </trans-unit>
+            <trans-unit id="2840">
+                <source>UploadQueue</source>
+                <target>Télécharger file d'attente</target>
+            </trans-unit>
+            <trans-unit id="2841">
+                <source>ReadyToUpload</source>
+                <target>Prêt à charger</target>
+            </trans-unit>
+            <trans-unit id="2842">
+                <source>fileUploadStatus1</source>
+                <target>uploading</target>
+            </trans-unit>
+            <trans-unit id="2843">
+                <source>fileUploadStatus2</source>
+                <target>téléchargez erreur</target>
+            </trans-unit>
+            <trans-unit id="2844">
+                <source>fileUploadStatus3</source>
+                <target>télécharger délai</target>
+            </trans-unit>
+            <trans-unit id="2845">
+                <source>fileUploadStatus4</source>
+                <target>téléchargement annuler</target>
+            </trans-unit>
+            <trans-unit id="2846">
+                <source>fileUploadStatus5</source>
+                <target>fini</target>
+            </trans-unit>
+            <trans-unit id="2847">
+                <source>Stop</source>
+                <target>Stop</target>
+            </trans-unit>
+            <trans-unit id="2848">
+                <source>CancelAll</source>
+                <target>Annuler tout</target>
+            </trans-unit>
+            <trans-unit id="2849">
+                <source>Clear</source>
+                <target>Effacer</target>
+            </trans-unit>
+            <trans-unit id="2853">
+                <source>AllCompleted</source>
+                <target>Тerminé</target>
+            </trans-unit>
+            <trans-unit id="2854">
+                <source>AutoshowUpload</source>
+                <target>Afficher automatiquement la fenêtre de téléchargement</target>
+            </trans-unit>
+            <trans-unit id="2855">
+                <source>UploadAutoStart</source>
+                <target>Démarrer télécharger automatiquement</target>
+            </trans-unit>
+            <trans-unit id="2856">
+                <source>ApplyForAll</source>
+                <target>Appliquer à tous</target>
+            </trans-unit>
+            <trans-unit id="2857">
+                <source>PasteFromClipboard</source>
+                <target>Coller à partir du presse-papiers</target>
+            </trans-unit>
+            <trans-unit id="2858">
+                <source>UploadComplete</source>
+                <target>Téléchargez compléter</target>
+            </trans-unit>
+            <trans-unit id="2859">
+                <source>Uploading</source>
+                <target>Uploading</target>
+            </trans-unit>
+            <trans-unit id="2860">
+                <source>AddGroup</source>
+                <target>Groupe</target>
+            </trans-unit>
+            <trans-unit id="2868">
+                <source>CompletedDate</source>
+                <target>Complété</target>
+            </trans-unit>
+            <trans-unit id="2869">
+                <source>Template</source>
+                <target>Modèle</target>
+            </trans-unit>
+            <trans-unit id="2871">
+                <source>MoveUp</source>
+                <target>Déplacer vers le haut</target>
+            </trans-unit>
+            <trans-unit id="2872">
+                <source>MoveDown</source>
+                <target>Déplacer vers le bas</target>
+            </trans-unit>
+            <trans-unit id="2873">
+                <source>Sort</source>
+                <target>Trier</target>
+            </trans-unit>
+            <trans-unit id="2874">
+                <source>sortAlpbabetAsc</source>
+                <target>classer par ordre alphabétique</target>
+            </trans-unit>
+            <trans-unit id="2875">
+                <source>sortAlpbabetDesc</source>
+                <target>trier par ordre alphabétique décroissant</target>
+            </trans-unit>
+            <trans-unit id="2876">
+                <source>facet_template_type</source>
+                <target>Type</target>
+            </trans-unit>
+            <trans-unit id="2877">
+                <source>tt_case</source>
+                <target>Case</target>
+            </trans-unit>
+            <trans-unit id="2878">
+                <source>tt_object</source>
+                <target>Objet</target>
+            </trans-unit>
+            <trans-unit id="2879">
+                <source>tt_file</source>
+                <target>Fichier</target>
+            </trans-unit>
+            <trans-unit id="2880">
+                <source>tt_task</source>
+                <target>Groupe</target>
+            </trans-unit>
+            <trans-unit id="2881">
+                <source>tt_email</source>
+                <target>Email</target>
+            </trans-unit>
+            <trans-unit id="2882">
+                <source>tt_user</source>
+                <target>Utilisateur</target>
+            </trans-unit>
+            <trans-unit id="2883">
+                <source>tt_template</source>
+                <target>Template</target>
+            </trans-unit>
+            <trans-unit id="2884">
+                <source>tt_</source>
+                <target>Aucun type</target>
+            </trans-unit>
+            <trans-unit id="2895">
+                <source>Emails</source>
+                <target>Emails</target>
+            </trans-unit>
+            <trans-unit id="2896">
+                <source>Milestones</source>
+                <target>Milestones</target>
+            </trans-unit>
+            <trans-unit id="2897">
+                <source>Account</source>
+                <target>Compte</target>
+            </trans-unit>
+            <trans-unit id="2898">
+                <source>Profile</source>
+                <target>Profil</target>
+            </trans-unit>
+            <trans-unit id="2901">
+                <source>Total</source>
+                <target>Totale</target>
+            </trans-unit>
+            <trans-unit id="2903">
+                <source>ShowAll</source>
+                <target>Afficher tout</target>
+            </trans-unit>
+            <trans-unit id="2909">
+                <source>FirstName</source>
+                <target>Prénom</target>
+            </trans-unit>
+            <trans-unit id="2910">
+                <source>LastName</source>
+                <target>Nom de famille</target>
+            </trans-unit>
+            <trans-unit id="2911">
+                <source>Gender</source>
+                <target>Genre</target>
+            </trans-unit>
+            <trans-unit id="2912">
+                <source>PrimaryEmail</source>
+                <target>Courriel primaire</target>
+            </trans-unit>
+            <trans-unit id="2913">
+                <source>Country</source>
+                <target>Pays</target>
+            </trans-unit>
+            <trans-unit id="2914">
+                <source>Phone</source>
+                <target>Téléphone</target>
+            </trans-unit>
+            <trans-unit id="2915">
+                <source>Timezone</source>
+                <target>Fuseau horaire</target>
+            </trans-unit>
+            <trans-unit id="2916">
+                <source>DateFormat</source>
+                <target>Format de date</target>
+            </trans-unit>
+            <trans-unit id="2917">
+                <source>Change</source>
+                <target>Changer</target>
+            </trans-unit>
+            <trans-unit id="2918">
+                <source>RemovePhotoConfirm</source>
+                <target>Etes-vous sûr de vouloir supprimer la photo de compte?</target>
+            </trans-unit>
+            <trans-unit id="2919">
+                <source>Verify</source>
+                <target>Vérifier</target>
+            </trans-unit>
+            <trans-unit id="2920">
+                <source>RecoveryOptions</source>
+                <target>Options de récupération</target>
+            </trans-unit>
+            <trans-unit id="2921">
+                <source>PhoneNumber</source>
+                <target>Numéro de téléphone</target>
+            </trans-unit>
+            <trans-unit id="2922">
+                <source>Question</source>
+                <target>Question</target>
+            </trans-unit>
+            <trans-unit id="2923">
+                <source>Answer</source>
+                <target>Répondre</target>
+            </trans-unit>
+            <trans-unit id="2924">
+                <source>TSV</source>
+                <target>Vérification en 2 étapes</target>
+            </trans-unit>
+            <trans-unit id="2925">
+                <source>SecurityQuestion</source>
+                <target>Security question</target>
+            </trans-unit>
+            <trans-unit id="2926">
+                <source>PasswordNeverChanged</source>
+                <target>Mot de passe n'a jamais changé</target>
+            </trans-unit>
+            <trans-unit id="2927">
+                <source>Enable</source>
+                <target>Activer</target>
+            </trans-unit>
+            <trans-unit id="2928">
+                <source>Disabled</source>
+                <target>Désactivé</target>
+            </trans-unit>
+            <trans-unit id="2937">
+                <source>PasswordChanged</source>
+                <target>Mot de passe modifié</target>
+            </trans-unit>
+            <trans-unit id="2938">
+                <source>SpecifyPhone</source>
+                <target>Indiquez votre numéro de téléphone.</target>
+            </trans-unit>
+            <trans-unit id="2939">
+                <source>SpecifyPhoneMsg</source>
+                <target>Nous vous enverrons un code numérique de votre téléphone lorsque vous vous connectez</target>
+            </trans-unit>
+            <trans-unit id="2940">
+                <source>SendCode</source>
+                <target>Envoyez le code</target>
+            </trans-unit>
+            <trans-unit id="2941">
+                <source>Disable</source>
+                <target>Désactivér</target>
+            </trans-unit>
+            <trans-unit id="2943">
+                <source>Attach</source>
+                <target>Joindre</target>
+            </trans-unit>
+            <trans-unit id="2944">
+                <source>Code</source>
+                <target>Code</target>
+            </trans-unit>
+            <trans-unit id="2945">
+                <source>Reminder</source>
+                <target>Rappel</target>
+            </trans-unit>
+            <trans-unit id="2946">
+                <source>RemoveChildPermissions</source>
+                <target>Supprimer les autorisations internes</target>
+            </trans-unit>
+            <trans-unit id="2947">
+                <source>DDActionMsg_copy</source>
+                <target>Etes-vous sûr que vous voulez copier "{source}" à "{target}"?</target>
+            </trans-unit>
+            <trans-unit id="2948">
+                <source>DDActionMsg_move</source>
+                <target>Etes-vous sûr que vous voulez déplacer "{source}" à "{target}"?</target>
+            </trans-unit>
+            <trans-unit id="2949">
+                <source>DDActionMsg_shortcut</source>
+                <target>Etes-vous sûr que vous voulez créer un raccourci pour "{source}" dans "{target}"?</target>
+            </trans-unit>
+            <trans-unit id="2950">
+                <source>SearchResults</source>
+                <target>Recherche</target>
+            </trans-unit>
+            <trans-unit id="2951">
+                <source>Export</source>
+                <target>Export</target>
+            </trans-unit>
+            <trans-unit id="2954">
+                <source>Charts</source>
+                <target>Graphiques</target>
+            </trans-unit>
+            <trans-unit id="2955">
+                <source>Views</source>
+                <target>Views</target>
+            </trans-unit>
+            <trans-unit id="2956">
+                <source>More</source>
+                <target>More</target>
+            </trans-unit>
+            <trans-unit id="2957">
+                <source>Home</source>
+                <target>Domicile</target>
+            </trans-unit>
+            <trans-unit id="2958">
+                <source>Saving</source>
+                <target>Sauver</target>
+            </trans-unit>
+            <trans-unit id="2961">
+                <source>Contents</source>
+                <target>Contenu</target>
+            </trans-unit>
+            <trans-unit id="2962">
+                <source>Comments</source>
+                <target>Commentaires</target>
+            </trans-unit>
+            <trans-unit id="2967">
+                <source>generatingPreview</source>
+                <target>génération aperçu</target>
+            </trans-unit>
+            <trans-unit id="2968">
+                <source>sending</source>
+                <target>envoi</target>
+            </trans-unit>
+            <trans-unit id="2969">
+                <source>Pivot</source>
+                <target>Pivot table</target>
+            </trans-unit>
+            <trans-unit id="2970">
+                <source>HBars</source>
+                <target>H Bars</target>
+            </trans-unit>
+            <trans-unit id="2971">
+                <source>VBars</source>
+                <target>V Bars</target>
+            </trans-unit>
+            <trans-unit id="2972">
+                <source>Rows</source>
+                <target>Rows</target>
+            </trans-unit>
+            <trans-unit id="2973">
+                <source>Columns</source>
+                <target>Columns</target>
+            </trans-unit>
+            <trans-unit id="2975">
+                <source>Condition</source>
+                <target>Condition</target>
+            </trans-unit>
+            <trans-unit id="2976">
+                <source>Metadata</source>
+                <target>Metadata</target>
+            </trans-unit>
+            <trans-unit id="2977">
+                <source>condNumEq</source>
+                <target>equal</target>
+            </trans-unit>
+            <trans-unit id="2978">
+                <source>condNumLt</source>
+                <target>less or equal</target>
+            </trans-unit>
+            <trans-unit id="2979">
+                <source>condNumGt</source>
+                <target>greater or equal</target>
+            </trans-unit>
+            <trans-unit id="2980">
+                <source>condNumNe</source>
+                <target>not equal</target>
+            </trans-unit>
+            <trans-unit id="2981">
+                <source>condSetLt</source>
+                <target>contains any</target>
+            </trans-unit>
+            <trans-unit id="2982">
+                <source>condSetGt</source>
+                <target>containsAll</target>
+            </trans-unit>
+            <trans-unit id="2983">
+                <source>condSetEq</source>
+                <target>equal</target>
+            </trans-unit>
+            <trans-unit id="2984">
+                <source>condSetNe</source>
+                <target>not equal</target>
+            </trans-unit>
+            <trans-unit id="2985">
+                <source>condTxtContain</source>
+                <target>contain</target>
+            </trans-unit>
+            <trans-unit id="2986">
+                <source>condTxtBegin</source>
+                <target>start with</target>
+            </trans-unit>
+            <trans-unit id="2987">
+                <source>condTxtEnd</source>
+                <target>end with</target>
+            </trans-unit>
+            <trans-unit id="2988">
+                <source>condTxtNc</source>
+                <target>does not contain</target>
+            </trans-unit>
+            <trans-unit id="2989">
+                <source>condTxtEq</source>
+                <target>equal</target>
+            </trans-unit>
+            <trans-unit id="2990">
+                <source>condTxtNe</source>
+                <target>not equal</target>
+            </trans-unit>
+            <trans-unit id="2991">
+                <source>condCbEq</source>
+                <target>is</target>
+            </trans-unit>
+            <trans-unit id="2992">
+                <source>condCbNe</source>
+                <target>is not</target>
+            </trans-unit>
+            <trans-unit id="3016">
+                <source>VersionsHistory</source>
+                <target>Versions history</target>
+            </trans-unit>
+            <trans-unit id="3017">
+                <source>DirectEditLink</source>
+                <target>Direct edit link</target>
+            </trans-unit>
+            <trans-unit id="3019">
+                <source>Deleted</source>
+                <target>Deleted</target>
+            </trans-unit>
+            <trans-unit id="3022">
+                <source>Subscribe</source>
+                <target>Subscribe</target>
+            </trans-unit>
+            <trans-unit id="3023">
+                <source>SubscribeRecursive</source>
+                <target>Recursive subscribe</target>
+            </trans-unit>
+            <trans-unit id="3024">
+                <source>SubscribeMsg</source>
+                <target>Do you want to subscribe only to this item or to all its children as well?</target>
+            </trans-unit>
+            <trans-unit id="3025">
+                <source>Unsubscribe</source>
+                <target>Unsubscribe</target>
+            </trans-unit>
+            <trans-unit id="3027">
+                <source>UpdatedBy</source>
+                <target>Updated by</target>
+            </trans-unit>
+            <trans-unit id="3028">
+                <source>Theme</source>
+                <target>Тhème</target>
+            </trans-unit>
+            <trans-unit id="3029">
+                <source>ThemeChangeMessage</source>
+                <target>Changing the theme will reload the page, save all changes before contine. Do you want to continue?</target>
+            </trans-unit>
+            <trans-unit id="3030">
+                <source>ShowSelection</source>
+                <target>Show selection</target>
+            </trans-unit>
+            <trans-unit id="3031">
+                <source>Commented</source>
+                <target>Commented</target>
+            </trans-unit>
+            <trans-unit id="3033">
+                <source>Added</source>
+                <target>Added</target>
+            </trans-unit>
+            <trans-unit id="3034">
+                <source>CommentedBy</source>
+                <target>Commented by</target>
+            </trans-unit>
+            <trans-unit id="3035">
+                <source>CommentedDate</source>
+                <target>Commented date</target>
+            </trans-unit>
+            <trans-unit id="3039">
+                <source>DisableTSVConfirmation</source>
+                <target>Are you sure you want to disable 2-step authentication?</target>
+            </trans-unit>
+            <trans-unit id="3040">
+                <source>SelectPreviewItem</source>
+                <target>Select an item for preview</target>
+            </trans-unit>
+            <trans-unit id="3041">
+                <source>GridDDMsg</source>
+                <target><![CDATA[Drop files here to upload to current folder<br />or drop over a row to upload into that element]]></target>
+            </trans-unit>
+            <trans-unit id="3042">
+                <source>NoData</source>
+                <target>No Data</target>
+            </trans-unit>
+            <trans-unit id="3043">
+                <source>Bar</source>
+                <target>Bar</target>
+            </trans-unit>
+            <trans-unit id="3044">
+                <source>Column</source>
+                <target>Column</target>
+            </trans-unit>
+            <trans-unit id="3045">
+                <source>WebDAVLink</source>
+                <target>WebDAV Link</target>
+            </trans-unit>
+            <trans-unit id="3046">
+                <source>Permalink</source>
+                <target>Permalink</target>
+            </trans-unit>
+            <trans-unit id="3047">
+                <source>NameRequired</source>
+                <target>A name is required</target>
+            </trans-unit>
+            <trans-unit id="3048">
+                <source>Pie</source>
+                <target>Pie</target>
+            </trans-unit>
+            <trans-unit id="3049">
+                <source>VerifyAndSave</source>
+                <target>Verify and Save</target>
+            </trans-unit>
+            <trans-unit id="3050">
+                <source>InheritPermissionsMsg</source>
+                <target>Include inheritable permissions from this object's parent</target>
+            </trans-unit>
+            <trans-unit id="3051">
+                <source>UploadWindow</source>
+                <target>Upload window</target>
+            </trans-unit>
+            <trans-unit id="3052">
+                <source>WriteComment</source>
+                <target>Write a comment</target>
+            </trans-unit>
+            <trans-unit id="3053">
+                <source>Reply</source>
+                <target>Reply</target>
+            </trans-unit>
+            <trans-unit id="3054">
+                <source>DropFilesHere</source>
+                <target>Drop files here</target>
+            </trans-unit>
+            <trans-unit id="3055">
+                <source>Minimize</source>
+                <target>Minimize</target>
+            </trans-unit>
+            <trans-unit id="3056">
+                <source>Maximize</source>
+                <target>Maximize</target>
+            </trans-unit>
+            <trans-unit id="3057">
+                <source>EndDate</source>
+                <target>End date</target>
+            </trans-unit>
+            <trans-unit id="3058">
+                <source>SearchResultsTitleTemplate</source>
+                <target>Search results: {name} ({count})</target>
+            </trans-unit>
+            <trans-unit id="3059">
+                <source>GridDDMgs</source>
+                <target><![CDATA[Drop files here to upload to current folder<br />or drop over a row to upload into that element]]></target>
+            </trans-unit>
+            <trans-unit id="3060">
+                <source>GridEmptyText</source>
+                <target><![CDATA[<h3>Drop files here</h3> or use "New" button]]></target>
+            </trans-unit>
+            <trans-unit id="3061">
+                <source>NoResultsFound</source>
+                <target>No results found</target>
+            </trans-unit>
+            <trans-unit id="3062">
+                <source>Clipboard</source>
+                <target>Clipboard</target>
+            </trans-unit>
+            <trans-unit id="3063">
+                <source>RecordIdNotFound</source>
+                <target>Record {id} not found.</target>
+            </trans-unit>
+            <trans-unit id="3064">
+                <source>ClosedDate</source>
+                <target>Closed date</target>
+            </trans-unit>
+            <trans-unit id="3065">
+                <source>DeletedDate</source>
+                <target>Deleted date</target>
+            </trans-unit>
+            <trans-unit id="3069">
+                <source>AddCommentError</source>
+                <target>An error has occured on trying to add comment.</target>
+            </trans-unit>
+            <trans-unit id="3070">
+                <source>CloseWithChangesConfirmation</source>
+                <target>You have changes. Are you sure you want to close?</target>
+            </trans-unit>
+            <trans-unit id="3071">
+                <source>SortByName</source>
+                <target>Sort by name</target>
+            </trans-unit>
+            <trans-unit id="3072">
+                <source>SortByCount</source>
+                <target>Sort by count</target>
+            </trans-unit>
+            <trans-unit id="3073">
+                <source>DropZoneMsg</source>
+                <target><![CDATA[Drag files here, or <a class="click upload">Upload</a>]]></target>
+            </trans-unit>
+            <trans-unit id="3074">
+                <source>DiscardCommentConfirmation</source>
+                <target>You haven't finished your comment yet. Do you want to leave without finishing?</target>
+            </trans-unit>
+            <trans-unit id="3075">
+                <source>SortByNameAsc</source>
+                <target>Sort by name ascending</target>
+            </trans-unit>
+            <trans-unit id="3076">
+                <source>SortByNameDesc</source>
+                <target>Sort by name descending</target>
+            </trans-unit>
+            <trans-unit id="3077">
+                <source>SortByCountAsc</source>
+                <target>Sort by count ascending</target>
+            </trans-unit>
+            <trans-unit id="3078">
+                <source>SortByCountDesc</source>
+                <target>Sort by count descending</target>
+            </trans-unit>
+            <trans-unit id="3079">
+                <source>ViewMore</source>
+                <target>View more</target>
+            </trans-unit>
+            <trans-unit id="3080">
+                <source>SendEmailInvite</source>
+                <target>Envoyer un mail inviter</target>
+            </trans-unit>
+            <trans-unit id="3081">
+                <source>SendResetPassMail</source>
+                <target>Envoyer le mot de passe de réinitialisation email</target>
+            </trans-unit>
+            <trans-unit id="3082">
+                <source>EmailSent</source>
+                <target>Email sent</target>
+            </trans-unit>
+            <trans-unit id="3083">
+                <source>BrowserNoDDUpload</source>
+                <target>This browser does not support file uploading from desktop</target>
+            </trans-unit>
+            <trans-unit id="3084">
+                <source>BrowserNoFolderUpload</source>
+                <target>This browser does not support folder uploading from desktop</target>
+            </trans-unit>
+            <trans-unit id="3086">
+                <source>EnableUser</source>
+                <target>Enable user</target>
+            </trans-unit>
+            <trans-unit id="3087">
+                <source>DisableUser</source>
+                <target>Désactiver l'utilisateur</target>
+            </trans-unit>
+            <trans-unit id="3088">
+                <source>SessionExpired</source>
+                <target>Session expired please reload.</target>
+            </trans-unit>
+            <trans-unit id="3091">
+                <source>FollowText</source>
+                <target><![CDATA[<b>Follow</b> <span class="cG">get notified in app & email</span>]]></target>
+            </trans-unit>
+            <trans-unit id="3092">
+                <source>WatchText</source>
+                <target><![CDATA[<b>Watch</b> <span class="cG">see in activity stream</span>]]></target>
+            </trans-unit>
+            <trans-unit id="3093">
+                <source>IgnoreText</source>
+                <target><![CDATA[<b>Ignore</b>]]></target>
+            </trans-unit>
+            <trans-unit id="3094">
+                <source>MarkAllAsRead</source>
+                <target>Mark all as read</target>
+            </trans-unit>
+            <trans-unit id="3095">
+                <source>NNOthers</source>
+                <target>{count} others</target>
+                    <note> used for Notification display records (user1, user2 and 2 others) </note>
+            </trans-unit>
+            <trans-unit id="3096">
+                <source>updated</source>
+                <target>mise à jour</target>
+            </trans-unit>
+            <trans-unit id="3097">
+                <source>created</source>
+                <target>créé</target>
+            </trans-unit>
+            <trans-unit id="3098">
+                <source>deleted</source>
+                <target>deleted</target>
+            </trans-unit>
+            <trans-unit id="3099">
+                <source>closed</source>
+                <target>a fermé</target>
+            </trans-unit>
+            <trans-unit id="3100">
+                <source>renamed</source>
+                <target>rebaptiser</target>
+            </trans-unit>
+            <trans-unit id="3103">
+                <source>moved</source>
+                <target>moved</target>
+            </trans-unit>
+            <trans-unit id="3104">
+                <source>reopened</source>
+                <target>reopened</target>
+            </trans-unit>
+            <trans-unit id="3105">
+                <source>commented</source>
+                <target>commented</target>
+            </trans-unit>
+            <trans-unit id="3107">
+                <source>commentedOn</source>
+                <target>commented on</target>
+            </trans-unit>
+            <trans-unit id="3108">
+                <source>none</source>
+                <target>aucun</target>
+            </trans-unit>
+            <trans-unit id="3109">
+                <source>file_uploaded_to</source>
+                <target>uploaded a file to</target>
+            </trans-unit>
+            <trans-unit id="3110">
+                <source>file_updated_in</source>
+                <target>updated a file in</target>
+            </trans-unit>
+            <trans-unit id="3111">
+                <source>Notifications</source>
+                <target>Notifications</target>
+            </trans-unit>
+            <trans-unit id="3112">
+                <source>ErrorUploadingFile</source>
+                <target>Error uploading file "{name}"</target>
+            </trans-unit>
+            <trans-unit id="3113">
+                <source>SortValue</source>
+                <target>Sort value</target>
+            </trans-unit>
+            <trans-unit id="3114">
+                <source>ReorderItemsMsg</source>
+                <target>To reorder items you can use Drag and Drop, click on arrows from right side of selected record or use keyboard combinations Ctrl + Up / Down</target>
+            </trans-unit>
+            <trans-unit id="3115">
+                <source>ReorderDDText</source>
+                <target>Drag and drop to reorganize</target>
+            </trans-unit>
+            <trans-unit id="3116">
+                <source>ActivityStream</source>
+                <target>Activity stream</target>
+            </trans-unit>
+            <trans-unit id="3119">
+                <source>Next</source>
+                <target>Next</target>
+            </trans-unit>
+            <trans-unit id="3120">
+                <source>PasswordSetup</source>
+                <target>Password setup</target>
+            </trans-unit>
+            <trans-unit id="3121">
+                <source>EmailInvite</source>
+                <target>Email invite</target>
+            </trans-unit>
+            <trans-unit id="3122">
+                <source>Manual</source>
+                <target>Manual</target>
+            </trans-unit>
+            <trans-unit id="3123">
+                <source>Customize</source>
+                <target>Customize</target>
+            </trans-unit>
+            <trans-unit id="3124">
+                <source>NotificationsSettings</source>
+                <target>Notifications settings</target>
+            </trans-unit>
+            <trans-unit id="3126">
+                <source>Unstar</source>
+                <target>Unstar</target>
+            </trans-unit>
+            <trans-unit id="3128">
+                <source>Star</source>
+                <target>Star</target>
+            </trans-unit>
+            <trans-unit id="3129">
+                <source>SetStarNameMsg</source>
+                <target>Set name to be displayed in starred list</target>
+            </trans-unit>
+            <trans-unit id="3130">
+                <source>AlreadyStarred</source>
+                <target>Item already starred</target>
+            </trans-unit>
+            <trans-unit id="3131">
+                <source>NotifySettings</source>
+                <target>Notifications settings</target>
+            </trans-unit>
+            <trans-unit id="3132">
+                <source>NotifyOn</source>
+                <target>Turn notifications on</target>
+            </trans-unit>
+            <trans-unit id="3133">
+                <source>NotifyOff</source>
+                <target>Turn notifications off</target>
+            </trans-unit>
+            <trans-unit id="3134">
+                <source>Calendars</source>
+                <target>Calendries</target>
+            </trans-unit>
+            <trans-unit id="3135">
+                <source>ColoringBy</source>
+                <target>Coloring by</target>
+            </trans-unit>
+            <trans-unit id="3136">
+                <source>MoreCommentsHint</source>
+                <target>View previous comments</target>
+            </trans-unit>
+            <trans-unit id="3137">
+                <source>of</source>
+                <target>sur</target>
+            </trans-unit>
+            <trans-unit id="3138">
+                <source>SetOwner</source>
+                <target>Set owner</target>
+            </trans-unit>
+            <trans-unit id="3139">
+                <source>FillFieldMsg</source>
+                <target>Please fill out the '{fieldName}' field</target>
+            </trans-unit>
+            <trans-unit id="3141">
+                <source>Map</source>
+                <target>Map</target>
+            </trans-unit>
+            <trans-unit id="3142">
+                <source>selectedCoordinates</source>
+                <target>Selected coordinates</target>
+            </trans-unit>
+            <trans-unit id="3143">
+                <source>AddComment</source>
+                <target>Commentе</target>
+            </trans-unit>
+            <trans-unit id="3144">
+                <source>MyTasks</source>
+                <target>Tâches</target>
+            </trans-unit>
+            <trans-unit id="3145">
+                <source>CreatedByMe</source>
+                <target>Créé</target>
+            </trans-unit>
+            <trans-unit id="3146">
+                <source>ExportAllCases</source>
+                <target>Export all cases</target>
+            </trans-unit>
+            <trans-unit id="3147">
+                <source>DeletedBy</source>
+                <target>Deleted by</target>
+            </trans-unit>
+            <trans-unit id="3148">
+                <source>Set</source>
+                <target>Set</target>
+            </trans-unit>
+            <trans-unit id="3149">
+                <source>Latitude</source>
+                <target>Latitude</target>
+            </trans-unit>
+            <trans-unit id="3150">
+                <source>Longitude</source>
+                <target>Longitude</target>
+            </trans-unit>
+            <trans-unit id="3152">
+                <source>Cancel</source>
+                <target>Cancel</target>
+            </trans-unit>
+            <trans-unit id="3153">
+                <source>ReloadTemplates</source>
+                <target>Reload templates</target>
+            </trans-unit>
+            <trans-unit id="3154">
+                <source>SpecifyComment</source>
+                <target>Please specify a comment.</target>
+            </trans-unit>
+            <trans-unit id="3155">
+                <source>TimeSpent</source>
+                <target>Time spent</target>
+            </trans-unit>
+            <trans-unit id="3156">
+                <source>MarkAsUnread</source>
+                <target>Mark as unread</target>
+            </trans-unit>
+            <trans-unit id="3157">
+                <source>ShowUnread</source>
+                <target>Show unread</target>
+            </trans-unit>
+            <trans-unit id="3158">
+                <source>ShowLegend</source>
+                <target>Show legend</target>
+            </trans-unit>
+            <trans-unit id="3159">
+                <source>TotalCharsHint</source>
+                <target>Field is limited to maximum {total} chars</target>
+            </trans-unit>
+            <trans-unit id="3160">
+                <source>RemainingCharsHint</source>
+                <target>{left} remaining chars</target>
+            </trans-unit>
+            <trans-unit id="3161">
+                <source>copied</source>
+                <target>copied</target>
+            </trans-unit>
+            <trans-unit id="3162">
+                <source>Print</source>
+                <target>Print</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

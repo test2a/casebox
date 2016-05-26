@@ -205,7 +205,7 @@ Ext.define('CB.Favorites.Panel', {
         var r = this.contextMenu.record
             ,d = Ext.clone(r.data.data);
         d.id = r.data.node_id;
-        App.openObjectWindow(d);
+        App.windowManager.openObjectWindow(d);
     }
 
     ,onUnstarClick: function(b, e) {

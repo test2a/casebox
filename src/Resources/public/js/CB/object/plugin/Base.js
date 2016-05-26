@@ -100,6 +100,6 @@ Ext.define('CB.object.plugin.Base', {
      * @return void
      */
     ,openObjectProperties: function(data) {
-        App.openObjectWindow(data);
+        App.windowManager.openObjectWindow(data);
     }
 });

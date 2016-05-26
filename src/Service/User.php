@@ -209,6 +209,7 @@ class User
                 'default_task_template' => $this->configService->get('default_task_template'),
                 'default_event_template' => $this->configService->get('default_event_template'),
                 'files.edit' => $filesEdit,
+                'default_object_edit_mode' => $this->configService->get('default_object_edit_mode', 'view'),
                 'template_info_column' => $this->configService->get('template_info_column'),
                 'leftRibbonButtons' => $this->configService->get('leftRibbonButtons'),
             ],

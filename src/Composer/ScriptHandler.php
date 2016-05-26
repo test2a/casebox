@@ -62,8 +62,8 @@ class ScriptHandler
     /**
      * Returns a relative path to the directory that contains the `console` command.
      *
-     * @param CommandEvent $event The command event.
-     * @param string $actionName The name of the action
+     * @param CommandEvent $event      The command event.
+     * @param string       $actionName The name of the action
      *
      * @return string|null The path to the console directory, null if not found.
      */
@@ -119,9 +119,9 @@ class ScriptHandler
 
     /**
      * @param CommandEvent $event
-     * @param string $consoleDir
-     * @param string $cmd
-     * @param int $timeout
+     * @param string       $consoleDir
+     * @param string       $cmd
+     * @param int          $timeout
      */
     protected static function executeCommand(CommandEvent $event, $consoleDir, $cmd, $timeout = 300)
     {
@@ -179,6 +179,6 @@ class ScriptHandler
             return;
         }
 
-        static::executeCommand($event, $consoleDir, 'casebox:translations:export');
+        static::executeCommand($event, $consoleDir, 'casebox:translations:export --domain=frontend');
     }
 }

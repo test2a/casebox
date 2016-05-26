@@ -361,7 +361,7 @@ Ext.define('CB.browser.Tree', {
         if(n) {
             n.cascadeBy({
                 before: function(n){
-                    if(n.data.nid == data.pid) {
+                    if (n.data.nid == data.pid) {
                         this.store.reload({node: n});
                     }
                 }
@@ -655,8 +655,9 @@ Ext.define('CB.browser.Tree', {
             return;
         }
 
-        var state = Ext.valueFrom(state, {})
-            ,expandPath = Ext.valueFrom(
+        state = Ext.valueFrom(state, {});
+
+        var expandPath = Ext.valueFrom(
             state.paths
             ,'/' +  this.getRootNode().data.nid
         );

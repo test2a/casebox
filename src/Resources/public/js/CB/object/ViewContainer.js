@@ -17,7 +17,6 @@ Ext.define('CB.object.ViewContainer', {
     }
 
     ,initComponent: function() {
-
         this.initButtons();
 
         Ext.apply(this, {
@@ -690,11 +689,7 @@ Ext.define('CB.object.ViewContainer', {
         //edit object in popup window
         delete data.html;
 
-        if (data.popOut) {
-            App.openObjectPopOutWindow(data);
-        } else {
-            App.openObjectWindow(data);
-        }
+        App.windowManager.openObjectWindow(data);
     }
 
     /**
@@ -861,7 +856,7 @@ Ext.define('CB.object.ViewContainer', {
             Ext.applyIf(data, this.loadedData);
         }
 
-        App.openObjectWindow(Ext.clone(data), e);
+        App.windowManager.openObjectWindow(Ext.clone(data), e);
     }
 
     /**
