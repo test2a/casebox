@@ -1,4 +1,6 @@
 services:
+    casebox_core.service.domain_session_storage:
+        class: Casebox\CoreBundle\Service\DomainSessionStorage
 
     casebox_core.service.config:
         class: Casebox\CoreBundle\Service\Config

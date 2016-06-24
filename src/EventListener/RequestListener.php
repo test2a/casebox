@@ -38,27 +38,5 @@ class RequestListener
         // Bootstrap casebox application settings
         $system = new System();
         $system->bootstrap($this->container, $event->getRequest());
-
-        // Handle environment switching
-        $env = $this->container->getParameter('kernel.environment');
-        $token = $this->container->get('security.token_storage')->getToken();
-
-        if ($token instanceof UsernamePasswordToken) {
-            $provider = $token->getProviderKey();
-
-            $requestUri = $event->getRequest()->getRequestUri();
-
-            if ($provider != $env && strstr($requestUri, "/c/$env/")) {
-                $this->container->get('casebox_core.service_auth.authentication')->logout();
-
-                $parameters = [
-                    'projectName' => $this->container->get('casebox_core.service.config')->getProjectName(),
-                    'coreName' => $env,
-                ];
-                $url = $this->container->get('router')->generate('app_core_login', $parameters);
-
-                return new RedirectResponse($url);
-            }
-        }
     }
 }

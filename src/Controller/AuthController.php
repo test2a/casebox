@@ -32,12 +32,10 @@ class AuthController extends Controller
      */
     public function indexAction(Request $request, $coreName, $action)
     {
-        $configService = $this->get('casebox_core.service.config');
         $translatorService = $this->get('translator');
         $loginService = $this->get('casebox_core.service_auth.authentication');
 
         $vars = [
-            'projectName' => $configService->getProjectName(),
             'coreName' => $coreName,
             'action' => $action,
         ];
