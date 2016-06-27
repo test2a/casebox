@@ -42,8 +42,6 @@ class IndexController extends Controller
         $tsvAuth = $this->get('session')->get('auth');
 
         if (!$auth->isLogged(false) || !empty($tsvAuth)) {
-            $auth->logout();
-
             return $this->redirectToRoute('app_core_login', ['coreName' => $coreName]);
         }
 

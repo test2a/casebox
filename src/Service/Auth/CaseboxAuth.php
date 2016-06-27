@@ -104,14 +104,13 @@ class CaseboxAuth
             return null;
         }
 
-        $this->getSession()->start();
-
+        $session = $this->getSession();
+        
         $env = $this->container->getParameter('kernel.environment');
         $token = new UsernamePasswordToken($user, $password, $env, $roles);
         $this->getSecurityContext()->setToken($token);
 
-        $session = $this->getSession();
-        $session->set('_security_main', serialize($token));
+        $session->set('main', serialize($token));
 
         $data = $this->getSessionData($user->getId());
 

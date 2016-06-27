@@ -17,7 +17,7 @@ class DomainSessionStorage extends NativeSessionStorage
     public function setOptions(array $options)
     {
         if (isset($_SERVER['REQUEST_URI'])) {
-            $options["cookie_path"] = \AppEnv::getRequestEnvironment();
+            $options["cookie_path"] = '/c/'.\AppEnv::getRequestEnvironment();
         }
 
         return parent::setOptions($options);
