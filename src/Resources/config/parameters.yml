@@ -1,8 +1,8 @@
 # Generic casebox parametters
 parameters:
     cb_doc_root: "%kernel.root_dir%/../web"
-    cb_app_dir: "%kernel.root_dir%/../"
+    cb_app_dir: "%kernel.root_dir%/.."
     cb_plugins_dir: "%kernel.root_dir%/../web/plugins"
     cb_logs_dir: "%kernel.root_dir%/../var/logs"
     cb_files_dir: "%kernel.root_dir%/../var/files/%kernel.environment%"
-    cb_core_service_dir: "%kernel.root_dir%/../var/files/%kernel.environment%"
+    cb_backup_dir: "%kernel.root_dir%/../var/backup"

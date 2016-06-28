@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Class SolrUpdateCommand
@@ -36,6 +37,8 @@ class SolrUpdateCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output = new SymfonyStyle($input, $output);
+        
         $container = $this->getContainer();
 
         $system = new System();
@@ -60,6 +63,6 @@ class SolrUpdateCommand extends ContainerAwareCommand
         $log->pushHandler($container->get('monolog.handler.nested'));
         $log->addInfo('Run casebox:solr:update command.');
 
-        $output->writeln('DONE!');
+        $output->success('command casebox:solr:update');
     }
 }
