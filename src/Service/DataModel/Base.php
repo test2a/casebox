@@ -208,10 +208,7 @@ class Base
      */
     public static function update($p)
     {
-        Util\raiseErrorIf(
-            empty($p['id']),
-            'ErroneousInputData' //' no id given for update method
-        );
+        Util\raiseErrorIf(empty($p['id']), 'ErroneousInputData');
 
         static::validateParamTypes($p);
 

@@ -63,6 +63,78 @@ class Config
     }
 
     /**
+     * @param string $param
+     * @param array  $value
+     *
+     * @return int|null
+     */
+    public function addConfigParamValue($param, array $value)
+    {
+        $config = new DM\Config();
+        $id = $config->toId($param, 'param');
+
+        if (!empty($id)) {
+            $cfg = $config->read($id);
+            if (!empty($cfg['value'])) {
+                $data = \GuzzleHttp\json_decode($cfg['value'], true);
+                if (!is_array($data)) {
+                    $data = [];
+                }
+                $cfg['value'] = \GuzzleHttp\json_encode(array_merge($data, $value));
+
+                $config->update($cfg);
+            }
+        } else {
+            $cfg = new DM\Config();
+
+            $data = [
+                'param' => $param,
+                'value' => \GuzzleHttp\json_encode($value),
+            ];
+
+            $id = $cfg->create($data);
+        }
+        
+        return $id;
+    }
+
+    /**
+     * @param string $param
+     * @param array  $value
+     *
+     * @return int|null
+     */
+    public function removeConfigParamValue($param, array $value = [])
+    {
+        $config = new DM\Config();
+        $id = $config->toId($param, 'param');
+
+        if (!empty($id)) {
+            $cfg = $config->read($id);
+            if (!empty($cfg['value'])) {
+                $data = \GuzzleHttp\json_decode($cfg['value'], true);
+
+                if (empty($value)) {
+                    $data = $value; // unset all
+                } else {
+                    foreach ($value as $key) {
+                        if (empty($data[$key])) {
+                            continue;
+                        }
+                        unset($data[$key]);
+                    }
+                }
+                
+                $cfg['value'] = \GuzzleHttp\json_encode($data);
+
+                $config->update($cfg);
+            }
+        }
+
+        return $id;
+    }
+
+    /**
      * Method for loading core config
      *
      * @param array $cfg default configuration

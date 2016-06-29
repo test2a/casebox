@@ -2,6 +2,7 @@
 namespace Casebox\CoreBundle\Service;
 
 use Casebox\CoreBundle\Service\Cache;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Class JavascriptService
@@ -100,18 +101,16 @@ class JavascriptService
             ],
         ];
 
+        /** @var Container $container */
         $container = Cache::get('symfony.container');
         if (!empty($container) && $container->hasParameter('devel')) {
-
             $groups = $container->get('casebox_core.service.minify')->getDefaultAssests();
             $addGroups = ['js', 'jsoverrides', 'jsplugins'];
             foreach ($addGroups as $group) {
                 foreach ($groups[$group] as $script) {
                     $scripts['footer'][$script]['src'] = '/' . $script;
-
                 }
             }
-
         } else {
             $scripts['footer'] = array_merge(
                 $scripts['footer'],
