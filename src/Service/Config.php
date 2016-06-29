@@ -63,71 +63,86 @@ class Config
     }
 
     /**
-     * @param string $param
-     * @param array  $value
+     * @param string  $param
+     * @param array   $facets
+     * @param integer $pid
+     * @param integer $templateId
      *
      * @return int|null
      */
-    public function addConfigParamValue($param, array $value)
+    public function addConfigParamValue($param, array $facets, $pid = 90, $templateId = 100)
     {
         $config = new DM\Config();
         $id = $config->toId($param, 'param');
 
         if (!empty($id)) {
-            $cfg = $config->read($id);
-            if (!empty($cfg['value'])) {
-                $data = \GuzzleHttp\json_decode($cfg['value'], true);
-                if (!is_array($data)) {
-                    $data = [];
+            /** @var Objects\Config $object */
+            $object = Objects::getCachedObject($id);
+            $data = $object->getData();
+
+            $facetData = [];
+            if (!empty($data['data']['value'])) {
+                $facetData = \GuzzleHttp\json_decode($data['data']['value'], true);
+                if (empty($facetData)) {
+                    $facetData = [];
                 }
-                $cfg['value'] = \GuzzleHttp\json_encode(array_merge($data, $value));
-
-                $config->update($cfg);
             }
-        } else {
-            $cfg = new DM\Config();
 
-            $data = [
-                'param' => $param,
-                'value' => \GuzzleHttp\json_encode($value),
+            $data['data']['value'] = \GuzzleHttp\json_encode(array_merge($facetData, $facets));
+
+            $object->setData($data);
+            $object->update();
+        } else {
+            $params = [
+                'pid'         => $pid,        // Display under 'System > Config' folder
+                'template_id' => $templateId, // 'Config json option' template
+                'name'        => $param,
+                'data'        => [
+                    '_title' => $param,
+                    'order'  => null,
+                    'value'  => \GuzzleHttp\json_encode($facets),
+                ],
             ];
 
-            $id = $cfg->create($data);
+            $obj = new Objects\Config();
+            $id = $obj->create($params);
         }
-        
+
         return $id;
     }
 
     /**
      * @param string $param
-     * @param array  $value
+     * @param array  $facets
      *
      * @return int|null
      */
-    public function removeConfigParamValue($param, array $value = [])
+    public function removeConfigParamValue($param, array $facets = [])
     {
         $config = new DM\Config();
         $id = $config->toId($param, 'param');
 
         if (!empty($id)) {
-            $cfg = $config->read($id);
-            if (!empty($cfg['value'])) {
-                $data = \GuzzleHttp\json_decode($cfg['value'], true);
+            /** @var Objects\Config $object */
+            $object = Objects::getCachedObject($id);
+            $data = $object->getData();
 
-                if (empty($value)) {
-                    $data = $value; // unset all
+            if (!empty($data['data']['value'])) {
+                $facetData = \GuzzleHttp\json_decode($data['data']['value'], true);
+                if (empty($facets)) {
+                    $facetData = $facets;
                 } else {
-                    foreach ($value as $key) {
-                        if (empty($data[$key])) {
-                            continue;
+                    foreach ($facets as $facet) {
+                        if (!empty($facetData[$facet])) {
+                            unset($facetData[$facet]);
                         }
-                        unset($data[$key]);
                     }
                 }
-                
-                $cfg['value'] = \GuzzleHttp\json_encode($data);
 
-                $config->update($cfg);
+                $data['data']['value'] = \GuzzleHttp\json_encode($facetData);
+
+                $object->setData($data);
+                $object->update();
             }
         }
 
