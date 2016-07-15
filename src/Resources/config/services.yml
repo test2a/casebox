@@ -61,3 +61,6 @@ services:
 
     casebox_core.service.browser_tree:
         class: Casebox\CoreBundle\Service\BrowserTree
+
+    casebox_core.service.search:
+        class: Casebox\CoreBundle\Service\Search
