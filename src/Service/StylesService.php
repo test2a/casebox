@@ -2,6 +2,8 @@
 
 namespace Casebox\CoreBundle\Service;
 
+use Symfony\Component\DependencyInjection\Container;
+
 /**
  * Class StylesService
  */
@@ -110,6 +112,11 @@ class StylesService
      */
     public function getRendered()
     {
+        /** @var Container $container */
+        $container = Cache::get('symfony.container');
+        // Dispatch javascript
+        $container->get('event_dispatcher')->dispatch('attachStyles');
+
         $html = '';
 
         if (!empty($this->styles)) {

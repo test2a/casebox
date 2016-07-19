@@ -150,6 +150,11 @@ class JavascriptService
      */
     public function getRendered(array $vars = [])
     {
+        /** @var Container $container */
+        $container = Cache::get('symfony.container');
+        // Dispatch javascript
+        $container->get('event_dispatcher')->dispatch('attachJavascript');
+        
         $html = [
             'header' => '',
             'footer' => '',

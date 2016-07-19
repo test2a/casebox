@@ -33,3 +33,17 @@ services:
         class: Casebox\CoreBundle\EventSubscriber\TreeInitializeSubscriber
         tags:
             - { name: kernel.event_subscriber }
+
+    casebox_core.event_subscriber.javascript_subscriber:
+        class: Casebox\CoreBundle\EventSubscriber\JavascriptSubscriber
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: kernel.event_subscriber }
+
+    casebox_core.event_subscriber.styles_subscriber:
+        class: Casebox\CoreBundle\EventSubscriber\StylesSubscriber
+        calls:
+            - [setContainer, ['@service_container']]
+        tags:
+            - { name: kernel.event_subscriber }

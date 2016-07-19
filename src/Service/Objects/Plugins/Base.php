@@ -6,6 +6,7 @@ use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Templates;
 use Casebox\CoreBundle\Service\Util;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Class Base
@@ -19,6 +20,11 @@ class Base
     protected $id = null;
 
     /**
+     * @var Container
+     */
+    protected $container;
+
+    /**
      * Base constructor
      */
     public function __construct($config = [])
@@ -29,8 +35,8 @@ class Base
         }
 
         $this->config = $config;
-
-        $this->configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+        $this->container = Cache::get('symfony.container');
+        $this->configService = $this->container->get('casebox_core.service.config');
     }
 
     /**
@@ -181,15 +187,30 @@ class Base
 
     protected function getFunctionResult($fn)
     {
-        $t = explode('.', $fn);
-        $class = new $t[0];
-        $method = $t[1];
+        $result = '';
 
         $params = [
-            'id' => $this->id,
+            'id'     => $this->id,
             'config' => $this->config,
         ];
 
-        return $class->$method($params);
+        if (strstr($fn, ':')) {
+            $serviceArray = explode(':', $fn);
+            // Process as service container
+            if ($this->container->has($serviceArray[0])) {
+                $method = $serviceArray[1];
+                $service = $this->container->get($serviceArray[0]);
+
+                $result = $service->$method($params);
+            }
+        } else {
+            $t = explode('.', $fn);
+            $class = new $t[0];
+            $method = $t[1];
+
+            $result = $class->$method($params);
+        }
+
+        return $result;
     }
 }

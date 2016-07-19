@@ -30,8 +30,6 @@ class StylesListener
         if (!$event->isMasterRequest()) {
             return;
         }
-
-        $styles = $this->container->get('casebox_core.service.styles_service')->getDefault();
-        $this->container->get('casebox_core.service.styles_service')->setStyles($styles);
+        // code...
     }
 }

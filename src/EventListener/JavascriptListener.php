@@ -30,8 +30,6 @@ class JavascriptListener
         if (!$event->isMasterRequest()) {
             return;
         }
-
-        $scripts = $this->container->get('casebox_core.service.javascript_service')->getDefault();
-        $this->container->get('casebox_core.service.javascript_service')->setScripts($scripts);
+        // code...
     }
 }
