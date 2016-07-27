@@ -12,6 +12,7 @@ use Casebox\CoreBundle\Service\Security;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -327,10 +328,14 @@ class IndexController extends Controller
     }
 
     /**
+     * @Route("/dav/{coreName}/{action}/{filename}/", name="app_core_file_webdav_slash")
      * @Route("/dav/{coreName}/{action}/{filename}", name="app_core_file_webdav")
+     * @Route("/dav/{coreName}/{action}/", name="app_core_file_webdav_action_slash")
      * @Route("/dav/{coreName}/{action}", name="app_core_file_webdav_action")
+     * @Route("/dav/{coreName}/", name="app_core_file_webdav_core_slash")
      * @Route("/dav/{coreName}", name="app_core_file_webdav_core")
-     * @Route("/dav/", name="app_core_file_webdav_root")
+     * @Route("/dav/", name="app_core_file_webdav_root_slash")
+     * @Route("/dav", name="app_core_file_webdav_root")
      * @param Request $request
      * @param string  $coreName
      * @param string  $action
@@ -339,7 +344,7 @@ class IndexController extends Controller
      * @return Response
      * @throws \Exception
      */
-    public function webdavAction(Request $request, $coreName, $action, $filename)
+    public function webdavAction(Request $request, $coreName, $action = '', $filename = '')
     {
         $result = [
             'success' => false,
@@ -363,7 +368,7 @@ class IndexController extends Controller
         // /dav/{core}/edit-{nodeId}-{versionId}/{filename}
         // /dav/{core}/edit-{nodeId}-{versionId}/
         // also support a direct folder request /edit-{nodeId}
-        if (preg_match('/^edit-(\d+)/', $action, $m)) {
+        if (!empty($action) && preg_match('/^edit-(\d+)/', $action, $m)) {
             $r['mode'] = 'edit';
 
             $r['nodeId'] = $m[1];
@@ -391,6 +396,12 @@ class IndexController extends Controller
             $r['rootFolder'] = '';
         }
 
+        $log = $this->get('logger');
+        $log->pushHandler($this->get('monolog.handler.nested'));
+        $log->addInfo('$action', [$action]);
+        $log->addInfo('$filename', [$filename]);
+        $log->addInfo('$r', $r);
+
         //$_GET['core'] = $r['core'];
 
         $webdav = $this->get('casebox_core.service.web_dav_service')->serve($r);
@@ -398,7 +409,7 @@ class IndexController extends Controller
             $result = $webdav;
         }
 
-        return new Response($result, 200, []);
+        return new JsonResponse($result, 200, []);
     }
 
     /**
