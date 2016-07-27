@@ -882,8 +882,9 @@ class Objects
             if (is_numeric($className)) {
                 continue;
             }
-            
-            $p = array_pop(explode('\\', $className));
+
+            $array = explode('\\', $className);
+            $p = array_pop($array);
             $serviceId = 'casebox_core.service_objects_plugins.'.strtolower(trim($p));
 
             if (!$container->has($serviceId)) {
