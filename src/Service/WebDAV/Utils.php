@@ -40,7 +40,7 @@ class Utils
     }
 
     /**
-     * @param integer      $id
+     * @param integer $id
      * @param integer|null $fileId
      *
      * @return \Apache_Solr_Response
@@ -74,15 +74,17 @@ class Utils
      * Returns CB nodes as simple array
      *
      * @param integer $id
-     * @param string  $path
-     * @param string  $env
+     * @param string $path
+     * @param string $env
      * @param integer $fileId
      *
      * @return array
      */
     public static function getChildren($id, $path, $env, $fileId)
     {
-        $defaultFileTemplate = Cache::get('symfony.container')->get('casebox_core.service.config')->get('default_file_template');
+        $defaultFileTemplate = Cache::get('symfony.container')->get('casebox_core.service.config')->get(
+            'default_file_template'
+        );
 
         $data = Utils::solrGetChildren($id, $fileId);
 
@@ -182,7 +184,7 @@ class Utils
 
     /**
      * @param integer $pid
-     * @param string  $name
+     * @param string $name
      *
      * @return Object|int
      * @throws \Exception
@@ -194,7 +196,9 @@ class Utils
             'name' => $name,
             // date column is not present in template for folders
             // ,'date' => date('Y-m-d')
-            'template_id' => Cache::get('symfony.container')->get('casebox_core.service.config')->get('default_folder_template'),
+            'template_id' => Cache::get('symfony.container')->get('casebox_core.service.config')->get(
+                'default_folder_template'
+            ),
             'data' => ['_title' => $name],
         ];
         $temp = new Object();
@@ -209,8 +213,8 @@ class Utils
     }
 
     /**
-     * @param integer    $pid
-     * @param string     $name
+     * @param integer $pid
+     * @param string $name
      * @param array|null $data
      *
      * @throws \Exception
@@ -253,7 +257,7 @@ class Utils
     /**
      *  Updates the '_title' of a CB node
      *
-     * @param int    $id
+     * @param int $id
      * @param string $name
      *
      * @return bool

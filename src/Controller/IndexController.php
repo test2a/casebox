@@ -330,12 +330,8 @@ class IndexController extends Controller
     /**
      * @Route("/dav/{coreName}/{action}/{filename}/", name="app_core_file_webdav_slash")
      * @Route("/dav/{coreName}/{action}/{filename}", name="app_core_file_webdav")
-     * @Route("/dav/{coreName}/{action}/", name="app_core_file_webdav_action_slash")
-     * @Route("/dav/{coreName}/{action}", name="app_core_file_webdav_action")
-     * @Route("/dav/{coreName}/", name="app_core_file_webdav_core_slash")
-     * @Route("/dav/{coreName}", name="app_core_file_webdav_core")
-     * @Route("/dav/", name="app_core_file_webdav_root_slash")
-     * @Route("/dav", name="app_core_file_webdav_root")
+     * @Route("/dav/{coreName}/{action}/", name="app_core_action_webdav_slash")
+     * @Route("/dav/{coreName}/{action}", name="app_core_action_webdav")
      * @param Request $request
      * @param string  $coreName
      * @param string  $action
@@ -350,24 +346,10 @@ class IndexController extends Controller
             'success' => false,
         ];
 
-        //$ary = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
-        // error_log("initEnv: " . $_SERVER['REQUEST_URI']);
-        // echo(print_r($ary, true));
-
-        // remove URIPREFIX
-        //array_shift($ary);
-
         $r = [];
 
         $r['core'] = $coreName;
 
-        // current version
-        // /dav/{core}/edit-{nodeId}/{filename}
-        //
-        // version history
-        // /dav/{core}/edit-{nodeId}-{versionId}/{filename}
-        // /dav/{core}/edit-{nodeId}-{versionId}/
-        // also support a direct folder request /edit-{nodeId}
         if (!empty($action) && preg_match('/^edit-(\d+)/', $action, $m)) {
             $r['mode'] = 'edit';
 
@@ -396,13 +378,13 @@ class IndexController extends Controller
             $r['rootFolder'] = '';
         }
 
-        $log = $this->get('logger');
-        $log->pushHandler($this->get('monolog.handler.nested'));
-        $log->addInfo('$action', [$action]);
-        $log->addInfo('$filename', [$filename]);
-        $log->addInfo('$r', $r);
+        //$log = $this->get('logger');
+        //$log->pushHandler($this->get('monolog.handler.nested'));
+        //$log->addInfo('$action', [$action]);
+        //$log->addInfo('$filename', [$filename]);
+        //$log->addInfo('$r', $r);
 
-        //$_GET['core'] = $r['core'];
+        $_GET['core'] = $r['core'];
 
         $webdav = $this->get('casebox_core.service.web_dav_service')->serve($r);
         if (!empty($webdav)) {

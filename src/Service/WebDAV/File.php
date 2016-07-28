@@ -6,10 +6,6 @@ use Sabre\DAV;
 
 /**
  * File class
- *
- * @copyright Copyright (C) 2014 KETSE (https://www.ketse.com/).
- * @author Oleg Burlaca (http://www.burlaca.com/)
- * @license https://www.casebox.org/license/ AGPLv3
  */
 class File extends Node implements DAV\IFile
 {
@@ -47,9 +43,9 @@ class File extends Node implements DAV\IFile
      */
     public function get()
     {
-        $filename = Cache::get('symfony.container')->get('casebox_core.service.config')->get('files_dir') .
-                    $this->cbNode['content_path'] . '/' .
-                    $this->cbNode['content_id'];
+        $filename = Cache::get('symfony.container')->get('casebox_core.service.config')->get('files_dir').
+            $this->cbNode['content_path'].'/'.
+            $this->cbNode['content_id'];
 
         // error_log("get file: " . $filename);
         return fopen($filename, 'r');

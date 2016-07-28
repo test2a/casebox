@@ -2,22 +2,26 @@
 namespace Casebox\CoreBundle\Service\WebDAV;
 
 use Casebox\CoreBundle\Service\Cache;
-use Sabre\DAV;
+use Sabre\DAV\Exception\NotFound;
+use Sabre\DAV\ICollection;
+use Sabre\DAV\INode;
+use Sabre\DAV\IQuota;
 
 /**
  * Directory class
- *
- * @copyright Copyright (C) 2014 KETSE (https://www.ketse.com/).
- * @author Oleg Burlaca (http://www.burlaca.com/)
- * @license https://www.casebox.org/license/ AGPLv3
  */
-class Directory extends Node implements DAV\ICollection, DAV\IQuota
+class Directory extends Node implements ICollection, IQuota
 {
     public $parentDir = null;
+
     public $content = null;    // an array of children nodes
+
     protected $path;    // the path to current node
+
     // public $nodeId;   // the ID of the node
+
     public $cbNode;   // CB Object of Directory
+
     private $env;
 
     /**
@@ -32,7 +36,6 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota
      *       'nodeId' => 18232  // directly edit this node if mode=edit
      *   ]
      */
-
     public function __construct($path, $p = null, $env = null)
     {
         $this->path = $path;
@@ -41,8 +44,7 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota
         $this->env = $env;
 
         // a direct request for a File?
-        $fileId = $env['mode'] == 'edit' ? $fileId = $env['nodeId']
-                                         : $fileId = null;
+        $fileId = $env['mode'] == 'edit' ? $fileId = $env['nodeId'] : $fileId = null;
 
         $this->content = Utils::getChildren($this->nodeId, $this->path, $env, $fileId);
 
@@ -72,7 +74,7 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota
      * return the same contents of what was submitted here, you are strongly
      * recommended to omit the ETag.
      *
-     * @param  string          $name Name of the file
+     * @param  string $name Name of the file
      * @param  resource|string $data Initial payload
      * @return null|string
      */
@@ -87,7 +89,7 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota
      * Creates a new subdirectory
      *
      * @param  string $name
-     * @return void
+     * @return int
      */
     public function createDirectory($name)
     {
@@ -105,22 +107,22 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota
      * This method must throw DAV\Exception\NotFound if the node does not
      * exist.
      *
-     * @param  string                 $name
-     * @throws DAV\Exception\NotFound
-     * @return DAV\INode
+     * @param  string $name
+     * @throws NotFound
+     * @return INode
      */
     public function getChild($name)
     {
         // error_log("WebDAV/Directory.getChild(" . $name . ")");
 
-        $childPath = $this->path . '/' . $name;
-        $fileTmpl =  Cache::get('symfony.container')->get('casebox_core.service.config')->get('default_file_template');
+        $childPath = $this->path.'/'.$name;
+        $fileTmpl = Cache::get('symfony.container')->get('casebox_core.service.config')->get('default_file_template');
 
         foreach ($this->content as $item) {
             if ($item['name'] == $name) {
                 $p = [
-                    'nodeId'    => $item['id'],
-                    'parentDir' => $this
+                    'nodeId' => $item['id'],
+                    'parentDir' => $this,
                 ];
 
                 if ($item['template_id'] != $fileTmpl) {
@@ -131,22 +133,18 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota
             }
         }
 
-        throw new \Sabre\DAV\Exception\NotFound('File with name: ' . $childPath. ' could not be found');
+        throw new NotFound('File with name: '.$childPath.' could not be found');
     }
 
     /**
      * Returns an array with all the child nodes
      *
-     * @return DAV\INode[]
+     * @return INode[]
      */
     public function getChildren()
     {
-        // error_log("WebDAV/Directory.getChildren()");
-
         $children = array();
 
-        // Loop through the directory, and create objects for each node
-        // NOTE: can be refactored a bit
         foreach ($this->content as $node) {
             $children[] = $this->getChild($node['name']);
         }
@@ -178,13 +176,11 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota
      */
     public function delete()
     {
-        // don't delete folders when in 'edit' mode
         if ($this->env['mode'] == 'edit') {
-            return ;
+            return;
         }
 
         Utils::deleteObject($this->nodeId);
-
     }
 
     /**
@@ -196,9 +192,8 @@ class Directory extends Node implements DAV\ICollection, DAV\IQuota
     {
         // NOTE: to replace by CB calculation of free space for {core}
         return array(
-            disk_total_space($this->path)-disk_free_space($this->path),
-            disk_free_space($this->path)
-            );
-
+            disk_total_space($this->path) - disk_free_space($this->path),
+            disk_free_space($this->path),
+        );
     }
 }

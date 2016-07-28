@@ -10,13 +10,9 @@ use
  * Base node-class
  *
  * The node class implements the method used by both the File and the Directory classes
- *
- * @copyright Copyright (C) 2014 KETSE (https://www.ketse.com/).
- * @author Oleg Burlaca (http://www.burlaca.com/)
- * @license https://www.casebox.org/license/ AGPLv3
  */
-abstract class Node implements DAV\INode {
-
+abstract class Node implements DAV\INode
+{
     /**
      * The path to the current node
      *
@@ -36,24 +32,21 @@ abstract class Node implements DAV\INode {
      *
      * @param string $path
      */
-    public function __construct($path) {
-
+    public function __construct($path)
+    {
         $this->path = $path;
-
     }
-
-
 
     /**
      * Returns the name of the node
      *
      * @return string
      */
-    public function getName() {
+    public function getName()
+    {
+        list(, $name) = URLUtil::splitPath($this->path);
 
-        list(, $name)  = URLUtil::splitPath($this->path);
         return $name;
-
     }
 
     /**
@@ -62,20 +55,18 @@ abstract class Node implements DAV\INode {
      * @param string $name The new name
      * @return void
      */
-    public function setName($name) {
-
-        list($parentPath, ) = URLUtil::splitPath($this->path);
+    public function setName($name)
+    {
+        list($parentPath,) = URLUtil::splitPath($this->path);
         list(, $newName) = URLUtil::splitPath($name);
 
-        $newPath = $parentPath . '/' . $newName;
+        $newPath = $parentPath.'/'.$newName;
 
         Utils::renameObject($this->nodeId, $name);
         // rename($this->path,$newPath);
 
         $this->path = $newPath;
-
     }
-
 
 
     /**
@@ -83,18 +74,17 @@ abstract class Node implements DAV\INode {
      *
      * @return int
      */
-    public function getLastModified() {
-        $t = empty($this->cbNode['udate'])
-                 ? $this->cbNode['cdate']     // Creation date
-                 : $this->cbNode['udate'];    // Update date
+    public function getLastModified()
+    {
+        $t = empty($this->cbNode['udate']) ? $this->cbNode['cdate'] : $this->cbNode['udate'];
 
         $dttm = new \DateTime($t);
+
         // error_log("getLastModified: " . $dttm->getTimestamp());
 
         return $dttm->getTimestamp();
 
         // return filemtime($this->path);
     }
-
 }
 

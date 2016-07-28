@@ -2,6 +2,8 @@
 
 namespace Casebox\CoreBundle\Service;
 
+use Symfony\Component\DependencyInjection\Container;
+
 /**
  * Class Cache
  */
@@ -46,7 +48,7 @@ class Cache extends Singleton
      * @param string $name Name of variable
      * @param array $defaultValue
      *
-     * @return array|string|null|\PDO
+     * @return array|string|null|\PDO|Container
      */
     public static function get($name, $defaultValue = null)
     {

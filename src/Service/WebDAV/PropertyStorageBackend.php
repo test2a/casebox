@@ -2,10 +2,12 @@
 
 namespace Casebox\CoreBundle\Service\WebDAV;
 
+use Casebox\CoreBundle\Service\Cache;
+use Sabre\DAV\PropertyStorage\Backend\BackendInterface;
 use \Sabre\DAV\PropFind;
 use \Sabre\DAV\PropPatch;
 
-class PropertyStorageBackend implements \Sabre\DAV\PropertyStorage\Backend\BackendInterface
+class PropertyStorageBackend implements BackendInterface
 {
     /**
      * Fetches properties for a path.
@@ -17,8 +19,9 @@ class PropertyStorageBackend implements \Sabre\DAV\PropertyStorage\Backend\Backe
      * as this will give you the _exact_ list of properties that need to be
      * fetched, and haven't yet.
      *
-     * @param  string   $path
+     * @param  string $path
      * @param  PropFind $propFind
+     *
      * @return void
      */
     public function propFind($path, PropFind $propFind)
@@ -30,19 +33,18 @@ class PropertyStorageBackend implements \Sabre\DAV\PropertyStorage\Backend\Backe
 
         // error_log("propFind: path($path), " . print_r($propertyNames, true));
 
-        $cachedNodes = \Casebox\CoreBundle\Service\Cache::get('DAVNodes');
+        $cachedNodes = Cache::get('DAVNodes');
         // error_log("propFind: " . print_r($cachedNodes, true));
 
         $path = trim($path, '/');
         $path = str_replace('\\', '/', $path);
 
         // Node with $path is not in cached nodes, return
-        if (! array_key_exists($path, $cachedNodes)) {
+        if (!array_key_exists($path, $cachedNodes)) {
             return;
         }
 
         $node = $cachedNodes[$path];
-
 
         // while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
         //     $propFind->set($row['name'], $row['value']);
@@ -53,8 +55,7 @@ class PropertyStorageBackend implements \Sabre\DAV\PropertyStorage\Backend\Backe
 
                 // $dttm->getTimestamp()
                 $propFind->set($prop, \Sabre\HTTP\Util::toHTTPDate($dttm));
-            } elseif ($prop == '{urn:schemas-microsoft-com:office:office}modifiedby' or
-                      $prop == '{DAV:}getmodifiedby') {
+            } elseif ($prop == '{urn:schemas-microsoft-com:office:office}modifiedby' or $prop == '{DAV:}getmodifiedby') {
                 // This has to be revised, because the User.login differs from User.DisplayName
                 // moreover, during an edit, Word will check for File Properties and we
                 // tell Word that the file is modified by another user
@@ -62,8 +63,6 @@ class PropertyStorageBackend implements \Sabre\DAV\PropertyStorage\Backend\Backe
             }
         }
     }
-
-
 
     /**
      * Updates properties for a path
@@ -74,14 +73,13 @@ class PropertyStorageBackend implements \Sabre\DAV\PropertyStorage\Backend\Backe
      * Usually you would want to call 'handleRemaining' on this object, to get;
      * a list of all properties that need to be stored.
      *
-     * @param  string    $path
+     * @param  string $path
      * @param  PropPatch $propPatch
+     *
      * @return void
      */
     public function propPatch($path, PropPatch $propPatch)
     {
-        $path = path; //dummy codacy assignment
-
         return true;
     }
 
@@ -92,10 +90,9 @@ class PropertyStorageBackend implements \Sabre\DAV\PropertyStorage\Backend\Backe
      */
     public function delete($path)
     {
-        $path = $path; //dummy codacy assignment
     }
 
-     /**
+    /**
      * This method is called after a successful MOVE
      *
      * This should be used to migrate all properties from one path to another.
@@ -104,8 +101,5 @@ class PropertyStorageBackend implements \Sabre\DAV\PropertyStorage\Backend\Backe
      */
     public function move($source, $destination)
     {
-        $source = $source; //dummy codacy assignment
-        $destination = $destination; //dummy codacy assignment
     }
-
 }

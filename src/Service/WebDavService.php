@@ -26,7 +26,7 @@ class WebDavService
     /**
      * @param array $params
      *
-     * @return mixed
+     * @return array|Server
      */
     public function serve(array $params)
     {
@@ -59,10 +59,9 @@ class WebDavService
         $server->setBaseUri($baseUri);
 
         // Authentication
-        $authBackend = new WebDAV\Auth();
-        $authPlugin = new Plugin($authBackend, 'SabreDAV');
-
-        $server->addPlugin($authPlugin);
+        //$authBackend = new WebDAV\Auth();
+        //$authPlugin = new Plugin($authBackend, 'SabreDAV');
+        //$server->addPlugin($authPlugin);
 
         // Where to store temp files: LOCK files and files created by TemporaryFileFilterPlugin
         $tmpDir = Cache::get('symfony.container')->get('casebox_core.service.config')->get('upload_temp_dir').'/';
