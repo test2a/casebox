@@ -55,7 +55,6 @@ class EditModeDirectory extends Node implements ICollection, IQuota
      */
     public function createDirectory($name)
     {
-
         $newPath = $this->path.'/'.$name;
         mkdir($newPath);
     }
@@ -71,7 +70,6 @@ class EditModeDirectory extends Node implements ICollection, IQuota
      */
     public function getChild($name)
     {
-
         $path = $this->path.'/'.$name;
 
         if (!file_exists($path)) {

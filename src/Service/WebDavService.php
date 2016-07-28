@@ -2,6 +2,7 @@
 
 namespace Casebox\CoreBundle\Service;
 
+use Casebox\CoreBundle\Service\WebDAV\Auth;
 use Sabre\CardDAV\Plugin;
 use Sabre\DAV\Locks\Backend\File;
 use Sabre\DAV\Server;
@@ -56,12 +57,14 @@ class WebDavService
             $baseUri .= '/'.$params['editFolder'];
         }
 
+        $log = Cache::get('symfony.container')->get('logger')->pushHandler(Cache::get('symfony.container')->get('monolog.handler.nested'));
+        $log->addInfo('$baseUri', [$baseUri]);
+
         $server->setBaseUri($baseUri);
 
         // Authentication
-        //$authBackend = new WebDAV\Auth();
-        //$authPlugin = new Plugin($authBackend, 'SabreDAV');
-        //$server->addPlugin($authPlugin);
+        $authPlugin = new \Sabre\DAV\Auth\Plugin(new Auth()); //SabreDAV
+        $server->addPlugin($authPlugin);
 
         // Where to store temp files: LOCK files and files created by TemporaryFileFilterPlugin
         $tmpDir = Cache::get('symfony.container')->get('casebox_core.service.config')->get('upload_temp_dir').'/';
@@ -73,7 +76,7 @@ class WebDavService
         }
 
         // This plugin filters temp files
-        $tffp = new TemporaryFileFilterPlugin($tmpDir);
+        $tffp = new TemporaryFileFilterPlugin($tmpDir.'sabredav/');
         $server->addPlugin($tffp);
 
         // LibreOffice will NOT remove LOCK after closing the file
@@ -103,7 +106,7 @@ class WebDavService
         // And off we go!
         $server->exec();
 
-        return ['success' => true];
+        return $server;
     }
 
     /**

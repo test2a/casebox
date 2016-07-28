@@ -24,7 +24,8 @@ class LockPlugin extends ServerPlugin
 
     public function beforeLock($path, LockInfo $lock)
     {
-        $lock->owner = User::getDisplayName(Cache::get('session')->get('user')['id']);
+        $user = Cache::get('symfony.container')->get('casebox_core.service.user')->getUserData();
+        $lock->owner = User::getDisplayName($user['id']);
         return true;
     }
 }

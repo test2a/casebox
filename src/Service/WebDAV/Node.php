@@ -63,7 +63,6 @@ abstract class Node implements DAV\INode
         $newPath = $parentPath.'/'.$newName;
 
         Utils::renameObject($this->nodeId, $name);
-        // rename($this->path,$newPath);
 
         $this->path = $newPath;
     }
@@ -80,11 +79,7 @@ abstract class Node implements DAV\INode
 
         $dttm = new \DateTime($t);
 
-        // error_log("getLastModified: " . $dttm->getTimestamp());
-
         return $dttm->getTimestamp();
-
-        // return filemtime($this->path);
     }
 }
 

@@ -171,6 +171,19 @@ class User
     }
 
     /**
+     * @return array|null
+     */
+    public function getUserData()
+    {
+        $auth = Cache::get('symfony.container')->get('casebox_core.service_auth.authentication');
+        $user = $auth->isLogged(true);
+
+        $data = $auth->getSessionData($user->getId());
+
+        return $data;
+    }
+
+    /**
      * Get login info for current logged user
      *
      * @return array json response
@@ -195,11 +208,6 @@ class User
             $filesEdit[$k] = Util\toTrimmedArray($v);
         }
 
-        $user = Cache::get('symfony.container')->get('casebox_core.service_auth.authentication')
-            ->isLogged(true);
-        $userData = Cache::get('symfony.container')->get('casebox_core.service_auth.authentication')
-            ->getSessionData($user->getId());
-
         @$result = [
             'success' => true,
             'config' => [
@@ -214,7 +222,7 @@ class User
                 'template_info_column' => $this->configService->get('template_info_column'),
                 'leftRibbonButtons' => $this->configService->get('leftRibbonButtons'),
             ],
-            'user' => $userData,
+            'user' => $this->getUserData(),
         ];
 
         $result['config']['files.edit'] = $filesEdit;

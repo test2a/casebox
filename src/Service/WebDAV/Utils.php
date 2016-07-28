@@ -236,11 +236,15 @@ class Utils
             }
         }
 
+        return;
+
+        $user = Cache::get('symfony.container')->get('casebox_core.service.user')->getUserData();
+
         $param = [
             'pid' => $pid,
             'title' => $name,
             'localFile' => $path,
-            'owner' => Cache::get('session')->get('user')['id'],
+            'owner' => $user['id'],
             'tmplId' => $configService->get('default_file_template'),
             'fileExistAction' => $action,
         ];

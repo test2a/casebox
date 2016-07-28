@@ -2,15 +2,20 @@
 namespace Casebox\CoreBundle\Service\WebDAV;
 
 use Casebox\CoreBundle\Entity\UsersGroups;
-use Casebox\CoreBundle\Service\Auth\CaseboxAuth;
 use Casebox\CoreBundle\Service\Cache;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Sabre\DAV\Auth\Backend\AbstractBasic;
+use Symfony\Component\DependencyInjection\Container;
 
 /**
  * Class Auth
  */
-class Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic
+class Auth extends AbstractBasic
 {
+    /**
+     * @var Container
+     */
+    protected $container;
+
     /**
      * @param string $username
      * @param string $password
@@ -20,32 +25,13 @@ class Auth extends \Sabre\DAV\Auth\Backend\AbstractBasic
      */
     protected function validateUserPass($username, $password)
     {
-        $auth_flag = false;
+        $this->container = Cache::get('symfony.container');
+        $user = $this->container->get('session')->get('user');
 
-        /** @var Session $session */
-        $session = Cache::get('symfony.container')->get('session');
-        $u = $session->get('user');
-
-        /** @var CaseboxAuth $auth */
-        $auth = Cache::get('symfony.container')->get('casebox_core.service_auth.authentication');
-
-        /** @var UsersGroups $user */
-        $user = $auth->isLogged();
-
-        if (!$user instanceof UsersGroups) {
-            $user = $auth->authenticate(trim($username), $password);
-
-            if ($user instanceof UsersGroups) {
-                $auth_flag = true;
-                $u['TSV_checked'] = true;
-            }
-        } else {
-            $auth_flag = true;
-            $u['TSV_checked'] = true;
+        if ($user['id']) {
+            return true;
         }
 
-        $session->set('user', $u);
-
-        return $auth_flag;
+        return false;
     }
 }

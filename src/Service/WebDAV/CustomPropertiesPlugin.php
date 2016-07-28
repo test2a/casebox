@@ -34,8 +34,5 @@ class CustomPropertiesPlugin extends ServerPlugin
 
     public function afterGetProperties($path, $properties, $node)
     {
-        //echo '<pre>';
-        //print_r($properties);
-        //echo '</pre>';
     }
 }

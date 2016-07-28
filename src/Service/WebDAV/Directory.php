@@ -50,8 +50,6 @@ class Directory extends Node implements ICollection, IQuota
 
         // fully loading the CB Node for Directory
         $this->cbNode = Utils::getNodeById($this->nodeId);
-
-        // error_log("WebDAV/Directory.construct(" . $path . ")");
     }
 
     /**
@@ -81,8 +79,6 @@ class Directory extends Node implements ICollection, IQuota
     public function createFile($name, $data = null)
     {
         Utils::createCaseboxFile($this->nodeId, $name, $data);
-        // $newPath = $this->path . '/' . $name;
-        // file_put_contents($newPath,$data);
     }
 
     /**

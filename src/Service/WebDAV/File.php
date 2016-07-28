@@ -20,8 +20,6 @@ class File extends Node implements DAV\IFile
 
         // fully loading the CB Node as File
         $this->cbNode = Utils::getFileById($this->nodeId);
-
-        // error_log("WebDAV/File.construct: " . $path); // print_r($this->cbNode, true)
     }
 
     /**
@@ -43,11 +41,9 @@ class File extends Node implements DAV\IFile
      */
     public function get()
     {
-        $filename = Cache::get('symfony.container')->get('casebox_core.service.config')->get('files_dir').
-            $this->cbNode['content_path'].'/'.
-            $this->cbNode['content_id'];
+        $dir = Cache::get('symfony.container')->get('casebox_core.service.config')->get('files_dir');
+        $filename = $dir.$this->cbNode['content_path'].'/'.$this->cbNode['content_id'];
 
-        // error_log("get file: " . $filename);
         return fopen($filename, 'r');
     }
 
@@ -60,7 +56,6 @@ class File extends Node implements DAV\IFile
     {
         // unlink($this->path);
         Utils::deleteObject($this->nodeId);
-
     }
 
     /**
@@ -71,7 +66,6 @@ class File extends Node implements DAV\IFile
     public function getSize()
     {
         return $this->cbNode['size'];
-
     }
 
     /**
@@ -108,6 +102,5 @@ class File extends Node implements DAV\IFile
     public function getContentType()
     {
         return $this->cbNode['type'];
-
     }
 }

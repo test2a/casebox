@@ -437,6 +437,10 @@ class UsersGroups implements UserInterface, \Serializable
      */
     public function getRoles()
     {
+        if (empty($this->roles)) {
+            return [self::ROLE_USER => self::ROLE_USER];
+        }
+
         return $this->roles;
     }
 

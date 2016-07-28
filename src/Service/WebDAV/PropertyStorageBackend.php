@@ -31,10 +31,7 @@ class PropertyStorageBackend implements BackendInterface
             return;
         }
 
-        // error_log("propFind: path($path), " . print_r($propertyNames, true));
-
         $cachedNodes = Cache::get('DAVNodes');
-        // error_log("propFind: " . print_r($cachedNodes, true));
 
         $path = trim($path, '/');
         $path = str_replace('\\', '/', $path);
@@ -46,9 +43,6 @@ class PropertyStorageBackend implements BackendInterface
 
         $node = $cachedNodes[$path];
 
-        // while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
-        //     $propFind->set($row['name'], $row['value']);
-        // }
         foreach ($propertyNames as $prop) {
             if ($prop == '{DAV:}creationdate') {
                 $dttm = new \DateTime($node['cdate']);

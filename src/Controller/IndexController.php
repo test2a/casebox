@@ -1,6 +1,7 @@
 <?php
 namespace Casebox\CoreBundle\Controller;
 
+use Casebox\CoreBundle\Entity\UsersGroups;
 use Casebox\CoreBundle\Service\Auth\CaseboxAuth;
 use Casebox\CoreBundle\Service\Browser;
 use Casebox\CoreBundle\Service\Cache;
@@ -57,7 +58,7 @@ class IndexController extends Controller
             'rtl' => $configService->get('rtl') ? '-rtl' : '',
             'cssUserColors' => '<style>'.implode("\n", $colors).'</style>',
             'styles' => $this->container->get('casebox_core.service.styles_service')->getRendered(),
-            'locale' => $request->getLocale()
+            'locale' => $request->getLocale(),
         ];
 
         $this->get('translator')->setLocale($vars['locale']);
@@ -75,8 +76,8 @@ class IndexController extends Controller
      *     name="app_core_get_user_photo"
      * )
      * @param Request $request
-     * @param string  $coreName
-     * @param int     $userId
+     * @param string $coreName
+     * @param int $userId
      *
      * @return Response
      * @throws \Exception
@@ -102,7 +103,7 @@ class IndexController extends Controller
     /**
      * @Route("/c/{coreName}/upload/", name="app_core_file_upload", requirements = {"coreName": "[a-z0-9_\-]+"})
      * @param Request $request
-     * @param string  $coreName
+     * @param string $coreName
      *
      * @return Response
      * @throws \Exception
@@ -156,8 +157,8 @@ class IndexController extends Controller
      *     defaults={"id" = null}
      * )
      * @param Request $request
-     * @param string  $coreName
-     * @param string  $id
+     * @param string $coreName
+     * @param string $id
      *
      * @return Response
      * @throws \Exception
@@ -182,7 +183,7 @@ class IndexController extends Controller
             'rtl' => $configService->get('rtl') ? '-rtl' : '',
             'cssUserColors' => '<style>'.implode("\n", $colors).'</style>',
             'styles' => $this->container->get('casebox_core.service.styles_service')->getRendered(),
-            'locale' => $request->getLocale()
+            'locale' => $request->getLocale(),
         ];
 
         $this->get('translator')->setLocale($vars['locale']);
@@ -191,12 +192,12 @@ class IndexController extends Controller
 
         return $this->render('CaseboxCoreBundle::edit.html.twig', $vars);
     }
-    
+
     /**
      * @Route("/c/{coreName}/view/{id}/", name="app_core_file_view", requirements = {"coreName": "[a-z0-9_\-]+"})
      * @param Request $request
-     * @param string  $coreName
-     * @param string  $id
+     * @param string $coreName
+     * @param string $id
      *
      * @return Response
      * @throws \Exception
@@ -253,7 +254,7 @@ class IndexController extends Controller
                         }
                     }
                 }
-            break;
+                break;
 
             default:
                 $preview = array();
@@ -263,11 +264,11 @@ class IndexController extends Controller
 
                 if (!empty($pd['data']['objectProperties'])) {
                     $data = $pd['data']['objectProperties']['data'];
-                    $title = '<div class="obj-header"><b class="">' . $data['name'] . '</div>';
+                    $title = '<div class="obj-header"><b class="">'.$data['name'].'</div>';
                     $preview = $data['preview'];
                 }
 
-                $result = $title . implode("\n", $preview);
+                $result = $title.implode("\n", $preview);
                 break;
         }
 
@@ -277,8 +278,8 @@ class IndexController extends Controller
     /**
      * @Route("/c/{coreName}/download/{id}/", name="app_core_file_download", requirements = {"coreName": "[a-z0-9_\-]+"})
      * @param Request $request
-     * @param string  $coreName
-     * @param string  $id
+     * @param string $coreName
+     * @param string $id
      *
      * @return Response
      * @throws \Exception
@@ -333,49 +334,41 @@ class IndexController extends Controller
      * @Route("/dav/{coreName}/{action}/", name="app_core_action_webdav_slash")
      * @Route("/dav/{coreName}/{action}", name="app_core_action_webdav")
      * @param Request $request
-     * @param string  $coreName
-     * @param string  $action
-     * @param string  $filename
+     * @param string $coreName
+     * @param string $action
+     * @param string $filename
      *
      * @return Response
      * @throws \Exception
      */
     public function webdavAction(Request $request, $coreName, $action = '', $filename = '')
     {
-        $result = [
-            'success' => false,
-        ];
-
-        $r = [];
-
         $r['core'] = $coreName;
 
         if (!empty($action) && preg_match('/^edit-(\d+)/', $action, $m)) {
             $r['mode'] = 'edit';
-
             $r['nodeId'] = $m[1];
-
-            // /{core}/edit-{nodeId}-{versionId}/
             $r['editFolder'] = $action;
+            $r['rootFolder'] = '/'.$r['editFolder'];
 
-            // /edit-{nodeId}-{versionId}  ?
             if (preg_match('/^edit-(\d+)-(\d+)\//', $action, $m)) {
                 $r['versionId'] = $m[2];
             }
 
-            // {core}/edit-{nodeId}-{versionId}/{filename}
-            // only if filename is specified
             if (!empty($filename)) {
                 $r['filename'] = $filename;
             }
-
-            // root Sabredav folder, serve all requests from here: /dav/{core}/edit-{nnn}
-            // i.e. dav client should not try to get out of this folder
-            $r['rootFolder'] = '/' . $r['editFolder'];
         } else {
-            // $r['core'] = $m[1];
             $r['mode'] = 'browse';
             $r['rootFolder'] = '';
+        }
+
+        if (empty($this->get('session')->get('user'))) {
+            $user = Cache::get('symfony.container')->get('casebox_core.service.user')->getUserData();
+            if (!empty($user['id'])) {
+                $this->get('session')->set('user', $user);
+                $this->get('session')->save();
+            }
         }
 
         //$log = $this->get('logger');
@@ -384,14 +377,11 @@ class IndexController extends Controller
         //$log->addInfo('$filename', [$filename]);
         //$log->addInfo('$r', $r);
 
-        $_GET['core'] = $r['core'];
+        //$_GET['core'] = $r['core'];
 
-        $webdav = $this->get('casebox_core.service.web_dav_service')->serve($r);
-        if (!empty($webdav)) {
-            $result = $webdav;
-        }
+        $this->get('casebox_core.service.web_dav_service')->serve($r);
 
-        return new JsonResponse($result, 200, []);
+        return new Response('');
     }
 
     /**
@@ -400,7 +390,7 @@ class IndexController extends Controller
     public function indexAction()
     {
         $vars = [
-            'locale' => $this->container->getParameter('locale')
+            'locale' => $this->container->getParameter('locale'),
         ];
 
         return $this->render('CaseboxCoreBundle::no-core-found.html.twig', $vars);
