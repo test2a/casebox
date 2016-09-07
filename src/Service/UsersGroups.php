@@ -641,41 +641,80 @@ class UsersGroups
         if (empty($p['password']) || ($p['password'] != $p['confirmpassword'])) {
             throw new \Exception($this->trans('Wrong_input_data'));
         }
-        $user_id = $this->extractId($p['id']);
+        $uid = $this->extractId($p['id']);
 
-        $dbs = Cache::get('casebox_dbs');
+        /** @var Container $container */
+        $container = Cache::get('symfony.container');
+        $em = $container->get('doctrine.orm.entity_manager');
+        $encoderFactory = $container->get('security.encoder_factory');
+
+        $username = User::getUsername();
 
         // Check for old password if users changes password for himself
-        if (User::getId() == $user_id) {
-            $res = $dbs->query(
-                'SELECT id FROM users_groups WHERE id = $1 AND `password` = $2',
-                [
-                    $user_id,
-                    $p['currentpassword'],
-                ]
-            );
-            if (!$res->fetch()) {
-                throw new \Exception($this->trans('WrongCurrentPassword'));
+        if (User::getId() == $uid) {
+            $user = $em->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($username);
+            if (!$user instanceof UsersGroupsEntity) {
+                return [
+                  'success' => false,
+                  'verify'  => true,
+                  'message' => $this->trans('WrongCurrentPassword'),
+                ];
             }
-            unset($res);
+
+            if (strlen($user->getPassword()) <= 32) {
+                // Old password behavior
+                $encodedPass = md5('aero'.$p['currentpassword']);
+            } else {
+                $encoder = $encoderFactory->getEncoder($user);
+                $encodedPass = $encoder->encodePassword($p['currentpassword'], $user->getSalt());
+            }
+
+            if ($encodedPass !== $user->getPassword()) {
+                return [
+                  'success' => false,
+                  'verify'  => true,
+                  'message' => $this->trans('WrongCurrentPassword'),
+                ];
+            }
         }
 
-        if (!Security::canEditUser($user_id) && $verify) {
+        if (!Security::canEditUser($uid) && $verify) {
             throw new \Exception($this->trans('Access_denied'));
         }
 
-        $dbs->query(
-            'UPDATE users_groups SET `password` = $2, uid = $3 WHERE id = $1',
-            [
-                $user_id,
-                $p['password'],
-                User::getId(),
-            ]
-        );
+        $this->updatePassword($username, $p['password']);
 
-        Session::clearUserSessions($user_id);
+        Session::clearUserSessions($uid);
 
         return ['success' => true];
+    }
+
+    public function updatePassword($username, $password)
+    {
+        /** @var Container $container */
+        $container = Cache::get('symfony.container');
+        $em = $container->get('doctrine.orm.entity_manager');
+        $auth = $container->get('casebox_core.service_auth.authentication');
+
+        $user = $em->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($username);
+        if (!$user instanceof UsersGroupsEntity) {
+            return false;
+        }
+
+        $salt = $user->getSalt();
+
+        if (empty($salt)) {
+            $salt = $auth->generateSalt();
+        }
+
+        $encodedPass = $auth->getEncodedPasswordAndSalt($password, $salt);
+
+        $user->setSalt($salt);
+        $user->setPassword($encodedPass);
+
+        $em->flush();
+
+        return true;
     }
 
     /**
