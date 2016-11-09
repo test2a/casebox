@@ -8,7 +8,7 @@ http://docs.casebox.org/en/latest/
 
 ## Installation
 
-In order to try Casebox on your local machine, we recommend to use [casebox-vagrant](https://github.com/KETSE/casebox-vagrant.git) provision.
+In order to try Casebox on your local machine, we recommend to use [casebox-vagrant](https://github.com/apprio/casebox-vagrant.git) provision.
 
 
 ## Tests and Sniffers (for developer)

@@ -75,7 +75,7 @@
     - casebox_root_dir: "{{ casebox_root_dir }}"
     - casebox_htdocs_dir: '{{ casebox_root_dir }}/web'
 
-    - casebox_git_url: 'https://github.com/KETSE/casebox.git'
+    - casebox_git_url: 'https://github.com/apprio/casebox.git'
     - casebox_git_branch: 'master'
 
     - casebox_db_user: "{{ casebox_core }}"
