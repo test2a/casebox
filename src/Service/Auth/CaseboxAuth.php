@@ -8,6 +8,7 @@ use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\UsersGroups;
 use Casebox\CoreBundle\Service\Config;
 use Casebox\CoreBundle\Service\Security;
+use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\Container;
@@ -81,12 +82,20 @@ class CaseboxAuth
      */
     public function authenticate($username, $password)
     {
-        $user = $this->getEm()->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($username);
+		$failedMessage = "Invalid Username/Password Entered";
+		$disabledMessage = "You have exceeded the amount of login attempts. Please contact the system administrator to have your password reset.";
+		$user = $this->getEm()->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($username);
 
         if (!$user instanceof UsersGroupsEntity) {
-            return false;
+            return $failedMessage;
         }
-
+		
+		if (!$user->getEnabled())
+		{
+		    //Should probably send some message instead of just null - i.e. account has been disabled
+			return $disabledMessage;
+		}
+		
         $roles = $user->getRoles();
         if (empty($roles)) {
             $roles = [UsersGroupsEntity::ROLE_USER => UsersGroupsEntity::ROLE_USER];
@@ -99,11 +108,23 @@ class CaseboxAuth
             $encoder = $this->getEncoderFactoryInterface()->getEncoder($user);
             $encodedPass = $encoder->encodePassword($password, $user->getSalt());
         }
-
+		$user->setLoginFromIp($_SERVER['REMOTE_ADDR']);
         if ($encodedPass !== $user->getPassword()) {
-            return null;
-        }
+			//Unsuccessful login here - need to log it
+			$this->logAction('login_fail', @$user);
 
+			$user->setLoginSuccessful($user->getLoginSuccessful()-1);
+			if ($user->getLoginSuccessful() < -4)
+			{
+				$user->setEnabled(false);
+				$failedMessage = $disabledMessage;
+			}
+			$this->getEm()->flush();
+            return $failedMessage;
+        }
+		$user->setLoginSuccessful(0);
+		$user->setLastLogin(time());
+		$this->getEm()->flush();
         $session = $this->getSession();
         
         $env = $this->container->getParameter('kernel.environment');
@@ -126,6 +147,14 @@ class CaseboxAuth
      */
     public function logout()
     {
+		$user = $this->getEm()->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername(User::getUsername());
+        if (!$user instanceof UsersGroupsEntity) {
+            return false;
+        }
+		$user->setLastLogout(time());
+		$this->getEm()->flush();
+	
+	
         $anonToken = new AnonymousToken('theTokensKey', 'anon.', []);
         $this->getSecurityContext()->setToken($anonToken);
         $this->getSession()->invalidate();
@@ -159,6 +188,30 @@ class CaseboxAuth
         return $rez;
     }
 
+	/**
+     * add action to log
+     *
+     * @param string $type
+     * @param array $params
+     *
+     * @return void
+     */
+    protected function logAction($type, $user)
+    {
+        if (!Cache::get('disable_logs', false)) {
+          $params = [
+            'object_id' => $user->getId(),
+            'object_pid' => $user->getId(),
+            'user_id' => $user->getId(),
+            'action_type' => $type,
+            'data' => Util\jsonEncode(array('ip' => $user->getLoginFromIp(), 'failedlogins' => $user->getLoginSuccessful())),
+            'activity_data_db' => Util\jsonEncode($user),
+        ];
+
+        $p['action_id'] = DM\Log::create($params);
+        }
+    }
+	
     /**
      * @param bool $throw Throw an exception if user nor found
      *

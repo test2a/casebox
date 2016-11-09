@@ -252,6 +252,10 @@ class UsersGroups
 
         $p['name'] = strip_tags($p['name']);
         $p['name'] = trim($p['name']);
+        
+        if ((empty($p['password']) || empty($p['confirm_password'])) && $p['ps'] == 2) {
+             return $rez;
+        }
 
         $p1 = empty($p['password']) ? '' : $p['password'];
         $p2 = empty($p['confirm_password']) ? '' : $p['confirm_password'];
@@ -283,14 +287,20 @@ class UsersGroups
         // Check if user with such email doesn exist
         $user_id = DM\Users::getIdByEmail($p['email']);
         if (!empty($user_id)) {
-            throw new \Exception($this->trans('UserEmailExists'));
+                       return [
+                'success' => false,
+                'msg' => 'User by that email already exists',
+            ];
         }
 
         // Check user existance, if user already exists but is deleted
         // then its record will be used for new user
         $user_id = DM\Users::getIdByName($p['name']);
         if (!empty($user_id)) {
-            throw new \Exception($this->trans('User_exists'));
+                                   return [
+                'success' => false,
+                'msg' => 'User by that username already exists',
+            ];
         }
 
         $params = [
@@ -366,7 +376,8 @@ class UsersGroups
      */
     public function deleteUser($user_id)
     {
-        if (!User::isVerified()) {
+	    return ['success' => false, 'verify' => false]; // Unable to delete users
+        /*if (!User::isVerified()) {
             return ['success' => false, 'verify' => true];
         }
 
@@ -388,7 +399,7 @@ class UsersGroups
         return [
             'success' => $res->rowCount() ? true : false,
             'data' => [$user_id, User::getId()],
-        ];
+        ];*/
     }
 
     /**
@@ -639,7 +650,7 @@ class UsersGroups
 
         // Password could be changed by: admin, user owner, user himself
         if (empty($p['password']) || ($p['password'] != $p['confirmpassword'])) {
-            throw new \Exception($this->trans('Wrong_input_data'));
+            throw new \Exception('New password and confirm passwords much match');
         }
         $uid = $this->extractId($p['id']);
 
@@ -648,7 +659,7 @@ class UsersGroups
         $em = $container->get('doctrine.orm.entity_manager');
         $encoderFactory = $container->get('security.encoder_factory');
 
-        $username = User::getUsername();
+        $username = User::getUsername($uid);
 
         // Check for old password if users changes password for himself
         if (User::getId() == $uid) {
@@ -677,7 +688,17 @@ class UsersGroups
                 ];
             }
         }
+	    
+		$weakness = $this->passwordStrength($p['password'],$username);
 
+        if($weakness) {
+                return [
+                  'success' => false,
+                  'verify'  => true,
+                  'message' => 'Password does not meet minimum requirements: ' . $weakness
+                ];
+        }
+		
         if (!Security::canEditUser($uid) && $verify) {
             throw new \Exception($this->trans('Access_denied'));
         }
@@ -699,6 +720,16 @@ class UsersGroups
         $user = $em->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($username);
         if (!$user instanceof UsersGroupsEntity) {
             return false;
+        }
+		
+		$weakness = $this->passwordStrength($password,$username);
+
+        if($weakness) {
+                return [
+                  'success' => false,
+                  'verify'  => true,
+                  'message' => 'Password does not meet minimum requirements: ' . $weakness
+                ];
         }
 
         $salt = $user->getSalt();
@@ -893,8 +924,20 @@ class UsersGroups
         if (!Security::canEditUser($userId)) {
             throw new \Exception($this->trans('Access_denied'));
         }
+        $container = Cache::get('symfony.container');
+        $em = $container->get('doctrine.orm.entity_manager');
+        $encoderFactory = $container->get('security.encoder_factory');
+		
+		$username = User::getUsername($userId);
+        $user = $em->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername($username);
 
-        User::setEnabled($userId, $enabled);
+        if (!$user instanceof UsersGroupsEntity) {
+            return false;
+        }
+		$user->setLoginSuccessful(0);
+		$user->setEnabled(intval($enabled));
+		
+        $em->flush();
 
         return ['success' => true, 'enabled' => $enabled];
     }
@@ -957,5 +1000,39 @@ class UsersGroups
         }
 
         return $id;
+    }
+	
+    function passwordStrength($password, $username = null)
+    {
+        if (!empty($username))
+        {
+        //remove the username from the password if present
+            $password = str_replace($username, '', $password);
+        }
+
+        $password_length = strlen($password);
+ 
+        if ($password_length < 8)
+        {
+            return "too short";
+        } 
+ 
+        if (!preg_match("#[0-9]+#", $password)) {
+            return "does not include at least one number";
+        }
+
+        if (!preg_match("#[a-z]+#", $password)) {
+            return "does not include at least one lowercase letter";
+        }     
+ 
+        if (!preg_match("#[A-Z]+#", $password)) {
+            return "does not include at least one uppercase letter";
+        }     
+        
+        if (!preg_match("/[|!@#$%&*\/=?,;.:\-_+~^¨\\\]/", $password)) {
+            return "does not include at least one special character";
+        }     
+        
+        return;
     }
 }

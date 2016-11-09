@@ -21,7 +21,7 @@ class AuthController extends Controller
      *     "/c/{coreName}/login/{action}",
      *     name="app_core_login",
      *     defaults = {"action": "getForm"},
-     *     requirements={"coreName": "[a-z0-9_\-]+", "action": "getForm|auth|2step"}
+     *     requirements={"coreName": "[a-z0-9_\-]+", "action": "getForm|auth|2step|2stepsetup"}
      * )
      * @param Request $request
      * @param string  $coreName
@@ -60,20 +60,67 @@ class AuthController extends Controller
                 if ($user instanceof UsersGroups) {
                     // Check two step auth
                     $auth = $this->get('casebox_core.service_auth.two_step_auth')->authenticate($user, $request->get('c'));
-                    if (is_array($auth)) {
-                        $this->get('session')->set('auth', serialize($user));
-
-                        return $this->render('CaseboxCoreBundle:forms:authenticator.html.twig', $vars);
-                    }
+					
+        			if (!$user->getSystem()) {
+                    	if (is_array($auth)) {
+                        	$this->get('session')->set('auth', serialize($user));
+                        	
+                        	return $this->render('CaseboxCoreBundle:forms:authenticator.html.twig', $vars);
+                    	}
+                    	else // Two factor not set up
+                    	{
+                    	    $this->get('session')->set('auth', serialize($user));
+                    	    $tsv = $this->get('casebox_core.service.user')->getTSVTemplateData('ga');
+                    	    $vars = [
+          					    'coreName' => $coreName,
+           			 			'action' => $action,
+            					'url' => $tsv['data']['url'],
+            					'sd' => $tsv['data']['sd'],
+            				];
+                        	return $this->render('CaseboxCoreBundle:forms:authenticatorsetup.html.twig', $vars);                    	
+                    	}
+        			}
 
                     return $this->redirectToRoute('app_core', $vars);
                 } else {
-                    $this->addFlash('notice', $translatorService->trans('Auth_fail'));
+                    $this->addFlash('notice', $user);
 
                     return $this->redirectToRoute('app_core', $vars);
                 }
 
                 break;
+                
+                
+             case '2stepsetup':
+                $auth = ['TSV' => true];
+
+                if ($request->getMethod() === 'POST') {
+                    if (empty($request->get('c'))) {
+                        $this->addFlash('notice', $translatorService->trans('EnterCode'));
+
+                        return $this->redirectToRoute('app_core_login', $vars);
+                    }
+
+                    $result = $this->get('casebox_core.service.user')->enableTSV(['method'=>'ga', 'data'=>['code'=>$request->get('c')]]);
+                }
+
+                if (!$result['success']) {
+                    $this->addFlash('notice', 'Invalid Code Entered');
+                    	    $tsv = $this->get('casebox_core.service.user')->getTSVTemplateData('ga');
+                    	    $vars = [
+          					    'coreName' => $coreName,
+           			 			'action' => $action,
+            					'url' => $tsv['data']['url'],
+            					'sd' => $tsv['data']['sd'],
+            				];
+                    return $this->render('CaseboxCoreBundle:forms:authenticatorsetup.html.twig', $vars);
+                }
+
+                $this->get('session')->remove('auth');
+
+                return $this->redirectToRoute('app_core', $vars);
+
+                break;    
 
             case '2step':
                 $auth = ['TSV' => true];

@@ -17,7 +17,7 @@
 
         {% for label, flashes in app.session.flashbag.all %}
             {% for flash in flashes %}
-                <div class="alert alert-{{ label }}">
+                <div class="alert alert-{{ label }}" id="error">
                     {{ flash }}
                 </div>
             {% endfor %}
@@ -28,9 +28,9 @@
 </div>
 
 <div class="footer" style="right: 0;">
-    <a href="https://www.casebox.org/">www.casebox.org</a>
+    ECMRS
     <span style="color: #AAA; padding-left: 2px; padding-right: 5px">&bull;</span>
-    <a href="http://forum.casebox.org/">Support forum</a>
+    <a href="mailto:Webmaster@ECMRS.com">Contact Helpdesk</a>
 </div>
 </body>
 </html>

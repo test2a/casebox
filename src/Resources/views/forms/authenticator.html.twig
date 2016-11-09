@@ -16,7 +16,7 @@
     </script>
 
     <form method="post" action="/c/{{ coreName }}/login/2step" class="standart_form tal" autocomplete="off">
-        <label>{{ 'TSV'|trans }}</label>
+        <label>Two Factor Authentication - Google Authenticator</label>
         <label>
             <input type="text" name="c" id="c" placeholder="{{ 'EnterCode'|trans }}">
             {% for flash_message in app.session.flashbag.get('notice') %}

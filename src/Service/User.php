@@ -91,9 +91,9 @@ class User
      */
     public function enableTSV($p)
     {
-        if (!$this->isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
+        //if (!$this->isVerified()) {
+        //    return ['success' => false, 'verify' => true];
+        //}
 
         // validate TSV mechanism
         if (!in_array($p['method'], ['ga', 'sms', 'ybk'])) {
@@ -622,9 +622,10 @@ class User
      */
     public function getTSVTemplateData($p)
     {
-        if (!$this->isVerified()) {
-            return ['success' => false, 'verify' => true];
-        }
+        //Commented out by DS to generate the key beforehand
+        //if (!$this->isVerified()) {
+        //    return ['success' => false, 'verify' => true];
+        //}
 
         // Validate TSV mechanism
         if (!in_array($p, ['ga', 'sms', 'ybk'])) {
