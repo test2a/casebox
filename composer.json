@@ -40,7 +40,7 @@
         }
     ],
   "require-dev": {
-    "caseboxdev/core-bundle": "ecmrs",
+    "caseboxdev/core-bundle": "@dev",
     "caseboxdev/rpc-bundle": "@dev",
     "caseboxdev/rest-bundle": "@dev",
     "phpunit/phpunit": "^5.2.12",
