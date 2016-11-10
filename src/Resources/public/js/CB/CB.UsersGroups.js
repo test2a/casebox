@@ -113,6 +113,15 @@ Ext.define('CB.AddUserForm', {
                 ,inputType: 'password'
                 ,hidden: true
                 ,name: 'password'
+   			    ,validator: function(value) {
+				  if (value != "")
+				  {
+				   var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+					return (strongRegex.test(value))?true: 'Password not strong enough.' 
+				  }
+				  else
+				  return true;
+			 }				
             },{ xtype: 'textfield'
                 ,allowBlank: true
                 ,fieldLabel: L.PasswordConfirmation
@@ -212,6 +221,12 @@ Ext.define('CB.AddUserForm', {
 
         this.down('[name="E"]').setText( pm ? L.PasswordMissmatch : msg);
 
+		var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+		if (p.getValue() != "" && !strongRegex.test(p.getValue()))
+		{
+			this.down('[name="E"]').setText('Password not strong enough.');
+		}
+
         this.dockedItems.getAt(1).items.getAt(0).setDisabled(!value || !required);
     }
 
@@ -266,14 +281,14 @@ Ext.define('CB.UsersGroupsTree', {
                 ,handler: this.onAddGroupClick
                 ,scope: this
             })
-            ,del: new Ext.Action({
-                text: L.Delete
-                ,iconCls: 'im-trash'
-                ,scale: 'medium'
-                ,disabled: true
-                ,handler: this.delNode
-                ,scope: this
-            })
+            //,del: new Ext.Action({
+            //    text: L.Delete
+            //    ,iconCls: 'im-trash'
+            //    ,scale: 'medium'
+            //    ,disabled: true
+            //    ,handler: this.delNode
+            //    ,scope: this
+            //})
             ,remove: new Ext.Action({
                 text: L.Remove
                 ,iconCls: 'im-cancel'
@@ -421,10 +436,10 @@ Ext.define('CB.UsersGroupsTree', {
                     scope: this
                     ,selectionchange: function(sm, selection){
                         if(Ext.isEmpty(selection)){
-                            this.actions.del.setDisabled(true);
+                            //this.actions.del.setDisabled(true);
                             this.actions.remove.setDisabled(true);
                         } else {
-                            this.actions.del.setDisabled(selection[0].data.system == 1);
+                            //this.actions.del.setDisabled(selection[0].data.system == 1);
                             this.actions.remove.setDisabled(
                                 (selection[0].getDepth() <2) ||
                                 (selection[0].parentNode.data.nid <1)
@@ -1574,14 +1589,23 @@ Ext.define('CB.ChangePasswordWindow', {
 
         this.data = this.config.data;
 
+		items = [{
+			xtype: 'displayfield'
+			,hideLabel: false
+			,cls: 'cR taC'
+			,anchor: '100%'
+			,id: 'passwordRules'
+			,value: '<b>New password must meet the following requirements: </b><br/>Contain at least one uppercase alphabetical character<br/> Contain at least one lowercase alphabetical character.<br/>Contain at least one numerical character <br/> Contain at least one special character<br/>Be at least 8 characters long.<br/> <br/> '
+			}];		
+		
         if(this.data.id == App.loginData.id)
-            items = [{
+            items.push({
                 xtype: 'textfield'
                 ,fieldLabel: L.CurrentPassword
                 ,inputType: 'password'
                 ,name: 'currentpassword'
                 ,allowBlank: (this.data.id != App.loginData.id)
-            }];
+            });
         items.push({
                 xtype: 'textfield'
                 ,fieldLabel: L.Password
@@ -1589,6 +1613,10 @@ Ext.define('CB.ChangePasswordWindow', {
                 ,name: 'password'
                 ,allowBlank: false
                 ,shouldMatch: true
+  			    ,validator: function(value) {
+					var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+					return (strongRegex.test(value))?true: 'Password not strong enough.' 
+			    }				
             },{
                 xtype: 'textfield'
                 ,fieldLabel: L.ConfirmPassword
@@ -1596,6 +1624,10 @@ Ext.define('CB.ChangePasswordWindow', {
                 ,name: 'confirmpassword'
                 ,allowBlank: false
                 ,shouldMatch: true
+				,validator: function(value) {
+					var password1 = this.previousSibling('[name=password]');
+					return (value === password1.getValue()) ? true : 'Passwords do not match.'
+ 			   }				
             },{
                 xtype: 'displayfield'
                 ,hideLabel: true
@@ -1635,20 +1667,34 @@ Ext.define('CB.ChangePasswordWindow', {
                     }
                     ,items: items
                 }
-                ,listeners: {
-                    scope: this
-                    ,clientvalidation: function(form, valid){
-                        var label = this.down('[id="msgTarget"]');
+                 ,listeners: {
+						 fieldvaliditychange: function() {
+							 this.updateErrorState();
+						 },
+						 fielderrorchange: function() {
+							 this.updateErrorState();
+						 }
+					 },
+					 updateErrorState: function() {
+				var me = this,fields, errors;
 
-                        if(!valid && this.hasInvalidFields){
+				 if (me.hasBeenDirty || me.getForm().isDirty()) { //prevents showing global error when form first loads
+					 me.hasBeenDirty = true;
+					 var label = this.down('[id="msgTarget"]');
+                        if(this.hasInvalidFields){
                             label.setValue(L.EmptyRequiredFields);
                             return;
                         }
 
                         var a = this.query('[shouldMatch=true]');
-
-                        if(a[0].getValue() != a[1].getValue()){
-                            this.down('form').buttons[0].setDisabled(true);
+						var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+						if (a[0].getValue() != '' && !strongRegex.test(a[0].getValue()))
+						{
+						 label.setValue('Password not strong enough.');
+						  return;
+						}
+						else if(a[0].getValue() != a[1].getValue()){						
+                            //this.down('form').buttons[0].setDisabled(true);
                             label.setValue(L.PasswordMissmatch);
                             return;
                         }
@@ -1671,6 +1717,7 @@ Ext.define('CB.ChangePasswordWindow', {
                                 ,params: this.data
                                 ,scope: this
                                 ,success: this.onSubmitSuccess
+								,failure: this.onSubmitFailure								
                             });
                         }
                     },{
@@ -1692,6 +1739,9 @@ Ext.define('CB.ChangePasswordWindow', {
 
         this.callParent(arguments);
     }
+	,onSubmitFailure: function(r, e){
+	   Ext.Msg.alert(L.Error, e.result.message);
+	}	
     ,onSubmitSuccess: function(r, e){
         this.fireEvent('passwordchanged');
         this.destroy();

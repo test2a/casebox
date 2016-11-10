@@ -7,6 +7,8 @@ Ext.define('CB.object.edit.View', {
     ,xtype: 'CBObjectEditView'
 
     ,border: false
+	
+	,scrollable:true //Added by Apprio for long fields
 
     ,closeAction: 'hide'
 

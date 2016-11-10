@@ -105,7 +105,7 @@ Ext.define('CB.Login', {
 
         } else {
             ip = lw.child('[name="infoPanel"]');
-            ip.body.update(response.msg);
+            ip.body.update(response);
         }
      }
 
@@ -224,7 +224,7 @@ Ext.define('CB.VerifyPassword', {
         } else {
             ip = this.down('[name="infoPanel"]');
             ip.show();
-            ip.body.update(response.msg);
+            ip.body.update(e.result);
 
             pass = this.down('[name="password"]');
             pass.reset();

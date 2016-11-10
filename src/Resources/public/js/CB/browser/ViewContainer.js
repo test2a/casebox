@@ -721,8 +721,8 @@ Ext.define('CB.browser.ViewContainer', {
             path = '/' + App.config.rootNode.nid;
         } else if(!Ext.isEmpty(options.query)) {
             pathtext = L.SearchResultsTitleTemplate;
-            pathtext = bvalue.replace('{name}', options.query);
-            pathtext = bvalue.replace('{count}', total);
+            pathtext = pathtext.replace('{name}', options.query);
+            pathtext = pathtext.replace('{count}', total);
         }
 
         return {

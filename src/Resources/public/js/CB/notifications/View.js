@@ -271,7 +271,7 @@ Ext.define('CB.notifications.View', {
         }
 
         rez += '<table cellpadding="0" cellspacing="0" border="0">' +
-                '<tr><td style="padding: 3px" class="vaT"><img class="i32" src="/' +
+                '<tr><td style="padding: 3px" class="vaT"><img class="i32" src="/c/' +
             App.config.coreName +
             '/photo/' + uid + '.jpg?32=' +
             CB.DB.usersStore.getPhotoParam(uid) +
