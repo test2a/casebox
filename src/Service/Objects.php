@@ -565,6 +565,10 @@ class Objects
                 return new Objects\Task($objectId);
                 break;
 
+            case 'case':
+                return new Objects\Cases($objectId);
+                break;
+				
             case 'template':
                 return new Objects\Template($objectId);
                 break;
