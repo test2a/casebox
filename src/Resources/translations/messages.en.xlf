@@ -12,11 +12,11 @@
             </trans-unit>
             <trans-unit id="7">
                 <source>Loading_ExtJS_Core</source>
-                <target>Loading ExtJS Core API</target>
+                <target>Loading ECMRS</target>
             </trans-unit>
             <trans-unit id="8">
                 <source>Loading_ExtJS_UI</source>
-                <target>Loading ExtJS UI Components</target>
+                <target>Loading ECMRS</target>
             </trans-unit>
             <trans-unit id="9">
                 <source>Initialization</source>
@@ -56,7 +56,7 @@
             </trans-unit>
             <trans-unit id="27">
                 <source>Casebox_notifications</source>
-                <target>Casebox notifications</target>
+                <target>ECMRS notifications</target>
             </trans-unit>
             <trans-unit id="28">
                 <source>casebox_new_notifications</source>
@@ -616,7 +616,7 @@
             </trans-unit>
             <trans-unit id="2887">
                 <source>OtherCases</source>
-                <target>Other cases</target>
+                <target>Other clients</target>
             </trans-unit>
             <trans-unit id="2888">
                 <source>DeletedByMe</source>
@@ -712,7 +712,7 @@
             </trans-unit>
             <trans-unit id="2960">
                 <source>AllMyCases</source>
-                <target>All my cases</target>
+                <target>My clients</target>
             </trans-unit>
             <trans-unit id="2963">
                 <source>Assignee</source>
@@ -838,7 +838,7 @@
             </trans-unit>
             <trans-unit id="3018">
                 <source>OpenInCasebox</source>
-                <target>Open in CaseBox</target>
+                <target>Open in ECMRS</target>
             </trans-unit>
             <trans-unit id="3020">
                 <source>ActionLog</source>
