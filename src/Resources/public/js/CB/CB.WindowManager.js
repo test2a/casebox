@@ -38,7 +38,11 @@ Ext.define('CB.WindowManager', {
 
         var mode = Ext.valueFrom(config.mode, App.config.default_object_edit_mode);
 
-        if (mode == 'view') {
+		
+		 if (config.case_id != null)
+		 {
+		  return this.openObjectViewView(config);
+		 } else if (mode == 'view') {
             return this.openObjectEditView(config);
         }
 
@@ -196,7 +200,14 @@ Ext.define('CB.WindowManager', {
 
         window.open(url, '_blank');
     }
+	,openObjectViewView: function(config) {
 
+			var ev = App.explorer.objectViewView;
+	 
+			ev.editForm.load(config);
+			 App.explorer.containersPanel.getLayout().setActiveItem(ev);
+	 
+	 }	
     ,openObjectEditView: function(config) {
         var ev = App.explorer.objectEditView;
 

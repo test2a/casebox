@@ -792,6 +792,29 @@ Ext.define('CB.VerticalEditGrid', {
                         context.record.set('value', context.value);
                         break;
 
+						case 'float': case 'int':
+						if(tr.get('cfg').totalValue != null) {
+							var recordIndex = this.store.findExact('title', tr.get('cfg').totalValue);
+							if(recordIndex >= 0) 
+							{
+								var currentTotal = this.store.getAt(recordIndex).get('value');
+								if (currentTotal == null || isNaN(currentTotal))
+								{
+									currentTotal = 0;
+								}
+								if (context.originalValue != null && !isNaN(context.originalValue))
+								{
+									currentTotal = (+currentTotal) - (+context.originalValue);
+								}
+								if (context.value != null && !isNaN(context.value))
+								{
+									currentTotal = (+currentTotal) + (+context.value);
+								}
+								this.store.getAt(recordIndex).set('value', currentTotal);
+							}
+						}
+						break;						
+						
                     case '_objects':
                         if(Ext.isArray(context.value)) {
                             context.value = context.value.join(',');

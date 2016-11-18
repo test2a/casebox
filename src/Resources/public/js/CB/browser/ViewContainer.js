@@ -523,6 +523,20 @@ Ext.define('CB.browser.ViewContainer', {
         this.objectEditView.dockedItems.items[0].add('->');
         this.objectEditView.dockedItems.items[0].add(this.actions.preview);
 
+		this.objectViewView = new CB.object.view.View({
+			listeners: {
+			scope: this
+			,beforeactivate: this.onBeforeContainersPanelItemChange
+			,activate: this.onContainersPanelItemChange
+			,actionconfirmed: this.onObjectEditActionConfirmed
+			}
+		});
+
+		this.objectViewView.dockedItems.items[0].add('->');
+
+		this.objectViewView.dockedItems.items[0].add(this.actions.preview);
+		
+		
         this.loadParamsTask = new Ext.util.DelayedTask(this.loadParams, this);
 
         App.fireEvent('browserinit', this);
@@ -544,6 +558,7 @@ Ext.define('CB.browser.ViewContainer', {
                             this.cardContainer
                             ,this.notificationsView
                             ,this.objectEditView
+                            ,this.objectViewView							
                         ]
                     }
                     ,this.objectPanel
@@ -1352,7 +1367,12 @@ Ext.define('CB.browser.ViewContainer', {
             }
 
             return;
-        } else {
+        } else if (templateType === 'case')
+			{
+			App.windowManager.openObjectWindow(data);
+			return;
+			}
+			else{
             //check if leaf set in template config and open edit if so
             var cfg = CB.DB.templates.getProperty(data.template_id, 'cfg');
 
