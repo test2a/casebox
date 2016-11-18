@@ -791,8 +791,24 @@ Ext.define('CB.VerticalEditGrid', {
                         context.value = Ext.Date.format(context.value, 'H:i:s');
                         context.record.set('value', context.value);
                         break;
-
-						case 'float': case 'int':
+					case 'date':
+						if (tr.get('cfg').generateAge != null) //Check if config "generateAge" is there
+						{
+							var recordIndex = this.store.findExact('title', tr.get('cfg').generateAge);
+							if(recordIndex >= 0) 
+							{
+								var today = new Date();
+								var birthDate = new Date(context.value);
+								var age = today.getFullYear() - birthDate.getFullYear();
+								var m = today.getMonth() - birthDate.getMonth();
+								if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+									age--;
+								}
+								this.store.getAt(recordIndex).set('value', age);
+							}
+						}
+                        break;									  					
+					case 'float': case 'int':
 						if(tr.get('cfg').totalValue != null) {
 							var recordIndex = this.store.findExact('title', tr.get('cfg').totalValue);
 							if(recordIndex >= 0) 
