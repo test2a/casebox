@@ -356,7 +356,7 @@
             </trans-unit>
             <trans-unit id="137">
                 <source>CaseBoxNotification</source>
-                <target>CaseBox notification</target>
+                <target>ECMRS notification</target>
             </trans-unit>
             <trans-unit id="138">
                 <source>aboutNewCase</source>
@@ -516,11 +516,11 @@
             </trans-unit>
             <trans-unit id="2763">
                 <source>EmailNotFound</source>
-                <target>The specified email is not registered in CaseBox</target>
+                <target>The specified email is not registered in ECMRS</target>
             </trans-unit>
             <trans-unit id="2764">
                 <source>UsernameNotFound</source>
-                <target>Specified username is not registered in CaseBox</target>
+                <target>Specified username is not registered in ECMRS</target>
             </trans-unit>
             <trans-unit id="2765">
                 <source>UserHasNoMail</source>
@@ -528,7 +528,7 @@
             </trans-unit>
             <trans-unit id="2773">
                 <source>MailRecoverSubject</source>
-                <target>CaseBox password recovery</target>
+                <target>ECMRS password recovery</target>
             </trans-unit>
             <trans-unit id="2774">
                 <source>RecoverMessageSent</source>
@@ -544,7 +544,7 @@
             </trans-unit>
             <trans-unit id="2778">
                 <source>PasswordChangedMsg</source>
-                <target>The password has been successfully changed. Now you can login to CaseBox with new password.</target>
+                <target>The password has been successfully changed. Now you can login to ECMRS with new password.</target>
             </trans-unit>
             <trans-unit id="2779">
                 <source>aboutTaskOverdue</source>

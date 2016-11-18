@@ -269,34 +269,25 @@ class AuthController extends Controller
 
                 return $this->redirectToRoute('app_core_reset', $vars);
             }
-
-            if (empty($user->getSalt())) {
-                $user->setSalt($this->get('casebox_core.service_auth.authentication')->generateSalt());
-            }
-
-            // Reset recovery hash
-            $user->setRecoverHash(null);
-            $this->getDoctrine()->getEntityManager()->flush($user);
-
-            $encPassword = $this->get('casebox_core.service_auth.authentication')
-                ->getEncodedPasswordAndSalt($request->get('p2'), $user->getSalt());
-
+			
             // Update password
             $params = [
                 'id' => $user->getId(),
-                'password' => $encPassword,
-                'confirmpassword' => $encPassword,
+                'password' => $request->get('p2'),
+                'confirmpassword' => $request->get('p2'),
             ];
 
             $result = $this->get('casebox_core.service.users_groups')->changePassword($params, false);
             if ($result['success']) {
+				$user->setRecoverHash(null);
+				$this->getDoctrine()->getEntityManager()->flush($user);
                 $this->addFlash('success', $this->get('translator')->trans('PasswordChangedMsg'));
 
                 return $this->redirectToRoute('app_core_login', $vars);
             } else {
-                $this->addFlash('notice', $this->get('translator')->trans('RecoverHashNotFound'));
+                $this->addFlash('notice', $result['message']);
 
-                return $this->redirectToRoute('app_core_recovery', $vars);
+                return $this->redirectToRoute('app_core_reset', $vars);
             }
         }
 
