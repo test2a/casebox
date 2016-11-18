@@ -457,7 +457,7 @@ function initApp() {
         ,date: function(v){
             var rez = '';
             if(Ext.isEmpty(v)) {
-                v = new Date();//return rez; //Need to think of better way to do this - right now defaulting everything to current date - even age
+                return rez; //Reverting back
             }
 
             rez = Ext.Date.format(
