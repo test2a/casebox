@@ -194,6 +194,7 @@ class Minify
                 'js/CB/plugin/Panel.js',
                 'js/CB/object/view/Preview.js',
                 'js/CB/object/view/Properties.js',
+                'js/CB/object/view/View.js',
                 'js/CB/object/edit/Form.js',
                 'js/CB/object/edit/Window.js',
                 'js/CB/object/edit/View.js',
