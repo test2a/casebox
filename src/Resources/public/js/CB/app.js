@@ -14,7 +14,6 @@ Ext.onReady(function(){
 
     App = new Ext.util.Observable();
 
-    /* Start Timeout Logic - modified from https://dzone.com/articles/art-gracefully-handling */
     App.BTN_YES = 'yes';
     // 1 min. before notifying the user her session will expire. Change this to a reasonable interval.
     App.SESSION_ABOUT_TO_TIMEOUT_PROMT_INTERVAL_IN_MIN = 15;
@@ -78,7 +77,6 @@ Ext.onReady(function(){
             App.killSessionTask.cancel();
         } 
     });
-/* End Timeout Logic */	
 	
     App.controller = Ext.create({
         xtype: 'browsingcontroller'
