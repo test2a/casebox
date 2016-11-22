@@ -18,7 +18,7 @@ Ext.define('CB.plugin.Export.Button', {
 
         params.from = 'grid';
 
-        window.open('/' + App.config.coreName + '/get/?export=' + Ext.encode(params));
+        window.open('/c/' + App.config.coreName + '/get/?export=' + Ext.encode(params));
     }
 
     ,onExportRecordsEvent: function(cmp, e) {
