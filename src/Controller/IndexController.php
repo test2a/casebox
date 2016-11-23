@@ -10,6 +10,7 @@ use Casebox\CoreBundle\Service\Files;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Security;
+use Casebox\CoreBundle\Service\Plugins\Export\Instance;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -327,6 +328,48 @@ class IndexController extends Controller
 
         return new Response(null, 200, $headers);
     }
+	
+	
+ /**
+     * @Route("/c/{coreName}/get", name="app_core_get", requirements = {"coreName": "[a-z0-9_\-]+"})
+	 * @Route("/c/{coreName}/get/", name="app_core_get_slash")
+     * @param Request $request
+     * @param string $coreName
+     * @param string $id
+     *
+     * @return Response
+     * @throws \Exception
+     */
+    public function exportAction(Request $request, $coreName)
+    {
+        $result = [
+            'success' => false,
+        ];
+		
+		$exportParam = $request->query->get('export');
+		
+		$headers = ['Content-Type' => 'application/json', 'charset' => 'UTF-8'];
+		
+        if (empty($exportParam)) {
+			$result['message'] = $this->trans(('Object_not_found'));
+
+            return new Response(json_encode($result), 200, $headers);
+        }
+		$auth = $this->container->get('casebox_core.service_auth.authentication');
+        $user = $auth->isLogged(false);
+
+		if (!$user) {
+			return $this->redirectToRoute('app_core_login', ['coreName' => $coreName]);
+		}
+		
+		$data = json_decode($exportParam,true);
+		
+		$export = new Instance();
+		$export->getCSV($data);
+		
+        return new Response(null, 200, $headers);
+    }	
+	
 
     /**
      * @Route("/dav/{coreName}/{action}/{filename}/", name="app_core_file_webdav_slash")

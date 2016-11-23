@@ -1,6 +1,6 @@
 <?php
 
-namespace Export;
+namespace Casebox\CoreBundle\Service\Plugins\Export;
 
 use Casebox\CoreBundle\Service\BrowserView;
 use Casebox\CoreBundle\Service\Cache;
@@ -108,7 +108,7 @@ class Instance
         $rez = [];
         $records = $this->getData($p);
 
-        $rez[] = implode(';', array_shift($records));
+        $rez[] = implode(',', array_shift($records));
 
         foreach ($records as &$r) {
             $record = [];
@@ -134,7 +134,7 @@ class Instance
                 $record[] = $t;
             }
 
-            $rez[] = implode(';', $record);
+            $rez[] = implode(',', $record);
         }
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.csv');
