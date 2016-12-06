@@ -878,7 +878,7 @@
             </trans-unit>
             <trans-unit id="3085">
                 <source>UserEmailExists</source>
-                <target>User with such email already exists.</target>
+                <target>User with the same email already exists.</target>
             </trans-unit>
             <trans-unit id="3089">
                 <source>ErrorCreatingPreview</source>
@@ -886,7 +886,7 @@
             </trans-unit>
             <trans-unit id="3090">
                 <source>MailInviteSubject</source>
-                <target>[Casebox] {creatorFullName} ({creatorEmail}) ivited you to {projectTitle}</target>
+                <target>ECMRS User Creation</target>
             </trans-unit>
             <trans-unit id="3101">
                 <source>status_changed</source>
