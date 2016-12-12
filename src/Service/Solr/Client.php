@@ -32,7 +32,7 @@ class Client extends Service
 
         $config = Cache::get('platformConfig');
 
-        $cmd = $rootDir.'/../bin/console'.' '.'casebox:solr:update --env='.$config['coreName'];
+        $cmd = $rootDir.'/../bin/console'.' '.'casebox:solr:update --all=true --env='.$config['coreName'];
 
         $process = new Process($cmd);
         $process->run();
