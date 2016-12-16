@@ -105,7 +105,15 @@ Ext.define('CB.AddUserForm', {
                     ,change: this.onPasswordSetupChange
                 }
             }
-
+			,{
+						xtype: 'displayfield'
+						,hideLabel: false
+						,cls: 'cR taC'
+						,hidden:true
+						,anchor: '100%'
+						,id: 'passwordRules'
+						,value: '<b>New password must meet the following requirements: </b><br/>Contain at least one uppercase alphabetical character<br/> Contain at least one lowercase alphabetical character.<br/>Contain at least one numerical character <br/> Contain at least one special character<br/>Be at least 8 characters long.<br/> <br/> '
+			}
             ,{
                 xtype: 'textfield'
                 ,allowBlank: true
@@ -232,10 +240,12 @@ Ext.define('CB.AddUserForm', {
 
     ,onPasswordSetupChange: function(rg, nv, ov, eOpts) {
         var p = this.down('[name="password"]')
-            ,pc = this.down('[name="confirm_password"]');
+            ,pc = this.down('[name="confirm_password"]')
+			,pr = this.down('[id="passwordRules"]');
 
         p.setHidden(nv.ps == 1);
         pc.setHidden(nv.ps == 1);
+		pr.setHidden(nv.ps == 1);
     }
 
     ,saveData: function(){
