@@ -45,11 +45,7 @@ Ext.define('CB.VerticalEditGrid', {
             }
             ,plugins: [{
                 ptype: 'CBDDGrid'
-                ,enableDrop: true
-                ,dropZoneConfig:  {
-                    onNodeOver: this.onNodeDragOver.bind(this)
-                    ,onNodeDrop: this.onNodeDrop.bind(this)
-                }
+                ,enableDrop: false
             }]
 
         };
@@ -107,7 +103,6 @@ Ext.define('CB.VerticalEditGrid', {
                 }
                 ,celldblclick:  this.onFieldTitleDblClick
                 ,cellclick:  this.onCellClick
-                ,cellcontextmenu: this.onPopupMenu
             }
             ,stateful: true
             ,stateId: Ext.valueFrom(this.stateId, 'veg')//vertical edit grid

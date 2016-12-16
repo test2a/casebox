@@ -289,11 +289,11 @@ class Client extends Service
             LEFT JOIN objects o ON o.id = t.id
             where '.$where.'
             ORDER BY t.id
-            LIMIT 500';
+            LIMIT 200';
 
         $docs = true;
 
-        while (!empty($docs) && ($nolimit || ($indexedDocsCount < 2000))) {
+        while (!empty($docs) && ($nolimit || ($indexedDocsCount < 200000))) {
             $docs = [];
 
             $res = $dbs->query($sql, $lastId);
