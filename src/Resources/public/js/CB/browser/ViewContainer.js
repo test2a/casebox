@@ -1367,11 +1367,12 @@ Ext.define('CB.browser.ViewContainer', {
             }
 
             return;
-        } else if (templateType === 'case')
-			{
-			App.windowManager.openObjectWindow(data);
-			return;
-			}
+        } 
+		//else if (templateType === 'case')
+		//	{
+		//	App.windowManager.openObjectWindow(data);
+	//		return;
+	//		}
 			else{
             //check if leaf set in template config and open edit if so
             var cfg = CB.DB.templates.getProperty(data.template_id, 'cfg');
