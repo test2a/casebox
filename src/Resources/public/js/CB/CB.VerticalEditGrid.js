@@ -687,12 +687,29 @@ Ext.define('CB.VerticalEditGrid', {
                 } else {
                     if(lastFocused.rowIdx < (this.store.getCount() -1)) {
                         rez.rowIdx++;
+						var fieldType = this.store.getAt(rez.rowIdx).get('type');
+						if (fieldType === 'H')
+						{
+							rez.rowIdx++;									   
+						}						
                         rez.colIdx = 1;
                     } else {
                         rez = null;
                     }
                 }
-            }
+            }else if(position === 'previous') {
+                  if(rez.rowIdx > 1) {
+					rez.rowIdx--;
+					var fieldType = this.store.getAt(rez.rowIdx).get('type');
+					if (fieldType === 'H' && rez.rowIdx > 2)
+					{
+						rez.rowIdx--;									   
+					}
+						rez.colIdx = 1;
+					} else {
+					 rez = null;
+					}
+                 }
             var cell = Ext.isEmpty(rez)
                 ? lastFocused
                 : rez;
@@ -737,10 +754,11 @@ Ext.define('CB.VerticalEditGrid', {
     ,onCellEditingSpecialKey: function(ed, field, e) {
         var key = e.getKey();
         switch(key) {
-            case e.TAB:
+            case e.ENTER:
+			case e.TAB:
                 ed.completeEdit();
 
-                var pos = ed.grid.gainFocus('next');
+                var pos = ed.grid.gainFocus((e.shiftKey)? 'previous' : 'next');
 
                 if(pos) {
                     e.stopEvent();
@@ -752,7 +770,6 @@ Ext.define('CB.VerticalEditGrid', {
                 }
                 break;
 
-            case e.ENTER:
             case e.ESC:
                 ed.grid.pressedSpecialKey = key;
                 break;
