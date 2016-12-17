@@ -422,7 +422,11 @@ Ext.define('CB.SecurityWindow', {
 
                 this.aclStore.endUpdate();
 
-                this.aclStore.sync();
+                this.aclStore.sync({
+				failure:function(rec,op){
+					Ext.Msg.alert(L.Error,'Failure setting perrmissions.  You must be the owner to modify permissions');
+				}
+				});
                 sm.select(this.aclStore.getCount()-1);
             }
             ,this
@@ -583,13 +587,21 @@ Ext.define('CB.SecurityWindow', {
     }
 
     ,onSavePermissionsClick: function(){
-        this.aclStore.sync();
+        this.aclStore.sync({
+				failure:function(rec,op){
+					Ext.Msg.alert(L.Error,'Failure setting perrmissions.  You must be the owner to modify permissions');
+				}
+				});
 
         this.setReadOnly(true);
     }
 
     ,onApplyPermissionsClick: function(){
-        this.aclStore.sync();
+        this.aclStore.sync({
+				failure:function(rec,op){
+					Ext.Msg.alert(L.Error,'Failure setting perrmissions.  You must be the owner to modify permissions');
+				}
+				});
         this.actions.save.setDisabled(true);
         this.actions.apply.setDisabled(true);
         this.actions.cancel.setDisabled(true);

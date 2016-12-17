@@ -105,7 +105,13 @@ Ext.define('CB.object.edit.View', {
     }
 
     ,onSaveClick: function(b, e) {
-        this.editForm.save(this.onAfterConfirming, this);
+		var rez = this.editForm.isValid();	
+		if (!rez)
+		{
+		  Ext.Msg.alert(L.Error, 'Please fix required fields and resubmit');
+		  return false;
+		}
+		this.editForm.save(this.onAfterConfirming, this);
     }
 
     ,onCancelClick: function(b, e) {
