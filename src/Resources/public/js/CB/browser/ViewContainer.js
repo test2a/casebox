@@ -803,7 +803,7 @@ Ext.define('CB.browser.ViewContainer', {
      */
     ,setAvailableViews: function(viewIds) {
         if (Ext.isEmpty(viewIds) || !Ext.isArray(viewIds)) {
-            viewIds = ['grid', 'charts', 'pivot', 'activityStream'];
+            viewIds = ['grid', 'charts', 'pivot', 'activityStream','map'];
         }
 
         for (var i = 0; i < viewIds.length; i++) {
@@ -897,6 +897,24 @@ Ext.define('CB.browser.ViewContainer', {
         this.descendantsCheckItem.setChecked(ep.descendants === true, true);
 
         this.setAvailableViews(result.availableViews);
+
+		// Fix the view for cases
+		if(!Ext.isEmpty(result.view))
+		{
+			if (result.view.type == 'dashboard' && this.folderProperties.case_id == null)
+			{
+				result.view.type = 'grid';
+				this.userViewSet = false;				
+				var params = {view: 'grid'};
+				this.fireEvent('changeparams', params);						
+			} else if (this.folderProperties.case_id != null && result.view.type == 'grid')
+			{
+				result.view.type = 'dashboard';
+				this.userViewSet = false;
+				var params = {view: 'dashboard'};
+				this.fireEvent('changeparams', params);	
+			}
+		}		
 
         /* change view if set in params */
         if(!this.userViewSet) {

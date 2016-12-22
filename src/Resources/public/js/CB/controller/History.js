@@ -30,6 +30,18 @@ Ext.define('CB.controller.History', {
             ,this.onStoreBeforeLoad
             ,this
         );
+		var hash = window.location.href.split('#')[1]
+		,p;
+
+		//if we are already on an empty hash then go back
+		//update initial history from URL - changed DS Apprio
+		if(!Ext.isEmpty(hash)) {
+			//update view container params
+			p = Ext.Object.fromQueryString(hash);
+			this.restoreParams = true;
+			this.VC.setParams(p);
+		}
+		
 
     }
 
