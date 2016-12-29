@@ -7,11 +7,11 @@ Ext.define('CB.browser.view.Dashboard',{
 
     ,border: false
     ,tbarCssClass: 'x-panel-white'
-
+    ,data: {}
     ,scrollable: true
 
     ,initComponent: function(){
-
+	
         Ext.apply(this, {
             title: L.Dashboard
             ,viewName: 'dashboard'
@@ -53,14 +53,15 @@ Ext.define('CB.browser.view.Dashboard',{
     }
 
     ,updateToolbarButtons: function() {
+		
         this.refOwner.fireEvent(
             'settoolbaritems'
             ,[
-                '->'
+				'edit',
+				'upload',
+				,'->'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
     }
@@ -92,6 +93,14 @@ Ext.define('CB.browser.view.Dashboard',{
     ,addItems: function() {
         var vc = this.rawData.view;
 
+		this.objectViewView = new CB.object.view.View({
+             border: false
+             ,scrollable: true
+             ,bodyStyle: 'padding: 5px'
+         });
+
+		this.add(this.objectViewView);
+		this.objectViewView.load(this.rawData.folderProperties);
         Ext.iterate(
             vc.items
             ,function(k, v) {
@@ -118,16 +127,16 @@ Ext.define('CB.browser.view.Dashboard',{
         );
 
     }
-
+	
     ,onActivate: function() {
         this.fireEvent(
             'settoolbaritems'
             ,[
-                '->'
+				'edit',
+				'upload',
+                ,'->'
                 ,'reload'
                 ,'apps'
-                ,'-'
-                ,'more'
             ]
         );
     }

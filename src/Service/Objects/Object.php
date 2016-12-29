@@ -1820,7 +1820,7 @@ class Object
             $this->load();
         }
 
-        $linearData = $this->getLinearData(true);
+        $linearData = $this->getLinearData(false);
 
         $template = $this->getTemplate();
 

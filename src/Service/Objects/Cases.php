@@ -5,8 +5,10 @@ namespace Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Security;
 use Casebox\CoreBundle\Service\Tasks;
+use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
+use Casebox\CoreBundle\Service\Log;
 
 /**
  * Class Cases
@@ -159,23 +161,45 @@ class Cases extends Object
         $user_ids[] = @Util\coalesce($d['oid'], $d['cid']);
 
         $solrData['task_u_all'] = array_unique($user_ids);
-
-        // $solrData['content'] = @$this->getFieldValue('description', 0)['value'];
-
-        unset($solrData['task_d_closed']);
-        unset($solrData['task_ym_closed']);
-
+		
+		
+		// Select only required properties for result
+        $properties = [
+            'race',
+            'gender',
+            'maritalstatus',
+            'ethnicity',
+            'language',
+            'headofhousehold',
+			'full_address',
+			'task_d_closed',
+			'task_u_done',
+			'task_u_ongoing',
+			'lat_lon',
+			'county',
+			'location_type',
+        ];
+        foreach ($properties as $property) {
+			unset($solrData[$property]);
+			if (!empty($sd[$property]))
+			{
+				$solrData[$property] = $sd[$property];
+			}
+        }
+		if (!empty($sd['full_address']))
+		{
+			$results = $this->lookup($sd['full_address']);
+			if ($results != null)
+			{
+				$solrData['lat_lon'] = $results['latitude'] .','.$results['longitude'];
+				$solrData['full_address'] = $results['full_address'];
+				$solrData['county'] = $results['county'];
+				$solrData['location_type'] = $results['location_type'];	
+			}
+		}
+		
         if (!empty($sd['task_d_closed'])) {
-            $solrData['task_d_closed'] = $sd['task_d_closed'];
             $solrData['task_ym_closed'] = str_replace('-', '', substr($sd['task_d_closed'], 2, 5));
-        }
-
-        // Get users that did not complete the task yet
-        if (!empty($sd['task_u_done'])) {
-            $solrData['task_u_done'] = $sd['task_u_done'];
-        }
-        if (!empty($sd['task_u_ongoing'])) {
-            $solrData['task_u_ongoing'] = $sd['task_u_ongoing'];
         }
 
         // Set class
@@ -185,7 +209,68 @@ class Cases extends Object
             false
         );
     }
+	
+    /**
+     * 
+     * http://www.andrew-kirkpatrick.com/2011/10/google-geocoding-api-with-php/
+	 *
+     */	
+	protected function lookup($string){
+ 
+	   $string = str_replace (" ", "+", urlencode($string));
+	   $details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
+	 
+	   $ch = curl_init();
+	   curl_setopt($ch, CURLOPT_URL, $details_url);
+	   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	   $response = json_decode(curl_exec($ch), true);
+	 
+	   // If Status Code is ZERO_RESULTS, OVER_QUERY_LIMIT, REQUEST_DENIED or INVALID_REQUEST
+	   if ($response['status'] != 'OK') {
+		return null;
+	   }
+	 
+	   //print_r($response);
+	   $geometry = $response['results'][0]['geometry'];
+	   
+	   $location = array();
 
+  foreach ($response['results'][0]['address_components'] as $component) {
+    switch ($component['types']) {
+      case in_array('street_number', $component['types']):
+        $location['street_number'] = $component['long_name'];
+      case in_array('route', $component['types']):
+        $location['street'] = $component['long_name'];
+      case in_array('sublocality', $component['types']):
+        $location['sublocality'] = $component['long_name'];
+      case in_array('locality', $component['types']):
+        $location['locality'] = $component['long_name'];
+      case in_array('administrative_area_level_2', $component['types']):
+        $location['admin_2'] = $component['long_name'];
+      case in_array('administrative_area_level_1', $component['types']):
+        $location['admin_1'] = $component['long_name'];
+      case in_array('postal_code', $component['types']):
+        $location['postal_code'] = $component['long_name'];
+      case in_array('country', $component['types']):
+        $location['country'] = $component['long_name'];
+    }
+
+  }
+	   
+	   
+	   
+		$array = array(
+			'longitude' => $geometry['location']['lng'],
+			'latitude' => $geometry['location']['lat'],
+			'location_type' => $geometry['location_type'],
+			'full_address' => $response['results'][0]['formatted_address'],
+			'county' => $location['admin_2']
+		);
+	 
+		return $array;
+	 
+	}
+		
     /**
      * Set "sys_data" params from object data
      *
@@ -200,7 +285,49 @@ class Cases extends Object
         }
 
         $sd = &$p['sys_data'];
+		
+		unset($sd['full_address']);
+		unset($sd['race']);
+		unset($sd['gender']);
+		unset($sd['martialstatus']);
+		unset($sd['ethnicity']);
+		unset($sd['language']);
+		unset($sd['hoh']);
+		
+		// Select only required properties for result
+        $properties = [
+            'race',
+            'gender',
+            'maritalstatus',
+            'ethnicity',
+            'language',
+			'age',
+            'headofhousehold'
+        ];
+        foreach ($properties as $property) {
+			if ($this->getFieldValue('_' . $property, 0)['value'] != null) {
+				$obj = Objects::getCachedObject($this->getFieldValue('_' . $property, 0)['value']);
+				$sd[$property] = empty($obj) ? '' : $obj->getHtmlSafeName();
+			}
+        }
+		$sd['full_address'] = '';
+		
+        if ($this->getFieldValue('_street', 0)['value'] != null) {
+         $sd['full_address'] = $this->getFieldValue('_street', 0)['value'];
+        }
+		
+        if ($this->getFieldValue('_city', 0)['value'] != null) {
+         $sd['full_address'] = $sd['full_address']. " " . $this->getFieldValue('_city', 0)['value'];
+        }
+		
+        if ($this->getFieldValue('_state', 0)['value'] != null) {
+         $sd['full_address'] = $sd['full_address'] . " " . $this->getFieldValue('_state', 0)['value'];
+        }
 
+        if ($this->getFieldValue('_zip', 0)['value'] != null) {
+         $sd['full_address'] = $sd['full_address'] . " " . $this->getFieldValue('_zip', 0)['value'];
+        }		
+		
         $sd['task_due_date'] = $this->getFieldValue('due_date', 0)['value'];
         $sd['task_due_time'] = $this->getFieldValue('due_time', 0)['value'];
 
@@ -237,7 +364,7 @@ class Cases extends Object
                 $status = static::$STATUS_OVERDUE;
             }
         }
-
+		
         $sd['task_status'] = $status;
     }
 
@@ -338,7 +465,7 @@ class Cases extends Object
             $status = $this->getStatus();
         }
 
-        return $this->trans('taskStatus'.$status, '');
+        return $this->trans('caseStatus'.$status, '');
     }
 
     /**
@@ -521,7 +648,7 @@ class Cases extends Object
     }
 
     /**
-     * Generate html preview for a task
+     * Generate html preview for a case
      *
      * @param int $id task id
      *
@@ -536,12 +663,59 @@ class Cases extends Object
 
         $template = $this->getTemplate();
 
-        $dateLines = '';
+		$addressLine = '';
+        $demographicsLine = '';
+		$dateLines = '';
         $ownerRow = '';
         $assigneeRow = '';
         $contentRow = '';
         $coreUri = $this->configService->get('core_uri');
 
+		if (!empty($sd['solr']['gender'])) {
+			$demographicsLine = $sd['solr']['gender'] . " - ";
+		}
+		else
+		{
+			$demographicsLine = "Gender not collected" . " - ";
+		}		
+		if (!empty($sd['solr']['race'])) {
+			$demographicsLine = $demographicsLine . $sd['solr']['race'] . " - ";
+		}
+
+		if (!empty($sd['solr']['ethnicity'])) {
+			$demographicsLine = $demographicsLine . $sd['solr']['ethnicity'] . " - ";
+		}
+
+		if (!empty($sd['solr']['birthdate_dt'])) {
+			$demographicsLine = $demographicsLine . Util\formatMysqlDate($sd['solr']['birthdate_dt'], Util\getOption('short_date_format')) . " - ";
+		}
+		
+		if (!empty($sd['solr']['language'])) {
+			$demographicsLine = $demographicsLine . $sd['solr']['language'] . " - ";
+		}
+
+		if (!empty($sd['solr']['emailaddress_s'])) {
+			$emailLine = $sd['solr']['emailaddress_s'] . " - ";
+		}
+		else
+		{
+			$emailLine = "Email not collected" . " - ";
+		}		
+		if (!empty($sd['solr']['phonenumber_s'])) {
+			$emailLine = $emailLine . $sd['solr']['phonenumber_s'] . " - ";
+		}
+		
+		if (!empty($sd['solr']['full_address'])) {
+			$addressLine = $sd['solr']['full_address']. " - ";
+		}
+		else
+		{
+			$addressLine = "No address listed" . " - ";
+		}
+		if (!empty($sd['solr']['county'])) {
+			$addressLine = $addressLine . $sd['solr']['county']. " - ";
+		}
+				
         $userService = Cache::get('symfony.container')->get('casebox_core.service.user');
 
         //create date and status row
@@ -662,7 +836,11 @@ class Cases extends Object
             $assigneeRow.
             $contentRow.
             '<tbody></table>';
-
+        $pb[1] = 
+            '<div class="info" style="text-align:left;display:none">'.
+			trim($demographicsLine, " - ").'<br/>'.
+			trim($emailLine, " - ").'<br/>'.
+			trim($addressLine, " - ").'<br/>';
         return $pb;
     }
 }

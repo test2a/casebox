@@ -147,7 +147,7 @@ function formatAgoTime($mysqlTime)
             return $H.' '.$translator->trans('hour').' '.$translator->trans('ago');
         }
 
-        return $H.' '.$translator->trans('ofHours').' '.$translator->trans('ago');
+        return $H.' '.$translator->trans('hours').' '.$translator->trans('ago');
     }
 
     if ($YESTERDAY_START <= $time) {
