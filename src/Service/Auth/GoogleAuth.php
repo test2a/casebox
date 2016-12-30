@@ -237,7 +237,7 @@ class GoogleAuth implements AuthInterface
      *
      * @return bool
      */
-    protected function _verifyCode($secret, $code, $discrepancy = 1, $currentTimeSlice = null)
+    protected function _verifyCode($secret, $code, $discrepancy = 8, $currentTimeSlice = null)
     {
         if ($currentTimeSlice === null) {
             $currentTimeSlice = floor(time() / 30);
