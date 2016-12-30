@@ -953,12 +953,3 @@
     }
 }
 );
-
-CB.object.ViewContainer.borrow(
-    CB.object.view.Properties
-    ,[
-        'getCommentComponent'
-        ,'getCommentValue'
-        ,'setCommentValue'
-    ]
-);

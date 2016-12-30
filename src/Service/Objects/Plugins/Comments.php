@@ -2,6 +2,7 @@
 
 namespace Casebox\CoreBundle\Service\Objects\Plugins;
 
+use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Files as FilesService;
 use Casebox\CoreBundle\Service\Objects\Object;
 use Casebox\CoreBundle\Service\Search;
@@ -216,7 +217,10 @@ class Comments extends Base
     {
 
         if (substr($file['type'], 0, 5) == 'image') {
-            $c = $this->configService->get('core_name');
+			// updating to not throw error Apprio
+			$configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+			$c = $configService->get('core_name');
+            //$c = $this->configService->get('core_name');
             $rez = '<a class="click obj-ref" itemid="'.$file['id'].
                 '" templateid= "'.$file['template_id'].
                 '" title="'.$file['name'].
