@@ -151,6 +151,18 @@ type: node type
 <!-- user_ids: this field can be used now for assigned users in tasks  -->
 <field name="user_ids"         type="tint"          indexed="true" stored="true" multiValued="true" />
 
+<!-- CASE and client specific fields -->
+<field name="full_address"  type="string"         indexed="true" stored="true" />
+<field name="lat_lon"  type="string"         indexed="true" stored="true" />
+<field name="race"  type="string"         indexed="true" stored="true" />
+<field name="gender"  type="string"         indexed="true" stored="true" />
+<field name="martialstatus"  type="string"         indexed="true" stored="true" />
+<field name="ethnicity"  type="string"         indexed="true" stored="true" />
+<field name="language"  type="string"         indexed="true" stored="true" />
+<field name="headofhousehold"  type="string"         indexed="true" stored="true" />
+<field name="county"  type="string"         indexed="true" stored="true" />
+<field name="location_type"  type="string"         indexed="true" stored="true" />
+
 <!-- TASKS SPECIFIC FIELDS -->
 
 
