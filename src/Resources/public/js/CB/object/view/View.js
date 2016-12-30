@@ -179,8 +179,6 @@
 
             this.createMenu = r.menu;
 			var tabPanel = Ext.create('Ext.tab.Panel', {
-				width: 400,
-				height: 400,
 				items: []
 			});
 			//527,289,311,607,61,510,533,553,482,1120,455,505,559,489,440,656,1175,651,172
