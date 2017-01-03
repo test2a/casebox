@@ -568,6 +568,10 @@ class Objects
             case 'case':
                 return new Objects\Cases($objectId);
                 break;
+
+			case 'caseassessment':
+                return new Objects\Object($objectId);
+                break;
 				
             case 'template':
                 return new Objects\Template($objectId);

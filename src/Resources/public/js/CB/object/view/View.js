@@ -187,7 +187,9 @@
 				id:'vxTabs',
 				listeners: { 
 				'tabchange': function(){
-				Ext.state.Manager.set('active_tab', Ext.getCmp('vxTabs').getActiveTab().getId());
+					var a = this.getActiveTab();
+					var idx = this.items.indexOf(a);
+					Ext.state.Manager.set('active_tab', idx);
 				}},
 				items: []
 			});
@@ -280,7 +282,13 @@
                 tabPanel.add(items);
             }
 			
-			tabPanel.setActiveItem(Ext.state.Manager.get('active_tab', 0));
+			var activeTab =0;
+			if (Ext.isDefined(Ext.state.Manager.get('active_tab')) && !isNaN(Ext.state.Manager.get('active_tab')))
+			{
+				activeTab = Ext.state.Manager.get('active_tab', 0);
+			}
+			
+			tabPanel.setActiveTab(activeTab);
 			
 			 //tabPanel.tabBar.items.each(function(card){
              //           card.setDisabled(true);
