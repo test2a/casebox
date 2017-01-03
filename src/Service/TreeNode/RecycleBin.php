@@ -86,7 +86,7 @@ class RecycleBin extends Base
 
         $folderTemplates = $this->configService->get('folder_templates');
 
-        $p['fl'] = 'id,system,path,name,case,date,date_end,size,cid,oid,cdate,uid,udate,template_id,acl_count,cls,status,task_status,dstatus';
+        $p['fl'] = 'id,system,path,name,case,date,date_end,size,cid,oid,cdate,ddate,uid,udate,template_id,acl_count,cls,status,task_status,dstatus';
 
         if (@$p['from'] == 'tree') {
             $p['templates'] = $folderTemplates;

@@ -179,6 +179,9 @@ class Browser
             switch ($viewConfig['type']) {
                 case 'pivot':
                 case 'charts':
+                case 'activityStream':
+                    $this->requestParams['sort'][0]['property'] = 'last_action_tdt';    
+                    $this->requestParams['sort'][0]['direction'] = 'desc';                       
                 case 'calendar':
                     $this->requestParams['sort'] = null;
             }
