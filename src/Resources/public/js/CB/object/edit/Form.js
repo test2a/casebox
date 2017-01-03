@@ -436,6 +436,7 @@ Ext.define('CB.object.edit.Form', {
         var r = action.result;
         if (!r || (r.success !== true)) {
             delete this.saveCallback;
+			Ext.Msg.alert(L.Error, 'Error: ' + r.message);
             return;
         }
         this._isDirty = false;

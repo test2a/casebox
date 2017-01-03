@@ -179,6 +179,16 @@
 
             this.createMenu = r.menu;
 			var tabPanel = Ext.create('Ext.tab.Panel', {
+				stateEvents: ['tabchange'],
+				stateful:true,
+				//deferredRender:false, // True by default to activate the tab action upon clicking the tab.
+				autoScroll: true, 
+				margins:'0 4 4 0',
+				id:'vxTabs',
+				listeners: { 
+				'tabchange': function(){
+				Ext.state.Manager.set('active_tab', Ext.getCmp('vxTabs').getActiveTab().getId());
+				}},
 				items: []
 			});
 			//527,289,311,607,61,510,533,553,482,1120,455,505,559,489,440,656,1175,651,172
@@ -270,7 +280,7 @@
                 tabPanel.add(items);
             }
 			
-			tabPanel.setActiveItem(0);
+			tabPanel.setActiveItem(Ext.state.Manager.get('active_tab', 0));
 			
 			 //tabPanel.tabBar.items.each(function(card){
              //           card.setDisabled(true);
