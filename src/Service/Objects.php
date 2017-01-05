@@ -570,7 +570,7 @@ class Objects
                 break;
 
 			case 'caseassessment':
-                return new Objects\Object($objectId);
+                return new Objects\CaseAssessment($objectId);
                 break;
 				
             case 'template':

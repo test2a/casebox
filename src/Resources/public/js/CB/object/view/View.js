@@ -178,12 +178,14 @@
             this.removeAll(true);
 
             this.createMenu = r.menu;
+			var vxTabs = Ext.getCmp('vxTabs');
+			if(vxTabs){
+				vxTabs.destroy();
+			}			
 			var tabPanel = Ext.create('Ext.tab.Panel', {
 				stateEvents: ['tabchange'],
 				stateful:true,
-				//deferredRender:false, // True by default to activate the tab action upon clicking the tab.
-				autoScroll: true, 
-				margins:'0 4 4 0',
+				autoScroll: false, 
 				id:'vxTabs',
 				listeners: { 
 				'tabchange': function(){

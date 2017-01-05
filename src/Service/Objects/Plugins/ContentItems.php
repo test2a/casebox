@@ -74,7 +74,7 @@ class ContentItems extends Base
 
         } else {//if config is empty - use old behavior
             $rez['pid'] = $this->id;
-            $rez['fq'] = ['(template_type:object) OR (target_type:object)'];
+            $rez['fq'] = ['(template_type:object) OR (target_type:object) OR (template_type:caseassessment)'];
 
             $folderTemplates = $this->configService->get('folder_templates');
             if (!empty($folderTemplates)) {

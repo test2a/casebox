@@ -16,22 +16,6 @@ Ext.define('CB.browser.view.Dashboard',{
             title: L.Dashboard
             ,viewName: 'dashboard'
             ,header: false
-            ,layout: {
-                type: 'table'
-                ,columns: 1
-                ,tableAttrs: {
-                    style: {
-                        width: '100%'
-                    }
-                }
-            }
-            // ,style: 'background-color: #e9eaed'
-            ,defaults: {
-                // applied to each contained panel
-                // bodyStyle: 'padding: 5px; border: 1px solid gray'
-                bodyPadding: 5
-                ,cellCls: 'vaT taC'
-            }
             ,items: [
             ]
             ,listeners: {
@@ -101,31 +85,6 @@ Ext.define('CB.browser.view.Dashboard',{
 
 		this.add(this.objectViewView);
 		this.objectViewView.load(this.rawData.folderProperties);
-        Ext.iterate(
-            vc.items
-            ,function(k, v) {
-                var className = 'CB.widget.block.Base'
-                    ,cfg = {
-                        params: v
-                        ,data: this.rawData.blockData[k]
-                    };
-
-                if (!Ext.isEmpty(v.tpl)) {
-                    className = 'CB.widget.block.Template';
-                } else if (['map','pivot','chart','grid'].indexOf(v.type) > -1) {
-                    className = 'CB.widget.block.' + Ext.String.capitalize(v.type);
-                }
-
-
-                Ext.copyTo(cfg, v, 'title,cellCls,rowspan,colspan,width,height,minWidth,minHeight,maxWidth,maxHeight');
-
-                this.add(
-                    Ext.create(className, cfg)
-                );
-            }
-            ,this
-        );
-
     }
 	
     ,onActivate: function() {

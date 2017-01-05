@@ -153,6 +153,11 @@ class Cases extends Object
 
         $solrData['task_status'] = @$sd['task_status'];
 
+		$assessments = Util\toNumericArray($this->getFieldValue('assessments', 0)['value']);
+        if (!empty($assessments)) {
+            $solrData['assessments_reported'] = $assessments;
+        }
+		
         $user_ids = Util\toNumericArray($this->getFieldValue('assigned', 0)['value']);
         if (!empty($user_ids)) {
             $solrData['task_u_assignee'] = $user_ids;
@@ -173,6 +178,12 @@ class Cases extends Object
             'headofhousehold',
 			'full_address',
 			'task_d_closed',
+			'assessments_needed',
+			'assessments_completed',
+			'assessments_started',
+			'referrals_needed',
+			'referrals_completed',
+			'referrals_started',
 			'task_u_done',
 			'task_u_ongoing',
 			'lat_lon',
@@ -287,12 +298,6 @@ class Cases extends Object
         $sd = &$p['sys_data'];
 		
 		unset($sd['full_address']);
-		unset($sd['race']);
-		unset($sd['gender']);
-		unset($sd['martialstatus']);
-		unset($sd['ethnicity']);
-		unset($sd['language']);
-		unset($sd['hoh']);
 		
 		// Select only required properties for result
         $properties = [
@@ -305,6 +310,7 @@ class Cases extends Object
             'headofhousehold'
         ];
         foreach ($properties as $property) {
+			unset($sd[$property]);
 			if ($this->getFieldValue('_' . $property, 0)['value'] != null) {
 				$obj = Objects::getCachedObject($this->getFieldValue('_' . $property, 0)['value']);
 				$sd[$property] = empty($obj) ? '' : $obj->getHtmlSafeName();
@@ -348,7 +354,12 @@ class Cases extends Object
             $sd['task_u_done'] = [];
         }
 
+		$assessments_reported = Util\toNumericArray($this->getFieldValue('assessments_reported', 0)['value']);
+		
+		$sd['assessments_needed'] = array_diff($assessments, $sd['assessments_completed']);
+		
         $assigned = Util\toNumericArray($this->getFieldValue('assigned', 0)['value']);
+		
         $sd['task_u_ongoing'] = array_diff($assigned, $sd['task_u_done']);
 
         // Set status

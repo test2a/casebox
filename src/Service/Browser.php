@@ -651,7 +651,18 @@ class Browser
         $p['skipSecurity'] = true;
         $rez = $search->query($p);
 
-        $this->setCustomIcons($rez['data']);
+		Cache::get('symfony.container')->get('logger')->error(
+                   'heyyy',
+                    $p
+                );
+		if ($p['source'] == "template")
+		{
+			$this->setCustomTemplateIcons($rez['data']);
+		}
+        else
+		{
+			$this->setCustomIcons($rez['data']);
+		}
 
         if (empty($rez['DC'])) {
             $rez['DC'] = [
@@ -1156,6 +1167,29 @@ class Browser
         }
     }
 
+    /**
+     * set custom items for given templates
+     *
+     * @param array $records
+     */
+	protected function setCustomTemplateIcons(&$records)
+    {
+        $ids = [];
+
+        foreach ($records as &$r) {
+            $ids[] = $r['id'];
+        }
+
+        $recs = DM\Templates::readByIds($ids, true);
+		
+        foreach ($records as &$r) {
+            if (!empty($recs[$r['id']]['iconCls'])) {
+				$r['name'] = $recs[$r['id']]['title_template'];
+                $r['iconCls'] = $recs[$r['id']]['iconCls'];
+            }
+        }
+    }	
+	
     /**
      * detect object icon by analizing it's data
      *
