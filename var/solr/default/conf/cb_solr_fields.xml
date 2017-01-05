@@ -156,12 +156,32 @@ type: node type
 <field name="lat_lon"  type="string"         indexed="true" stored="true" />
 <field name="race"  type="string"         indexed="true" stored="true" />
 <field name="gender"  type="string"         indexed="true" stored="true" />
-<field name="martialstatus"  type="string"         indexed="true" stored="true" />
+<field name="maritalstatus"  type="string"         indexed="true" stored="true" />
 <field name="ethnicity"  type="string"         indexed="true" stored="true" />
 <field name="language"  type="string"         indexed="true" stored="true" />
 <field name="headofhousehold"  type="string"         indexed="true" stored="true" />
 <field name="county"  type="string"         indexed="true" stored="true" />
 <field name="location_type"  type="string"         indexed="true" stored="true" />
+
+
+<field name="fema_tier"  type="string"          indexed="true" stored="true"/>
+
+<field name="case_status"  type="tint"          indexed="true" stored="true" />
+
+<field name="assessments_reported"  type="tint"          indexed="true" stored="true" multiValued="true" />
+
+<field name="assessments_needed"  type="tint"          indexed="true" stored="true" multiValued="true" />
+
+<field name="assessments_started"  type="tint"          indexed="true" stored="true" multiValued="true" />
+
+<field name="assessments_completed"  type="tint"          indexed="true" stored="true" multiValued="true" />
+
+<field name="referrals_needed"  type="tint"          indexed="true" stored="true" multiValued="true" />
+
+<field name="referrals_started"  type="tint"          indexed="true" stored="true" multiValued="true" />
+
+<field name="referrals_completed"  type="tint"          indexed="true" stored="true" multiValued="true" />
+
 
 <!-- TASKS SPECIFIC FIELDS -->
 
