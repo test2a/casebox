@@ -139,6 +139,15 @@ Ext.define('CB.object.plugin.Comments', {
         this.enableBubble(['getdraftid']);
     }
 
+	,updateTitle: function(title)  {
+        if(!title && this.params) {
+            title = this.params.title;
+        }
+		this.setTitle(title);
+
+        return title;
+    }
+	
     ,onLoadData: function(r, e) {
         this.loadedData = r;
 

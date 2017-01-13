@@ -11,7 +11,7 @@ Ext.define('CB.browser.view.Dashboard',{
     ,scrollable: true
 
     ,initComponent: function(){
-	
+		Ext.state.Manager.set('active_tab', 0);
         Ext.apply(this, {
             title: L.Dashboard
             ,viewName: 'dashboard'

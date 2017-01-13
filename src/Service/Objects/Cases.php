@@ -153,9 +153,14 @@ class Cases extends Object
 
         $solrData['task_status'] = @$sd['task_status'];
 
-		$assessments = Util\toNumericArray($this->getFieldValue('assessments', 0)['value']);
-        if (!empty($assessments)) {
-            $solrData['assessments_reported'] = $assessments;
+		$assessments_reported = Util\toNumericArray($this->getFieldValue('assessments_reported', 0)['value']);
+        if (!empty($assessments_reported)) {
+            $solrData['assessments_reported'] = $assessments_reported;
+        }
+
+		$assessments_needed = Util\toNumericArray($this->getFieldValue('assessments_needed', 0)['value']);
+        if (!empty($assessments_needed)) {
+            $solrData['assessments_needed'] = $assessments_needed;
         }
 		
         $user_ids = Util\toNumericArray($this->getFieldValue('assigned', 0)['value']);
@@ -354,11 +359,28 @@ class Cases extends Object
             $sd['task_u_done'] = [];
         }
 
+		if (empty($sd['assessments_completed'])) {
+            $sd['assessments_completed'] = [];
+        }
+		
 		$assessments_reported = Util\toNumericArray($this->getFieldValue('assessments_reported', 0)['value']);
 		
-		$sd['assessments_needed'] = array_diff($assessments, $sd['assessments_completed']);
+		$sd['assessments_completed'] = array_intersect($assessments_reported, $sd['assessments_completed']);
+		
+		$sd['assessments_needed'] = array_diff($assessments_reported, $sd['assessments_completed']);
 		
         $assigned = Util\toNumericArray($this->getFieldValue('assigned', 0)['value']);
+	
+			Cache::get('symfony.container')->get('logger')->error(
+			'hey',
+			$sd
+		);	
+		
+	
+		if (!empty($assigned)) {
+			$d['oid'] = $assigned[0];
+		}
+		
 		
         $sd['task_u_ongoing'] = array_diff($assigned, $sd['task_u_done']);
 
@@ -625,9 +647,16 @@ class Cases extends Object
         $isOwner = $this->isOwner($userId);
         $isClosed = $this->isClosed();
         $canEdit = !$isClosed && ($isAdmin || $isOwner);
+		$data = $this->getData();
+        $sd = &$data['sys_data'];
+		//	Cache::get('symfony.container')->get('logger')->error(
+	//		'sup',
+//			$sd
+//		);	
 
         $rez = [
             // 'edit' => $canEdit
+			'assessments'=>array_values($sd['solr']['assessments_needed']),
             'close' => $canEdit,
             'reopen' => ($isClosed && $isOwner),
             'complete' => (!$isClosed && ($this->getUserStatus($userId) == static::$USERSTATUS_ONGOING)),
@@ -674,6 +703,7 @@ class Cases extends Object
 
         $template = $this->getTemplate();
 
+		//$actionsLine = '';
 		$addressLine = '';
         $demographicsLine = '';
 		$dateLines = '';
@@ -682,6 +712,15 @@ class Cases extends Object
         $contentRow = '';
         $coreUri = $this->configService->get('core_uri');
 
+		/*if (!empty($sd['solr']['assessments_completed']))
+		{
+			$actionsLine = count($sd['solr']['assessments_completed']) . " Assessments Completed -";	
+		}
+		
+		if (!empty($sd['solr']['assessments_needed'])) {
+			$actionsLine = count($sd['solr']['assessments_needed']) . " Assessments Needed - ";
+		}*/
+		
 		if (!empty($sd['solr']['gender'])) {
 			$demographicsLine = $sd['solr']['gender'] . " - ";
 		}
@@ -712,9 +751,14 @@ class Cases extends Object
 		{
 			$emailLine = "Email not collected" . " - ";
 		}		
+		
 		if (!empty($sd['solr']['phonenumber_s'])) {
 			$emailLine = $emailLine . $sd['solr']['phonenumber_s'] . " - ";
 		}
+		
+		if (!empty($sd['solr']['maritalstatus'])) {
+			$emailLine =  $emailLine .$sd['solr']['maritalstatus'] . " - ";
+		}		
 		
 		if (!empty($sd['solr']['full_address'])) {
 			$addressLine = $sd['solr']['full_address']. " - ";
@@ -762,8 +806,7 @@ class Cases extends Object
                 $coreUri.'photo/'.$v.'.jpg?32='.$userService->getPhotoParam($v).
                 '" style="width:32px; height: 32px" alt="'.$cn.'" title="'.$cn.'"></td>'.
                 '<td><b>'.$cn.'</b><p class="gr">'.$this->trans('Created').': '.
-                '<span class="dttm" title="'.$cd.'">'.$cdt.'</span></p></td></tr></tbody></table>'.
-                '</td></tr>';
+                '<span class="dttm" title="'.$cd.'">'.$cdt.'</span></p></td></tr>';
         }
 
         // Create assignee row
@@ -804,16 +847,14 @@ class Cases extends Object
                             $this->trans('revoke').'</a>'
                             : ''
                         )
-                        : $this->trans('waitingForAction').
-                        ($isOwner
-                            ? ' <a class="bt task-action click" action="markcomplete" uid="'.$id.'">'.
-                            $this->trans('complete').'</a>'
-                            : ''
-                        )
+                        : 'Not Complete'//$this->trans('waitingForAction').
+                       // ($isOwner
+                       //     ? ' <a class="bt task-action click" action="markcomplete" uid="'.$id.'">'.
+                       //     $this->trans('complete').'</a>'
+                       //     : ''
+                       // )
                     ).'</p></td></tr>';
             }
-
-            $assigneeRow .= '</tbody></table></td></tr>';
         }
 
         // Create description row
@@ -836,22 +877,40 @@ class Cases extends Object
         } else {
             $p = '';
         }
-
+		
         $rtl = empty($this->configService->get('rtl')) ? '' : ' drtl';
 
-        $pb[0] = $this->getPreviewActionsRow().
-            '<table class="obj-preview'.$rtl.'"><tbody>'.
+        $pb[0] = '<table class="obj-preview'.$rtl.'"><tbody>'.
             $dateLines.
             $p.
-            $ownerRow.
-            $assigneeRow.
+            $ownerRow. '</tbody></table></td></tr>'.
+            $assigneeRow. '</tbody></table></td></tr>'.
             $contentRow.
             '<tbody></table>';
         $pb[1] = 
-            '<div class="info" style="text-align:left;display:none">'.
+            '<div class="info">'.
 			trim($demographicsLine, " - ").'<br/>'.
 			trim($emailLine, " - ").'<br/>'.
 			trim($addressLine, " - ").'<br/>';
-        return $pb;
+        $pb[2] = 
+            '<table class="obj-preview'.$rtl.'"><tbody>'.
+			'<tr class="prop-header"><th colspan="3" style>Assigned Case Manager</th><th colspan="3" style>Self Reported/Special At Risk Population</th></tr>'.
+            $ownerRow.'</tbody></table></td><td colspan="3"></td></tr>'.
+            $assigneeRow. '</tbody></table><td colspan="3"></td></tr>'.
+            '<tbody></table>';		
+        $pb[3] = 
+            '<table class="obj-preview'.$rtl.'"><tbody>'.
+			'<tr class="prop-header"><th colspan="3" style>'.count($sd['solr']['assessments_completed']).' out of '.count($sd['solr']['assessments_reported']).' assessments completed. '.count($sd['solr']['assessments_needed']).' remain to be completed</td></tr>'.
+            '<tbody></table>';	
+        $pb[4] = 
+            '<table class="obj-preview'.$rtl.'"><tbody>'.
+			'<tr class="prop-header"><th colspan="3" style>'.count($sd['solr']['referrals_started']).' and '.count($sd['solr']['referrals_completed']).' referrals completed. '.count($sd['solr']['referrals_needed']).' remain to be completed</td></tr>'.
+            '<tbody></table>';			
+        $pb[5] = 
+            '<table class="obj-preview'.$rtl.'"><tbody>'.
+			'<tr class="prop-header"><th colspan="3" style>Current Status: '.$this->getStatusText().'</td></tr>'.
+            '<tbody></table>'.
+			$this->getPreviewActionsRow();			
+		return $pb;
     }
 }

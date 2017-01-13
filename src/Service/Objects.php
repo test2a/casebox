@@ -267,7 +267,7 @@ class Objects
 
         $template = null;
 
-        if (!empty($p['id'])) {
+        if (!empty($p['id']) && is_numeric($p['id'])) {
             // SECURITY: check if current user has at least read access to this case
             if (!Security::canRead($p['id'])) {
                 throw new \Exception(self::trans('Access_denied'));

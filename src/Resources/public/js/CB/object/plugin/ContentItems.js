@@ -13,13 +13,6 @@ Ext.define('CB.object.plugin.ContentItems', {
                 ,scope: this
                 ,handler: this.onAddClick
             })
-
-            ,permalink: new Ext.Action({
-                text: L.Permalink
-                ,itemId: 'permalink'
-                ,scope: this
-                ,handler: this.onPermalinkClick
-            })
         };
 
         var tpl = new Ext.XTemplate(
@@ -160,7 +153,6 @@ Ext.define('CB.object.plugin.ContentItems', {
                         ,scope: this
                         ,handler: this.onDeleteItemClick
                     }
-                    ,this.actions.permalink
                 ]
             });
         }
@@ -200,12 +192,5 @@ Ext.define('CB.object.plugin.ContentItems', {
         d.pid = this.params.id;
         d.path = this.params.path;
         App.mainViewPort.fireEvent('createobject', d, e);
-    }
-
-    ,onPermalinkClick: function(b, e) {
-        window.prompt(
-            'Copy to clipboard: Ctrl+C, Enter'
-            , window.location.origin + '/c/' + App.config.coreName + '/view/' + this.clickedItemData.id + '/'
-        );
     }
 });

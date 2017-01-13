@@ -43,9 +43,13 @@ Ext.onReady(function(){
                          if (r && (r.success === true)) {
                              App.confirmLeave = false;
                              window.location.reload();
-                         } else if(r.msg) {
+                         } else if(r) {
                              Ext.Msg.show({title: 'error', msg: r.msg});
                          }
+						 else
+						 {
+                             window.location.reload(); //500error							 
+						 }
                      });
                 }
             }

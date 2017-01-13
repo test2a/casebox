@@ -196,18 +196,25 @@
 				items: []
 			});
 			//527,289,311,607,61,510,533,553,482,1120,455,505,559,489,440,656,1175,651,172
-			var clientIntakeMenu = '289,311,527';
+			var clientIntakeMenu = '289,311';
 			var assessmentMenu = '510,533,553,482,1120,455,505,559,489,440,656,1175,651,172';
 			var recoveryMenu = '527'
 			var referralMenu = '607';
 			var clientIntakeData=[];
 			clientIntakeData.data = [];
+			clientIntakeData.limit = 100;
 			var assessmentData=[];		
 			assessmentData.data = [];	
+			assessmentData.limit = 100;
 			var referralData=[];		
 			referralData.data = [];
+			referralData.limit = 100;
+			var recoveryReferralData=[];		
+			recoveryReferralData.data = [];
+			recoveryReferralData.limit = 100;			
 			var recoveryData=[];		
-			recoveryData.data = [];			
+			recoveryData.data = [];		
+			recoveryData.limit = 100;			
 			if (Ext.isDefined(r.data.contentItems))
 			{
 				Ext.iterate(
@@ -224,61 +231,226 @@
 					   if (referralMenu.indexOf(k.template_id) >=  0)
 					   {
 						   referralData.data.push(k);
+						   if (k.name.indexOf('Referral Made')>0)
+						   {
+							recoveryReferralData.data.push(k);
+						   }
 					   }
 					   if (recoveryMenu.indexOf(k.template_id) >=  0)
-					   {
-						   recoveryData.data.push(k);
+					   {						   
+							recoveryData.data.push(k);
 					   }					   
 				}
 					,this
 				);
 			}			
-			var c  = Ext.create('CBObjectPluginContentItems',{params: params})		
-			c.createMenu = clientIntakeMenu;	
-			c.title = 'Intake' + ' [' +clientIntakeData.data.length+']';
-			c.updateTitle('Client Intake');
-			c.onLoadData(clientIntakeData);
-			items.push(c);
 			
-			c  = Ext.create('CBObjectPluginContentItems',{params: params})		
-			c.createMenu = assessmentMenu;	
-			c.title = 'Assessments' + ' [' +assessmentData.data.length+']';
-			c.updateTitle('Client Assessment');
-			c.onLoadData(assessmentData);
-			items.push(c);
-
-			c  = Ext.create('CBObjectPluginContentItems',{params: params})		
-			c.createMenu = referralMenu;	
-			c.title = 'Referrals' + ' [' +referralData.data.length+']';
-			c.updateTitle('Client Referrals');
-			c.onLoadData(referralData);
-			items.push(c);
+			var c= Ext.create('Ext.panel.Panel', {
+				title: 'Facesheet',
+				layout: {
+					align: 'stretch',
+					type: 'vbox'
+				},				
+			});
 			
-			c  = Ext.create('CBObjectPluginContentItems',{params: params})		
-			c.createMenu = recoveryMenu;	
-			c.title = 'Recovery' + ' [' +recoveryData.data.length+']';
-			c.updateTitle('Client Recovery Plan');
-			c.onLoadData(recoveryData);
-			items.push(c);
+			var content = Ext.create('CBObjectPluginObjectProperties',{params:params});
+			r.data.objectProperties.data.preview[0] = r.data.objectProperties.data.preview[2];
+			content.onLoadData(r.data.objectProperties);
+			c.add(content);
 
-			c  = Ext.create('CBObjectPluginFiles',{params: params})		
-			c.createMenu = r.menu;	
+			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+			var clientData = [];
+			var client = Ext.copyTo(
+				{}
+				,r.data.objectProperties
+				,'data,id,pids,path,name,template_id,status,statusCls,cid,cdate_ago_text,uid,udate_ago_text,preview,can'
+			);
+			clientData[0] = client.data;
+			clientData[0].ago_text = client.data.udate_ago_text;
+			clientData[0].user = 'Last Updated';
+			client.data = clientData;
+			content.onLoadData(client);		
+			c.add(content);
+			content.updateTitle('Client Intake');
+			
+			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+			content.createMenu = clientIntakeMenu;	
+			content.title = 'Face Sheet';
+			content.onLoadData(clientIntakeData);		
+			c.add(content);
+			content.updateTitle('Family Members');
+			
+			content  = Ext.create('CBObjectPluginFiles',{params: params})		
+			content.createMenu = r.menu;	
 			if (Ext.isDefined(r.data.files))
 			{			
-			c.title = 'Files' + ' [' +r.data.files.data.length+']';
-			c.onLoadData(r.data.files);
+			content.title = 'Files' + ' [' +r.data.files.data.length+']';
+			content.onLoadData(r.data.files);
 			}
-			items.push(c);
-			
-			c  = Ext.create('CBObjectPluginComments',{params: params})		
-			c.createMenu = r.menu;	
+			c.add(content);
+			content.updateTitle('Files/Consent Form');
+			content  = Ext.create('CBObjectPluginComments',{params: params})		
+			content.createMenu = r.menu;	
 			if (Ext.isDefined(r.data.comments))
 			{			
-			c.title = 'Comments' + ' [' +r.data.comments.data.length+']';
-			c.onLoadData(r.data.comments);
+			content.title = 'Comments' + ' [' +r.data.comments.data.length+']';
+			content.onLoadData(r.data.comments);
 			}
+			c.add(content);
+			content.updateTitle('Notes');
 			items.push(c);
 			
+			
+			
+			// Assessments
+
+			c= Ext.create('Ext.panel.Panel', {
+				title: 'Assessments' + ' [' +assessmentData.data.length+']',
+				layout: {
+					align: 'stretch',
+					type: 'vbox'
+				},				
+			});
+			
+			content = Ext.create('CBObjectPluginObjectProperties',{params:params});
+			r.data.objectProperties.data.preview[0] = r.data.objectProperties.data.preview[3];
+			content.onLoadData(r.data.objectProperties);
+			c.add(content);
+
+			
+			if(!Ext.isEmpty(r.data.objectProperties.data.can.assessments)) {
+				assessmentMenu = r.data.objectProperties.data.can.assessments;
+				var templatesStore = CB.DB.templates;
+				var tbdAssessmentData = [];
+				var tbdAssessments = {};
+				for(var a = 0; a < r.data.objectProperties.data.can.assessments.length; a++){
+					tbdAssessmentData[a] = {};
+					var templateId = r.data.objectProperties.data.can.assessments[a];
+					var templateName = templatesStore.getProperty(templateId,'title');
+					var iconCls = CB.DB.templates.getIcon(templateId);					
+					tbdAssessmentData[a].template_id = templateId;
+					tbdAssessmentData[a].name = templateName;
+					tbdAssessmentData[a].pid = r.data.objectProperties.data.id;
+					tbdAssessmentData[a].ago_text = 'to be created';
+					tbdAssessmentData[a].user = '';
+					tbdAssessmentData[a].id = null;
+					//rez += '<img class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
+				}
+				tbdAssessments.data =tbdAssessmentData;
+				content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+				content.createMenu = assessmentMenu;	
+				content.updateTitle('Client Assessments to be completed');
+				content.onLoadData(tbdAssessments);			
+				c.add(content);
+			}			
+			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+			content.createMenu = assessmentMenu;	
+			content.updateTitle('Client Assessments completed');
+			content.onLoadData(assessmentData);
+			c.add(content);
+			items.push(c);			
+
+			// Referrals
+
+			c= Ext.create('Ext.panel.Panel', {
+				title: 'Referrals' + ' [' +referralData.data.length+']',
+				layout: {
+					align: 'stretch',
+					type: 'vbox'
+				},				
+			});
+			
+			content = Ext.create('CBObjectPluginObjectProperties',{params:params});
+			r.data.objectProperties.data.preview[0] = r.data.objectProperties.data.preview[4];
+			content.onLoadData(r.data.objectProperties);
+			c.add(content);
+			
+			if(!Ext.isEmpty(r.data.objectProperties.data.can.referrals)) {
+				var templatesStore = CB.DB.templates;
+				var tbdReferralData = [];
+				var tbdReferrals = {};
+				for(var a = 0; a < r.data.objectProperties.data.can.referrals.length; a++){
+					tbdReferralData[a] = {};
+					var templateId = r.data.objectProperties.data.can.referrals[a];
+					var templateName = templatesStore.getProperty(templateId,'title');
+					var iconCls = CB.DB.templates.getIcon(templateId);					
+					tbdReferralData[a].template_id = templateId;
+					tbdReferralData[a].name = templateName;
+					tbdReferralData[a].pid = r.data.objectProperties.data.id;
+					tbdReferralData[a].ago_text = 'to be created';
+					tbdReferralData[a].user = '';
+					tbdReferralData[a].id = null;
+					//rez += '<img class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
+				}
+				tbdReferrals.data =tbdReferralData;
+				content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+				content.createMenu = referralMenu;	
+				content.updateTitle('Client Referrals to be completed');
+				content.onLoadData(tbdReferrals);			
+				c.add(content);
+			}			
+			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+			content.createMenu = referralMenu;	
+			content.updateTitle('Client Referrals completed');
+			content.onLoadData(referralData);
+			c.add(content);
+			items.push(c);			
+			
+
+
+			// Recovery
+
+			c= Ext.create('Ext.panel.Panel', {
+				title: 'Recovery' + ' [' +recoveryReferralData.data.length+']',
+				layout: {
+					align: 'stretch',
+					type: 'vbox'
+				},				
+			});
+			
+			content = Ext.create('CBObjectPluginObjectProperties',{params:params});
+			r.data.objectProperties.data.preview[0] = r.data.objectProperties.data.preview[5];
+			content.onLoadData(r.data.objectProperties);
+			c.add(content);
+			
+			if(!Ext.isEmpty(r.data.objectProperties.data.can.recovery)) {
+				var templatesStore = CB.DB.templates;
+				var tbdRecoveryData = [];
+				var tbdRecovery = {};
+				for(var a = 0; a < r.data.objectProperties.data.can.recovery.length; a++){
+					tbdRecoveryData[a] = {};
+					var templateId = r.data.objectProperties.data.can.recovery[a];
+					var templateName = templatesStore.getProperty(templateId,'title');
+					var iconCls = CB.DB.templates.getIcon(templateId);					
+					tbdRecoveryData[a].template_id = templateId;
+					tbdRecoveryData[a].name = templateName;
+					tbdRecoveryData[a].pid = r.data.objectProperties.data.id;
+					tbdRecoveryData[a].ago_text = 'to be created';
+					tbdRecoveryData[a].user = '';
+					tbdRecoveryData[a].id = null;
+					//rez += '<img class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
+				}
+				tbdRecovery.data =tbdRecoveryData;
+				content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+				content.createMenu = recoveryMenu;	
+				content.updateTitle('Client Recovery to be completed');
+				content.onLoadData(tbdRecovery);			
+				c.add(content);
+			}			
+			
+			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+			content.createMenu = recoveryMenu;	
+			content.updateTitle('Client Referrals');
+			content.onLoadData(recoveryReferralData);
+			c.add(content);
+
+			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+			content.createMenu = recoveryMenu;	
+			content.updateTitle('Recovery Notes');
+			content.onLoadData(recoveryData);
+			c.add(content);
+			items.push(c);		
+
 			
             if(!Ext.isEmpty(items)) {
                 tabPanel.add(items);
@@ -313,7 +485,7 @@
 				if (r.data.objectProperties.data.preview[1] != null) {
 					Ext.apply(params, r.data.objectProperties.data);
 					var previewHtml = r.data.objectProperties.data.preview[1];
-					params.preview = previewHtml.replace("display:none","");
+					params.preview = previewHtml;
 				}
 				else
 				{
@@ -323,7 +495,7 @@
 				var data = Ext.copyTo(
                     {}
                     ,params
-                    ,'id,pids,path,name,template_id,status,statusCls,cid,cdate_ago_text,uid,udate_ago_text,preview'
+                    ,'id,pids,path,name,template_id,status,statusCls,cid,cdate_ago_text,uid,udate_ago_text,preview,can'
                 );
 				
 					var titleView =  new Ext.panel.Panel({
@@ -346,11 +518,26 @@
 						}
 
 						var rez = '<div class="dIB fs12 ' + Ext.valueFrom(values.statusCls, '') + '"">' +
-							values.status + '</div>';
+							L[values.status] + '</div>';
 
 						return rez;
 					}
-
+						 ,
+                getTaskInfo: function (values) {
+						var rez = '';
+						if(Ext.isEmpty(values.can.assessments)) {
+							return '';
+						}
+						var templatesStore = CB.DB.templates;
+						for(var a = 0; a < values.can.assessments.length; a++){
+							var templateId = values.can.assessments[a];
+							var templateName = templatesStore.getProperty(templateId,'title');
+							var iconCls = CB.DB.templates.getIcon(templateId);
+							rez += '<img class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
+						}
+						
+						return rez;
+					}
                 ,getTitleInfo: function (values) {
 						var rez = [];
 
@@ -561,7 +748,7 @@
      * @return void
      */
     ,onReloadClick: function(b, e) {
-       // this.getLayout().activeItem.reload(); //don't think we need this
+        this.reload(); //don't think we need this
     }
 
     /**
@@ -909,12 +1096,12 @@
             this.doLoad();
             return;
         }
-
-        if(!Ext.isEmpty(this.loadedData)) {
+        this.onReloadClick();
+        /*if(!Ext.isEmpty(this.loadedData)) {
             if((data.pid == this.loadedData.id) || (data.id == this.loadedData.id)) {
                 this.onReloadClick();
             }
-        }
+        }*/
     }
 
     /**

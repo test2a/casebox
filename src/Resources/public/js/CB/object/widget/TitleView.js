@@ -47,7 +47,7 @@ Ext.define('CB.object.TitleView', {
         }
 
         var rez = '<div class="dIB fs12 ' + Ext.valueFrom(values.statusCls, '') + '"">' +
-            values.status + '</div>';
+            L[values.status] + '</div>';
 
         return rez;
     }

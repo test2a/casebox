@@ -151,6 +151,15 @@ Ext.define('CB.object.plugin.Files', {
         this.store.deleteIds(ids);
     }
 
+	,updateTitle: function(title)  {
+        if(!title && this.params) {
+            title = this.params.title;
+        }
+		this.setTitle(title);
+
+        return title;
+    }	
+	
     ,onLoadData: function(r, e) {
         var dropZoneHtml = L.DropZoneMsg;
 

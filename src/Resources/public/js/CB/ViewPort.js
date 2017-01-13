@@ -404,14 +404,6 @@ Ext.define('CB.ViewPort', {
                 // ,itemId: 'notify-settings'
                 ,scope: this
                 ,handler: this.onNotifySettingsClick
-            },{
-                text: L.Theme
-                ,menu: themes
-            },{
-                text: L.Language
-                // ,iconCls: 'icon-language'
-                ,hideOnClick: false
-                ,menu: langs
             }
             ,'-'
             ,{

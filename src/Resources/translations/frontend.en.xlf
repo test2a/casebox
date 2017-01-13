@@ -3213,6 +3213,26 @@
                 <source>Print</source>
                 <target>Print</target>
             </trans-unit>
+            <trans-unit id="3163">
+                <source>caseStatus1</source>
+                <target>Overdue</target>
+            </trans-unit>
+            <trans-unit id="3164">
+                <source>caseStatus2</source>
+                <target>Active</target>
+            </trans-unit>
+            <trans-unit id="3165">
+                <source>caseStatus3</source>
+                <target>Closed</target>
+            </trans-unit>
+            <trans-unit id="3166">
+                <source>caseStatus4</source>
+                <target>Pending</target>
+            </trans-unit>	
+            <trans-unit id="3166">
+                <source>caseStatus0</source>
+                <target>Created</target>
+            </trans-unit>			
         </body>
     </file>
 </xliff>

@@ -29,9 +29,7 @@ Ext.define('CB.object.plugin.ObjectProperties', {
 
         Ext.apply(this.params, r.data);
 
-        var html = Ext.isArray(r.data.preview)
-            ? r.data.preview.join(' ')
-            : r.data.preview[0];
+        var html = r.data.preview[0];
 
         if(this.rendered) {
             this.update(html);
