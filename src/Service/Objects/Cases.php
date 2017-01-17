@@ -183,6 +183,7 @@ class Cases extends Object
             'headofhousehold',
 			'full_address',
 			'task_d_closed',
+			'assessments_reported',
 			'assessments_needed',
 			'assessments_completed',
 			'assessments_started',
@@ -363,19 +364,43 @@ class Cases extends Object
             $sd['assessments_completed'] = [];
         }
 		
-		$assessments_reported = Util\toNumericArray($this->getFieldValue('assessments_reported', 0)['value']);
+		if (empty($sd['assessments_reported'])) {
+            $sd['assessments_reported'] = [];
+        }
 		
-		$sd['assessments_completed'] = array_intersect($assessments_reported, $sd['assessments_completed']);
+		$ASSESSMENT_MAP = array(
+		   1511=>510, //behavioral
+		   1497=>533,//child
+		   1507=>553,//clothing
+		   1508=>482, //employment
+		   1506=>1120,//fema
+		   1515=>455,//finance
+		   1504=>505, //food
+		   1510=>559,//furniture
+		   1512=>489,//health
+		   1514=>440, //housing
+		   1501=>656,//language
+		   1505=>1175,//legal
+		   1498=>651, //senior
+		   1513=>172 //transportation
+		);
+		
+		$identified_unmet_needs = Util\toNumericArray($this->getFieldValue('identified_unmet_needs', 0)['value']);
+		$at_risk_population = Util\toNumericArray($this->getFieldValue('at_risk_population', 0)['value']);
+		foreach($ASSESSMENT_MAP as $identified=>$assessment){
+			if (in_array($identified,$identified_unmet_needs)||in_array($identified,$at_risk_population))
+			{
+				$assessments_reported[] = $assessment;
+			}
+		 }		
+				
+		$sd['assessments_reported'] = $assessments_reported;
+		
+		//$sd['assessments_completed'] = array_intersect($assessments_reported, $sd['assessments_completed']);
 		
 		$sd['assessments_needed'] = array_diff($assessments_reported, $sd['assessments_completed']);
 		
         $assigned = Util\toNumericArray($this->getFieldValue('assigned', 0)['value']);
-	
-			Cache::get('symfony.container')->get('logger')->error(
-			'hey',
-			$sd
-		);	
-		
 	
 		if (!empty($assigned)) {
 			$d['oid'] = $assigned[0];
@@ -657,6 +682,7 @@ class Cases extends Object
         $rez = [
             // 'edit' => $canEdit
 			'assessments'=>array_values($sd['solr']['assessments_needed']),
+			'referrals'=>array_values($sd['solr']['referrals_started']),
             'close' => $canEdit,
             'reopen' => ($isClosed && $isOwner),
             'complete' => (!$isClosed && ($this->getUserStatus($userId) == static::$USERSTATUS_ONGOING)),
@@ -710,6 +736,8 @@ class Cases extends Object
         $ownerRow = '';
         $assigneeRow = '';
         $contentRow = '';
+		$identifiedNeedsLine = '';
+		$atRiskLine = '';
         $coreUri = $this->configService->get('core_uri');
 
 		/*if (!empty($sd['solr']['assessments_completed']))
@@ -892,19 +920,35 @@ class Cases extends Object
 			trim($demographicsLine, " - ").'<br/>'.
 			trim($emailLine, " - ").'<br/>'.
 			trim($addressLine, " - ").'<br/>';
-        $pb[2] = 
+        
+		// Create description row
+        $v = $this->getFieldValue('identified_unmet_needs', 0);
+        if (!empty($v['value'])) {
+            $tf = $template->getField('identified_unmet_needs');
+            $identifiedNeedsLine = $template->formatValueForDisplay($tf, $v);
+        }
+
+		// Create description row
+        $v = $this->getFieldValue('at_risk_population', 0);
+        if (!empty($v['value'])) {
+            $tf = $template->getField('at_risk_population');
+            $atRiskLine = $template->formatValueForDisplay($tf, $v);
+        }
+		
+		$pb[2] = 
             '<table class="obj-preview'.$rtl.'"><tbody>'.
-			'<tr class="prop-header"><th colspan="3" style>Assigned Case Manager</th><th colspan="3" style>Self Reported/Special At Risk Population</th></tr>'.
-            $ownerRow.'</tbody></table></td><td colspan="3"></td></tr>'.
-            $assigneeRow. '</tbody></table><td colspan="3"></td></tr>'.
+			'<tr class="prop-header"><th colspan="2" style>Assigned Case Manager</th><th colspan="3" style>Self Reported/Identified Population and Needs</th></tr>'.
+            $ownerRow.'</tbody></table></td><td class="prop-key">Special/At Risk Population</td><td class="prop-val" colspan="2">'.$atRiskLine.'</td></tr>'.
+            $assigneeRow. '</tbody></table><td class="prop-key">Identified Needs</td><td class="prop-val" colspan="2">'.$identifiedNeedsLine.'</td></tr>'.
+			$contentRow.
             '<tbody></table>';		
         $pb[3] = 
             '<table class="obj-preview'.$rtl.'"><tbody>'.
-			'<tr class="prop-header"><th colspan="3" style>'.count($sd['solr']['assessments_completed']).' out of '.count($sd['solr']['assessments_reported']).' assessments completed. '.count($sd['solr']['assessments_needed']).' remain to be completed</td></tr>'.
+			'<tr class="prop-header"><th colspan="3" style>'.count(array_intersect($sd['solr']['assessments_completed'], $sd['solr']['assessments_reported'])).' out of '.count($sd['solr']['assessments_reported']).' assessments completed. '.count($sd['solr']['assessments_needed']).' remain to be completed</td></tr>'.
             '<tbody></table>';	
         $pb[4] = 
             '<table class="obj-preview'.$rtl.'"><tbody>'.
-			'<tr class="prop-header"><th colspan="3" style>'.count($sd['solr']['referrals_started']).' and '.count($sd['solr']['referrals_completed']).' referrals completed. '.count($sd['solr']['referrals_needed']).' remain to be completed</td></tr>'.
+			'<tr class="prop-header"><th colspan="3" style>'.count($sd['solr']['referrals_needed']).' assessments required referrals. '.count($sd['solr']['referrals_started']).' services need to be completed</td></tr>'.
             '<tbody></table>';			
         $pb[5] = 
             '<table class="obj-preview'.$rtl.'"><tbody>'.

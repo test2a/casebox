@@ -425,7 +425,8 @@ class Template extends Object
                                 $pids = str_replace(',', '/', $pids);
                                 $linkType = empty($field['cfg']['linkType']) ? '' : 'link-type-'.$field['cfg']['linkType'];
 
-                                $label = '<a class="click '.$linkType.'" template_id="'.$d['template_id'].'" path="'.$pids.'" nid="'.$id.'">'.$label.'</a>';
+								//Removing for now
+                                //$label = '<a class="click '.$linkType.'" template_id="'.$d['template_id'].'" path="'.$pids.'" nid="'.$id.'">'.$label.'</a>';
                             }
 
                             switch (@$field['cfg']['renderer']) {

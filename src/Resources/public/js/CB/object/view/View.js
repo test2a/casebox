@@ -337,6 +337,7 @@
 					//rez += '<img class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
 				}
 				tbdAssessments.data =tbdAssessmentData;
+				tbdAssessments.limit = 100;			
 				content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 				content.createMenu = assessmentMenu;	
 				content.updateTitle('Client Assessments to be completed');
@@ -369,20 +370,15 @@
 				var templatesStore = CB.DB.templates;
 				var tbdReferralData = [];
 				var tbdReferrals = {};
-				for(var a = 0; a < r.data.objectProperties.data.can.referrals.length; a++){
-					tbdReferralData[a] = {};
-					var templateId = r.data.objectProperties.data.can.referrals[a];
-					var templateName = templatesStore.getProperty(templateId,'title');
-					var iconCls = CB.DB.templates.getIcon(templateId);					
-					tbdReferralData[a].template_id = templateId;
-					tbdReferralData[a].name = templateName;
-					tbdReferralData[a].pid = r.data.objectProperties.data.id;
-					tbdReferralData[a].ago_text = 'to be created';
-					tbdReferralData[a].user = '';
-					tbdReferralData[a].id = null;
-					//rez += '<img class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
+				for (var a = referralData.data.length - 1; a >= 0; a--) {
+					var dataId = referralData.data[a].id;
+					var referralNeeded = r.data.objectProperties.data.can.referrals.indexOf(String(dataId));
+					if (referralNeeded > -1) {
+						tbdReferralData.push(referralData.data.splice(a, 1)[0]);
+					}
 				}
 				tbdReferrals.data =tbdReferralData;
+				tbdReferrals.limit = 100;
 				content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 				content.createMenu = referralMenu;	
 				content.updateTitle('Client Referrals to be completed');

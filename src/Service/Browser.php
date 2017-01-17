@@ -1203,7 +1203,11 @@ class Browser
      */
     public static function getIcon(&$data)
     {
-
+        
+		if (!empty($data['data']) && !empty($data['data']['iconCls'])) {
+            return $data['data']['iconCls'];
+        }		
+		
         if (!empty($data['cfg']) && !empty($data['cfg']['iconCls'])) {
             return $data['cfg']['iconCls'];
         }
