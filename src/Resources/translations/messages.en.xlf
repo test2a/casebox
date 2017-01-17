@@ -913,6 +913,26 @@
                 <source>UpdateSolrData</source>
                 <target>Update Solr data</target>
             </trans-unit>
+            <trans-unit id="3161">
+                <source>caseStatus0</source>
+                <target>Created</target>
+            </trans-unit>
+            <trans-unit id="3162">
+                <source>caseStatus1</source>
+                <target>Overdue</target>
+            </trans-unit>
+            <trans-unit id="3163">
+                <source>caseStatus2</source>
+                <target>Active</target>
+            </trans-unit>
+            <trans-unit id="3164">
+                <source>caseStatus3</source>
+                <target>Closed</target>
+            </trans-unit>       
+           <trans-unit id="3165">
+                <source>caseStatus4</source>
+                <target>Pending</target>
+            </trans-unit>                  
         </body>
     </file>
 </xliff>

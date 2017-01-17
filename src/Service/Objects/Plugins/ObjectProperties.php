@@ -81,7 +81,7 @@ class ObjectProperties extends Base
             $d['status'] = '';
             switch ($obj->getStatus()) {
                 case Objects\Task::$STATUS_ACTIVE:
-                    break;
+                    //break;
 
                 case Objects\Task::$STATUS_CLOSED:
                     //just add title css class and continue with default
