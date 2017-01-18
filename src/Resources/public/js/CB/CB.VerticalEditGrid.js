@@ -43,10 +43,7 @@ Ext.define('CB.VerticalEditGrid', {
                 }
                 return rez;
             }
-            ,plugins: [{
-                ptype: 'CBDDGrid'
-                ,enableDrop: false
-            }]
+            ,plugins: []
 
         };
         if(this.viewConfig) {
@@ -101,6 +98,21 @@ Ext.define('CB.VerticalEditGrid', {
                         this.onFieldTitleDblClick();
                     }
                 }
+				,cellkeydown: function(cell, td, cellIndex, record, tr, rowIndex, e, eOpts ) {
+					if (e.getKey() == e.TAB)
+					{
+						var pos = this.gainFocus((e.shiftKey)? 'previous' : 'next');
+
+						if(pos) {
+							e.stopEvent();
+
+							cell.editingPlugin.startEditByPosition({
+								row: pos
+								,column: 1
+							});
+						}
+					}
+				 }				
                 ,celldblclick:  this.onFieldTitleDblClick
                 ,cellclick:  this.onCellClick
             }
@@ -754,7 +766,7 @@ Ext.define('CB.VerticalEditGrid', {
     ,onCellEditingSpecialKey: function(ed, field, e) {
         var key = e.getKey();
         switch(key) {
-            case e.ENTER:
+            //case e.ENTER:
 			case e.TAB:
                 ed.completeEdit();
 
