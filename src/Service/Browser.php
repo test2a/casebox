@@ -1165,6 +1165,16 @@ class Browser
                 $r['iconCls'] = $recs[$r['id']]['cfg']['iconCls'];
             }
         }
+		
+		$recs = DM\Objects::readByIds($ids, true);
+		
+        foreach ($records as &$r) {
+            if (!empty($recs[$r['id']]['data']['iconCls'])) {
+                $r['iconCls'] = $recs[$r['id']]['data']['iconCls'];
+            }
+        }
+		
+		
     }
 
     /**

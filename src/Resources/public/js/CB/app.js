@@ -1054,7 +1054,7 @@ function initApp() {
                     enableKeyEvents: true
                     ,format: App.dateFormat
                     ,width: 100
-                    ,listeners: autoExpand
+                    //,listeners: autoExpand
                 });
                 break;
 
