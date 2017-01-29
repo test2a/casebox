@@ -308,6 +308,7 @@ Ext.define('CB.browser.ViewContainer', {
         this.viewToolbar = new Ext.Toolbar({
             border: false
             ,style: 'background: #ffffff'
+	    ,hidden: true // DNS Dumbing down application for now APPRIO
             ,defaults: {
                 scale: 'medium'
             }
