@@ -227,6 +227,9 @@
 					   if (assessmentMenu.indexOf(k.template_id) >=  0)
 					   {
 						   assessmentData.data.push(k);
+						   assessmentMenu = assessmentMenu.replace(k.template_id + ',','');
+						   assessmentMenu = assessmentMenu.replace(","+k.template_id,'');								   
+						   assessmentMenu = assessmentMenu.replace(k.template_id,'');						   
 					   }
 					   if (referralMenu.indexOf(k.template_id) >=  0)
 					   {
@@ -273,13 +276,6 @@
 			c.add(content);
 			content.updateTitle('Client Intake');
 			
-			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
-			content.createMenu = clientIntakeMenu;	
-			content.title = 'Face Sheet';
-			content.onLoadData(clientIntakeData);		
-			c.add(content);
-			content.updateTitle('Family Members');
-			
 			content  = Ext.create('CBObjectPluginFiles',{params: params})		
 			content.createMenu = r.menu;	
 			if (Ext.isDefined(r.data.files))
@@ -290,14 +286,22 @@
 			c.add(content);
 			content.updateTitle('Files/Consent Form');
 			content  = Ext.create('CBObjectPluginComments',{params: params})		
-			content.createMenu = r.menu;	
-			if (Ext.isDefined(r.data.comments))
+			content.createMenu = r.menu;				
+			
+			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+			content.createMenu = clientIntakeMenu;	
+			content.title = 'Face Sheet';
+			content.onLoadData(clientIntakeData);		
+			c.add(content);
+			content.updateTitle('Family Member/Alternative Address');
+			
+			/*if (Ext.isDefined(r.data.comments))
 			{			
 			content.title = 'Comments' + ' [' +r.data.comments.data.length+']';
 			content.onLoadData(r.data.comments);
 			}
 			c.add(content);
-			content.updateTitle('Notes');
+			content.updateTitle('Notes');*/
 			items.push(c);
 			
 			
@@ -319,7 +323,7 @@
 
 			
 			if(!Ext.isEmpty(r.data.objectProperties.data.can.assessments)) {
-				assessmentMenu = r.data.objectProperties.data.can.assessments;
+				//assessmentMenu = r.data.objectProperties.data.can.assessments;
 				var templatesStore = CB.DB.templates;
 				var tbdAssessmentData = [];
 				var tbdAssessments = {};

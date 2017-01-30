@@ -100,7 +100,8 @@ class Cases extends Base
         $p['fq'] = $this->fq;
         $p['fq'][] = 'task_u_all:'.User::getId();
         $p['fq'][] = 'task_status:(1 OR 2)';
-        $p['rows'] = 0;
+        $p['fl'] = 'id,fematier,name,cdate,case_status';
+		$p['rows'] = 0;
 
         $s = new Search();
         $rez = $s->query($p);
@@ -138,7 +139,7 @@ class Cases extends Base
     {
         $userId = User::getId();
         $p = $this->requestParams;
-
+		$p['fl'] = 'id,fematier,name,cdate,case_status';
         $p['fq'] = $this->fq;
         $p['fq'][] = 'task_u_all:'.$userId;
         $p['fq'][] = 'task_status:(1 OR 2)';
@@ -195,7 +196,7 @@ class Cases extends Base
         } else {
             $p['fq'][] = 'cid:'.$userId;
         }
-
+		$p['fl'] = 'id,fematier,name,cdate,case_status';
         if (@$this->requestParams['from'] == 'tree') {
             $s = new Search();
 
@@ -266,6 +267,7 @@ class Cases extends Base
         $userId = User::getId();
         $p = $this->requestParams;
         $p['fq'] = $this->fq;
+		$p['fl'] = 'id,fematier,name,cdate,case_status';
 
         $parent = $this->lastNode->parent;
 
@@ -356,7 +358,7 @@ class Cases extends Base
 
         $user_id = substr($this->lastNode->id, 3);
         $p['fq'][] = 'task_u_ongoing:'.$user_id;
-
+		$p['fl'] = 'id,fematier,name,cdate,case_status';
         $s = new Search();
 
         $sr = $s->query($p);

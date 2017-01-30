@@ -158,6 +158,11 @@ Ext.define('CB.object.plugin.ObjectProperties', {
         }
     }
 
+	,onActionAssignClick: function(ev, el) {
+         this.getEl().mask('Assigning ...', 'x-mask-loading');
+         CB_Tasks.assign(this.params.id, this.onItemChange, this);
+    }	
+	
     ,onActionCloseClick: function(ev, el) {
         this.getEl().mask(L.CompletingTask + ' ...', 'x-mask-loading');
         CB_Tasks.close(this.params.id, this.onItemChange, this);

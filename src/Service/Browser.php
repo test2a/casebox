@@ -651,10 +651,6 @@ class Browser
         $p['skipSecurity'] = true;
         $rez = $search->query($p);
 
-		Cache::get('symfony.container')->get('logger')->error(
-                   'heyyy',
-                    $p
-                );
 		if ($p['source'] == "template")
 		{
 			$this->setCustomTemplateIcons($rez['data']);

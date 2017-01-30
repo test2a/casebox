@@ -65,6 +65,10 @@ class CaseAssessment extends Object
 			}
 	
 			if (!empty($p['data']['_referralneeded'])) { //assessment
+				if (!empty($p['data']['_clienthavefemanumber']['childs']['_femanumber']))
+				{
+					$caseSd['femanumber_s'] = $p['data']['_clienthavefemanumber']['childs']['_femanumber'];
+				}
 			    $caseSd['assessments_needed'] = array_diff($caseSd['assessments_needed'], [$templateId]);
                 $caseSd['assessments_completed'][] = $templateId;
 				if ($p['data']['_referralneeded']['value'] == 686 || $p['data']['_referralneeded'] == 686)

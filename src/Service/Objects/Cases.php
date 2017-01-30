@@ -153,6 +153,8 @@ class Cases extends Object
 
         $solrData['task_status'] = @$sd['task_status'];
 
+		$solrData['case_status'] = @$sd['case_status'];
+		
 		$assessments_reported = Util\toNumericArray($this->getFieldValue('assessments_reported', 0)['value']);
         if (!empty($assessments_reported)) {
             $solrData['assessments_reported'] = $assessments_reported;
@@ -181,6 +183,8 @@ class Cases extends Object
             'ethnicity',
             'language',
             'headofhousehold',
+            'fematier',			
+            'femanumber_s',			
 			'full_address',
 			'task_d_closed',
 			'assessments_reported',
@@ -313,13 +317,14 @@ class Cases extends Object
             'ethnicity',
             'language',
 			'age',
+			'fematier',
             'headofhousehold'
         ];
         foreach ($properties as $property) {
 			unset($sd[$property]);
 			if ($this->getFieldValue('_' . $property, 0)['value'] != null) {
 				$obj = Objects::getCachedObject($this->getFieldValue('_' . $property, 0)['value']);
-				$sd[$property] = empty($obj) ? '' : $obj->getHtmlSafeName();
+				$sd[$property] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
 			}
         }
 		$sd['full_address'] = '';
@@ -424,6 +429,7 @@ class Cases extends Object
         }
 		
         $sd['task_status'] = $status;
+		$sd['case_status'] = $this->trans('caseStatus'.$status, '');
     }
 
     /**
@@ -436,7 +442,7 @@ class Cases extends Object
         $sd = &$d['sys_data'];
 
         unset($sd['task_d_closed']);
-
+		$sd['case_status'] = $this->trans('caseStatus'.static::$STATUS_ACTIVE, '');
         $this->setParamsFromData($d);
     }
 
@@ -470,6 +476,7 @@ class Cases extends Object
 
         $sd['task_status'] = static::$STATUS_CLOSED;
         $sd['task_d_closed'] = date('Y-m-d\TH:i:s\Z');
+		$sd['case_status'] = $this->trans('caseStatus'.static::$STATUS_CLOSED, '');
     }
 
     /**
@@ -732,6 +739,7 @@ class Cases extends Object
 		//$actionsLine = '';
 		$addressLine = '';
         $demographicsLine = '';
+		$femaLine = '';
 		$dateLines = '';
         $ownerRow = '';
         $assigneeRow = '';
@@ -761,7 +769,41 @@ class Cases extends Object
 		}
 
 		if (!empty($sd['solr']['ethnicity'])) {
-			$demographicsLine = $demographicsLine . $sd['solr']['ethnicity'] . " - ";
+			if ($sd['solr']['ethnicity'] == "No")
+			{
+				$demographicsLine = $demographicsLine . 'Not Hispanic' . " - ";	
+			}
+			else
+			{
+				$demographicsLine = $demographicsLine . $sd['solr']['ethnicity'] . " - ";	
+			}
+		}
+
+		if (!empty($sd['solr']['fematier'])) {
+			$femaLine = $femaLine . $sd['solr']['fematier'] . " - ";
+		}		
+		
+		if (!empty($sd['solr']['headofhousehold'])) {
+			if ($sd['solr']['headofhousehold'] == "No")
+			{
+				$addressLine = $addressLine . 'Not Head of Household - ';	
+			}
+			else if ($sd['solr']['headofhousehold'] == "Yes")
+			{
+				$addressLine = $addressLine . 'Head of Household - ';	
+			}
+			else
+			{
+				$addressLine = $addressLine . 'Unknown Head of Household - ';	
+			}
+		}		
+
+		if (!empty($sd['solr']['femanumber_s'])) {
+			$femaLine = $femaLine . 'FEMA #' . $sd['solr']['femanumber_s'] . " - ";
+		}	
+		else
+		{
+			$femaLine = $femaLine . "FEMA # Not Collected - ";
 		}
 
 		if (!empty($sd['solr']['birthdate_dt'])) {
@@ -789,11 +831,11 @@ class Cases extends Object
 		}		
 		
 		if (!empty($sd['solr']['full_address'])) {
-			$addressLine = $sd['solr']['full_address']. " - ";
+			$addressLine = $addressLine . $sd['solr']['full_address']. " - ";
 		}
 		else
 		{
-			$addressLine = "No address listed" . " - ";
+			$addressLine = $addressLine. "No address listed" . " - ";
 		}
 		if (!empty($sd['solr']['county'])) {
 			$addressLine = $addressLine . $sd['solr']['county']. " - ";
@@ -828,7 +870,7 @@ class Cases extends Object
                 @Cache::get('session')->get('user')['cfg']['timezone']
             );
 
-            $ownerRow = '<tr><td class="prop-key">'.$this->trans('Owner').':</td><td>'.
+            $ownerRow = '<tr><td class="prop-key" width="15%" style="width:15%">Intake Representative:</td><td width="35%">'.
                 '<table class="prop-val people"><tbody>'.
                 '<tr><td class="user"><img class="photo32" src="'.
                 $coreUri.'photo/'.$v.'.jpg?32='.$userService->getPhotoParam($v).
@@ -839,12 +881,18 @@ class Cases extends Object
 
         // Create assignee row
         $v = $this->getFieldValue('assigned', 0);
-
-        if (!empty($v['value'])) {
-
+		if (empty($v['value'])) {
+			$assigneeRow .= '<tr><td class="prop-key" width="15%" style="width:15%">'.$this->trans(
+                    'Case Manager'
+                ).':</td><td><table class="prop-val people"><tbody><tr><td>'.
+				'<a class="bt item-action click" action="assign" uid="'.User::getId().
+				'">Assign client to me</a></td></tr>';
+		}
+        else // (!empty($v['value'])) {
+			{
             $isOwner = $this->isOwner();
-            $assigneeRow .= '<tr><td class="prop-key">'.$this->trans(
-                    'Client Assigned'
+            $assigneeRow .= '<tr><td class="prop-key" width="15%" style="width:15%">'.$this->trans(
+                    'Case Manager'
                 ).':</td><td><table class="prop-val people"><tbody>';
             $v = Util\toNumericArray($v['value']);
 
@@ -917,6 +965,7 @@ class Cases extends Object
             '<tbody></table>';
         $pb[1] = 
             '<div class="info">'.
+			trim($femaLine, " - ").'<br/>'.			
 			trim($demographicsLine, " - ").'<br/>'.
 			trim($emailLine, " - ").'<br/>'.
 			trim($addressLine, " - ").'<br/>';
@@ -937,9 +986,9 @@ class Cases extends Object
 		
 		$pb[2] = 
             '<table class="obj-preview'.$rtl.'"><tbody>'.
-			'<tr class="prop-header"><th colspan="2" style>Assigned Case Manager</th><th colspan="3" style>Self Reported/Identified Population and Needs</th></tr>'.
-            $ownerRow.'</tbody></table></td><td class="prop-key">Special/At Risk Population</td><td class="prop-val" colspan="2">'.$atRiskLine.'</td></tr>'.
-            $assigneeRow. '</tbody></table><td class="prop-key">Identified Needs</td><td class="prop-val" colspan="2">'.$identifiedNeedsLine.'</td></tr>'.
+			'<tr class="prop-header"><th colspan="2" width="50%" style>Assigned Case Manager</th><th colspan="2" width="50%" style>Self Reported/Identified Population and Needs</th></tr>'.
+            $ownerRow.'</tbody></table></td><td class="prop-key" style="width:15%" width="15%">Special/At Risk Population:</td><td width="35%" class="prop-val">'.$atRiskLine.'</td></tr>'.
+            $assigneeRow. '</tbody></table><td class="prop-key" style="width:15%" width="15%">Identified Needs:</td><td class="prop-val" width="35%">'.$identifiedNeedsLine.'</td></tr>'.
 			$contentRow.
             '<tbody></table>';		
         $pb[3] = 
