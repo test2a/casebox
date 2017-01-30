@@ -162,11 +162,9 @@ type: node type
 <field name="headofhousehold"  type="string"         indexed="true" stored="true" />
 <field name="county"  type="string"         indexed="true" stored="true" />
 <field name="location_type"  type="string"         indexed="true" stored="true" />
+<field name="fematier"  type="string"          indexed="true" stored="true"/>
 
-
-<field name="fema_tier"  type="string"          indexed="true" stored="true"/>
-
-<field name="case_status"  type="tint"          indexed="true" stored="true" />
+<field name="case_status"  type="string"          indexed="true" stored="true" />
 
 <field name="assessments_reported"  type="tint"          indexed="true" stored="true" multiValued="true" />
 
