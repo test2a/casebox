@@ -26,6 +26,8 @@ class Cases extends Object
     public static $STATUS_CLOSED = 3;
 
     public static $STATUS_PENDING = 4;
+	
+	public static $STATUS_INFORMATION = 5;
 
     public static $USERSTATUS_NONE = 0;
 
@@ -416,18 +418,48 @@ class Cases extends Object
 
         // Set status
         $dateEnd = empty($p['date_end']) ? null : Util\dateISOToMysql($p['date_end']);
+		
+		if ($this->getFieldValue('_clientstatus', 0)['value'] != null) {
+         $clientStatus = $this->getFieldValue('_clientstatus', 0)['value'];
+		 if ($clientStatus == 1578)
+		 {
+			 unset($sd['task_d_closed']);
+			 $status = static::$STATUS_ACTIVE;	
+		 }
+		 else if ($clientStatus == 1579)
+		 {
+             if (empty($sd['task_d_closed']))
+			 {
+				$sd['task_d_closed'] = date('Y-m-d\TH:i:s\Z'); 
+			 }
+			 $status = static::$STATUS_CLOSED;
+		 }
+		 else if ($clientStatus == 1577)
+		 {
+			 unset($sd['task_d_closed']);
+			 $status = static::$STATUS_INFORMATION;
+		 }
+		}
+		else
+		{
+			unset($sd['task_d_closed']);
+			$d['_clientstatus'] = 1578;
+			$status = static::$STATUS_ACTIVE;	
+		}
 
-        $status = static::$STATUS_ACTIVE;
-
-        if (!empty($sd['task_d_closed'])) {
+        /*if (!empty($sd['task_d_closed'])) {
             $status = static::$STATUS_CLOSED;
 
         } elseif (!empty($dateEnd)) {
             if (strtotime($dateEnd) < strtotime('now')) {
                 $status = static::$STATUS_OVERDUE;
             }
-        }
+        }*/
 		
+		Cache::get('symfony.container')->get('logger')->error(
+                   'heyyy' .$status,
+                    $sd
+                );
         $sd['task_status'] = $status;
 		$sd['case_status'] = $this->trans('caseStatus'.$status, '');
     }
@@ -443,7 +475,9 @@ class Cases extends Object
 
         unset($sd['task_d_closed']);
 		$sd['case_status'] = $this->trans('caseStatus'.static::$STATUS_ACTIVE, '');
-        $this->setParamsFromData($d);
+		$d['data']['_clientstatus'] = 1578;
+        $this->updateCustomData();
+		$this->updateSysData();
     }
 
     /**
@@ -477,6 +511,9 @@ class Cases extends Object
         $sd['task_status'] = static::$STATUS_CLOSED;
         $sd['task_d_closed'] = date('Y-m-d\TH:i:s\Z');
 		$sd['case_status'] = $this->trans('caseStatus'.static::$STATUS_CLOSED, '');
+		$d['data']['_clientstatus'] = 1579;
+		$this->updateCustomData();
+		$this->updateSysData();
     }
 
     /**
@@ -554,12 +591,16 @@ class Cases extends Object
                 break;
 
             case static::$STATUS_ACTIVE:
-                $rez .= ' task-status-active';
+                $rez .= ' case-status-active';
                 break;
 
             case static::$STATUS_CLOSED:
-                $rez .= ' task-status-closed';
+                $rez .= ' case-status-closed';
                 break;
+				
+            case static::$STATUS_INFORMATION:
+                $rez .= ' case-status-information';
+                break;				
         }
 
         return $rez;
@@ -669,8 +710,8 @@ class Cases extends Object
 			'assessments'=>array_values($sd['solr']['assessments_needed']),
 			'referrals'=>array_values($sd['solr']['referrals_started']),
             'close' => $canEdit,
-            'reopen' => ($isClosed && $isOwner),
-            'complete' => (!$isClosed && ($this->getUserStatus($userId) == static::$USERSTATUS_ONGOING)),
+            'reopen' => ($isClosed && $isOwner)//,
+            //'complete' => (!$isClosed && ($this->getUserStatus($userId) == static::$USERSTATUS_ONGOING)),
         ];
 
         return $rez;

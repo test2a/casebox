@@ -21,6 +21,12 @@ a.btn-task-complete { font-size: 12px; color: white; font-weight: bold}
 .task-status-closed{ background-color: #637626; color: white}
 .task-status-overdue{ background-color: #c00000; color: white}
 
+.case-status{ border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; padding: 2px 5px}
+.case-status-active{ background-color: #637626; color: white}
+.case-status-closed{ background-color: #c00000; color: white}
+.case-status-information{ background-color: yellow; color: black}
+
+
 .task-status00{ border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; background-color: #D36E01; color: white; padding: 2px 5px} /*pending, not completed*/
 .task-status01{ border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; background-color: #D36E01; color: white; padding: 2px 5px} /*pending, completed*/
 .task-status10{ border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; background-color: black; color: white; padding: 2px 5px} /*active, not completed */

@@ -3232,7 +3232,15 @@
             <trans-unit id="3167">
                 <source>Created</source>
                 <target>Created</target>
+            </trans-unit>
+            <trans-unit id="3168">
+                <source>caseStatus5</source>
+                <target>information Only</target>
             </trans-unit>			
-        </body>
+            <trans-unit id="3169">
+                <source>Information Only</source>
+                <target>information Only</target>
+            </trans-unit>			
+		</body>
     </file>
 </xliff>

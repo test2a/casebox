@@ -83,6 +83,8 @@ class Cases extends Base
                 return lcfirst($this->trans('Ongoing'));
             case 6:
                 return lcfirst($this->trans('Closed'));
+            case 7:
+                return lcfirst($this->trans('Information'));				
             case 'assignee':
                 return lcfirst($this->trans('Assignee'));
             default:
@@ -99,7 +101,7 @@ class Cases extends Base
         $p = $this->requestParams;
         $p['fq'] = $this->fq;
         $p['fq'][] = 'task_u_all:'.User::getId();
-        $p['fq'][] = 'task_status:(1 OR 2)';
+        $p['fq'][] = 'task_status:(1 OR 2 OR 3)';
         $p['fl'] = 'id,fematier,name,cdate,case_status';
 		$p['rows'] = 0;
 
@@ -142,7 +144,7 @@ class Cases extends Base
 		$p['fl'] = 'id,fematier,name,cdate,case_status';
         $p['fq'] = $this->fq;
         $p['fq'][] = 'task_u_all:'.$userId;
-        $p['fq'][] = 'task_status:(1 OR 2)';
+        $p['fq'][] = 'task_status:(1 OR 2 OR 5)';
 
         if (@$this->requestParams['from'] == 'tree') {
             $s = new \Casebox\CoreBundle\Service\Search();
@@ -226,7 +228,7 @@ class Cases extends Base
                             $sr['facets']->facet_fields->{'0task_status'}->{'2'}
                         ),
                     'id' => $this->getId(5),
-                    'iconCls' => 'icon-folder',
+                    'iconCls' => 'icon-folder-open',
                 ];
             }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'3'})) {
@@ -238,6 +240,15 @@ class Cases extends Base
                     'iconCls' => 'icon-folder',
                 ];
             }
+            if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'5'})) {
+                $rez['data'][] = [
+                    'name' => lcfirst($this->trans('Information')).$this->renderCount(
+                            $sr['facets']->facet_fields->{'0task_status'}->{'5'}
+                        ),
+                    'id' => $this->getId(7),
+                    'iconCls' => 'icon-information-white',
+                ];
+            }			
             // Add assignee node if there are any created cases already added to result
             if (($this->lastNode->id == 3) && !empty($rez['data'])) {
                 $rez['data'][] = [
@@ -248,7 +259,7 @@ class Cases extends Base
                 ];
             }
         } else {
-            $p['fq'][] = 'task_status:(1 OR 2)';
+            $p['fq'][] = 'task_status:(1 OR 2 OR 5)';
 
             $s = new Search();
             $rez = $s->query($p);
@@ -288,7 +299,10 @@ class Cases extends Base
             case 6:
                 $p['fq'][] = 'task_status:3';
                 break;
-            case 'assignee':
+            case 7:
+                $p['fq'][] = 'task_status:5';
+                break;
+			case 'assignee':
                 return $this->getAssigneeUsers();
                 break;
             default:

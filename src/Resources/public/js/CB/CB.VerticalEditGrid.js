@@ -234,12 +234,12 @@ Ext.define('CB.VerticalEditGrid', {
                 //check validation field
                 if (record.get('valid') === false) {
                     meta.css = ' x-form-invalid-field-default';
-                    meta.tdAttr = 'data-errorqtip="<ul class=\'x-list-plain\'><li>' + Ext.form.field.Base.prototype.invalidText + '</li></ul>"';
+                    //meta.tdAttr = 'data-errorqtip="<ul class=\'x-list-plain\'><li>' + Ext.form.field.Base.prototype.invalidText + '</li></ul>"';
                 } else {
                     //Check required field
                     if(tr.get('cfg').required && Ext.isEmpty(v)) {
                         meta.css = ' x-form-invalid-field-default';
-                        meta.tdAttr = 'data-errorqtip="<ul class=\'x-list-plain\'><li>' + Ext.form.TextField.prototype.blankText + '</li></ul>"';
+                        //meta.tdAttr = 'data-errorqtip="<ul class=\'x-list-plain\'><li>' + Ext.form.TextField.prototype.blankText + '</li></ul>"';
                     } else {
                         // Value is valid
                         meta.css = '';

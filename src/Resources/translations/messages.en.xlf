@@ -933,6 +933,10 @@
                 <source>caseStatus4</source>
                 <target>Pending</target>
             </trans-unit>                  
-        </body>
+           <trans-unit id="3166">
+                <source>caseStatus5</source>
+                <target>Information Only</target>
+            </trans-unit>                  
+		</body>
     </file>
 </xliff>
