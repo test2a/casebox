@@ -1805,8 +1805,7 @@ Ext.define('CB.browser.ViewContainer', {
         }
     }
 
-	,onAssignClientClick
-	{
+	,onAssignClientClick: function(b, e) {
 		CB_Tasks.setUserStatus({id: this.params.id,userId: -1}, this.onItemChange, this);//assign click Apprio
 	}
 	
