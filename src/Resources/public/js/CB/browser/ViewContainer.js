@@ -96,6 +96,12 @@ Ext.define('CB.browser.ViewContainer', {
                 ,handler: this.onCutClick
             })
 
+			,assignClient: new Ext.Action({
+			 text: 'Assign to yourself'
+			 ,scope: this
+			 ,handler: this.onAssignClientClick
+			 })
+			
             ,copy: new Ext.Action({
                 text: L.Copy
                 ,itemId: 'copy'
@@ -1229,7 +1235,7 @@ Ext.define('CB.browser.ViewContainer', {
             this.actions['delete'].setDisabled(true);
             this.actions['delete'].hide();
             this.actions.contextDelete.setDisabled(true);
-
+			this.actions.assignClient.setDisabled(true);
             this.actions.webdavlink.setDisabled(true);
             this.actions.webdavlink.hide();
 
@@ -1250,6 +1256,8 @@ Ext.define('CB.browser.ViewContainer', {
             this.actions.cut.setDisabled(false);
             this.actions.copy.setDisabled(false);
 
+			this.actions.assignClient.setDisabled(false);
+			
             this.actions.edit.setDisabled(
                 (firstObjType === 'file') &&
                 (firstFileEditor === false)
@@ -1706,6 +1714,7 @@ Ext.define('CB.browser.ViewContainer', {
                     ,this.actions.unstar
                     ,this.actions.webdavlink
                     ,this.actions.permalink
+					,this.actions.assignClient					
                     ,this.setOwnerItem
                     ,'-'
                     ,this.createItem
@@ -1796,6 +1805,11 @@ Ext.define('CB.browser.ViewContainer', {
         }
     }
 
+	,onAssignClientClick
+	{
+		CB_Tasks.setUserStatus({id: this.params.id,userId: -1}, this.onItemChange, this);//assign click Apprio
+	}
+	
     ,onPermalinkClick: function(b, e) {
         var selection = this.getSelection();
 

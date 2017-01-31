@@ -9,6 +9,7 @@ use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Log;
+use Casebox\CoreBundle\Service\Solr\Client;
 
 /**
  * Class Cases
@@ -411,7 +412,6 @@ class Cases extends Object
 			$d['oid'] = $assigned[0];
 		}
 		
-		
         $sd['task_u_ongoing'] = array_diff($assigned, $sd['task_u_done']);
 
         // Set status
@@ -602,49 +602,27 @@ class Cases extends Object
      */
     public function setUserStatus($status, $userId = false)
     {
-        $rez = false;
-        $action = '';
-        $currentUserId = User::getId();
+		$currentUserId = User::getId();
 
         if ($userId == false) {
             $userId = $currentUserId;
+        }
+        if (!$this->loaded) {
+            $this->load();
         }
 
         $d = &$this->data;
         $sd = &$d['sys_data'];
 
-        switch ($status) {
-            case static::$USERSTATUS_ONGOING:
-                if (in_array($userId, $sd['task_u_done'])) {
-                    $sd['task_u_done'] = array_diff($sd['task_u_done'], [$userId]);
-                    $sd['task_u_ongoing'][] = $userId;
-                    unset($sd['task_u_d_closed'][$userId]);
+        $d['data']['assigned'] = $userId;
+		$this->setParamsFromData($d);
+        //$sd['solr']['task_u_assignee'] = $userId;
+		$this->updateCustomData();
+		$this->updateSysData();
+		//$solr = new Client();
+		//	$solr->updateTree(['id' => $this->id]);
 
-                    $rez = true;
-
-                    $action = ($currentUserId == $userId) ? 'reopen' : 'completion_decline';
-                }
-                break;
-            case static::$USERSTATUS_DONE:
-                if (in_array($userId, $sd['task_u_ongoing'])) {
-                    $sd['task_u_ongoing'] = array_diff($sd['task_u_ongoing'], [$userId]);
-                    $sd['task_u_done'][] = $userId;
-                    $sd['task_u_d_closed'][$userId] = date(DATE_ISO8601);
-
-                    $rez = true;
-
-                    $action = ($currentUserId == $userId) ? 'complete' : 'completion_on_behalf';
-                }
-                break;
-        }
-
-        if ($rez) {
-            $this->checkAutoclose();
-            $this->logAction($action, ['old' => &$this, 'forUserId' => $userId]);
-            // $this->updateSysData();
-        }
-
-        return $rez;
+        $this->logAction('completion_on_behalf', ['old' => &$this]);
     }
 
     /**
@@ -929,7 +907,8 @@ class Cases extends Object
                        //     $this->trans('complete').'</a>'
                        //     : ''
                        // )
-                    ).'</p></td></tr>';
+                    ).($isOwner ? '':'</p><a class="bt item-action click" action="assign" uid="'.User::getId().
+				'">Assign client to me</a>').'</td></tr>';
             }
         }
 

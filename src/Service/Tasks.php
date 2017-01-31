@@ -66,6 +66,12 @@ class Tasks
         $obj = Objects::getCachedObject($p['id']);
         $data = $obj->getData();
 
+		if ($obj->getTemplateName() == "Client")
+		{
+			$obj->setUserStatus($status, false); //Set user to current user
+			return $rez;
+		}
+		
         if ((User::getId() != $data['cid']) && !Security::isAdmin()) {
             throw new \Exception($this->trans('Access_denied'));
         }
