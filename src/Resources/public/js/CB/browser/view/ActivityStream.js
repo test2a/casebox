@@ -2,7 +2,7 @@ Ext.namespace('CB.browser.view');
 
 Ext.define('CB.browser.view.ActivityStream',{
     extend: 'CB.browser.view.Interface'
-
+	,alias: 'CBBrowserViewActivityStream'
     ,xtype: 'CBBrowserViewActivityStream'
 
     ,border: false
@@ -194,11 +194,14 @@ Ext.define('CB.browser.view.ActivityStream',{
     }
 
     ,onStoreLoad: function(store, records, successful, eOpts) {
-        var visible = this.getEl().isVisible(true);
+		if (this.getEl())
+		{
+		        var visible = this.getEl().isVisible(true);
 
-        if (visible) {
-            this.addCommentPlugins();
-        }
+				if (visible) {
+					this.addCommentPlugins();
+				}	
+		}
     }
 
     ,addCommentPlugins: function() {

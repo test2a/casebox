@@ -456,10 +456,6 @@ class Cases extends Object
             }
         }*/
 		
-		Cache::get('symfony.container')->get('logger')->error(
-                   'heyyy' .$status,
-                    $sd
-                );
         $sd['task_status'] = $status;
 		$sd['case_status'] = $this->trans('caseStatus'.$status, '');
     }
@@ -901,18 +897,18 @@ class Cases extends Object
         // Create assignee row
         $v = $this->getFieldValue('assigned', 0);
 		if (empty($v['value'])) {
-			$assigneeRow .= '<tr><td class="prop-key" width="15%" style="width:15%">'.$this->trans(
+			$assigneeRow .= '<td class="prop-key" width="15%" style="width:15%">'.$this->trans(
                     'Case Manager'
-                ).':</td><td><table class="prop-val people"><tbody><tr><td>'.
+                ).':</td><td width="35%"><table class="prop-val people"><tbody><tr><td>'.
 				'<a class="bt item-action click" action="assign" uid="'.User::getId().
-				'">Assign client to me</a></td></tr>';
+				'">Assign client to me</a></td>';
 		}
         else // (!empty($v['value'])) {
 			{
             $isOwner = $this->isOwner();
-            $assigneeRow .= '<tr><td class="prop-key" width="15%" style="width:15%">'.$this->trans(
+            $assigneeRow .= '<td class="prop-key" width="15%" style="width:15%">'.$this->trans(
                     'Case Manager'
-                ).':</td><td><table class="prop-val people"><tbody>';
+                ).':</td><td width="35%"><table class="prop-val people"><tbody>';
             $v = Util\toNumericArray($v['value']);
 
             $dateFormat = Util\getOption('long_date_format').' H:i:s';
@@ -929,7 +925,7 @@ class Cases extends Object
                     $dateText = ': '.Util\formatAgoTime($sd['task_u_d_closed'][$id]);
                 }
 
-                $assigneeRow .= '<tr><td class="user"><div style="position: relative">'.
+                $assigneeRow .= '<td class="user"><div style="position: relative">'.
                     '<img class="photo32" src="'.$coreUri.'photo/'.$id.'.jpg?32='.$userService->getPhotoParam($id).
                     '" style="width:32px; height: 32px" alt="'.$un.'" title="'.$un.'">'.
                     ($completed ? '<img class="done icon icon-tick-circle" src="/css/i/s.gif" />' : "").
@@ -979,7 +975,7 @@ class Cases extends Object
         $pb[0] = '<table class="obj-preview'.$rtl.'"><tbody>'.
             $dateLines.
             $p.
-            $ownerRow. '</tbody></table></td></tr>'.
+            $ownerRow. '</tbody></table></td></tr><tr>'.
             $assigneeRow. '</tbody></table></td></tr>'.
             $contentRow.
             '<tbody></table>';
@@ -1018,9 +1014,11 @@ class Cases extends Object
 		
 		$pb[2] = 
             '<table class="obj-preview'.$rtl.'"><tbody>'.
-			'<tr class="prop-header"><th colspan="2" width="50%" style>Assigned Case Manager</th><th colspan="2" width="50%" style>Self Reported/Identified Population and Needs</th></tr>'.
-            $ownerRow.'</tbody></table></td><td class="prop-key" style="width:15%" width="15%">Special/At Risk Population:</td><td width="35%" class="prop-val">'.$atRiskLine.'</td></tr>'.
-            $assigneeRow. '</tbody></table><td class="prop-key" style="width:15%" width="15%">Identified Needs:</td><td class="prop-val" width="35%">'.$identifiedNeedsLine.'</td></tr>'.
+			//'<tr class="prop-header"><th colspan="2" width="50%" style>Assigned Case Manager</th><th colspan="2" width="50%" style>Self Reported/Identified Population and Needs</th></tr>'.
+            $ownerRow.'</tbody></table></td>'.
+            $assigneeRow. '</tbody></table>'.
+			'<tr><td class="prop-key" style="width:15%" width="15%">Special/At Risk Population:</td><td width="35%" style="width:15%" class="prop-val">'.$atRiskLine.'</td>'.
+			'<td class="prop-key" style="width:15%" width="15%">Identified Needs:</td><td class="prop-val" width="35%">'.$identifiedNeedsLine.'</td></tr>'.
 			$contentRow.
             '<tbody></table>';		
         $pb[3] = 

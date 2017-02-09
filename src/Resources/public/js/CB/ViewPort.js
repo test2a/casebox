@@ -166,7 +166,7 @@ Ext.define('CB.ViewPort', {
             ,items: [
                 this.breadcrumb
                 ,this.searchField
-                ,this.buttons.toggleNotificationsView
+                //,this.buttons.toggleNotificationsView  //Dumbing down Apprio
                 ,{
                     scale: 'large'
                     ,arrowVisible: false
@@ -398,14 +398,14 @@ Ext.define('CB.ViewPort', {
                 }
             }
             ,'-'
-            ,{
-                text: L.NotifySettings
+            //,{                             //All Dumb Down Apprio
+            //    text: L.NotifySettings
                 // ,iconCls: 'i-settings'
                 // ,itemId: 'notify-settings'
-                ,scope: this
-                ,handler: this.onNotifySettingsClick
-            }
-            ,'-'
+            //    ,scope: this
+            //    ,handler: this.onNotifySettingsClick
+            //}
+            //,'-'
             ,{
                 text: L.Exit
                 ,iconCls: 'icon-exit'

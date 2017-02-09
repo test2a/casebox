@@ -115,7 +115,7 @@ Ext.define('CB.notifications.View', {
             ,this
         );
 
-        App.on('cbinit', this.onLogin, this, {delay: 3000, single: true});
+        //App.on('cbinit', this.onLogin, this, {delay: 3000, single: true});  //Dumbing down Apprio
     }
 
     ,defineStore: function() {

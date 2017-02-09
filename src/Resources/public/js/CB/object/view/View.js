@@ -276,7 +276,7 @@
 			content.onLoadData(client);		
 			c.add(content);
 			content.updateTitle('Client Intake');
-			content.actions.add.setHidden(true);
+			
 			content  = Ext.create('CBObjectPluginFiles',{params: params})		
 			content.createMenu = r.menu;	
 			if (Ext.isDefined(r.data.files))
@@ -441,7 +441,6 @@
 			
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = recoveryMenu;	
-			content.actions.add.setHidden(true);
 			content.updateTitle('Client Referrals');
 			content.onLoadData(recoveryReferralData);
 			c.add(content);
@@ -458,7 +457,57 @@
 
  			content.onLoadData(r.data.tasks);
  			c.add(content);
- 			items.push(c);		
+ 			items.push(c);	
+
+
+			// Timeline
+
+			c= Ext.create('Ext.panel.Panel', {
+				title: 'Timeline',
+				layout: {
+					align: 'stretch',
+					type: 'vbox'
+				},				
+			});
+			
+         this.store = new Ext.data.DirectStore({	
+             autoLoad: true
+             ,autoDestroy: true
+             ,remoteSort: true
+             ,sortOnLoad: false
+             ,extraParams: {}
+             ,pageSize: 100
+             ,model: 'Items'
+             ,proxy: new  Ext.data.DirectProxy({
+                paramsAsHash: true
+                 ,directFn: CB_BrowserView.getChildren
+						,extraParams: {
+						  facets:'general'
+					  ,pid:params.id
+					  ,path:params.id
+					  ,from:'activityStream'
+					  ,userViewChange:true
+					  ,query:null
+					  ,page:1
+					  ,start:0
+					  ,limit:25
+					  ,sort:[{property:'last_action_tdt',direction:'DESC'}]
+}
+                 ,reader: {
+                    type: 'json'
+                     ,successProperty: 'success'
+                     ,idProperty: 'nid'
+                     ,rootProperty: 'data'
+                     ,messageProperty: 'msg'
+                 }
+             })	
+         });
+			
+			content = Ext.create('CBBrowserViewActivityStream',{store: this.store});
+			c.add(content);
+			items.push(c);
+
+			
 			
             if(!Ext.isEmpty(items)) {
                 tabPanel.add(items);

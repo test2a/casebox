@@ -1479,11 +1479,7 @@ Ext.define('CB.browser.ViewContainer', {
         if(Ext.isEmpty(selection)) {
             return;
         }
-
-        var data = Ext.clone(selection[0]);
-        data.id = data.nid;
-
-        App.windowManager.openObjectWindow(data);
+		this.onObjectsOpenEvent(selection[0]);
     }
 
     ,onDeleteClick: function(b, e) {
@@ -1702,11 +1698,11 @@ Ext.define('CB.browser.ViewContainer', {
                     ,this.actions.contextPreview
                     ,this.actions.contextDownload
                     ,'-'
-                    ,this.actions.cut
-                    ,this.actions.copy
-                    ,this.actions.paste
-                    ,this.actions.pasteShortcut
-                    ,'-'
+                    //,this.actions.cut   // DUMBING DOWN APPRIO
+                    //,this.actions.copy // DUMBING DOWN APPRIO
+                    //,this.actions.paste // DUMBING DOWN APPRIO
+                    //,this.actions.pasteShortcut // DUMBING DOWN APPRIO
+                    //,'-'
                     ,this.actions.contextReload
                     ,this.actions.contextDelete
                     ,this.actions.contextRename
