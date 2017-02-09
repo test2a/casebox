@@ -276,7 +276,7 @@
 			content.onLoadData(client);		
 			c.add(content);
 			content.updateTitle('Client Intake');
-			
+			content.actions.add.setHidden(true);
 			content  = Ext.create('CBObjectPluginFiles',{params: params})		
 			content.createMenu = r.menu;	
 			if (Ext.isDefined(r.data.files))
@@ -441,6 +441,7 @@
 			
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = recoveryMenu;	
+			content.actions.add.setHidden(true);
 			content.updateTitle('Client Referrals');
 			content.onLoadData(recoveryReferralData);
 			c.add(content);
