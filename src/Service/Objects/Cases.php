@@ -697,7 +697,7 @@ class Cases extends Object
         $isAdmin = Security::isAdmin($userId);
         $isOwner = $this->isOwner($userId);
         $isClosed = $this->isClosed();
-        $canEdit = !$isClosed && ($isAdmin || $isOwner);
+        $canEdit = !$isClosed;
 		$data = $this->getData();
         $sd = &$data['sys_data'];
 		//	Cache::get('symfony.container')->get('logger')->error(
@@ -997,6 +997,18 @@ class Cases extends Object
             $identifiedNeedsLine = $template->formatValueForDisplay($tf, $v);
         }
 
+	$recoveryActions = [];
+        $flags = $this->getActionFlags();
+
+        foreach ($flags as $k => $v) {
+            if (!empty($v) && ($k == 'close' || $k == 'reopen')) {
+                $recoveryActions[] = "<a action=\"$k\" class=\"item-action ib-$k\">".$this->trans(ucfirst($k)).'</a>';
+            }
+        }
+
+        $recoveryActions = empty($recoveryActions) ? '' : '<div class="task-actions">'.implode(' ', $recoveryActions).'</div>';
+
+
 		// Create description row
         $v = $this->getFieldValue('at_risk_population', 0);
         if (!empty($v['value'])) {
@@ -1021,9 +1033,11 @@ class Cases extends Object
             '<tbody></table>';			
         $pb[5] = 
             '<table class="obj-preview'.$rtl.'"><tbody>'.
-			'<tr class="prop-header"><th colspan="3" style>Current Status: '.$this->getStatusText().'</td></tr>'.
-            '<tbody></table>'.
-			$this->getPreviewActionsRow();			
+			'<tr class="prop-header"><th colspan="3" style>Recovery</td></tr>'.
+            '<tbody></table>';			
 		return $pb;
     }
+
+
+
 }

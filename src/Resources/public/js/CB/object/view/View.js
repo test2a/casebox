@@ -198,6 +198,7 @@
 			//527,289,311,607,61,510,533,553,482,1120,455,505,559,489,440,656,1175,651,172
 			var clientIntakeMenu = '289,311';
 			var assessmentMenu = '510,533,553,482,1120,455,505,559,489,440,656,1175,651,172';
+			var taskMenu = '7';
 			var recoveryMenu = '527'
 			var referralMenu = '607';
 			var clientIntakeData=[];
@@ -448,9 +449,15 @@
 			content.createMenu = recoveryMenu;	
 			content.updateTitle('Recovery Notes');
 			content.onLoadData(recoveryData);
-			c.add(content);
-			items.push(c);		
+			
+ 			c.add(content);
+ 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+ 			content.createMenu = taskMenu;	
+ 			content.updateTitle('Client Tasks');
 
+ 			content.onLoadData(r.data.tasks);
+ 			c.add(content);
+ 			items.push(c);		
 			
             if(!Ext.isEmpty(items)) {
                 tabPanel.add(items);
