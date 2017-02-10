@@ -696,7 +696,7 @@ Ext.define('CB.browser.view.Grid', {
     }
 
     ,onItemContextMenu: function(grid, record, item, index, e, eOpts) {
-		this.grid.selModel.select(record);
+		this.fireSelectionChangeEvent();
         this.fireEvent('itemcontextmenu', e);
     }
 

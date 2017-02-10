@@ -656,8 +656,8 @@ class Cases extends Object
         //$sd['solr']['task_u_assignee'] = $userId;
 		$this->updateCustomData();
 		$this->updateSysData();
-		//$solr = new Client();
-		//	$solr->updateTree(['id' => $this->id]);
+		$solr = new Client();
+		$solr->updateTree(['id' => $this->id]);
 
         $this->logAction('completion_on_behalf', ['old' => &$this]);
     }
