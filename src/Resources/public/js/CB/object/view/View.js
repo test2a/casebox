@@ -276,6 +276,7 @@
 			content.onLoadData(client);		
 			c.add(content);
 			content.updateTitle('Client Intake');
+			content.actions.add.setHidden(true);
 			
 			content  = Ext.create('CBObjectPluginFiles',{params: params})		
 			content.createMenu = r.menu;	
@@ -433,7 +434,7 @@
 				}
 				tbdRecovery.data =tbdRecoveryData;
 				content  = Ext.create('CBObjectPluginContentItems',{params: params})		
-				content.createMenu = recoveryMenu;	
+				content.createMenu = recoveryMenu;				
 				content.updateTitle('Client Recovery to be completed');
 				content.onLoadData(tbdRecovery);			
 				c.add(content);
@@ -441,6 +442,7 @@
 			
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = recoveryMenu;	
+			content.actions.add.setHidden(true);			
 			content.updateTitle('Client Referrals');
 			content.onLoadData(recoveryReferralData);
 			c.add(content);
