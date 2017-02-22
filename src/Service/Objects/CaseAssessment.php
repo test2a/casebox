@@ -19,6 +19,7 @@ class CaseAssessment extends Object
             $p = $this->data;
         }
 		
+		$this->data = $p;
 		$this->setParamsFromData($p);
         
 		return parent::create($p);
@@ -29,6 +30,7 @@ class CaseAssessment extends Object
         if ($p === false) {
             $p = $this->data;
         }
+		$this->data = $p;
         $this->setParamsFromData($p);
 
         return parent::update($p);
@@ -55,7 +57,45 @@ class CaseAssessment extends Object
             $case = Objects::getCachedObject($caseId);    
 			$caseData = &$case->data;
 			$caseSd = &$caseData['sys_data'];
-	
+
+			
+			
+			/* add some values to the parent */
+			$tpl = $this->getTemplate();
+
+			if (!empty($tpl)) {
+				$fields = $tpl->getFields();
+				
+				foreach ($fields as $f) {
+					$values = $this->getFieldValue($f['name']);
+					if (!empty($f['solr_column_name'])) {	
+						$sfn = $f['solr_column_name']; // Solr field name
+						unset($caseSd[$sfn]);
+						if ($values != null) {
+							if (substr($f['solr_column_name'], -2) === '_s')
+							{
+								
+								$objects = [];
+								foreach ($values as $v) {
+									$v = is_array($v) ? @$v['value'] : $v;
+									$v = Util\toNumericArray($v);
+									foreach ($v as $id) {
+										$obj = Objects::getCachedObject($id);	
+										$objects[] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+									}
+								}
+								$caseSd[$sfn] = implode(",", $objects);
+							}
+							else
+							{
+								$caseSd[$sfn] = $values[0]['value'];
+							}
+						}
+					}
+				}
+			}
+			
+			
 			if (!empty($p['data']['_referralstatus']) && !empty($objectId)) { //
 				if ($p['data']['_referralstatus'] != 1155)
 				{
@@ -70,7 +110,10 @@ class CaseAssessment extends Object
 					$caseSd['femanumber_s'] = $p['data']['_clienthavefemanumber']['childs']['_femanumber'];
 				}
 			    $caseSd['assessments_needed'] = array_diff($caseSd['assessments_needed'], [$templateId]);
-                $caseSd['assessments_completed'][] = $templateId;
+				if (!in_array($templateId, $caseSd['assessments_completed']))
+				{
+					$caseSd['assessments_completed'][] = $templateId;
+				}
 				if ($p['data']['_referralneeded']['value'] == 686 || $p['data']['_referralneeded'] == 686)
 				{
 				if (!in_array($templateId, $caseSd['referrals_needed'])) {				
@@ -131,6 +174,23 @@ class CaseAssessment extends Object
             $case = Objects::getCachedObject($caseId);    
 			$caseData = &$case->data;
 			$caseSd = &$caseData['sys_data'];
+			
+			
+/* add some values to the parent */
+			$tpl = $this->getTemplate();
+
+			if (!empty($tpl)) {
+				$fields = $tpl->getFields();
+				
+				foreach ($fields as $f) {
+					$values = $this->getFieldValue($f['name']);
+					if (!empty($f['solr_column_name'])) {	
+						$sfn = $f['solr_column_name']; // Solr field name
+						unset($caseSd[$sfn]);
+					}
+				}
+			}
+			
 			$caseSd['assessments_completed'] = array_diff($caseSd['assessments_completed'], [$templateId]);
 			if (in_array($templateId, $caseSd['assessments_reported'])) {
                     $caseSd['assessments_needed'][] = $templateId;

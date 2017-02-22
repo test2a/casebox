@@ -210,6 +210,14 @@ class Cases extends Object
 				$solrData[$property] = $sd[$property];
 			}
         }
+		foreach ($sd as $key => $value)
+		{
+			if ((substr($key, -2,1) === '_') || (substr($key, -3,1) === '_'))
+			{
+				$solrData[$key] = $value;
+			}
+		}
+		
 		if (!empty($sd['full_address']))
 		{
 			$results = $this->lookup($sd['full_address']);
