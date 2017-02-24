@@ -18,7 +18,6 @@ class CaseAssessment extends Object
         if ($p === false) {
             $p = $this->data;
         }
-		
 		$this->data = $p;
 		$this->setParamsFromData($p);
         
@@ -30,9 +29,10 @@ class CaseAssessment extends Object
         if ($p === false) {
             $p = $this->data;
         }
-		$this->data = $p;
+        
+        $this->unSetParamsFromData($p);
+        $this->data = $p;
         $this->setParamsFromData($p);
-
         return parent::update($p);
     }
 	
@@ -41,11 +41,67 @@ class CaseAssessment extends Object
         if ($p === false) {
             $p = $this->data;
         }
+        $this->unSetParamsFromData($p);
         $this->setParamsFromDelete($p);
 		
         return parent::deleteCustomData($p);
 
 	}
+
+
+    protected function unSetParamsFromData(&$p)
+    {
+		$caseId = $p['pid'];
+		$templateId = $p['template_id'];
+		$objectId = $p['id'];
+        
+		if ($caseId) {
+            $case = Objects::getCachedObject($caseId);    
+			$caseData = &$case->data;
+			$caseSd = &$caseData['sys_data'];
+			
+			/* add some values to the parent */
+			
+			$tpl = $this->getTemplate();
+		
+			if (!empty($tpl)) {
+				$fields = $tpl->getFields();
+				
+				foreach ($fields as $f) {
+
+					if (!empty($f['solr_column_name'])) {	
+						$sfn = $f['solr_column_name']; // Solr field name
+						if (substr($f['solr_column_name'], -3) === '_ss')
+							{
+							    $v = $this->data['data'][$f['name']];  // May need to verify this works
+							    if ($v == null)
+							    {
+							    	$v = $this->data['data']['_referraltype']['childs']['_referralservice'];
+							    }
+
+								if ($v != null)
+								{
+									$v = is_array($v) ? @$v['value'] : $v;
+									$v = Util\toNumericArray($v);
+									foreach ($v as $id) {
+										$obj = Objects::getCachedObject($id);	
+										$object = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+										$caseSd[$sfn] = array_diff($caseSd[$sfn], [$object]);
+									}
+								}
+							}
+					}
+				}
+			}
+			        
+			$case->updateSysData();
+			$solr = new Client();
+			$solr->updateTree(['id' => $caseId]);
+        }
+
+		
+    }
+
 
     protected function setParamsFromData(&$p)
     {
@@ -63,47 +119,21 @@ class CaseAssessment extends Object
 			/* add some values to the parent */
 			$tpl = $this->getTemplate();
 
-			if (!empty($tpl)) {
-				$fields = $tpl->getFields();
-				
-				foreach ($fields as $f) {
-					$values = $this->getFieldValue($f['name']);
-					if (!empty($f['solr_column_name'])) {	
-						$sfn = $f['solr_column_name']; // Solr field name
-						unset($caseSd[$sfn]);
-						if ($values != null) {
-							if (substr($f['solr_column_name'], -2) === '_s')
-							{
-								
-								$objects = [];
-								foreach ($values as $v) {
-									$v = is_array($v) ? @$v['value'] : $v;
-									$v = Util\toNumericArray($v);
-									foreach ($v as $id) {
-										$obj = Objects::getCachedObject($id);	
-										$objects[] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
-									}
-								}
-								$caseSd[$sfn] = implode(",", $objects);
-							}
-							else
-							{
-								$caseSd[$sfn] = $values[0]['value'];
-							}
-						}
-					}
-				}
-			}
 			
-			
+
+			//Refferals
 			if (!empty($p['data']['_referralstatus']) && !empty($objectId)) { //
 				if ($p['data']['_referralstatus'] != 1155)
 				{
+				if (!in_array($objectId, $caseSd['referrals_completed']))
+				{
 					$caseSd['referrals_completed'][] = $objectId;
+				}
 					$caseSd['referrals_started'] = array_diff($caseSd['referrals_started'], [$objectId]);
 				}
 			}
-	
+			
+			//Assessments
 			if (!empty($p['data']['_referralneeded'])) { //assessment
 				if (!empty($p['data']['_clienthavefemanumber']['childs']['_femanumber']))
 				{
@@ -156,6 +186,60 @@ class CaseAssessment extends Object
 				}
 			}
 			
+		
+			//now set current values
+			if (!empty($tpl)) {
+				$fields = $tpl->getFields();
+				
+				foreach ($fields as $f) {
+
+					$values = $this->getFieldValue($f['name']);
+					if (!empty($f['solr_column_name'])) {	
+						$sfn = $f['solr_column_name']; // Solr field name
+						if ($values != null) {
+							if (substr($f['solr_column_name'], -2) === '_s')
+							{
+								unset($caseSd[$sfn]);							
+								$objects = [];
+								foreach ($values as $v) {
+									$v = is_array($v) ? @$v['value'] : $v;
+									$v = Util\toNumericArray($v);
+									foreach ($v as $id) {
+										$obj = Objects::getCachedObject($id);	
+										$objects[] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+									}
+								}
+								$caseSd[$sfn] = implode(",", $objects);
+							}
+							else if (substr($f['solr_column_name'], -3) === '_ss')
+							{
+								if (!is_array($caseSd[$sfn]))	
+								{
+									$caseSd[$sfn] = [];
+								}
+								$objects = [];
+								foreach ($values as $v) {
+									$v = is_array($v) ? @$v['value'] : $v;
+									$v = Util\toNumericArray($v);
+									foreach ($v as $id) {
+										$obj = Objects::getCachedObject($id);	
+										$object = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+										if (!in_array($object, caseSd[$sfn])) {	
+											$caseSd[$sfn][] = strval($object);	
+										}
+									}
+								}
+							}
+							else
+							{
+								unset($caseSd[$sfn]);							
+								$caseSd[$sfn] = $values[0]['value'];
+							}
+						}
+					}
+				}
+			}
+			
 			$case->updateSysData();
 			$solr = new Client();
 			$solr->updateTree(['id' => $caseId]);
@@ -176,7 +260,7 @@ class CaseAssessment extends Object
 			$caseSd = &$caseData['sys_data'];
 			
 			
-/* add some values to the parent */
+			/* add some values to the parent */
 			$tpl = $this->getTemplate();
 
 			if (!empty($tpl)) {
@@ -186,7 +270,10 @@ class CaseAssessment extends Object
 					$values = $this->getFieldValue($f['name']);
 					if (!empty($f['solr_column_name'])) {	
 						$sfn = $f['solr_column_name']; // Solr field name
-						unset($caseSd[$sfn]);
+						if (substr($sfn, -3) != '_ss')
+						{
+							unset($caseSd[$sfn]);
+						}
 					}
 				}
 			}

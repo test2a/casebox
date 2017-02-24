@@ -171,6 +171,11 @@ class Cases extends Object
         $user_ids = Util\toNumericArray($this->getFieldValue('assigned', 0)['value']);
         if (!empty($user_ids)) {
             $solrData['task_u_assignee'] = $user_ids;
+            $solrData['assignee_s'] = User::getDisplayName($user_ids[0]);
+        }
+        else
+        {
+            $solrData['assignee_s'] = 'Unassigned';
         }
 
         $user_ids[] = @Util\coalesce($d['oid'], $d['cid']);
@@ -202,6 +207,8 @@ class Cases extends Object
 			'lat_lon',
 			'county',
 			'location_type',
+            'at_risk_population_ss',
+            'identified_unmet_needs_ss'
         ];
         foreach ($properties as $property) {
 			unset($solrData[$property]);
@@ -336,6 +343,24 @@ class Cases extends Object
 			if ($this->getFieldValue('_' . $property, 0)['value'] != null) {
 				$obj = Objects::getCachedObject($this->getFieldValue('_' . $property, 0)['value']);
 				$sd[$property] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+			}
+        }
+        $arrayproperties = [
+            'at_risk_population',
+            'identified_unmet_needs'
+        ];
+    	foreach ($arrayproperties as $property) {
+    		unset($sd[$property]);
+			$values = $this->getFieldValue($property);
+			if ($values != null) {
+				foreach ($values as $v) {
+					$v = is_array($v) ? @$v['value'] : $v;
+					$v = Util\toNumericArray($v);
+					foreach ($v as $id) {
+						$obj = Objects::getCachedObject($id);	
+						$sd[$property.'_ss'][] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+					}
+				}
 			}
         }
 		$sd['full_address'] = '';
