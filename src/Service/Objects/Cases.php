@@ -1043,18 +1043,18 @@ class Cases extends Object
 			'<td class="prop-key" style="width:15%" width="15%">Identified Needs:</td><td class="prop-val" width="35%">'.$identifiedNeedsLine.'</td></tr>'.
 			$contentRow.
             '<tbody></table>';		
-        $pb[3] = 
-            '<table class="obj-preview'.$rtl.'"><tbody>'.
-			'<tr class="prop-header"><th colspan="3" style>'.count(array_intersect($sd['solr']['assessments_completed'], $sd['solr']['assessments_reported'])).' out of '.count($sd['solr']['assessments_reported']).' assessments completed. '.count($sd['solr']['assessments_needed']).' remain to be completed</td></tr>'.
-            '<tbody></table>';	
-        $pb[4] = 
-            '<table class="obj-preview'.$rtl.'"><tbody>'.
-			'<tr class="prop-header"><th colspan="3" style>'.count($sd['solr']['referrals_needed']).' assessments required referrals. '.count($sd['solr']['referrals_started']).' services need to be completed</td></tr>'.
-            '<tbody></table>';			
-        $pb[5] = 
-            '<table class="obj-preview'.$rtl.'"><tbody>'.
-			'<tr class="prop-header"><th colspan="3" style>Recovery</td></tr>'.
-            '<tbody></table>';			
+        $pb[3] = ''; 
+            //'<table class="obj-preview'.$rtl.'"><tbody>'.
+	//		'<tr class="prop-header"><th colspan="3" style>'.count(array_intersect($sd['solr']['assessments_completed'], $sd['solr']['assessments_reported'])).' out of '.count($sd['solr']['assessments_reported']).' assessments completed. '.count($sd['solr']['assessments_needed']).' remain to be completed</td></tr>'.
+         //   '<tbody></table>';	
+        $pb[4] = '';
+          //  '<table class="obj-preview'.$rtl.'"><tbody>'.
+	//		'<tr class="prop-header"><th colspan="3" style>'.count($sd['solr']['referrals_needed']).' assessments required referrals. '.count($sd['solr']['referrals_started']).' services need to be completed</td></tr>'.
+        //    '<tbody></table>';			
+        $pb[5] = ''; 
+          //  '<table class="obj-preview'.$rtl.'"><tbody>'.
+	//		'<tr class="prop-header"><th colspan="3" style>Recovery</td></tr>'.
+         //   '<tbody></table>';			
 		return $pb;
     }
 

@@ -68,3 +68,29 @@
 .msgb a {
     color: #777;
 }
+
+.x-tab-bar-strip-default {
+    border-style: solid;
+    border-color: #4672A6;
+    background-color: #4672A6;
+    display:none;
+}
+
+.x-tab.x-tab-active.x-tab-default .x-tab-inner-default {
+    color: #f7f7f7;
+}
+
+.x-tab.x-tab-active.x-tab-default-top, .x-tab.x-tab-active.x-tab-default-left, .x-tab.x-tab-active.x-tab-default-right {
+    background-image: none;
+    background-color: #4672A6 !important;
+}
+
+.x-tab-default-top.x-tab.x-tab-active {
+    -webkit-box-shadow: #4672A6 0 1px 0 0 inset, #4672A6 -1px 0 0 0 inset, #4672A6 1px 0 0 0 inset;
+    -moz-box-shadow: #4672A6 0 1px 0 0 inset,#4672A6 -1px 0 0 0 inset,#4672A6 1px 0 0 0 inset;
+    box-shadow: #4672A6 0 1px 0 0 inset, #4672A6 -1px 0 0 0 inset, #4672A6 1px 0 0 0 inset;
+}
+
+.x-tab-bar-top>.x-tab-bar-body-default {
+    padding-bottom: 0px;
+}
