@@ -408,7 +408,7 @@ Ext.define('CB.controller.Browsing', {
                     ? ai.getSelection
                     : vc.getSelection();
 
-            data = Ext.isEmpty(s)
+            data = Ext.isEmpty(s[0])
                 ? {
                     id: fp.id
                     ,name: fp.name
