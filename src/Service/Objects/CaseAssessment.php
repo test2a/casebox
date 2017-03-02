@@ -114,12 +114,26 @@ class CaseAssessment extends Object
 			$caseData = &$case->data;
 			$caseSd = &$caseData['sys_data'];
 
-			
-			
 			/* add some values to the parent */
 			$tpl = $this->getTemplate();
 
-			
+			//Case Notes
+			if (!empty($p['data']['_notetype']['value'])) { //
+				if ($p['data']['_notetype']['value'] == 526) //close note
+				{
+					$case->markClosed();
+				}
+				if ($p['data']['_notetype']['value'] == 523) //close note
+				{
+					$femaTier = $p['data']['_notetype']['childs']['_fematier'];
+					$caseData['data']['_fematier'] = $femaTier;
+					$caseSd['fematier_i'] = $femaTier;
+					$obj = Objects::getCachedObject($femaTier);	
+					$caseSd['fematier'] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+					$case->updateCustomData();
+				}
+			}
+
 
 			//Refferals
 			if (!empty($p['data']['_referralstatus']) && !empty($objectId)) { //

@@ -948,14 +948,14 @@ class Cases extends Object
 
             foreach ($v as $id) {
                 $un = User::getDisplayName($id);
-                $completed = ($this->getUserStatus($id) == static::$USERSTATUS_DONE);
+                $completed = !empty($sd['task_d_closed']);
 
                 $cdt = ''; //completed date title
                 $dateText = '';
 
-                if ($completed && !empty($sd['task_u_d_closed'][$id])) {
-                    $cdt = Util\formatMysqlDate($sd['task_u_d_closed'][$id], $dateFormat);
-                    $dateText = ': '.Util\formatAgoTime($sd['task_u_d_closed'][$id]);
+                if ($completed) {
+                    $cdt = Util\formatMysqlDate($sd['task_d_closed'], $dateFormat);
+                    $dateText = ': '.Util\formatAgoTime($sd['task_d_closed']);
                 }
 
                 $assigneeRow .= '<td class="user"><div style="position: relative">'.
@@ -965,20 +965,9 @@ class Cases extends Object
                     '</div></td><td><b>'.$un.'</b>'.
                     '<p class="gr" title="'.$cdt.'">'.(
                     $completed
-                        ? $this->trans('Completed').$dateText.
-                        ($isOwner
-                            ? ' <a class="bt task-action click" action="markincomplete" uid="'.$id.'">'.
-                            $this->trans('revoke').'</a>'
-                            : ''
-                        )
-                        : 'Not Complete'//$this->trans('waitingForAction').
-                       // ($isOwner
-                       //     ? ' <a class="bt task-action click" action="markcomplete" uid="'.$id.'">'.
-                       //     $this->trans('complete').'</a>'
-                       //     : ''
-                       // )
-                    ).($isOwner ? '':'</p><a class="bt item-action click" action="assign" uid="'.User::getId().
-				'">Assign client to me</a>').'</td></tr>';
+                        ? $this->trans('Closed').$dateText
+                        : 'Active'//$this->trans('waitingForAction')
+                    ).'</td></tr>';
             }
         }
 
