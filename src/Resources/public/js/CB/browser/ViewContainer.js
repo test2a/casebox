@@ -519,7 +519,7 @@ Ext.define('CB.browser.ViewContainer', {
         });
 
         this.objectEditView.dockedItems.items[0].add('->');
-        this.objectEditView.dockedItems.items[0].add(this.actions.preview);
+        //this.objectEditView.dockedItems.items[0].add(this.actions.preview);  //Dumbing Down Apprio - Actually prob never want to have this
 		
         this.loadParamsTask = new Ext.util.DelayedTask(this.loadParams, this);
 
