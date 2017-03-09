@@ -792,6 +792,7 @@ class Cases extends Object
         $ownerRow = '';
         $assigneeRow = '';
         $contentRow = '';
+        $closureReason = '';
 		$identifiedNeedsLine = '';
 		$atRiskLine = '';
         $coreUri = $this->configService->get('core_uri');
@@ -829,6 +830,10 @@ class Cases extends Object
 
 		if (!empty($sd['solr']['fematier'])) {
 			$femaLine = $femaLine . $sd['solr']['fematier'] . " - ";
+		}		
+		
+		if (!empty($sd['solr']['closurereason_s'])) {
+			$closureReason = '<b>' . $sd['solr']['closurereason_s'] .'</b> - ';
 		}		
 		
 		if (!empty($sd['solr']['headofhousehold'])) {
@@ -1003,7 +1008,7 @@ class Cases extends Object
             '<tbody></table>';
         $pb[1] = 
             '<div class="info">'.
-			trim($femaLine, " - ").'<br/>'.			
+			$closureReason.trim($femaLine, " - ").'<br/>'.			
 			trim($demographicsLine, " - ").'<br/>'.
 			trim($emailLine, " - ").'<br/>'.
 			trim($addressLine, " - ").'<br/>';
