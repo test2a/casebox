@@ -178,7 +178,6 @@ class CaseAssessment extends Object
 								'view' => 'edit',
 								'name' => 'New Referral',
 								'data' => [
-									'_referralstatus' => 1155,
 									'_referraltype' => [
 										'value'=>$objData['pid'],
 										'childs' =>[
