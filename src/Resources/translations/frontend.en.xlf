@@ -3235,11 +3235,11 @@
             </trans-unit>
             <trans-unit id="3168">
                 <source>caseStatus5</source>
-                <target>information Only</target>
+                <target>Information Only</target>
             </trans-unit>			
             <trans-unit id="3169">
                 <source>Information Only</source>
-                <target>information Only</target>
+                <target>Information Only</target>
             </trans-unit>			
 		</body>
     </file>
