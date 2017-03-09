@@ -53,7 +53,8 @@ class CasesGrouped extends Base
                     $rez = $this->getDepthChildren2();
                     break;
                 case 2:
-                case 3:
+                case 3:                
+                case 4:
                     $rez = $this->getDepthChildren3();
                     break;
                 default:
@@ -71,21 +72,21 @@ class CasesGrouped extends Base
         }
         switch ($id) {
             case 'cases':
-                return 'All Clients';
+                return 'Clients';
             case 2:
-                return 'Not Assigned';
+                return 'My Clients';
             case 3:
-                return $this->trans('CreatedByMe');
+                return 'Unassigned';
             case 4:
-                return lcfirst($this->trans('Overdue'));
+                return 'Created';
             case 5:
-                return lcfirst($this->trans('Ongoing'));
+                return 'Active';
             case 6:
-                return lcfirst($this->trans('Closed'));
+                return 'Closed';
             case 7:
-                return lcfirst($this->trans('Information'));				
+                return 'Information Only';				
             case 'assignee':
-                return lcfirst($this->trans('Assignee'));
+                return 'Intake Represenative';
             default:
                 if (substr($id, 0, 3) == 'au_') {
                     return User::getDisplayName(substr($id, 3));
@@ -114,9 +115,9 @@ class CasesGrouped extends Base
         return [
             'data' => [
                 [
-                    'name' => 'All Clients'.$count,
+                    'name' => 'Clients'.$count,
                     'id' => $this->getId('cases'),
-                    'iconCls' => 'i-magnifier',
+                    'iconCls' => 'icon-case',
                     'cls' => 'tree-header',
                     'has_childs' => true,
                 ],
@@ -152,16 +153,38 @@ class CasesGrouped extends Base
             $p['facet.missing'] ='on';//true;
             $p['facet.field'] = [
                 '{!ex=task_u_assignee key=1assigned}task_u_assignee',
+                '{!ex=cid key=2cid}cid',
             ];
             $sr = $s->query($p);
             $rez = ['data' => []];
 
             if (!empty($sr['facets']->facet_fields->{'1assigned'}->_empty_)) {
                 $rez['data'][] = [
-                    'name' => 'Not Assigned'.$this->renderCount(
+                    'name' => 'Unassigned'.$this->renderCount(
                             $sr['facets']->facet_fields->{'1assigned'}->_empty_                        ),
-                    'id' => $this->getId(2),
+                    'id' => $this->getId(3),
                     'iconCls' => 'icon-task-user-status0',
+                    'has_childs' => true,
+                ];
+            }
+            
+          if (!empty($sr['facets']->facet_fields->{'1assigned'}->{$userId})) {
+                $rez['data'][] = [
+                    'name' => 'My Clients'.$this->renderCount(
+                            $sr['facets']->facet_fields->{'1assigned'}->{$userId}
+                        ),
+                    'id' => $this->getId(2),
+                    'iconCls' => 'icon-user',
+                    'has_childs' => true,
+                ];
+            }    
+            if (!empty($sr['facets']->facet_fields->{'2cid'}->{$userId})) {
+                $rez['data'][] = [
+                    'name' => 'Created By Me'.$this->renderCount(
+                            $sr['facets']->facet_fields->{'2cid'}->{$userId}
+                        ),
+                    'id' => $this->getId(4),
+                    'iconCls' => 'icon-user',
                     'has_childs' => true,
                 ];
             }
@@ -183,9 +206,11 @@ class CasesGrouped extends Base
         $p['fq'] = $this->fq;
 
         if ($this->lastNode->id == 2) {
-            $p['fq'][] = '-task_u_assignee:[* TO *]';
+            $p['fq'][] = 'task_u_ongoing:'.$userId;
+        } elseif ($this->lastNode->id == 4) {
+        	$p['fq'][] = 'cid:'.$userId;
         } else {
-            $p['fq'][] = 'cid:'.$userId;
+            $p['fq'][] = '-task_u_assignee:[* TO *]';
         }
 		$p['fl'] = 'id,fematier,name,cdate,case_status';
         if (@$this->requestParams['from'] == 'tree') {
@@ -202,18 +227,9 @@ class CasesGrouped extends Base
                 ]
             );
             $rez = ['data' => []];
-            if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'1'})) {
-                $rez['data'][] = [
-                    'name' => lcfirst($this->trans('Overdue')).$this->renderCount(
-                            $sr['facets']->facet_fields->{'0task_status'}->{'1'}
-                        ),
-                    'id' => $this->getId(4),
-                    'iconCls' => 'icon-folder',
-                ];
-            }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'2'})) {
                 $rez['data'][] = [
-                    'name' => lcfirst($this->trans('Ongoing')).$this->renderCount(
+                    'name' => 'Active'.$this->renderCount(
                             $sr['facets']->facet_fields->{'0task_status'}->{'2'}
                         ),
                     'id' => $this->getId(5),
@@ -222,7 +238,7 @@ class CasesGrouped extends Base
             }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'3'})) {
                 $rez['data'][] = [
-                    'name' => lcfirst($this->trans('Closed')).$this->renderCount(
+                    'name' => 'Closed'.$this->renderCount(
                             $sr['facets']->facet_fields->{'0task_status'}->{'3'}
                         ),
                     'id' => $this->getId(6),
@@ -231,7 +247,7 @@ class CasesGrouped extends Base
             }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'5'})) {
                 $rez['data'][] = [
-                    'name' => lcfirst($this->trans('Information')).$this->renderCount(
+                    'name' => 'Information Only'.$this->renderCount(
                             $sr['facets']->facet_fields->{'0task_status'}->{'5'}
                         ),
                     'id' => $this->getId(7),
@@ -239,9 +255,9 @@ class CasesGrouped extends Base
                 ];
             }			
             // Add assignee node if there are any created cases already added to result
-            if (($this->lastNode->id == 3) && !empty($rez['data'])) {
+            if (($this->lastNode->id == 4) && !empty($rez['data'])) {
                 $rez['data'][] = [
-                    'name' => lcfirst($this->trans('Assignee')),
+                    'name' => 'Intake Representative',
                     'id' => $this->getId('assignee'),
                     'iconCls' => 'icon-folder',
                     'has_childs' => true,
@@ -271,11 +287,14 @@ class CasesGrouped extends Base
 
         $parent = $this->lastNode->parent;
 
-        if ($parent->id == 2) {
+        if ($parent->id == 3) {
             $p['fq'][] = '-task_u_assignee:[* TO *]';
-        } else {
+        } elseif ($parent->id == 4) {
             $p['fq'][] = 'cid:'.$userId;
-        }
+        } else
+        {
+                  $p['fq'][] = 'task_u_ongoing:'.$userId;
+                  }
 
         // please don't use numeric IDs for named folders: "Assigned to me", "Overdue" etc
         switch ($this->lastNode->id) {
