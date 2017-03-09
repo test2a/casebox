@@ -356,7 +356,7 @@
 			// Recovery
 
 			c= Ext.create('Ext.panel.Panel', {
-				title: 'Recovery' + ' [' +recoveryReferralData.data.length+']',
+				title: 'Referrals/Recovery' + ' [' +recoveryReferralData.data.length+']',
 				layout: {
 					align: 'stretch',
 					type: 'vbox'
