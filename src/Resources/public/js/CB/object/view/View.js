@@ -606,13 +606,13 @@
 						}
 
 						// Creator
-						if (values.cid) {
-							rez.push(
-								L.CreatedBy + ' ' +
-								CB.DB.usersStore.getName(values.cid) + ' ' +
-								Ext.valueFrom(values.cdate_ago_text, '')
-							);
-						}
+						//if (values.cid) {
+						//	rez.push(
+						//		L.CreatedBy + ' ' +
+						//		CB.DB.usersStore.getName(values.cid) + ' ' +
+						//		Ext.valueFrom(values.cdate_ago_text, '')
+						//	);
+						//}
 
 						// Updater
 						if (values.uid) {
