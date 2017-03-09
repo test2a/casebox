@@ -234,11 +234,7 @@
 					   }
 					   if (referralMenu.indexOf(k.template_id) >=  0)
 					   {
-						   referralData.data.push(k);
-						   if (k.name.indexOf('Referral Made')>0)
-						   {
-							recoveryReferralData.data.push(k);
-						   }
+					   	   recoveryReferralData.data.push(k);
 					   }
 					   if (recoveryMenu.indexOf(k.template_id) >=  0)
 					   {						   
@@ -357,49 +353,6 @@
 			c.add(content);
 			items.push(c);			
 
-			// Referrals
-
-			c= Ext.create('Ext.panel.Panel', {
-				title: 'Referrals' + ' [' +referralData.data.length+']',
-				layout: {
-					align: 'stretch',
-					type: 'vbox'
-				},				
-			});
-			
-			content = Ext.create('CBObjectPluginObjectProperties',{params:params});
-			r.data.objectProperties.data.preview[0] = r.data.objectProperties.data.preview[4];
-			content.onLoadData(r.data.objectProperties);
-			c.add(content);
-			
-			if(!Ext.isEmpty(r.data.objectProperties.data.can.referrals)) {
-				var templatesStore = CB.DB.templates;
-				var tbdReferralData = [];
-				var tbdReferrals = {};
-				for (var a = referralData.data.length - 1; a >= 0; a--) {
-					var dataId = referralData.data[a].id;
-					var referralNeeded = r.data.objectProperties.data.can.referrals.indexOf(String(dataId));
-					if (referralNeeded > -1) {
-						tbdReferralData.push(referralData.data.splice(a, 1)[0]);
-					}
-				}
-				tbdReferrals.data =tbdReferralData;
-				tbdReferrals.limit = 100;
-				content  = Ext.create('CBObjectPluginContentItems',{params: params})		
-				content.createMenu = referralMenu;	
-				content.updateTitle('Client Referrals to be completed');
-				content.onLoadData(tbdReferrals);			
-				c.add(content);
-			}			
-			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
-			content.createMenu = referralMenu;	
-			content.updateTitle('Client Referrals completed');
-			content.onLoadData(referralData);
-			c.add(content);
-			items.push(c);			
-			
-
-
 			// Recovery
 
 			c= Ext.create('Ext.panel.Panel', {
@@ -441,8 +394,8 @@
 			}			
 			
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
-			content.createMenu = recoveryMenu;	
-			content.actions.add.setHidden(true);			
+			content.createMenu = referralMenu;	
+			//content.actions.add.setHidden(true);			
 			content.updateTitle('Client Referrals');
 			content.onLoadData(recoveryReferralData);
 			c.add(content);
