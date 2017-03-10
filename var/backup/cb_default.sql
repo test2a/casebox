@@ -47,10 +47,6 @@ CREATE TABLE `action_log` (
 -- Dumping data for table `action_log`
 --
 
-LOCK TABLES `action_log` WRITE;
-/*!40000 ALTER TABLE `action_log` DISABLE KEYS */;
-/*!40000 ALTER TABLE `action_log` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `config`
