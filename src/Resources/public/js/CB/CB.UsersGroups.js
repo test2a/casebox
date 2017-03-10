@@ -291,14 +291,13 @@ Ext.define('CB.UsersGroupsTree', {
                 ,handler: this.onAddGroupClick
                 ,scope: this
             })
-            //,del: new Ext.Action({
-            //    text: L.Delete
-            //    ,iconCls: 'im-trash'
-            //    ,scale: 'medium'
-            //    ,disabled: true
-            //    ,handler: this.delNode
-            //    ,scope: this
-            //})
+            ,del: new Ext.Action({
+                text: 'Toggle Required TSV'
+                ,scale: 'medium'
+                ,disabled: true
+                ,handler: this.delNode
+                ,scope: this
+            })
             ,remove: new Ext.Action({
                 text: L.Remove
                 ,iconCls: 'im-cancel'
@@ -446,10 +445,10 @@ Ext.define('CB.UsersGroupsTree', {
                     scope: this
                     ,selectionchange: function(sm, selection){
                         if(Ext.isEmpty(selection)){
-                            //this.actions.del.setDisabled(true);
+                            this.actions.del.setDisabled(true);
                             this.actions.remove.setDisabled(true);
                         } else {
-                            //this.actions.del.setDisabled(selection[0].data.system == 1);
+                            this.actions.del.setDisabled(selection[0].data.system == 1);
                             this.actions.remove.setDisabled(
                                 (selection[0].getDepth() <2) ||
                                 (selection[0].parentNode.data.nid <1)
@@ -709,11 +708,11 @@ Ext.define('CB.UsersGroupsTree', {
         switch(n.getDepth()){
             case 2:
                 this.deletedUserData = n.data;
-                Ext.MessageBox.confirm(L.Confirmation, L.DeleteUser + ' "'+n.data.text+'"?',
+                Ext.MessageBox.confirm(L.Confirmation, 'Toggle TSV for "'+n.data.text+'"?',
                 function(btn, text){
                     if(btn === 'yes'){
                         n = this.getSelectionModel().getSelection()[0];
-                        CB_UsersGroups.deleteUser(n.data.nid, this.processDelNode, this);
+                        CB_UsersGroups.deleteUser(n.data.nid, this.processDisableTSV, this);
                     }
                 }
                 , this);
@@ -937,7 +936,7 @@ Ext.define('CB.UsersGroupsForm', {
                 ,'<span class="cG">'+L.User+':</span> {name}, <span class="cG">'+L.lastAction+':</span> '
                   ,'{[ Ext.isEmpty(values.last_action_time) ? "" : values.last_action_time ]}<br />'
                 ,'<span class="cG">'+L.addedByUser+':</span> {owner}, {cdate}<br />'
-                ,'<span class="cG">'+L.TSV+':</span> {tsv}<br />'
+                ,'<span class="cG">'+L.TSV+':</span> {tsv} - {tsvdisabled}<br />'
             ]
             ,itemSelector:'.none'
             ,autoHeight: true

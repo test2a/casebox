@@ -61,7 +61,7 @@ class AuthController extends Controller
                     // Check two step auth
                     $auth = $this->get('casebox_core.service_auth.two_step_auth')->authenticate($user, $request->get('c'));
 					
-        			if (!$user->getSystem()) {
+        			if (!$user->getSystem() && !$user->getDdate()) {
                     	if (is_array($auth)) {
                         	$this->get('session')->set('auth', serialize($user));
                         	

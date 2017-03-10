@@ -376,8 +376,7 @@ class UsersGroups
      */
     public function deleteUser($user_id)
     {
-	    return ['success' => false, 'verify' => false]; // Unable to delete users
-        /*if (!User::isVerified()) {
+		if (!User::isVerified()) {
             return ['success' => false, 'verify' => true];
         }
 
@@ -388,10 +387,9 @@ class UsersGroups
         $dbs = Cache::get('casebox_dbs');
 
         $res = $dbs->query(
-            'UPDATE users_groups SET did = $2 ,ddate = CURRENT_TIMESTAMP WHERE id = $1',
+            'UPDATE users_groups SET ddate = CASE WHEN ddate IS NULL THEN CURRENT_TIMESTAMP ELSE NULL END WHERE id = $1',
             [
                 $user_id,
-                User::getId(),
             ]
         );
 
@@ -399,7 +397,7 @@ class UsersGroups
         return [
             'success' => $res->rowCount() ? true : false,
             'data' => [$user_id, User::getId()],
-        ];*/
+        ];
     }
 
     /**
@@ -456,6 +454,7 @@ class UsersGroups
                 ,last_action_time
                 ,cdate
                 ,cid
+				,ddate
             FROM users_groups u
             WHERE id = $1',
             $user_id
@@ -535,8 +534,9 @@ class UsersGroups
         // set tsv status
         $tsv = User::getTSVConfig($user_id);
         $rez['data']['tsv'] = empty($tsv['method']) ? 'none' : $this->trans('TSV_'.$tsv['method']);
-
-        return $rez;
+		$rez['data']['tsvdisabled'] = empty($rez['data']['ddate']) ? 'Required': 'Not Required';
+        
+		return $rez;
     }
 
     /**
