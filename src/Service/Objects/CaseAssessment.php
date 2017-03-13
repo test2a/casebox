@@ -149,10 +149,6 @@ class CaseAssessment extends Object
 			
 			//Assessments
 			if (!empty($p['data']['_referralneeded'])) { //assessment
-				if (!empty($p['data']['_clienthavefemanumber']['childs']['_femanumber']))
-				{
-					$caseSd['femanumber_s'] = $p['data']['_clienthavefemanumber']['childs']['_femanumber'];
-				}
 			    $caseSd['assessments_needed'] = array_diff($caseSd['assessments_needed'], [$templateId]);
 				if (!in_array($templateId, $caseSd['assessments_completed']))
 				{
@@ -251,6 +247,11 @@ class CaseAssessment extends Object
 						}
 					}
 				}
+			}
+			
+			if (!empty($p['data']['_clienthavefemanumber']['childs']['_femanumber']))
+			{
+				$caseSd['femanumber_s'] = $p['data']['_clienthavefemanumber']['childs']['_femanumber'];
 			}
 			
 			$case->updateSysData();

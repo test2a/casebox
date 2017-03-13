@@ -336,6 +336,7 @@ Ext.define('CB.browser.ViewContainer', {
 
         this.objectPanel = new CB.object.ViewContainer({
             region: 'east'
+			,hidden:true //dumb down for APPRIO
             ,header: false
             ,width: 250
 
@@ -1682,7 +1683,7 @@ Ext.define('CB.browser.ViewContainer', {
             });
 
             this.setOwnerItem = new Ext.menu.Item({
-                text: L.SetOwner
+                text: 'Set Assignee'
                 ,hideOnClick: false
                 ,menu: getMenuUserItems(
                     this.onSetOwnerClick

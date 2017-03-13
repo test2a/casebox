@@ -354,9 +354,25 @@ class Objects
 
         // Check if user has rights to take ownership on each object
         foreach ($ids as $id) {
-            if (!Security::canTakeOwnership($id)) {
-                throw new \Exception($this->trans('Access_denied'));
-            }
+            $rez = null;
+
+			if (!empty($id) && is_numeric($id)) {
+				$obj = static::getCachedObject($id);
+				if (!empty($obj)) {
+					if ($obj->getType() == 'case')
+					{
+						$obj->setUserStatus(1, $userId);
+						$rez = ['success' => true, 'data' => $userId ];							
+						return $rez;	
+					}
+					else
+					{
+						if (!Security::canTakeOwnership($id)) {
+						throw new \Exception($this->trans('Access_denied'));
+						}
+					}
+				}
+			}
         }
 
         DM\Tree::updateOwner($ids, $userId);
