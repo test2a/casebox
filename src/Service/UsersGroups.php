@@ -387,7 +387,7 @@ class UsersGroups
         $dbs = Cache::get('casebox_dbs');
 
         $res = $dbs->query(
-            'UPDATE users_groups SET ddate = CASE WHEN ddate IS NULL THEN CURRENT_TIMESTAMP ELSE NULL END WHERE id = $1',
+            'UPDATE users_groups SET ddate = CASE WHEN ddate IS NULL THEN 1 ELSE NULL END WHERE id = $1',
             [
                 $user_id,
             ]
