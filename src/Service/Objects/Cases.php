@@ -350,7 +350,7 @@ class Cases extends Object
             'identified_unmet_needs'
         ];
     	foreach ($arrayproperties as $property) {
-    		unset($sd[$property]);
+    		unset($sd[$property.'_ss']);
 			$values = $this->getFieldValue($property);
 			if ($values != null) {
 				foreach ($values as $v) {
