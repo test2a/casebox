@@ -149,6 +149,7 @@ class Task extends Object
         $template = $this->getTemplate();
 
         $solrData['task_status'] = @$sd['task_status'];
+		$solrData['case_status'] = @$sd['case_status'];
 
         $user_ids = Util\toNumericArray($this->getFieldValue('assigned', 0)['value']);
         if (!empty($user_ids)) {
@@ -202,7 +203,7 @@ class Task extends Object
 
         $sd['task_due_date'] = $this->getFieldValue('due_date', 0)['value'];
         $sd['task_due_time'] = $this->getFieldValue('due_time', 0)['value'];
-
+		
         $sd['task_allday'] = empty($sd['task_due_time']);
 
         //set date_end to be saved in tree table
@@ -227,10 +228,26 @@ class Task extends Object
         $dateEnd = empty($p['date_end']) ? null : Util\dateISOToMysql($p['date_end']);
 
         $status = static::$STATUS_ACTIVE;
-
-        if (!empty($sd['task_d_closed'])) {
-            $status = static::$STATUS_CLOSED;
-
+		$userSetStatus = $this->getFieldValue('task_status', 0)['value'];
+		
+			Cache::get('symfony.container')->get('logger')->error(
+			'sup'.$userSetStatus,
+			$sd
+		);	
+			if ($userSetStatus == 1907 && empty($sd['task_d_closed']))
+			{
+				$status = static::$STATUS_CLOSED;
+				$sd['task_d_closed'] = date('Y-m-d\TH:i:s\Z');
+			}
+			elseif	($userSetStatus == 1906)
+			{
+				unset($sd['task_u_done']);
+				unset($sd['task_d_closed']);
+				$status = static::$STATUS_ACTIVE;
+			}
+		
+		if (!empty($sd['task_d_closed'])) {
+			$status = static::$STATUS_CLOSED;
         } elseif (!empty($dateEnd)) {
             if (strtotime($dateEnd) < strtotime('now')) {
                 $status = static::$STATUS_OVERDUE;
@@ -238,6 +255,7 @@ class Task extends Object
         }
 
         $sd['task_status'] = $status;
+		$sd['case_status'] = $this->trans('caseStatus'.$status, '');
     }
 
     /**

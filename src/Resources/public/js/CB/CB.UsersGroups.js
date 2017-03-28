@@ -291,13 +291,13 @@ Ext.define('CB.UsersGroupsTree', {
                 ,handler: this.onAddGroupClick
                 ,scope: this
             })
-            ,del: new Ext.Action({
-                text: 'Toggle Required TSV'
-                ,scale: 'medium'
-                ,disabled: true
-                ,handler: this.delNode
-                ,scope: this
-            })
+            //,del: new Ext.Action({
+            //    text: 'Toggle Required TSV'
+            //    ,scale: 'medium'
+            //    ,disabled: true
+           //     ,handler: this.delNode
+           //     ,scope: this
+           // })
             ,remove: new Ext.Action({
                 text: L.Remove
                 ,iconCls: 'im-cancel'
@@ -445,10 +445,10 @@ Ext.define('CB.UsersGroupsTree', {
                     scope: this
                     ,selectionchange: function(sm, selection){
                         if(Ext.isEmpty(selection)){
-                            this.actions.del.setDisabled(true);
+                            //this.actions.del.setDisabled(true);
                             this.actions.remove.setDisabled(true);
                         } else {
-                            this.actions.del.setDisabled(selection[0].data.system == 1);
+                            //this.actions.del.setDisabled(selection[0].data.system == 1);
                             this.actions.remove.setDisabled(
                                 (selection[0].getDepth() <2) ||
                                 (selection[0].parentNode.data.nid <1)
@@ -698,41 +698,6 @@ Ext.define('CB.UsersGroupsTree', {
         }
     }
 
-    ,delNode: function(){
-        var n = this.getSelectionModel().getSelection()[0];
-
-        if(!n) {
-            return;
-        }
-
-        switch(n.getDepth()){
-            case 2:
-                this.deletedUserData = n.data;
-                Ext.MessageBox.confirm(L.Confirmation, 'Toggle TSV for "'+n.data.text+'"?',
-                function(btn, text){
-                    if(btn === 'yes'){
-                        n = this.getSelectionModel().getSelection()[0];
-                        CB_UsersGroups.deleteUser(n.data.nid, this.processDisableTSV, this);
-                    }
-                }
-                , this);
-                break;
-            case 1:
-                Ext.MessageBox.confirm(L.Confirmation, L.DeleteGroupConfirmationMessage + ' "'+n.data.text+'"?',
-                function(btn, text){
-                    if(btn === 'yes') {
-                        CB_Security.destroyUserGroup(
-                            n.data.nid
-                            ,this.processDestroyUserGroup
-                            ,this
-                        );
-                    }
-                }
-                , this);
-                break;
-        }
-    }
-
     ,processDestroyUserGroup: function(r, e){
         if(!r) {
             return;
@@ -913,11 +878,17 @@ Ext.define('CB.UsersGroupsForm', {
 
         this.actions = {
             disableTSV: new Ext.Action({
-                text: L.Disable + ' ' + L.TSV
+                text: 'Reset ' + L.TSV
                 ,scope: this
                 ,disabled: true
                 ,handler: this.onDisableTSVClick
             })
+			,delTSV: new Ext.Action({
+                text: 'Toggle Required ' + L.TSV
+                ,scale: 'medium'
+                ,handler: this.delNode
+                ,scope: this
+			})				
             ,enableUser: new Ext.Action({
                 text: L.EnableUser
                 ,scope: this
@@ -990,6 +961,7 @@ Ext.define('CB.UsersGroupsForm', {
                         ,{text: L.ChangeUsername, iconCls: 'icon-pencil', handler: this.onEditUsernameClick, scope: this}
                         ,'-'
                         ,this.actions.disableTSV
+						,this.actions.delTSV
                         ,'-'
                         ,this.actions.enableUser
                         ,this.actions.disableUser
@@ -1317,11 +1289,27 @@ Ext.define('CB.UsersGroupsForm', {
         var w = new CB.ChangePasswordWindow({data: this.data});
         w.show();
     }
+,delNode: function(){
 
+        Ext.Msg.confirm(
+            'Toggle ' + L.TSV
+            ,'Toggle ' + L.TSV + ' for user?'
+            ,function(b){
+                if(b === 'yes') {
+                    CB_UsersGroups.deleteUser(
+                        this.data.id
+                        ,this.processDisableTSV
+                        ,this
+                    );
+                }
+            }
+            ,this
+        );	
+    }
     ,onDisableTSVClick: function(){
         Ext.Msg.confirm(
-            L.Disable + ' ' + L.TSV
-            ,L.DisableTSVConfirmation
+            'Reset ' + L.TSV
+            ,'Reset ' + L.TSV + ' for user?'
             ,function(b){
                 if(b === 'yes') {
                     CB_UsersGroups.disableTSV(
