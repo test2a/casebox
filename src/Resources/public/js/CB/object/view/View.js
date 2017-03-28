@@ -234,7 +234,14 @@
 					   }
 					   if (referralMenu.indexOf(k.template_id) >=  0)
 					   {
-					   	   recoveryReferralData.data.push(k);
+						   if (k.name.indexOf('[]') >= 0)
+						   {
+								referralData.data.push(k);   
+						   }
+						   else
+						   {
+								recoveryReferralData.data.push(k);
+						   }
 					   }
 					   if (recoveryMenu.indexOf(k.template_id) >=  0)
 					   {						   
@@ -392,11 +399,18 @@
 				content.onLoadData(tbdRecovery);			
 				c.add(content);
 			}			
+
+			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+			content.createMenu = referralMenu;	
+			//content.actions.add.setHidden(true);			
+			content.updateTitle('Started Client Referrals');
+			content.onLoadData(referralData);
+			c.add(content);
 			
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = referralMenu;	
 			//content.actions.add.setHidden(true);			
-			content.updateTitle('Client Referrals');
+			content.updateTitle('Completed Client Referrals');
 			content.onLoadData(recoveryReferralData);
 			c.add(content);
 
