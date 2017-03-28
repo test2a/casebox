@@ -815,6 +815,7 @@ Ext.define('CB.VerticalEditGrid', {
                         context.value = Ext.Date.format(context.value, 'H:i:s');
                         context.record.set('value', context.value);
                         break;
+					case 'xdate':
 					case 'date':
 						if (tr.get('cfg').generateAge != null) //Check if config "generateAge" is there
 						{

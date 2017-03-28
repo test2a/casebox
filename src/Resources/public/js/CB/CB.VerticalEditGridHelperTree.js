@@ -66,6 +66,7 @@ Ext.define('CB.VerticalEditGridHelperTree', {
                             value.value = date_local_to_ISO_string(value.value);
                         }
                         break;
+					case 'xdate':
                     case 'date':
                         if(Ext.isDate(value.value)) {
                             value.value = dateToDateString(value.value);
@@ -167,6 +168,7 @@ Ext.define('CB.VerticalEditGridHelperTree', {
             return value;
         }
         switch(type){
+			case 'xdate':
             case 'date':
                 if(Ext.isString(value)) {
                     value = Ext.Date.parse(value.substr(0,10), 'Y-m-d');

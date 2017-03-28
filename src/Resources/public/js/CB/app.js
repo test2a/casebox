@@ -456,7 +456,7 @@ function initApp() {
             return '';
         }
 
-        ,date: function(v){
+        ,xdate: function(v){
             var rez = '';
             if(Ext.isEmpty(v)) {
                 return rez; //Reverting back
@@ -471,6 +471,21 @@ function initApp() {
 
             return rez;
         }
+        ,date: function(v){
+            var rez = '';
+            if(Ext.isEmpty(v)) {
+                return rez; //Reverting back
+            }
+
+            rez = Ext.Date.format(
+                Ext.isPrimitive(v)
+                    ? Ext.Date.parse(v.substr(0,10), 'Y-m-d')
+                    : v
+                ,App.dateFormat
+            );
+
+            return rez;
+        }		
         /**
          * [datetime description]
          * @param  varchar v
@@ -631,6 +646,8 @@ function initApp() {
                 return App.customRenderers.checkbox;
             case 'date':
                 return App.customRenderers.date;
+            case 'xdate':
+                return App.customRenderers.xdate;				
             case 'datetime':
                 return App.customRenderers.datetime;
             case 'time':
@@ -1054,10 +1071,19 @@ function initApp() {
                     enableKeyEvents: true
                     ,format: App.dateFormat
                     ,width: 100
-                    //,listeners: autoExpand
+                    ,listeners: autoExpand
                 });
                 break;
 
+            case 'xdate':
+                rez = new Ext.form.DateField({
+                    enableKeyEvents: true
+                    ,format: App.dateFormat
+                    ,width: 100
+                    //,listeners: autoExpand
+                });
+                break;				
+				
             case 'datetime':
                 rez = new Ext.form.DateField({
                     enableKeyEvents: true
