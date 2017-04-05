@@ -84,7 +84,7 @@ Ext.define('CB.file.edit.Window', {
                     ,this.actions.notifyOff
                 ]
             })
-            ,this.actions.showInfoPanel
+           // ,this.actions.showInfoPanel // Apprio Dumb Down
         ];
     }
 
@@ -156,6 +156,7 @@ Ext.define('CB.file.edit.Window', {
                 region: 'east'
                 ,itemId: 'infoPanel'
                 ,header: false
+                ,hidden: true //Apprio Dumb Down
                 ,border: false
                 ,scrollable: true
                 ,layout: {
