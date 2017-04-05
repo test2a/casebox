@@ -32,7 +32,8 @@
     "sensio/generator-bundle": "^3.0",
     "symfony/doctrine-bridge": "^3.0",
     "sensio/framework-extra-bundle": "^3.0.2",
-    "kwi/urllinker": "@dev"
+    "kwi/urllinker": "@dev",
+    "dompdf/dompdf": "dev-master"
   },
   "repositories": [
         {
