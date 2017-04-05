@@ -142,6 +142,20 @@ class Instance
         header("Expires: 0");
         echo implode("\n", $rez);
     }
+	
+	public function getPDF($p)
+	{
+        // Check if object id is numeric
+        if (!is_numeric($p)) {
+            throw new \Exception($this->trans('Wrong_input_data'));
+        }
+        $id = $p['id'];	
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.csv');
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        echo implode("\n", $rez);		
+	}
 
     public function getHTML($p)
     {

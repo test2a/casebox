@@ -347,10 +347,11 @@ class IndexController extends Controller
         ];
 		
 		$exportParam = $request->query->get('export');
+		$pdfParam = $request->query->get('pdf');
 		
-		$headers = ['Content-Type' => 'application/json', 'charset' => 'UTF-8'];
+		$headers = ['Content-Type' => 'application/json', 'charset' => 'UTF-8'];		
 		
-        if (empty($exportParam)) {
+        if (empty($exportParam) && empty($pdfParam)) {
 			$result['message'] = $this->trans(('Object_not_found'));
 
             return new Response(json_encode($result), 200, $headers);
@@ -362,10 +363,20 @@ class IndexController extends Controller
 			return $this->redirectToRoute('app_core_login', ['coreName' => $coreName]);
 		}
 		
-		$data = json_decode($exportParam,true);
-		
 		$export = new Instance();
-		$export->getCSV($data);
+		
+		if (!empty($pdfParam))
+		{
+			$data = json_decode($pdfParam,true);
+	
+			$export->getPDF($data);
+		}
+		else
+		{
+			$data = json_decode($exportParam,true);
+	
+			$export->getCSV($data);
+		}
 		
         return new Response(null, 200, $headers);
     }	
