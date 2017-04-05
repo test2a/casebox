@@ -2,10 +2,14 @@
 
 namespace Casebox\CoreBundle\Service\Plugins\Export;
 
+use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\BrowserView;
 use Casebox\CoreBundle\Service\Cache;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
+use Casebox\CoreBundle\Service\Objects\Plugins\ContentItems;
+use Symfony\Component\DependencyInjection\Container;
+use Dompdf\Dompdf;
 
 class Instance
 {
@@ -149,12 +153,59 @@ class Instance
         if (!is_numeric($p)) {
             throw new \Exception($this->trans('Wrong_input_data'));
         }
-        $id = $p['id'];	
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.csv');
+		
+		$container = Cache::get('symfony.container');
+		$twig = $container->get('twig');
+		$configService = Cache::get('symfony.container')->get('casebox_core.service.config');		
+		
+		$objService = new Objects();
+		$obj = $objService->load(['id' => $p]);
+		//print_r($obj['data']['data']['sys_data']);
+		
+		$contentItems = new ContentItems();
+		$services = $contentItems->getData($p);
+
+		$v = $obj['data']['data']['assigned'];
+		if (empty($v)) {
+			$assigned = 'N/A';
+		}else 
+		{
+             $assigned = User::getDisplayName($v['value']);
+		}
+		$vars = [
+			'client_lastname' => $obj['data']['data']['_firstname'],
+			'client_firstname' => $obj['data']['data']['_firstname'],			
+            'disaster_declaration_number' => $configService->get('disaster_declaration_number'),
+			'disaster_site_address' => $configService->get('disaster_site_address'),
+			'cm_phone' => $configService->get('disaster_phone_number'),
+            'cm_assigned' => $assigned,
+            'cm_id' => 'DanStt',
+            'cm_phone' =>'DanStt',
+            'plan_creation_date' => 'DanStt',
+            'fema_registration_number' => 'DanStt',
+            'client_id' => 'DanStt',
+			'services' =>
+				$services['data'],
+        ];
+		$html = $twig->render('CaseboxCoreBundle:email:recovery-plan.html.twig', $vars);
+		echo ($html);
+		return;
+		// instantiate and use the dompdf class
+		$dompdf = new Dompdf();
+		//$dompdf->loadHtml($html);
+
+		// (Optional) Setup the paper size and orientation
+		//$dompdf->setPaper('A4', 'landscape');
+
+		// Render the HTML as PDF
+		$dompdf->render();
+        /*header('Content-Type: application/pdf; charset=utf-8');
+        header('Content-Disposition: inline; filename=OUT_'.date('Y-m-d_Hi').'.pdf');
         header("Pragma: no-cache");
-        header("Expires: 0");
-        echo implode("\n", $rez);		
+        header("Expires: 0");*/
+		// Output the generated PDF to Browser
+		$dompdf->stream();
+
 	}
 
     public function getHTML($p)
