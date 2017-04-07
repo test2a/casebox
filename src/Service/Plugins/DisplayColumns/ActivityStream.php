@@ -6,7 +6,7 @@ use Casebox\CoreBundle\Service\Objects;
 use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
-
+use Casebox\CoreBundle\Service\Cache;
 /**
  * Class ActivityStream
  */
@@ -36,7 +36,7 @@ class ActivityStream extends Base
             'last_action_tdt',
         ];
 
-        $p['params']['sort'] = 'last_action_tdt desc';
+        $p['params']['sort'] = 'udate desc';
         // return parent::onBeforeSolrQuery($p);
     }
 
@@ -45,27 +45,13 @@ class ActivityStream extends Base
         $result = &$p['result'];
         $data = &$result['data'];
         $actionLogIds = [];
-
+		$caseId = $p['inputParams']['pid'];
         $comments = new Objects\Plugins\Comments();
+		$oldName = 'Object';
+        $logRecs = DM\Log::getRecordsByParent($caseId);
 
-        //format ago date and collect log action ids
-        foreach ($data as &$doc) {
-            $la = Objects::getCachedObject($doc['id'])->getLastActionData();
-            $la['agoText'] = Util\formatAgoTime($la['time']);
-            $la['uids'] = array_reverse(array_keys($la['users']));
-            $doc['lastAction'] = $la;
-
-            $actionLogId = $la['users'][$la['uids'][0]];
-
-            $doc['comments'] = $comments->getData($doc['id']);
-
-            $actionLogIds[$actionLogId] = &$doc;
-        }
-
-        $logRecs = DM\Log::getRecords(array_keys($actionLogIds));
-
-        foreach ($logRecs as $r) {
-            $d = Util\jsonDecode($r['data']);
+		foreach ($logRecs as $r) {
+			$d = Util\jsonDecode($r['data']);
 
             switch ($r['action_type']) {
                 case 'move':
@@ -76,17 +62,25 @@ class ActivityStream extends Base
 
                     break;
                 default:
-                    $obj = Objects::getCachedObject($actionLogIds[$r['id']]['id']);
-                    $diff = $obj->getDiff($d);
+                    $obj = Objects::getCachedObject($r['object_id']);
+					if ($obj)
+					{
+						$diff = $obj->getDiff($d);
+						$oldName = $obj->getName();
+					}
                     if (!empty($diff)) {
                         $html = '';
                         foreach ($diff as $fn => $fv) {
                             $html .= "<tr><th>$fn</th><td>$fv</td></tr>";
                         }
 
-                        $actionLogIds[$r['id']]['diff'] = "<table class=\"as-diff\">$html</table>";
+                        $diff = "<table class=\"as-diff\">$html</table>";
                     }
             }
+			$data[] = [id=>$r['id'], pid=>$r['object_pid'], diff=>$diff,case_id=>$caseId,acl_count=>0, system=>0, oid=>1,cid=>$r['user_id'],
+			name=>$oldName, comments=>[success=>true,data=>[],total=>0], 
+			lastAction=>[type=>$r['action_type'].'d',time=>$r['action_time'],users=>[$r['user_id']],users=>"1",agoText=>Util\formatAgoTime($r['action_time']),uids=>[$r['user_id']]]];
+				
         }
     }
 
@@ -95,7 +89,7 @@ class ActivityStream extends Base
         // $rez = parent::getSolrFields($nodeId, $templateId);
         $rez = [];
 
-        $rez['sort'] = 'last_action_tdt desc';
+        $rez['sort'] = 'udate desc';
 
         return $rez;
     }
@@ -106,7 +100,7 @@ class ActivityStream extends Base
         $rez = [];
 
         $rez['sort'] = [
-            'property' => 'last_action_tdt',
+            'property' => 'udate',
             'direction' => 'DESC',
         ];
 
@@ -119,7 +113,7 @@ class ActivityStream extends Base
         $rez = [];
 
         $rez['sort'] = [
-            'property' => 'last_action_tdt',
+            'property' => 'udate',
             'direction' => 'DESC',
         ];
 

@@ -63,6 +63,24 @@ class Log extends Base
         return $rez;
     }
 
+public static function getRecordsByParent($ids)
+    {
+        $rez = [];
+        $ids = Util\toNumericArray($ids);
+
+        $dbs = Cache::get('casebox_dbs');
+
+        $res = $dbs->query(
+            'SELECT * FROM `'.static::getTableName().'`WHERE object_id in (0'.implode(',', $ids).') or object_pid in (0'.implode(',', $ids).') order by action_time asc'
+        );
+        while ($r = $res->fetch()) {
+            $rez[] = $r;
+        }
+        unset($res);
+
+        return $rez;
+    }	
+	
     /**
      * update a record
      *

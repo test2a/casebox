@@ -833,7 +833,7 @@ class Cases extends Object
 		}		
 		
 		if (!empty($sd['solr']['closurereason_s'])) {
-			$closureReason = '<b>' . $sd['solr']['closurereason_s'] .'</b> - ';
+			$closureReason = '<b>Record Closed</br>' . $sd['solr']['closurereason_s'] .'</b><br/>';
 		}		
 		
 		if (!empty($sd['solr']['headofhousehold'])) {
@@ -1008,12 +1008,12 @@ class Cases extends Object
             '<tbody></table>';
         $pb[1] = 
             '<div class="info" width="100%">'.
-			'<table><tr><td width="80%">'.
+			'<table width="100%"><tr style="vertical-align:top"><td width="70%">'.
 			trim($femaLine, " - ").'<br/>'.			
 			trim($demographicsLine, " - ").'<br/>'.
 			trim($emailLine, " - ").
 			trim($addressLine, " - ").'<br/></td>'.
-			'<td width="20%" style="text-align:right;" align="right">'.$closureReason.'<br/><a target="_new" href="get/?pdf='.$data['id'].'">Print Recovery Plan</a></td></tr></table>';
+			'<td width="30%" style="text-align:right;" align="right">'.$closureReason.'<a target="_new" href="get/?pdf='.$data['id'].'">Print Recovery Plan</a></td></tr></table>';
         
 		// Create description row
         $v = $this->getFieldValue('identified_unmet_needs', 0);
