@@ -1007,11 +1007,13 @@ class Cases extends Object
             $contentRow.
             '<tbody></table>';
         $pb[1] = 
-            '<div class="info">'.
-			$closureReason.trim($femaLine, " - ").'<br/>'.			
+            '<div class="info" width="100%">'.
+			'<table><tr><td width="80%">'.
+			trim($femaLine, " - ").'<br/>'.			
 			trim($demographicsLine, " - ").'<br/>'.
-			trim($emailLine, " - ").'<br/>'.
-			trim($addressLine, " - ").'<br/>';
+			trim($emailLine, " - ").
+			trim($addressLine, " - ").'<br/></td>'.
+			'<td width="20%" style="text-align:right;" align="right">'.$closureReason.'<br/><a target="_new" href="get/?pdf='.$data['id'].'">Print Recovery Plan</a></td></tr></table>';
         
 		// Create description row
         $v = $this->getFieldValue('identified_unmet_needs', 0);
