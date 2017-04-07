@@ -157,10 +157,17 @@ Ext.define('CB.browser.ViewContainer', {
 
             ,contextExport: new Ext.Action({
                 iconCls: 'i-table-export'
-                ,text: L.Export
+                ,text: 'Export Records'
                 ,scope: this
                 ,handler: this.onExportClick
             })
+			
+            ,pdfExport: new Ext.Action({
+                iconCls: 'i-book-open'
+                ,text: 'Print Recovery Plan'
+                ,scope: this
+                ,handler: this.onPdfExportClick
+            })			
 
             ,star: new Ext.Action({
                 iconCls: 'i-star'
@@ -1237,6 +1244,7 @@ Ext.define('CB.browser.ViewContainer', {
             this.actions['delete'].hide();
             this.actions.contextDelete.setDisabled(true);
 			this.actions.assignClient.setDisabled(true);
+			this.actions.pdfExport.setDisabled(true);
             this.actions.webdavlink.setDisabled(true);
             this.actions.webdavlink.hide();
 
@@ -1256,7 +1264,7 @@ Ext.define('CB.browser.ViewContainer', {
 
             this.actions.cut.setDisabled(false);
             this.actions.copy.setDisabled(false);
-
+			this.actions.pdfExport.setDisabled(false);
 			this.actions.assignClient.setDisabled(false);
 			
             this.actions.edit.setDisabled(
@@ -1711,6 +1719,8 @@ Ext.define('CB.browser.ViewContainer', {
                     ,this.actions.unstar
                     ,this.actions.webdavlink
                     ,this.actions.permalink
+					,this.actions.contextExport					
+					,this.actions.pdfExport										
 					,this.actions.assignClient					
                     ,this.setOwnerItem
                     ,'-'
@@ -1759,6 +1769,14 @@ Ext.define('CB.browser.ViewContainer', {
     ,onExportClick: function(b, e) {
         this.fireEvent('exportrecords', this, e);
     }
+	
+    ,onPdfExportClick: function(b, e) {
+		var selection = this.getSelection();
+		if(Ext.isEmpty(selection)) {
+            return;
+        }
+        this.fireEvent('exportpdf', this, e);
+    }	
 
     ,onDescendantsCheckChange: function(cb, checked, eOpts) {
         this.changeSomeParams({

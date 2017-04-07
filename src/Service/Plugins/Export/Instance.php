@@ -163,6 +163,7 @@ class Instance
 		//print_r($obj['data']['data']['sys_data']);
 		
 		$contentItems = new ContentItems();
+<<<<<<< HEAD
 		$items = $contentItems->getData($p);
 		$femaNumber = 'N/A';
 		
@@ -510,21 +511,34 @@ class Instance
             }
 		$v = $obj['data']['data']['assigned'];
 		
+=======
+		$services = $contentItems->getData($p);
+
+		$v = $obj['data']['data']['assigned'];
+>>>>>>> 45c1e6167fb3457f24465bca37f7273a24e8c3a6
 		if (empty($v)) {
 			$assigned = 'N/A';
 		}else 
 		{
+<<<<<<< HEAD
              $assigned = User::getDisplayName($v);
 			 //echo(User::getUserData($v)['phone']);
 		}
 		
 		$vars = [
 			'client_lastname' => $obj['data']['data']['_lastname'],
+=======
+             $assigned = User::getDisplayName($v['value']);
+		}
+		$vars = [
+			'client_lastname' => $obj['data']['data']['_firstname'],
+>>>>>>> 45c1e6167fb3457f24465bca37f7273a24e8c3a6
 			'client_firstname' => $obj['data']['data']['_firstname'],			
             'disaster_declaration_number' => $configService->get('disaster_declaration_number'),
 			'disaster_site_address' => $configService->get('disaster_site_address'),
 			'cm_phone' => $configService->get('disaster_phone_number'),
             'cm_assigned' => $assigned,
+<<<<<<< HEAD
             'cm_phone' =>$configService->get('disaster_phone_number'),
             'plan_creation_date' => date("F j, Y, g:i a"),
             'fema_registration_number' => $femaNumber,
@@ -547,6 +561,28 @@ class Instance
 		$dompdf->stream('recovery_plan'.$p, array("Attachment" => false));
 
 		exit(0);
+=======
+            'cm_id' => 'DanStt',
+            'cm_phone' =>'DanStt',
+            'plan_creation_date' => 'DanStt',
+            'fema_registration_number' => 'DanStt',
+            'client_id' => 'DanStt',
+			'services' =>
+				$services['data'],
+        ];
+		$html = $twig->render('CaseboxCoreBundle:email:recovery-plan.html.twig', $vars);
+		echo ($html);
+		return;
+		// instantiate and use the dompdf class
+		$dompdf = new Dompdf();
+		//$dompdf->loadHtml($html);
+
+		// (Optional) Setup the paper size and orientation
+		//$dompdf->setPaper('A4', 'landscape');
+
+		// Render the HTML as PDF
+		$dompdf->render();
+>>>>>>> 45c1e6167fb3457f24465bca37f7273a24e8c3a6
         /*header('Content-Type: application/pdf; charset=utf-8');
         header('Content-Disposition: inline; filename=OUT_'.date('Y-m-d_Hi').'.pdf');
         header("Pragma: no-cache");

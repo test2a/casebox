@@ -135,15 +135,18 @@ class CaseAssessment extends Object
 			}
 
 
-			//Refferals
-			if (!empty($p['data']['_referralstatus']) && !empty($objectId)) { //
-				if ($p['data']['_referralstatus'] != 1155)
+			//Referrals
+			if (!empty($p['data']['_referraltype']) && !empty($objectId)) { //
+				if (!in_array($objectId, $caseSd['referrals_started']))
 				{
-				if (!in_array($objectId, $caseSd['referrals_completed']))
-				{
-					$caseSd['referrals_completed'][] = $objectId;
+					$caseSd['referrals_started'][] = $objectId;
 				}
-					$caseSd['referrals_started'] = array_diff($caseSd['referrals_started'], [$objectId]);
+				if ($p['data']['_result'] != 595 && !empty($p['data']['_result']))
+				{
+					if (!in_array($objectId, $caseSd['referrals_completed']))
+					{
+						$caseSd['referrals_completed'][] = $objectId;
+					}
 				}
 			}
 			
@@ -266,13 +269,15 @@ class CaseAssessment extends Object
 		$p = $this->data;
 		$caseId = $p['pid'];
 		$templateId = $p['template_id'];
-
+		$objectId = $p['id'];
 		
         if ($caseId) {
             $case = Objects::getCachedObject($caseId);    
 			$caseData = &$case->data;
 			$caseSd = &$caseData['sys_data'];
 			
+			$caseSd['referrals_completed'] = array_diff($caseSd['referrals_completed'], [$objectId]);		
+			$caseSd['referrals_started'] = array_diff($caseSd['referrals_started'], [$objectId]);
 			
 			/* add some values to the parent */
 			$tpl = $this->getTemplate();
@@ -292,7 +297,6 @@ class CaseAssessment extends Object
 				}
 			}
 			
-			$caseSd['assessments_completed'] = array_diff($caseSd['assessments_completed'], [$templateId]);
 			if (in_array($templateId, $caseSd['assessments_reported'])) {
                     $caseSd['assessments_needed'][] = $templateId;
 			}

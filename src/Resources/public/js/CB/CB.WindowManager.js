@@ -44,7 +44,7 @@ Ext.define('CB.WindowManager', {
 	//	  return this.openObjectViewView(config);
 //		 } else
 //
-			 if (mode == 'view') {
+			 if (mode == 'view' && config.template_id != 6) {
             return this.openObjectEditView(config);
         }
 
