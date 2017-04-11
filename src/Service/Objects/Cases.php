@@ -57,7 +57,7 @@ class Cases extends Object
 		{
 			$householdMembers = $p['data']['_numberinhousehold'];
 			if (is_numeric($householdMembers)) {
-				for ($x = 0; $x <= $householdMembers; $x++) {
+				for ($x = 0; $x < $householdMembers; $x++) {
 					if ($x < 10)
 					{
 							$data = [
