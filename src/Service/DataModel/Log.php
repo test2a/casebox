@@ -71,7 +71,7 @@ public static function getRecordsByParent($ids)
         $dbs = Cache::get('casebox_dbs');
 
         $res = $dbs->query(
-            'SELECT * FROM `'.static::getTableName().'`WHERE object_id in (0'.implode(',', $ids).') or object_pid in (0'.implode(',', $ids).') order by action_time asc'
+            'SELECT * FROM `'.static::getTableName().'`WHERE object_id in (0'.implode(',', $ids).') or object_pid in (0'.implode(',', $ids).') order by action_time desc'
         );
         while ($r = $res->fetch()) {
             $rez[] = $r;
