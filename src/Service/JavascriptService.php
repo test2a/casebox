@@ -105,7 +105,7 @@ class JavascriptService
         $container = Cache::get('symfony.container');
         if (!empty($container) && $container->hasParameter('devel')) {
             $groups = $container->get('casebox_core.service.minify')->getDefaultAssests();
-            $addGroups = ['js', 'jsoverrides', 'jsplugins'];
+            $addGroups = ['js-debug', 'jsoverrides-debug', 'jsplugins-debug'];
             foreach ($addGroups as $group) {
                 foreach ($groups[$group] as $script) {
                     $scripts['footer'][$script]['src'] = '/' . $script;
@@ -116,13 +116,13 @@ class JavascriptService
                 $scripts['footer'],
                 [
                     'js' => [
-                        'src' => '/min/js-debug.js',
+                        'src' => '/min/js.js',
                     ],
                     'jsoverrides' => [
-                        'src' => '/min/jsoverrides-debug.js',
+                        'src' => '/min/jsoverrides.js',
                     ],
                     'jsplugins' => [
-                        'src' => '/min/jsplugins-debug.js',
+                        'src' => '/min/jsplugins.js',
                     ],
                 ]
             );
