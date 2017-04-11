@@ -47,11 +47,36 @@ class Cases extends Object
         if ($p === false) {
             $p = $this->data;
         }
+		$p['pid']=150;
         $this->data = $p;
 
         $this->setParamsFromData($p);
-
-        return parent::create($p);
+		$createResult = parent::create($p);
+		
+		if (!empty($p['data']['_numberinhousehold']))
+		{
+			$householdMembers = $p['data']['_numberinhousehold'];
+			if (is_numeric($householdMembers)) {
+				for ($x = 0; $x <= $householdMembers; $x++) {
+					if ($x < 10)
+					{
+							$data = [
+								'pid' => $createResult,
+								'title' => 'Family Member',
+								'template_id' => 289,
+								'path' => 'Tree/Clients',
+								'view' => 'edit',
+								'name' => 'New Family Member',
+								'data' => [],
+							];
+							$objService = new Objects();
+							$newReferral =$objService->create($data);
+					}
+				}
+			}
+		}
+		
+        return $createResult;
     }
 
     /**
@@ -227,14 +252,14 @@ class Cases extends Object
 		
 		if (!empty($sd['full_address']))
 		{
-			$results = $this->lookup($sd['full_address']);
+			/*$results = $this->lookup($sd['full_address']);
 			if ($results != null)
 			{
 				$solrData['lat_lon'] = $results['latitude'] .','.$results['longitude'];
 				$solrData['full_address'] = $results['full_address'];
 				$solrData['county'] = $results['county'];
 				$solrData['location_type'] = $results['location_type'];	
-			}
+			}*/
 		}
 		
         if (!empty($sd['task_d_closed'])) {
