@@ -200,8 +200,8 @@ class CaseboxAuth
     {
         if (!Cache::get('disable_logs', false)) {
           $params = [
-            'object_id' => $user->getId(),
-            'object_pid' => $user->getId(),
+            'object_id' => 10,
+            'object_pid' => 10,
             'user_id' => $user->getId(),
             'action_type' => $type,
             'data' => Util\jsonEncode(array('ip' => $user->getLoginFromIp(), 'failedlogins' => $user->getLoginSuccessful())),
