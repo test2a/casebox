@@ -47,7 +47,7 @@ Ext.define('CB.object.plugin.Files', {
             ,'<tpl for=".">'
             ,'<tr>'
             ,'    <td class="obj">'
-            ,'        <div><img class="file- {iconCls}" src="'+ Ext.BLANK_IMAGE_URL +'"></div>'
+            ,'        <div><img alt="Icon" class="file- {iconCls}" src="'+ Ext.BLANK_IMAGE_URL +'"></div>'
             ,'    </td>'
             ,'    <td>'
             ,'        <span class="click">{name}</span><br />'

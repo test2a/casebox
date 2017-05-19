@@ -590,7 +590,7 @@ class Task extends Object
 
             $ownerRow = '<tr><td class="prop-key">'.$this->trans('Owner').':</td><td>'.
                 '<table class="prop-val people"><tbody>'.
-                '<tr><td class="user"><img class="photo32" src="'.
+                '<tr><td class="user"><img alt="User Photo" class="photo32" src="'.
                 $coreUri.'photo/'.$v.'.jpg?32='.$userService->getPhotoParam($v).
                 '" style="width:32px; height: 32px" alt="'.$cn.'" title="'.$cn.'"></td>'.
                 '<td><b>'.$cn.'</b><p class="gr">'.$this->trans('Created').': '.
@@ -624,9 +624,9 @@ class Task extends Object
                 }
 
                 $assigneeRow .= '<tr><td class="user"><div style="position: relative">'.
-                    '<img class="photo32" src="'.$coreUri.'photo/'.$id.'.jpg?32='.$userService->getPhotoParam($id).
+                    '<img alt="User Photo" class="photo32" src="'.$coreUri.'photo/'.$id.'.jpg?32='.$userService->getPhotoParam($id).
                     '" style="width:32px; height: 32px" alt="'.$un.'" title="'.$un.'">'.
-                    ($completed ? '<img class="done icon icon-tick-circle" src="/css/i/s.gif" />' : "").
+                    ($completed ? '<img alt="Completed Task" class="done icon icon-tick-circle" src="/css/i/s.gif" />' : "").
                     '</div></td><td><b>'.$un.'</b>'.
                     '<p class="gr" title="'.$cdt.'">'.(
                     $completed

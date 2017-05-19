@@ -132,7 +132,7 @@ Ext.define('CB.ViewPort', {
                 ,border: false
                 ,style: 'background: #f4f4f4; text-align: center; border-bottom: 1px solid #99bce8 !important'
                 ,bodyStyle: 'background: #f4f4f4'
-                ,html: '<img src="/logo.png" style="padding: 9px" />'
+                ,html: '<img alt="ACF ECMRS Logo" src="/logo.png" style="padding: 9px" />'
             })
             ,getState: function(){
                 var rez = {

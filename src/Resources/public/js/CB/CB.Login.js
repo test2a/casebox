@@ -25,7 +25,7 @@ Ext.define('CB.Login', {
                 ,layoutConfig: {columns: 2, padding: 0}
                 ,autoHeight: true
                 ,monitorValid: true
-                ,items: [{  html: '<img id="logo" style="padding-top: -15px" src="css/i/CaseBox-Logo_briefcase.png"/>'
+                ,items: [{  html: '<img id="logo" alt="ACF ECMRS Logo" style="padding-top: -15px" src="css/i/CaseBox-Logo_briefcase.png"/>'
                     ,cls: 'taC'
                     ,border: false
                     ,width: 130

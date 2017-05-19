@@ -20,7 +20,7 @@ Ext.define('CB.object.plugin.ContentItems', {
             ,'<tpl for=".">'
             ,'<tr class="{[ (xindex > this.displayLimit) ? \'more\' : ""]}">'
             ,'    <td class="obj">'
-            ,'        <img class="i16u {iconCls}" src="'+ Ext.BLANK_IMAGE_URL +'">'
+            ,'        <img alt="icon" class="i16u {iconCls}" src="'+ Ext.BLANK_IMAGE_URL +'">'
             ,'    </td>'
             ,'    <td>'
             ,'        <span class="click">{name}</span><br />'

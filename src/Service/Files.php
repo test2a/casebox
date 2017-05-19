@@ -1117,13 +1117,13 @@ class Files
                 }
 
                 $ids = implode(
-                    '" class="fit-img" style="margin: auto" />'."<br /><hr />\n".'<img src="/'.$coreName.'/view/',
+                    '" class="fit-img" style="margin: auto" />'."<br /><hr />\n".'<img alt="Converted Images" src="/'.$coreName.'/view/',
                     $convertedImages
                 );
 
                 file_put_contents(
                     $previewFilename,
-                    '<img src="/'.$coreName.'/view/'.$ids.'" class="fit-img" style="margin: auto" />'
+                    '<img src="/'.$coreName.'/view/'.$ids.'" alt="Converted Preview Image" class="fit-img" style="margin: auto" />'
                 );
                 break;
 
@@ -1131,7 +1131,7 @@ class Files
                 if ((substr($content['type'], 0, 5) == 'image') && (substr($content['type'], 0, 9) !== 'image/svg')) {
                     file_put_contents(
                         $previewFilename,
-                        '<div style="padding: 5px 10px"><img src="/c/'.$coreName.'/download/'.
+                        '<div style="padding: 5px 10px"><img alt="Converted Images" src="/c/'.$coreName.'/download/'.
                         $file['id'].
                         (empty($version_id) ? '' : '/'.$version_id).
                         '/" class="fit-img" style="margin: auto"></div>'

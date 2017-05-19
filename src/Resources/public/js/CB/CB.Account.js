@@ -161,7 +161,7 @@ Ext.define('CB.ProfileForm', {
 
         this.photoView = new Ext.DataView({
             tpl: ['<tpl for="."><div>'
-                ,'<img width="70" height="70" class="user-photo-field2 click icon-user70-{sex}" src="' + App.config.photoPath + '{id}.png?{[ Ext.Date.format(new Date(), "His") ]}">'
+                ,'<img width="70" alt="photo" height="70" class="user-photo-field2 click icon-user70-{sex}" src="' + App.config.photoPath + '{id}.png?{[ Ext.Date.format(new Date(), "His") ]}">'
                 ,'</div>'
                 ,'<div><a name="change" class="click">'+L.Change+'</a> &nbsp; <a name="remove" class="click">'+L.Delete+'</a></div>'
                 ,'</tpl>'
@@ -1161,7 +1161,7 @@ Ext.define('CB.TSVgaForm', {
         if(Ext.isEmpty(msg)) {
             msg = 'The code is incorrect. Try again';
         }
-        msg = '<img class="icon icon-exclamation fl" style="margin-right: 15px" src="/css/i/s.gif">'+ msg;
+        msg = '<img class="icon icon-exclamation fl" alt="exclamation" style="margin-right: 15px" src="/css/i/s.gif">'+ msg;
 
         var t = this.down('[name="errorMsg"]');
         t.setValue(msg);
@@ -1339,7 +1339,7 @@ Ext.define('CB.TSVybkForm', {
         if(Ext.isEmpty(msg)) {
             msg = 'The code is incorrect. Try again';
         }
-        msg = '<img class="icon icon-exclamation fl" style="margin-right: 15px" src="/css/i/s.gif">'+ msg;
+        msg = '<img class="icon icon-exclamation fl" alt="exclamation" style="margin-right: 15px" src="/css/i/s.gif">'+ msg;
         this.items.getAt(4).setValue(msg);
         this.items.getAt(4).setVisible(true);
     }

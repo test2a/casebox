@@ -559,7 +559,7 @@
 							var templateId = values.can.assessments[a];
 							var templateName = templatesStore.getProperty(templateId,'title');
 							var iconCls = CB.DB.templates.getIcon(templateId);
-							rez += '<img class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
+							rez += '<img alt="Template" class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
 						}
 						
 						return rez;

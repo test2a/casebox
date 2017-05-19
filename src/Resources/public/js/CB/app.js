@@ -636,7 +636,7 @@ function initApp() {
             if(Ext.isEmpty(v)) {
                 return '';
             }
-            return '<img src="/css/i/s.gif" class="icon '+v+'" /> '+v;
+            return '<img src="/css/i/s.gif" alt="icon" class="icon '+v+'" /> '+v;
         }
     };
 

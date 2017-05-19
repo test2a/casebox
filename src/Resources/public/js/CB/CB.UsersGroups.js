@@ -902,7 +902,7 @@ Ext.define('CB.UsersGroupsForm', {
         };
 
         this.userInfo = new Ext.DataView({
-            tpl: ['<img class="fl user-photo-field click icon-user32-{sex}" src="' + App.config.photoPath + '{id}.png?32={[ CB.DB.usersStore.getPhotoParam(values.id) ]}">'
+            tpl: ['<img alt="User Photo" class="fl user-photo-field click icon-user32-{sex}" src="' + App.config.photoPath + '{id}.png?32={[ CB.DB.usersStore.getPhotoParam(values.id) ]}">'
                 ,'<span class="fwB click">{title}</span>{[ (values.enabled != 1) ? \' - \' + L.Disabled : \'\' ]}<br />'
                 ,'<span class="cG">'+L.User+':</span> {name}, <span class="cG">'+L.lastAction+':</span> '
                   ,'{[ Ext.isEmpty(values.last_action_time) ? "" : values.last_action_time ]}<br />'

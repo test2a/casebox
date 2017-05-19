@@ -224,7 +224,7 @@ class Comments extends Base
             $rez = '<a class="click obj-ref" itemid="'.$file['id'].
                 '" templateid= "'.$file['template_id'].
                 '" title="'.$file['name'].
-                '"><img class="fit-img" src="/c/'.$c.'/download/'.$file['id'].'/" /></a>';
+                '"><img class="fit-img" alt="Download" src="/c/'.$c.'/download/'.$file['id'].'/" /></a>';
 
         } else {
             $rez = '<a class="click obj-ref icon-padding '.

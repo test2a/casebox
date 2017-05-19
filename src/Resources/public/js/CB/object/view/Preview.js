@@ -87,7 +87,7 @@ Ext.define('CB.object.view.Preview', {
             case '&#160':
                 this.update(
                     '<div style="margin-top: 40px; text-align:center; color: 555; font-weight: bold">'+
-                    '<img src="'+Ext.BLANK_IMAGE_URL+'" class="i16 d-loader" style="vertical-align:middle; margin-right: 5px"> '+L.generatingPreview+' &hellip; </div>'
+                    '<img alt="Loading" src="'+Ext.BLANK_IMAGE_URL+'" class="i16 d-loader" style="vertical-align:middle; margin-right: 5px"> '+L.generatingPreview+' &hellip; </div>'
                 );
                 this.delayReload();
                 break;
