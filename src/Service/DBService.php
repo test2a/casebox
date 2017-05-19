@@ -137,7 +137,7 @@ class DBService
             trigger_error('Error Database connections:'.__DIR__.' '.__FILE__.'('.__LINE__.')', E_USER_ERROR);
         }
 
-        $hideErrors = false;
+        $hideErrors = true;
 
         //replace old style params($1, $2, .. ) into pdo native (:p1, :p2, ...)
         $query = preg_replace('/\$(\d+)/', ':p$1', $query);
@@ -150,9 +150,9 @@ class DBService
             $parameters = [$parameters];
         }
 
-        if (!empty($parameters['hideErrors'])) {
-            $hideErrors = true;
-            unset($parameters['hideErrors']);
+        if (!empty($parameters['showErrors'])) {
+            $hideErrors = false;
+            unset($parameters['showErrors']);
         }
 
         if (!empty($parameters)) {
