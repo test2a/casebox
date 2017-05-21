@@ -128,6 +128,13 @@ class IndexController extends Controller
             $file['tmp_name'] = tempnam($configService->get('incomming_files_dir'), 'cbup');
             $file['name'] = urldecode($file['name']);
 
+		if (substr($file['type'], 0, 6) !== 'image/' && $file['type'] !== 'application/pdf' && (strrpos($file['type'], "document")=== false)) {
+			$result=['success' => false, 'msg' => 'Not an image'.$file['type']];
+			$result = json_encode($result);
+			return new Response($result, 200, ['Content-Type' => 'application/json', 'charset' => 'UTF-8']);
+        }
+
+			
             if (empty($file['content_id'])) {
                 Util\bufferedSaveFile('php://input', $file['tmp_name']);
             }

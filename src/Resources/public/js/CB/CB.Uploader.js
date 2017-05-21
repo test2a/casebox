@@ -160,7 +160,7 @@ Ext.define('CB.Uploader', {
                 msg: L.ErrorUploadingFile.replace(
                     '{name}'
                     ,this.uploadingFile.get('name')
-                )
+                ) + ': Improper File Format'
             });
 
             this.uploadNextFile();
