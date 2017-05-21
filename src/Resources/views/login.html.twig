@@ -6,6 +6,16 @@
     <link rel="stylesheet" type="text/css" href="/css/bs/css/bootstrap.min.css"/>
     <link rel="stylesheet" type="text/css" href="/css/bs/css/bootstrap-responsive.min.css"/>
     <link type='text/css' rel="stylesheet" href="/css/login.css"/>
+	<style id="antiClickjack">body{display:none !important;}</style>
+
+	<script type="text/javascript">
+	   if (self === top) {
+		   var antiClickjack = document.getElementById("antiClickjack");
+		   antiClickjack.parentNode.removeChild(antiClickjack);
+	   } else {
+		   top.location = self.location;
+	   }
+	</script>	
 </head>
 
 <body onload="javascript: e = document.getElementById('u'); if (!e) {e = document.getElementById('c'); } e.focus(); editChanged();">
