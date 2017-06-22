@@ -252,14 +252,14 @@ class Cases extends Object
 		
 		if (!empty($sd['full_address']))
 		{
-			/*$results = $this->lookup($sd['full_address']);
+			$results = $this->lookup($sd['full_address']);
 			if ($results != null)
 			{
 				$solrData['lat_lon'] = $results['latitude'] .','.$results['longitude'];
 				$solrData['full_address'] = $results['full_address'];
 				$solrData['county'] = $results['county'];
 				$solrData['location_type'] = $results['location_type'];	
-			}*/
+			}
 		}
 		
         if (!empty($sd['task_d_closed'])) {

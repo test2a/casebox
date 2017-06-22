@@ -5,6 +5,7 @@ namespace Casebox\CoreBundle\Service;
 use Casebox\CoreBundle\Service\DataModel as DM;
 use Casebox\CoreBundle\Service\Objects\Object;
 use Casebox\CoreBundle\Traits\TranslatorTrait;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class Notifications
@@ -41,13 +42,26 @@ class Notifications
             'limit' => $p['limit'],
         ];
 
-        return [
+		$rez = $this->getReport($p);
+		
+        /*return [
             'success' => true,
             'lastSeenActionId' => User::getUserConfigParam('lastSeenActionId', 0),
             'data' => $this->getRecords($params),
-        ];
+        ];*/
+		$rez['success'] = true;
+        return $rez;
+		
+		
     }
 
+	protected function rtrim_str($str, $trim) {
+	  if (substr($str, -strlen($trim)) == $trim) {
+		return substr($str, 0, -strlen($trim));
+	  }
+	  return $str; // String not present at end
+	}
+	
     /**
      * get new notification records
      *
@@ -81,6 +95,143 @@ class Notifications
         return $rez;
     }
 
+   /**
+     * get new report records
+     *
+     * @param  array $p containing fromId property
+     *
+     * @return array
+     */
+    public function getReport($p)
+    {
+		$obj = Objects::getCachedObject($p['reportId']);		
+		$objData = $obj->getData();
+		$configuration = \GuzzleHttp\json_decode($objData['data']['value'], true);
+		
+		if (!empty($configuration['DC'])) {
+            $columns = [];
+			$fl = [];
+            foreach ($configuration['DC'] as $colName => $col) {
+                if (@$col['hidden'] !== true) {
+                    $columns[$colName] = $col;
+					$fl[] = $col['solr_column_name'];
+                }
+            }
+        }
+       
+         if (!empty($p['teamId']))
+         {
+         	$p['fq'] = ['team_i:'.$p['teamId']];	
+         }
+         
+		 if ($p['reportId'] == "2728" || $p['reportId'] == "2729")
+		 {
+			if (empty($p['startDate']) && empty($p['endDate']))
+			{
+				$p['fq'] = ['report_dt:[NOW-7DAY/DAY TO NOW]'];	
+			}
+			else
+			{
+				if (empty($p['startDate'])) {
+					$p['startDate'] = '*';
+				}
+				else
+				{
+					$p['startDate'] = $p['startDate'] . 'T00:00:00.000Z';
+				}
+				if (empty($p['endDate'])) {
+					$p['endDate'] = '*';
+				}
+				else
+				{
+					$p['endDate'] = $p['endDate'] . 'T00:00:00.000Z';
+				}				
+				$p['fq'] = ['report_dt:['.$p['startDate'].' TO '.$p['endDate'].']'];
+			}
+			
+Cache::get('symfony.container')->get('logger')->error(
+			's',
+			(array) $p['fq']
+		);
+			$p['id'] = '11-Admin';
+			$p['from'] = 'grid';
+			$fq = $configuration['query'];
+
+			// check if fq is set and add it to result
+			if (!empty($p['fq'])) {
+				if (!is_array($p['fq'])) {
+					$p['fq'] = [$p['fq']];
+				}
+				$fq = array_merge($fq, $p['fq']);
+			}
+			$p['fq'] = $fq;
+			$p['fl'] = implode(',',$fl);
+			$s = new Search();
+			$rez = $s->query($p);		
+
+			$colTitles = [];
+			$colOrder = [];
+			$newcolumns = [];
+			$records = [];
+			$res = [];
+
+			$newcolumns['number'] = ["solr_column_name"=>'number',"title"=>'#',"width"=>100];
+			$newcolumns['title'] = ["solr_column_name"=>'title',"title"=>'Title',"width"=>200];
+			$i = 1;
+			foreach($columns as $t)
+			{
+				if ($t['solr_column_name'] !== 'report_dt') {
+				$record = [];
+				$record['number'] =  $i++;
+				$record['title'] = $t['title'];
+				foreach($rez['data'] as &$r)
+				{
+					$newcolumns[$r['report_dt']] = ["solr_column_name"=>$r['report_dt'],"title"=>substr($r['report_dt'],0,10),"width"=>100];
+					$record[$r['report_dt']] = $r[$t['solr_column_name']];
+				}
+				$records[]= $record;
+				}
+			}
+			unset($rez['data']);
+			$rez['data'] = $records;			
+			$columns = $newcolumns;
+		 }
+		 else
+		 {
+			$p['id'] = '11-Admin';
+			$p['from'] = 'grid';
+			$fq = $configuration['query'];
+
+			// check if fq is set and add it to result
+			if (!empty($p['fq'])) {
+				if (!is_array($p['fq'])) {
+					$p['fq'] = [$p['fq']];
+				}
+				$fq = array_merge($fq, $p['fq']);
+			}
+			$p['fq'] = $fq;
+			$p['fl'] = implode(',',$fl);
+			$s = new Search();
+			$rez = $s->query($p);			 
+		 }
+
+		$colTitles = [];
+        $colOrder = [];
+        foreach ($columns as $name => $col) {
+            $colTitles[] = empty($defaultColumns[$name]) ? @Util\coalesce($col['title'], $name) : $defaultColumns[$name]['title'];
+            $colOrder[] = $name;
+        }
+		
+		$rez['title'] = $configuration['title'];
+		$rez['groupField'] = $configuration['groupField'];
+		$rez['columns'] = $columns;
+		$rez['colTitles'] = $colTitles;
+		$rez['colOrder'] = $colOrder;
+		
+        return $rez;
+    }	
+	
+	
     /**
      * update last seen laction id
      * @return array response

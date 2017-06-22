@@ -241,6 +241,7 @@ class Minify
                 'js/CB/object/field/editor/Tag.js',
                 'js/CB/view/BoundListKeyNav.js',
                 'js/CB/notifications/View.js',
+                'js/CB/notifications/Reports.js',				
                 'js/CB/notifications/SettingsWindow.js',
             ],
 

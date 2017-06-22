@@ -517,6 +517,14 @@ Ext.define('CB.browser.ViewContainer', {
             }
         });
 
+        this.notificationsReport = new CB.notifications.Reports({
+            listeners: {
+                scope: this
+                ,beforeactivate: this.onBeforeContainersPanelItemChange
+                ,activate: this.onContainersPanelItemChange
+            }
+        });		
+		
         this.objectEditView = new CB.object.edit.View({
             listeners: {
                 scope: this
@@ -550,6 +558,7 @@ Ext.define('CB.browser.ViewContainer', {
                             this.cardContainer
                             ,this.notificationsView
                             ,this.objectEditView
+							,this.notificationsReports							
                         ]
                     }
                     ,this.objectPanel

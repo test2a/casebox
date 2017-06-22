@@ -167,6 +167,7 @@ Ext.define('CB.ViewPort', {
                 this.breadcrumb
                 ,this.searchField
                 //,this.buttons.toggleNotificationsView  //Dumbing down Apprio
+				,toggleNotificationsReports: new Ext.Button(this.actions.toggleNotificationsReports)				
                 ,{
                     scale: 'large'
                     ,arrowVisible: false
@@ -238,6 +239,18 @@ Ext.define('CB.ViewPort', {
                 ,handler: this.onToggleFilterPanelClick
             })
 
+            ,toggleNotificationsReports: new Ext.Action({
+                tooltip: L.Notifications
+                ,itemId: 'toggleNotificationsReports'
+                // ,enableToggle: true
+                ,iconCls: 'im-assignment'
+                ,cls: 'numbersButton'
+                ,text: ''
+                ,scale: 'large'
+                ,scope: this
+                ,handler: this.onToggleNotificationsReportsClick
+            })			
+			
             ,toggleNotificationsView: new Ext.Action({
                 tooltip: L.Notifications
                 ,itemId: 'toggleNotifications'
@@ -341,6 +354,17 @@ Ext.define('CB.ViewPort', {
             : 1
         );
     }
+	
+    ,onToggleNotificationsReportsClick: function(b, e) {
+        var cpl = App.explorer.containersPanel.getLayout()
+            ,hideNotifications = cpl.activeItem.isXType('CBNotificationsReports');
+
+        cpl.setActiveItem(
+            hideNotifications
+            ? Ext.valueFrom(App.explorer.previousActiveView, 0)
+            : 3
+        );
+    }	
 
     ,onLogin: function(){
         /* adding menu items */
