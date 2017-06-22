@@ -167,7 +167,7 @@ Ext.define('CB.ViewPort', {
                 this.breadcrumb
                 ,this.searchField
                 //,this.buttons.toggleNotificationsView  //Dumbing down Apprio
-				,toggleNotificationsReports: new Ext.Button(this.actions.toggleNotificationsReports)				
+				,this.buttons.toggleNotificationsReports				
                 ,{
                     scale: 'large'
                     ,arrowVisible: false
@@ -278,6 +278,7 @@ Ext.define('CB.ViewPort', {
             toggleLeftRegion: new Ext.Button(this.actions.toggleLeftRegion)
             ,toggleFilterPanel: new Ext.Button(this.actions.toggleFilterPanel)
             ,toggleNotificationsView: new Ext.Button(this.actions.toggleNotificationsView)
+			,toggleNotificationsReports: new Ext.Button(this.actions.toggleNotificationsReports)			
             ,create: new Ext.Button({
                 qtip: L.New
                 ,itemId: 'create'
