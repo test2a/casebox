@@ -517,7 +517,7 @@ Ext.define('CB.browser.ViewContainer', {
             }
         });
 
-        this.notificationsReport = new CB.notifications.Reports({
+        this.notificationsReports = new CB.notifications.Reports({
             listeners: {
                 scope: this
                 ,beforeactivate: this.onBeforeContainersPanelItemChange
