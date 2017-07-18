@@ -918,6 +918,7 @@ Ext.define('CB.VerticalEditGrid', {
         if(!this.syncRecordsWithHelper()) {
             this.getView().refresh();
         } else {
+			this.gainFocus('next');		
             this.fireEvent('restorescroll', this);
         }
 
