@@ -272,14 +272,15 @@ Ext.define('CB.object.edit.Form', {
     }
 
     ,saveScroll: function() {
-        this.lastScroll = this.body.getScroll();
+        this.lastScroll = this.ownerCt.body.getScroll();
 
         return this.lastScroll;
     }
 
     ,restoreScroll: function() {
-        this.body.setScrollLeft(this.lastScroll.left);
-        this.body.setScrollTop(this.lastScroll.top);
+        this.ownerCt.body.setScrollLeft(this.lastScroll.left);
+        this.ownerCt.body.setScrollTop(this.lastScroll.top);
+		
     }
 
     /**

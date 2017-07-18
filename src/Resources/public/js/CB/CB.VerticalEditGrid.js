@@ -735,6 +735,16 @@ Ext.define('CB.VerticalEditGrid', {
 
             navModel.focusPosition(cell);
         }
+		else
+		{
+			if(position === 'next') {
+				sm.select({row: this.store.getCount() -1, column: 1});
+				navModel.setPosition(this.store.getCount()-1, 1);
+			}else if(position === 'previous') {
+				sm.select({row: 0, column: 1});
+				navModel.setPosition(0, 1);			
+			}
+		}
 
         return rez;
     }
