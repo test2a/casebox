@@ -1,5 +1,5 @@
-{
-  "title": "OHSEPR ECMRS Dashboard",
+﻿{
+  "title": "ECMRS Dashboard",
   "services": {
     "query": {
       "idQueue": [
@@ -1857,10 +1857,24 @@
   },
   "solr": {
     "server": "/solr/",
-    "core_name": "default",
+    "core_name": "ecmrs",
     "core_list": [
-      "default",
-      "default_log"
+      "cms",
+      "cms_log",
+      "ecmrs",
+      "ecmrs_log",
+      "ecmrsss",
+      "ecmrsss_log",
+      "petescore",
+      "petescore_log",
+      "rmsdev",
+      "rmsdev_log",
+      "seed",
+      "seed_log",
+      "testit",
+      "testit_log",
+      "testitss",
+      "testitss_log"
     ],
     "global_params": ""
   },
