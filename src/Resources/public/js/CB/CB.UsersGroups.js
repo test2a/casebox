@@ -1124,7 +1124,8 @@ Ext.define('CB.UsersGroupsForm', {
             this.canEditUserData = (
                 App.loginData.admin ||
                 (response.data.cid == App.loginData.id) ||
-                (response.data.id == App.loginData.id)
+                (response.data.id == App.loginData.id)  || 
+				(App.loginData.cfg.canAddUsers)
             );
 
             var ttb = this.dockedItems.getAt(0)

@@ -1707,7 +1707,7 @@ class Security
      */
     public static function canEditUser($user_id)
     {
-        return (Security::isAdmin() || Security::isUsersOwner($user_id) || (User::getId() == $user_id));
+        return (Security::isAdmin() || Security::canAddUser() || Security::isUsersOwner($user_id) || (User::getId() == $user_id));
     }
 
     /**
