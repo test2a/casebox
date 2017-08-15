@@ -161,6 +161,7 @@ class Minify
                 'js/CB/plugin/CustomInterface.js',
                 'js/CB/plugin/field/DropDownList.js',
                 'js/CB/plugin/field/RemainingCharsHint.js',
+				'js/CB/plugin/PlacesProxy.js',
                 'js/ux/Ext.ux.htmlEditor.js',
                 'js/ux/Ext.ux.plugins.defaultButton.js',
                 // 'js/ux/Ext.ux.plugins.IconCombo.js',

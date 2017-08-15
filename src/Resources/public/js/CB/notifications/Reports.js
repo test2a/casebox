@@ -559,8 +559,8 @@ Ext.define('CB.notifications.Reports', {
 		var  params = {
                  reportId: this.rowsCombo.value,
                  teamId: this.teamsCombo.value,
-                 endDate: Ext.Date.format(this.endDate.value, 'm-d-Y'),
-                 startDate: Ext.Date.format(this.startDate.value, 'm-d-Y'),				 
+                 endDate: Ext.Date.format(this.endDate.value, 'Y-m-d'),
+                 startDate: Ext.Date.format(this.startDate.value, 'Y-m-d'),				 
                  courseId: this.coursesCombo.value,
                  ynId: this.yesNoCombo.value,
                  end: Ext.Date.format(new Date(), 'm-d-Y'),

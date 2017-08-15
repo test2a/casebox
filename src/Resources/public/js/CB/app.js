@@ -1325,37 +1325,23 @@ function initApp() {
                 rez.show();
                 break;
 
-            case 'geoPoint':
-                if(tr && (tr.get('cfg').editor === 'form')) {
-                    e.cancel = true;
-
-                    rez = Ext.create('CB.LeafletWindow', {
-                        title: L.Map
-                        ,data: {
-                            value: e.record.get('value')
-                            ,cfg: tr.get('cfg')
-                            ,scope: e
-                            ,callback: function(w, v){
-                                this.originalValue = this.record.get('value');
-                                this.value = v;
-                                this.record.set('value', v);
-                                if(this.grid.onAfterEditProperty) {
-                                    this.grid.onAfterEditProperty(this, this);
-                                }
-                            }
-                        }
-                    });
-                    rez.on('destory', e.grid.gainFocus, e.grid);
-                    rez.show();
-
-                } else {
-                    rez = new Ext.form.TextField({
-                        enableKeyEvents: true
-                        ,maskRe: /[\-\d\.,]/
-                    });
-
-                }
-                break;
+				case 'geoPoint':
+						 rez = new Ext.form.field.ComboBox({
+							store: {
+								fields: [
+									{name: 'id'},
+									{name: 'description'}
+								],
+								proxy: 'google-places'
+							},
+							enableKeyEvents: true,
+							queryMode: 'remote',
+							displayField: 'description',
+							valueField: 'description',
+							hideTrigger: true,
+							forceSelection: true
+						});
+				break;
 
             default:
                 rez = new Ext.form.TextField({
