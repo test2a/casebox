@@ -1,4 +1,4 @@
-﻿{
+{
   "title": "ECMRS Dashboard",
   "services": {
     "query": {
@@ -1857,7 +1857,7 @@
   },
   "solr": {
     "server": "/solr/",
-    "core_name": "ecmrs",
+    "core_name": "casebox",
     "core_list": [
       "cms",
       "cms_log",
