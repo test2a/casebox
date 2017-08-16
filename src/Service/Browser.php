@@ -627,6 +627,20 @@ class Browser
             }
         }
 
+		if (!empty($p['DC'])) {
+            foreach ($p['DC'] as $dctitle => $dc) {
+				$fieldName=	$dc['solr_column_name'];
+				if (!empty($fieldName))
+				{
+					$p['fl'] .= ','.$fieldName;	
+				}
+				else
+				{
+					$p['fl'] .= ','.$dctitle;	
+				}
+			}
+        }	     		
+		
         //increase number of returned items
         if (!isset($p['rows'])) {
             if (!isset($p['limit'])) {
@@ -660,6 +674,10 @@ class Browser
 			$this->setCustomIcons($rez['data']);
 		}
 
+		if (empty($rez['DC'])) {
+            $rez['DC'] = $p['DC'];
+        }				
+		
         if (empty($rez['DC'])) {
             $rez['DC'] = [
                 'name' => [
