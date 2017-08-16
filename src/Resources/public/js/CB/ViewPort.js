@@ -252,10 +252,10 @@ Ext.define('CB.ViewPort', {
             })			
 			
             ,toggleNotificationsView: new Ext.Action({
-                tooltip: L.Notifications
+                tooltip: 'Situational Dashboard'
                 ,itemId: 'toggleNotifications'
                 // ,enableToggle: true
-                ,iconCls: 'im-notifications'
+                ,iconCls: 'im-external'
                 ,cls: 'numbersButton'
                 ,text: ''
                 ,scale: 'large'
@@ -346,14 +346,7 @@ Ext.define('CB.ViewPort', {
     }
 
     ,onToggleNotificationsViewClick: function(b, e) {
-        var cpl = App.explorer.containersPanel.getLayout()
-            ,hideNotifications = cpl.activeItem.isXType('CBNotificationsView');
-
-        cpl.setActiveItem(
-            hideNotifications
-            ? Ext.valueFrom(App.explorer.previousActiveView, 0)
-            : 1
-        );
+        window.open('/d/index.html');
     }
 	
     ,onToggleNotificationsReportsClick: function(b, e) {

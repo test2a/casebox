@@ -51,8 +51,8 @@ class PivotFacet extends StringsFacet
         $this->solrData = [];
         $cfg = &$this->config;
 
-        if (!empty($cfg['field']) && !empty($solrResult->facet_pivot->{$cfg['field']})) {
-            $this->solrData = $solrResult->facet_pivot->{$cfg['field']};
+        if (!empty($cfg['field']) && !empty($solrResult->facet_counts->facet_pivot->{$cfg['field']})) {
+            $this->solrData = $solrResult->facet_counts->facet_pivot->{$cfg['field']};
 
             if (!empty($statsSolrResult) && !empty($statsSolrResult->stats)) {
                 $this->totalStats = $statsSolrResult->stats;
