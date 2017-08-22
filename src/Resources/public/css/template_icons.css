@@ -35,12 +35,27 @@
 .icon-zone          { background-image: url(i/ico/zone.png) !important; background-position: 0 50%; background-repeat: no-repeat}
 .icon-applicant         { background-image: url(i/ico/user-white.png) !important; background-position: 0 50%; background-repeat: no-repeat;}
 .icon-suspect			{ background-image: url(i/ico/user-thief-baldie.png) !important; background-position: 0 50%; background-repeat: no-repeat;}
-.icon-assessment-child	{ background-image: url(i/ico/Adult_and_child.png) !important; background-position: 0 50%; background-repeat: no-repeat }
-.icon-assessment-food	{ background-image: url(i/ico/apple.png) !important; background-position: 0 50%; background-repeat: no-repeat }
-.icon-assessment-transportation	{ background-image: url(i/ico/Car.png) !important; background-position: 0 50%; background-repeat: no-repeat }
-.icon-assessment-employment	{ background-image: url(i/ico/Checklist.png) !important; background-position: 0 50%; background-repeat: no-repeat }
-.icon-assessment-language	{ background-image: url(i/ico/hiii-md.png) !important; background-position: 0 50%; background-repeat: no-repeat }
-.icon-assessment-senior-services	{ background-image: url(i/ico/Senior-Citizen.png) !important; background-position: 0 50%; background-repeat: no-repeat }
-.icon-assessment-clothing	{ background-image: url(i/ico/shirt-md.png) !important; background-position: 0 50%; background-repeat: no-repeat }
-.icon-assessment-behavioral	{ background-image: url(i/ico/Silhouette_of_a_brain.png) !important; background-position: 0 50%; background-repeat: no-repeat }
-.icon-assessment-appliances	{ background-image: url(i/ico/Stove-th.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-child	{ background-image: url(i/ico/children.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-food	{ background-image: url(i/ico/food.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-transportation	{ background-image: url(i/ico/transportation.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-employment	{ background-image: url(i/ico/employment.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-language	{ background-image: url(i/ico/language.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-senior-services	{ background-image: url(i/ico/senior.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-clothing	{ background-image: url(i/ico/clothing.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-behavioral	{ background-image: url(i/ico/behavioralhealth.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-appliances	{ background-image: url(i/ico/furniture.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-legal	{ background-image: url(i/ico/legal.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-healthinsurance	{ background-image: url(i/ico/healthinsurance.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-housing	{ background-image: url(i/ico/housing.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-finances	{ background-image: url(i/ico/finances.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-disabilities	{ background-image: url(i/ico/disabilities.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-domestic	{ background-image: url(i/ico/domestic.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-address	{ background-image: url(i/ico/address.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-casenote	{ background-image: url(i/ico/casenote.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-client	{ background-image: url(i/ico/client.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-familymember	{ background-image: url(i/ico/familymember.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-referral	{ background-image: url(i/ico/referral.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-service	{ background-image: url(i/ico/service.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-new1	{ background-image: url(i/ico/new1.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-new2	{ background-image: url(i/ico/new2.png) !important; background-position: 0 50%; background-repeat: no-repeat }
+.icon-assessment-new3	{ background-image: url(i/ico/new3.png) !important; background-position: 0 50%; background-repeat: no-repeat }
