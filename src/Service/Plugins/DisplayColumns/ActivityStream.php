@@ -79,7 +79,7 @@ class ActivityStream extends Base
             }
 			$data[] = ['id'=>$r['id'], 'pid'=>$r['object_pid'], 'diff'=>$diff,'case_id'=>$caseId,'acl_count'=>0, 'system'=>0, 'oid'=>1,'cid'=>$r['user_id'],
 			'name'=>$oldName, 'comments'=>['success'=>true,'data'=>[],'total'=>0], 
-			lastAction=>[type=>$r['action_type'].'d','time'=>$r['action_time'],'users'=>[$r['user_id']],'users'=>"1",'agoText'=>Util\formatAgoTime($r['action_time']),'uids'=>[$r['user_id']]]];
+			'lastAction'=>['type'=>$r['action_type'].'d','time'=>$r['action_time'],'users'=>[$r['user_id']],'users'=>"1",'agoText'=>Util\formatAgoTime($r['action_time']),'uids'=>[$r['user_id']]]];
 				
         }
     }
