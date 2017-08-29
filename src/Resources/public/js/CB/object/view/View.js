@@ -196,14 +196,18 @@
 				items: []
 			});
 			//527,289,311,607,61,510,533,553,482,1120,455,505,559,489,440,656,1175,651,172
-			var clientIntakeMenu = '289,311';
+			var addressesMenu = '311';
+			var familymembersMenu = '289';
 			var assessmentMenu = '510,533,553,482,1120,455,505,559,489,440,656,1175,651,172';
 			var taskMenu = '7';
 			var recoveryMenu = '527'
 			var referralMenu = '607';
-			var clientIntakeData=[];
-			clientIntakeData.data = [];
-			clientIntakeData.limit = 100;
+			var familymembersData=[];
+			familymembersData.data = [];
+			familymembersData.limit = 100;
+			var addressesData=[];
+			addressesData.data = [];
+			addressesData.limit = 100;
 			var assessmentData=[];		
 			assessmentData.data = [];	
 			assessmentData.limit = 100;
@@ -221,10 +225,14 @@
 				Ext.iterate(
 					r.data.contentItems.data
 					,function(k, v, o) {
-					   if (clientIntakeMenu.indexOf(k.template_id) >=  0)
+					   if (familymembersMenu.indexOf(k.template_id) >=  0)
 					   {
-						   clientIntakeData.data.push(k);
+						   familymembersData.data.push(k);
 					   }
+					   if (addressesMenu.indexOf(k.template_id) >=  0)
+					   {
+						   addressesData.data.push(k);
+					   }					   
 					   if (assessmentMenu.indexOf(k.template_id) >=  0)
 					   {
 						   assessmentData.data.push(k);
@@ -263,42 +271,7 @@
 			var content = Ext.create('CBObjectPluginObjectProperties',{params:params});
 			r.data.objectProperties.data.preview[0] = r.data.objectProperties.data.preview[2];
 			content.onLoadData(r.data.objectProperties);
-			c.add(content);
-
-			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
-			var clientData = [];
-			var client = Ext.copyTo(
-				{}
-				,r.data.objectProperties
-				,'data,id,pids,path,name,template_id,status,statusCls,cid,cdate_ago_text,uid,udate_ago_text,preview,can'
-			);
-			clientData[0] = client.data;
-			clientData[0].ago_text = client.data.udate_ago_text;
-			clientData[0].user = 'Last Updated';
-			client.data = clientData;
-			content.onLoadData(client);		
-			c.add(content);
-			content.updateTitle('Client Intake');
-			content.actions.add.setHidden(true);
-			
-			content  = Ext.create('CBObjectPluginFiles',{params: params})		
-			content.createMenu = r.menu;	
-			if (Ext.isDefined(r.data.files))
-			{			
-			content.title = 'Files' + ' [' +r.data.files.data.length+']';
-			content.onLoadData(r.data.files);
-			}
-			c.add(content);
-			content.updateTitle('Files/Consent Form');
-			content  = Ext.create('CBObjectPluginComments',{params: params})		
-			content.createMenu = r.menu;				
-			
-			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
-			content.createMenu = clientIntakeMenu;	
-			content.title = 'Face Sheet';
-			content.onLoadData(clientIntakeData);		
-			c.add(content);
-			content.updateTitle('Family Member/Alternative Address');
+			c.add(content);			
 			
 			/*if (Ext.isDefined(r.data.comments))
 			{			
@@ -534,7 +507,6 @@
 						,'<div class="obj-header" style="text-align:left"><b class="{titleCls}">{[ Ext.String.htmlEncode(Ext.valueFrom(values.name, \'\')) ]}</b> &nbsp;'
 							,'{[ this.getStatusInfo(values) ]}'
 							,'{preview}'
-								,'{[ this.getTitleInfo(values) ]}'
 							,'</div>'
 						,'</div>'
 						 ,{
