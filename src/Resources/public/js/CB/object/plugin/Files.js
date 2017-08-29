@@ -149,6 +149,7 @@ Ext.define('CB.object.plugin.Files', {
 
     ,onObjectsDeleted: function(ids) {
         this.store.deleteIds(ids);
+	this.dropPanel.show();
     }
 
 	,updateTitle: function(title)  {
@@ -185,6 +186,10 @@ Ext.define('CB.object.plugin.Files', {
             }
             this.store.loadData(r.data);
         }
+	else
+	{
+	    this.dropPanel.show();
+	}	    
     }
 
     ,onItemClick: function (cmp, record, item, index, e, eOpts) {//dv, index, el, e
@@ -303,7 +308,7 @@ Ext.define('CB.object.plugin.Files', {
                 ,ev
             );
 
-            this.hideDropPanel();
+            //this.hideDropPanel();
         }
     }
 
