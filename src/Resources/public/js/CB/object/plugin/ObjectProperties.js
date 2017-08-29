@@ -18,7 +18,7 @@ Ext.define('CB.object.plugin.ObjectProperties', {
         });
 
         this.callParent(arguments);
-
+	App.mainViewPort.on('objectsdeleted', this.onObjectsDeleted, this);
         this.enableBubble(['timespentclick', 'addtimespentclick']);
     }
 
@@ -37,7 +37,9 @@ Ext.define('CB.object.plugin.ObjectProperties', {
             this.html = html;
         }
     }
-
+	,onObjectsDeleted: function(r, e) {
+		App.fireEvent('objectchanged', this.params, this);
+	}
     ,attachEvents: function(){
         var a = this.getEl().query('a.click');
         Ext.each(
@@ -162,7 +164,40 @@ Ext.define('CB.object.plugin.ObjectProperties', {
          this.getEl().mask('Assigning ...', 'x-mask-loading');
 		 CB_Tasks.setUserStatus({id: this.params.id,userId: -1}, this.onItemChange, this);
     }	
-	
+,onActionEditClick: function(ev, el) {
+	        App.windowManager.openObjectWindow(this.params);
+
+	     }
+	    ,onActionEditContentClick: function(ev, el) {
+	        this.forUserId = el.attributes.getNamedItem('myId').value;
+	        this.forUserPid = el.attributes.getNamedItem('myPid').value;
+	         this.forTemplateId = el.attributes.getNamedItem('templateId').value;
+	        App.windowManager.openObjectWindow({id:this.forUserId, pid: this.forUserPid,template_id:this.forTemplateId});
+	     }
+	     ,onActionAddContentClick: function(ev, el) {
+	        this.forUserId = el.attributes.getNamedItem('myPid').value;
+	         this.forTemplateId = el.attributes.getNamedItem('templateId').value;
+	        App.windowManager.openObjectWindow({pid:this.forUserId,template_id:this.forTemplateId});
+	     }
+	     ,onActionRemoveContentClick: function(ev, el) {
+	        this.forUserId = el.attributes.getNamedItem('myId').value;
+	        this.forUserPid = el.attributes.getNamedItem('myPid').value;
+	         this.forTemplateId = el.attributes.getNamedItem('templateId').value;
+	         this.myName =  el.attributes.getNamedItem('myName').value;
+	         App.mainViewPort.onDeleteObject({id:this.forUserId, pid: this.forUserPid, template_id:this.forTemplateId, name:this.myName});
+	     }
+	     ,onActionUploadClick: function(ev, el) {
+	     	 App.mainViewPort.fireEvent(
+          	  'fileupload',{ pid: this.params.id }
+          	   ,ev
+      	 	 );  
+	     }
+	     ,onActionFileClick: function(ev, el) {
+	     	this.forUserId = el.attributes.getNamedItem('fid').value;
+	        App.windowManager.openObjectWindow({id:this.forUserId,template_id:6});
+	        //App.downloadFile(this.forUserId);
+	         
+	     }	
     ,onActionCloseClick: function(ev, el) {
         this.getEl().mask(L.CompletingTask + ' ...', 'x-mask-loading');
         CB_Tasks.close(this.params.id, this.onItemChange, this);
