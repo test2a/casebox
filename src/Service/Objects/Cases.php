@@ -10,6 +10,8 @@ use Casebox\CoreBundle\Service\Util;
 use Casebox\CoreBundle\Service\User;
 use Casebox\CoreBundle\Service\Log;
 use Casebox\CoreBundle\Service\Solr\Client;
+use Casebox\CoreBundle\Service\Objects\Plugins\Files;
+use Casebox\CoreBundle\Service\Objects\Plugins\ContentItems;
 
 /**
  * Class Cases
@@ -231,6 +233,9 @@ class Cases extends Object
 			'task_u_ongoing',
 			'lat_lon',
 			'county',
+			'street_s',
+			'city_s',
+			'state_s',
 			'location_type',
             'at_risk_population_ss',
             'identified_unmet_needs_ss'
@@ -256,8 +261,11 @@ class Cases extends Object
 			if ($results != null)
 			{
 				$solrData['lat_lon'] = $results['latitude'] .','.$results['longitude'];
-				$solrData['full_address'] = $results['full_address'];
+				$solrData['full_address'] = $results['street'];//$results['full_address'];
 				$solrData['county'] = $results['county'];
+				$solrData['street_s'] = $results['street'];
+				$solrData['city_s'] = $results['city'];
+				$solrData['state_s'] = $results['state'];				
 				$solrData['location_type'] = $results['location_type'];	
 			}
 		}
@@ -327,6 +335,10 @@ class Cases extends Object
 			'longitude' => $geometry['location']['lng'],
 			'latitude' => $geometry['location']['lat'],
 			'location_type' => $geometry['location_type'],
+			'street_number' => $location['street_number'],
+			'street' => $location['street_number']. ' ' . $location['street'],
+			'city' => $location['locality'],	
+			'state' => $location['admin_1'],				
 			'full_address' => $response['results'][0]['formatted_address'],
 			'county' => $location['admin_2']
 		);
@@ -367,7 +379,16 @@ class Cases extends Object
 			unset($sd[$property]);
 			if ($this->getFieldValue('_' . $property, 0)['value'] != null) {
 				$obj = Objects::getCachedObject($this->getFieldValue('_' . $property, 0)['value']);
-				$sd[$property] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+				if ($property == 'fematier')
+				{
+					$arr = explode(" -", $obj->getHtmlSafeName(), 2);
+					$first = $arr[0];
+					$sd[$property] = $first;
+				}
+				else
+				{
+					$sd[$property] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+				}
 			}
         }
         $arrayproperties = [
@@ -390,20 +411,8 @@ class Cases extends Object
         }
 		$sd['full_address'] = '';
 		
-        if ($this->getFieldValue('_street', 0)['value'] != null) {
-         $sd['full_address'] = $this->getFieldValue('_street', 0)['value'];
-        }
-		
-        if ($this->getFieldValue('_city', 0)['value'] != null) {
-         $sd['full_address'] = $sd['full_address']. " " . $this->getFieldValue('_city', 0)['value'];
-        }
-		
-        if ($this->getFieldValue('_state', 0)['value'] != null) {
-         $sd['full_address'] = $sd['full_address'] . " " . $this->getFieldValue('_state', 0)['value'];
-        }
-
-        if ($this->getFieldValue('_zip', 0)['value'] != null) {
-         $sd['full_address'] = $sd['full_address'] . " " . $this->getFieldValue('_zip', 0)['value'];
+        if ($this->getFieldValue('_fulladdress', 0)['value'] != null) {
+         $sd['full_address'] = $this->getFieldValue('_fulladdress', 0)['value'];
         }		
 		
         $sd['task_due_date'] = $this->getFieldValue('due_date', 0)['value'];
@@ -762,7 +771,7 @@ class Cases extends Object
         $rez = [
             // 'edit' => $canEdit
 			'assessments'=>array_values($sd['solr']['assessments_needed']),
-			'referrals'=>array_values($sd['solr']['referrals_started']),
+			'referrals'=>array_values(!empty($sd['solr']['referrals_started'])?$sd['solr']['referrals_started']:null),
             'close' => $canEdit,
             'reopen' => ($isClosed && $isOwner)//,
             //'complete' => (!$isClosed && ($this->getUserStatus($userId) == static::$USERSTATUS_ONGOING)),
@@ -830,13 +839,13 @@ class Cases extends Object
 		if (!empty($sd['solr']['assessments_needed'])) {
 			$actionsLine = count($sd['solr']['assessments_needed']) . " Assessments Needed - ";
 		}*/
-		
+		$demographicsLine = '#'.$data['id']. " - ";
 		if (!empty($sd['solr']['gender'])) {
-			$demographicsLine = $sd['solr']['gender'] . " - ";
+			$demographicsLine = $demographicsLine . $sd['solr']['gender'] . " - ";
 		}
 		else
 		{
-			$demographicsLine = "Gender not collected" . " - ";
+			$demographicsLine = $demographicsLine . "Gender not collected" . " - ";
 		}		
 		if (!empty($sd['solr']['race'])) {
 			$demographicsLine = $demographicsLine . $sd['solr']['race'] . " - ";
@@ -909,7 +918,7 @@ class Cases extends Object
 		}		
 		
 		if (!empty($sd['solr']['full_address'])) {
-			$addressLine = $addressLine . $sd['solr']['full_address']. " - ";
+			$addressLine = $addressLine .'<br/>'. $sd['solr']['full_address']. " - ";
 		}
 		else
 		{
@@ -963,8 +972,8 @@ class Cases extends Object
 			$assigneeRow .= '<td class="prop-key" width="15%" style="width:15%">'.$this->trans(
                     'Case Manager'
                 ).':</td><td width="35%"><table class="prop-val people"><tbody><tr><td>'.
-				'<a class="bt item-action click" action="assign" uid="'.User::getId().
-				'">Assign client to me</a></td>';
+				'<b><a class="bt item-action click" action="assign" uid="'.User::getId().
+				'">Assign client to me</a></b></td>';
 		}
         else // (!empty($v['value'])) {
 			{
@@ -1024,6 +1033,35 @@ class Cases extends Object
 		
         $rtl = empty($this->configService->get('rtl')) ? '' : ' drtl';
 
+			$filePlugin = new Files();
+			$files = $filePlugin->getData($data['id']);
+			
+			$fileInfo = '<b><a class="bt item-action click" action="upload" uid="'.User::getId().'">Upload Consent Form</a></b>';
+			
+			foreach ($files['data'] as $file) {
+				$fileInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr>    <td class="obj" width="5%">     <img alt="Icon" class="file- file- file-pdf" src="/css/i/s.gif">   </td>    <td width="95%"><b><a class="bt item-action click" action="file" fid="'.$file['id'].'">'.$file['name'].'</a></b><br>        <span class="gr" title="'.$file['cdate'].'">Uploaded:' .Util\formatAgoTime($file['cdate']).'</span>    </td></tr></table>';
+			}
+			$contentItems = new ContentItems();
+			$items = $contentItems->getData($data['id']);
+			
+			$addressInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%">';
+			$familyMemberInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%">';
+			
+			foreach ($items['data'] as $item) {
+				if ($item['template_id'] == 289)
+				{
+					 $familyMemberInfo = $familyMemberInfo.'<tr>    <td class="obj" width="5%">        <img alt="icon" class="i16u icon-assessment-familymember" src="/css/i/s.gif">    </td>    <td width="95%"><b><a class="bt item-action click" myPid="'.$data['id'].'" action="editContent" templateId="289" myId="'.$item['id'].'">'.$item['name'].'</a></b><br>        <span class="gr" title="'.$item['cdate'].'">Updated:'. $item['ago_text'].'- <a class="bt item-action click" myName="Family Member" action="removeContent" templateId="289" myPid="'.$data['id'].'" myId="'.$item['id'].'">Remove</a></span>    </td></tr>';
+				}
+				if ($item['template_id'] == 311)
+				{
+					 $addressInfo = $addressInfo.'<tr>    <td class="obj" width="5%">        <img alt="icon" class="i16u icon-assessment-address" src="/css/i/s.gif">    </td>    <td width="95%"><b><a class="bt item-action click" action="editContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'">'.$item['name'].'</a></b><br>        <span class="gr" title="'.$item['cdate'].'">Updated:'. $item['ago_text'].'- <a class="bt item-action click" myName="Address" action="removeContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'">Remove</a></span>    </td></tr>';
+				}
+			}	
+			$familyMemberInfo = $familyMemberInfo.'<tr>    <td width="5%" class="obj"> <a class="bt item-action click" action="addContent" templateId="289" myPid="'.$data['id'].'">   <img alt="icon" class="i16u icon-plus"  action="addContent" templateId="289" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a>  </td>    <td width="95%"><b><a class="bt item-action click" action="addContent" templateId="289" myPid="'.$data['id'].'">Add Family Member</a></b></td></tr></table>';
+			$addressInfo = $addressInfo.'<tr>    <td width="5%" class="obj">     <a class="bt item-action click" action="addContent" templateId="311" myPid="'.$data['id'].'">   <img alt="icon" class="i16u icon-plus"  action="addContent" templateId="311" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a>   </td>    <td width="95%"><b><a class="bt item-action click" action="addContent" templateId="311" myPid="'.$data['id'].'">Add Address</a></b></td></tr></table>';
+			
+
+
         $pb[0] = '<table class="obj-preview'.$rtl.'"><tbody>'.
             $dateLines.
             $p.
@@ -1032,13 +1070,12 @@ class Cases extends Object
             $contentRow.
             '<tbody></table>';
         $pb[1] = 
-            '<div class="info" width="100%">'.
-			'<table width="100%"><tr style="vertical-align:top"><td width="70%">'.
-			trim($femaLine, " - ").'<br/>'.			
-			trim($demographicsLine, " - ").'<br/>'.
+            '<div width="100%">'.
+			'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr style="vertical-align:top"><td width="70%">'.	
+			$demographicsLine.trim($femaLine, " - ").'<br/>'.
 			trim($emailLine, " - ").
 			trim($addressLine, " - ").'<br/></td>'.
-			'<td width="30%" style="text-align:right;" align="right">'.$closureReason.'<a target="_new" href="get/?pdf='.$data['id'].'">Print Recovery Plan</a></td></tr></table>';
+			'<td width="30%" style="text-align:right;" align="right">'.$closureReason.'<b><a target="_new" href="get/?pdf='.$data['id'].'">Print Recovery Plan</a></b></td></tr></table>';
         
 		// Create description row
         $v = $this->getFieldValue('identified_unmet_needs', 0);
@@ -1071,6 +1108,12 @@ class Cases extends Object
 			//'<tr class="prop-header"><th colspan="2" width="50%" style>Assigned Case Manager</th><th colspan="2" width="50%" style>Self Reported/Identified Population and Needs</th></tr>'.
             $ownerRow.'</tbody></table></td>'.
             $assigneeRow. '</tbody></table>'.
+			'<tr><td class="prop-key" style="width:15%" width="15%">Client Intake:</td><td width="35%" style="width:15%" class="prop-val">'.
+			'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr>    <td class="obj" width="5%">        <img alt="icon" class="i16u icon-assessment-client" src="/css/i/s.gif">    </td>    <td width="95%"><b><a class="bt item-action click" action="edit">'.$data['name'].'</a></b><br>        <span class="gr" title="'.$data['udate'].'">Last Updated:' .Util\formatAgoTime($data['udate']).'</span>    </td></tr></table></td>'.
+			//'<ul class="clean"><li class="icon-padding icon-assessment-client" style="background-repeat:no-repeat !important"><a class="bt item-action click" action="edit" uid="'.User::getId().'">'.$data['name'].'</a></li></ul>
+			'<td class="prop-key" style="width:15%" width="15%">Consent Form:</td><td class="prop-val" width="35%">'.$fileInfo.'</td></tr>'.
+			'<tr><td class="prop-key" style="width:15%" width="15%">Family Members:</td><td width="35%" style="width:15%" class="prop-val">'.$familyMemberInfo.'</td>'.
+			'<td class="prop-key" style="width:15%" width="15%">Alternative Address:</td><td class="prop-val" width="35%">'.$addressInfo.'</td></tr>'.
 			'<tr><td class="prop-key" style="width:15%" width="15%">Special/At Risk Population:</td><td width="35%" style="width:15%" class="prop-val">'.$atRiskLine.'</td>'.
 			'<td class="prop-key" style="width:15%" width="15%">Identified Needs:</td><td class="prop-val" width="35%">'.$identifiedNeedsLine.'</td></tr>'.
 			$contentRow.
