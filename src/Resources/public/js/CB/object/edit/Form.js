@@ -300,7 +300,15 @@ Ext.define('CB.object.edit.Form', {
             this.grid.getNavigationModel().setPosition(0, colIdx);
 
             if(this.startEditAfterObjectsStoreLoadIfNewObject && isNaN(this.data.id)) {
-                this.grid.editingPlugin.startEditByPosition({row: 0, column: colIdx});
+				  var fieldType = this.grid.store.getAt(0).get('type');
+				  if (fieldType == 'H' || fieldType == 'date')
+				  {
+					this.grid.editingPlugin.startEditByPosition({row: 1, column: colIdx});
+				  }
+				  else
+				  {
+					this.grid.editingPlugin.startEditByPosition({row: 0, column: colIdx});
+				  }
             }
 
             delete this.startEditAfterObjectsStoreLoadIfNewObject;

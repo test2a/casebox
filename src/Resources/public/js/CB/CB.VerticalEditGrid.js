@@ -13,7 +13,7 @@ Ext.define('CB.VerticalEditGrid', {
     ,scrollable: true
     ,autoHeight: true
     ,plugins: []
-
+	//,hideHeaders: true
     ,initComponent: function() {
 
         // define helperTree if owner does not have already defined one
@@ -32,6 +32,7 @@ Ext.define('CB.VerticalEditGrid', {
             ,deferInitialRefresh: false
             ,stripeRows: true
             ,markDirty: false
+			//,hideHeaders: true			
             ,getRowClass: function( record, index, rowParams, store ){
                 var rez = '';
                 if(record.get('type') === 'H'){
