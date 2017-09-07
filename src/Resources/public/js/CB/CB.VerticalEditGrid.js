@@ -280,7 +280,8 @@ Ext.define('CB.VerticalEditGrid', {
                 ,editable: false
                 ,hideable: false
                 ,scope: this
-                ,size: 200
+                ,size: 250
+				,width: 250
                 ,renderer: this.renderers.title
             },{
                 header: L.Value
