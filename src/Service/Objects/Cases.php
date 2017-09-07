@@ -457,7 +457,8 @@ class Cases extends Object
 		   1501=>656,//language
 		   1505=>1175,//legal
 		   1498=>651, //senior
-		   1513=>172 //transportation
+		   1513=>172, //transportation
+		   3151=>3114 //shelterassessment		   
 		);
 		
 		$identified_unmet_needs = Util\toNumericArray($this->getFieldValue('identified_unmet_needs', 0)['value']);
