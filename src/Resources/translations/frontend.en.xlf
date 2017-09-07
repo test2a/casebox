@@ -2862,7 +2862,7 @@
             </trans-unit>
             <trans-unit id="3060">
                 <source>GridEmptyText</source>
-                <target><![CDATA[<h3>Drop files here</h3> or use "New" button]]></target>
+                <target><![CDATA[<h3>Navigate clients/resources using the tree to the left</h3> or search for a client in the search box above]]></target>
             </trans-unit>
             <trans-unit id="3061">
                 <source>NoResultsFound</source>
