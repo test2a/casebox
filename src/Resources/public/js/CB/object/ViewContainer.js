@@ -61,12 +61,6 @@ Ext.define('CB.object.ViewContainer', {
                         ,loaded: this.onPluginsContainerLoaded
                         // ,loaded: this.onCardItemLoaded
                     }
-                },{
-                    xtype: 'CBObjectPreview'
-                    ,listeners: {
-                        scope: this
-                        ,loaded: this.onCardItemLoaded
-                    }
                 }
             ]
             ,listeners: {
@@ -498,13 +492,6 @@ Ext.define('CB.object.ViewContainer', {
 
         switch(activeItem.getXType()) {
             case 'CBObjectPreview':
-                this.topToolbar.setVisible(!Ext.isEmpty(id));
-                this.doLayout();
-
-                //used params by preview component to detect wich buttons to display when asked
-                activeItem.params = params;
-
-                activeItem.loadPreview(id);
                 break;
             case 'CBObjectProperties':
             case 'CBEditObject':

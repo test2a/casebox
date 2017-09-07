@@ -145,7 +145,10 @@ class CasesGrouped extends Base
         $p['fq'] = $this->fq;
         //$p['fq'][] = 'task_u_all:'.$userId;
         $p['fq'][] = 'task_status:(1 OR 2 OR 3 OR 5)';
-
+		if (!isset($p['sort'])) {
+			$p['sort'][0]['property'] = 'id';    
+			$p['sort'][0]['direction'] = 'desc';                       
+		}
         if (@$this->requestParams['from'] == 'tree') {
             $s = new \Casebox\CoreBundle\Service\Search();
             $p['rows'] = 0;

@@ -866,9 +866,9 @@ Ext.define('CB.browser.ViewContainer', {
                     )
                     ,showPreviewButton = showObjPanel && (this.objectPanel.getCollapsed() !== false);
 
-                this.actions.preview.setDisabled(!showPreviewButton);
-                this.actions.preview.setHidden(!showPreviewButton);
-                this.objectPanel.setVisible(showObjPanel);
+                this.actions.preview.setDisabled(true); //Dumbing Down Apprio
+                this.actions.preview.setHidden(true); //Dumbing Down Apprio
+                //this.objectPanel.setVisible(showObjPanel); //Dumbing Down Apprio
 
                 App.mainViewPort.onToggleFilterPanelClick({
                     pressed: (rez.showFilterPanel === true)
@@ -947,8 +947,8 @@ Ext.define('CB.browser.ViewContainer', {
             )
             ,pa = this.actions.preview;
 
-        pa.setDisabled(!showPreviewButton);
-        pa.setHidden(!showPreviewButton);
+        pa.setDisabled(true);
+        pa.setHidden(true);
 
         if(App.mainFilterPanel) {
             App.mainFilterPanel.updateFacets(result.facets, ep);
