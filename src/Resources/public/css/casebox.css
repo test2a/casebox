@@ -1,6 +1,6 @@
 /*body {font-family: "lucida grande",tahoma,verdana,arial,sans-serif; font-size: 11px}*/
 body {font-family: arial, sans-serif; font-size: 12px}
-a {color: #15C}
+a {color: #164F86;}
 
 /*.x-grid-row td, .x-grid-summary-row td {font: 13px "lucida grande",tahoma,verdana,arial,sans-serif}*/
 
@@ -788,3 +788,10 @@ padding-top: 45%;
     background-image: none;
     border: 0;
 }
+
+.test td.elips span{visibility:hidden;cursor:pointer;width:16px;height:16px;display:inline-block;background:url(/css/i/ico/_points-gray.png) 0 0 no-repeat}
+.test tr:hover td.elips
+span{visibility:visible}
+.test tr:hover{background-color:#FFC}
+.block-plugin-comments .block-plugin td, .block-plugin-comments .test tr:last-child
+td{border-bottom:1px solid #FFF}

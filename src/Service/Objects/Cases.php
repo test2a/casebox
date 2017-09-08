@@ -219,7 +219,6 @@ class Cases extends Object
             'language',
             'headofhousehold',
             'fematier',			
-            'femanumber_s',			
 			'full_address',
 			'task_d_closed',
 			'assessments_reported',
@@ -826,7 +825,6 @@ class Cases extends Object
 		$dateLines = '';
         $ownerRow = '';
         $assigneeRow = '';
-        $contentRow = '';
         $closureReason = '';
 		$identifiedNeedsLine = '';
 		$atRiskLine = '';
@@ -853,19 +851,8 @@ class Cases extends Object
 		}
 
 		if (!empty($sd['solr']['ethnicity'])) {
-			if ($sd['solr']['ethnicity'] == "No")
-			{
-				$demographicsLine = $demographicsLine . 'Not Hispanic' . " - ";	
-			}
-			else
-			{
-				$demographicsLine = $demographicsLine . $sd['solr']['ethnicity'] . " - ";	
-			}
+			$demographicsLine = $demographicsLine . $sd['solr']['ethnicity'] . " - ";	
 		}
-
-		if (!empty($sd['solr']['fematier'])) {
-			$femaLine = $femaLine . $sd['solr']['fematier'] . " - ";
-		}		
 		
 		if (!empty($sd['solr']['closurereason_s'])) {
 			$closureReason = '<b>Record Closed</br>' . $sd['solr']['closurereason_s'] .'</b><br/>';
@@ -894,6 +881,10 @@ class Cases extends Object
 			$femaLine = $femaLine . "FEMA # Not Collected - ";
 		}
 
+		if (!empty($sd['solr']['fematier'])) {
+			$femaLine = $femaLine . $sd['solr']['fematier'] . " - ";
+		}				
+		
 		if (!empty($sd['solr']['birthdate_dt'])) {
 			$demographicsLine = $demographicsLine . Util\formatMysqlDate($sd['solr']['birthdate_dt'], Util\getOption('short_date_format')) . " - ";
 		}
@@ -919,7 +910,7 @@ class Cases extends Object
 		}		
 		
 		if (!empty($sd['solr']['full_address'])) {
-			$addressLine = $addressLine .'<br/>'. $sd['solr']['full_address']. " - ";
+			$addressLine = $addressLine . $sd['solr']['full_address']. " - ";
 		}
 		else
 		{
@@ -928,7 +919,63 @@ class Cases extends Object
 		if (!empty($sd['solr']['county'])) {
 			$addressLine = $addressLine . $sd['solr']['county']. " - ";
 		}
-				
+
+			$filePlugin = new Files();
+			$files = $filePlugin->getData($data['id']);
+			
+			$fileInfo = '<a class="bt item-action click" action="upload" uid="'.User::getId().'">Upload Consent Form</a>';
+			
+			foreach ($files['data'] as $file) {
+				$fileInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr><tr><td class="obj" width="5%"><img alt="icon" class="i16u icon-assessment-familymember file-pdf icon-padding" src="/css/i/s.gif"></td><td width="90%"><a class="bt item-action click" action="file" fid="'.$file['id'].'">'.$file['name'].'</a></td></tr></table>';
+			}
+			$contentItems = new ContentItems();
+			$items = $contentItems->getData($data['id']);
+			
+			$addressInfo = '';
+			$familyMemberInfo = '';
+			$contentRow = '';
+			$familyMemberCount = 0;
+			$addressCount = 0;
+			foreach ($items['data'] as $item) {
+				if ($item['template_id'] == 289)
+				{
+					 $familyMemberInfo = $familyMemberInfo.'<tr><td class="obj" width="5%"><img alt="icon" class="i16u icon-assessment-familymember icon-padding" src="/css/i/s.gif"></td><td width="90%"><a class="bt item-action click" myPid="'.$data['id'].'" action="editContent" templateId="289" myId="'.$item['id'].'">'.$item['name'].'</a></td><td width="5%" class="elips"> <a class="bt item-action click" myName="Family Member" action="removeContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'"><span title="Remove Address" class="click icon-cross" myName="Famly Member" action="removeContent" myPid="'.$data['id'].'" templateId="289" myId="'.$item['id'].'"></span></a></td></tr>';
+					 $familyMemberCount++;
+				}
+				if ($item['template_id'] == 311)
+				{
+					 $addressInfo = $addressInfo.'<tr><td class="obj" width="5%"><img alt="icon" class="i16u icon-assessment-address icon-padding" src="/css/i/s.gif">    </td>    <td width="90%"><a class="bt item-action click" action="editContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'">'.$item['name'].'</a></td><td width="5%" class="elips"><a class="bt item-action click" myName="Address" action="removeContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'"><span title="Remove Address" class="click icon-cross" myName="Address" action="removeContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'"></span></a></td><td width="5%" class="obj" style="background-color:white !important;"></td></tr>';
+					 $addressCount++;
+				}
+				if (Util\getDatesDiff($data['udate'],$item['cdate']) > 0)
+				{
+					$data['udate'] = $item['cdate'];
+				}				
+				if (Util\getDatesDiff($data['udate'],$item['udate']) > 0)
+				{
+					$data['udate'] = $item['udate'];
+				}
+			}
+			
+			if ($familyMemberCount ==0)
+			{
+				$familyMemberInfo = $familyMemberInfo.'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr> <td></td> <td width="100%"><a class="bt item-action click" action="addContent" templateId="289" myPid="'.$data['id'].'">Add Family Member</a></td></tr>';
+			}
+			else
+			{
+				$familyMemberInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr><td width="95%"><table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " class="test" width="100%">'.$familyMemberInfo. '</table></td><td width="5%" class="obj" style="vertical-align:top;"><a class="bt item-action click" title="Add Family Member" action="addContent" templateId="289" myPid="'.$data['id'].'">   <img alt="Add Family Member" title="Add Family Member" class="i16u icon-plus"  action="addContent" templateId="289" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a></td></tr>'; 
+			}
+			if ($addressCount ==0)
+			{
+				$addressInfo = $addressInfo.'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr><td></td> <td width="100%"><a class="bt item-action click" action="addContent" templateId="311" myPid="'.$data['id'].'">Add Address</a></td></tr>';
+			}	
+			else
+			{
+				$addressInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr><td width="95%"><table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " class="test" width="100%">'.$addressInfo. '</table></td><td width="5%" class="obj" style="vertical-align:top;"><a class="bt item-action click" title="Add Address" action="addContent" templateId="311" myPid="'.$data['id'].'">   <img alt="Add Address" title="Add Address" class="i16u icon-plus"  action="addContent" templateId="311" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a></td></tr>'; 				
+			}
+			
+			$familyMemberInfo = $familyMemberInfo . '</table>';
+			$addressInfo = $addressInfo . '</table>';
         $userService = Cache::get('symfony.container')->get('casebox_core.service.user');
 
         //create date and status row
@@ -959,11 +1006,11 @@ class Cases extends Object
             );
 
             $ownerRow = '<tr><td class="prop-key" width="15%" style="width:15%">Intake Representative:</td><td width="35%">'.
-                '<table class="prop-val people"><tbody>'.
+                '<table  style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%" class="prop-val people"><tbody>'.
                 '<tr><td class="user"><img alt="User Photo" class="photo32" src="'.
                 $coreUri.'photo/'.$v.'.jpg?32='.$userService->getPhotoParam($v).
                 '" style="width:32px; height: 32px" alt="'.$cn.'" title="'.$cn.'"></td>'.
-                '<td><b>'.$cn.'</b><p class="gr">'.$this->trans('Created').': '.
+                '<td>'.$cn.'<p class="gr">Intake: '.
                 '<span class="dttm" title="'.$cd.'">'.$cdt.'</span></p></td></tr>';
         }
 
@@ -972,13 +1019,12 @@ class Cases extends Object
 		if (empty($v['value'])) {
 			$assigneeRow .= '<td class="prop-key" width="15%" style="width:15%">'.$this->trans(
                     'Case Manager'
-                ).':</td><td width="35%"><table class="prop-val people"><tbody><tr><td>'.
-				'<b><a class="bt item-action click" action="assign" uid="'.User::getId().
-				'">Assign client to me</a></b></td>';
+                ).':</td><td width="35%"><table  style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%" class="prop-val"><tbody><tr><td>'.
+				'<a class="bt item-action click" action="assign" uid="'.User::getId().
+				'">Assign client to me</a></td>';
 		}
         else // (!empty($v['value'])) {
 			{
-            $isOwner = $this->isOwner();
             $assigneeRow .= '<td class="prop-key" width="15%" style="width:15%">'.$this->trans(
                     'Case Manager'
                 ).':</td><td width="35%"><table class="prop-val people"><tbody>';
@@ -997,86 +1043,39 @@ class Cases extends Object
                     $cdt = Util\formatMysqlDate($sd['task_d_closed'], $dateFormat);
                     $dateText = ': '.Util\formatAgoTime($sd['task_d_closed']);
                 }
+				else
+				{
+					$dateText = '' .Util\formatAgoTime($data['udate']).$contentRow;
+				}
 
                 $assigneeRow .= '<td class="user"><div style="position: relative">'.
                     '<img alt="User Photo" class="photo32" src="'.$coreUri.'photo/'.$id.'.jpg?32='.$userService->getPhotoParam($id).
                     '" style="width:32px; height: 32px" alt="'.$un.'" title="'.$un.'">'.
                     ($completed ? '<img class="done icon icon-tick-circle" src="/css/i/s.gif" />' : "").
-                    '</div></td><td><b>'.$un.'</b>'.
+                    '</div></td><td>'.$un.''.
                     '<p class="gr" title="'.$cdt.'">'.(
                     $completed
                         ? $this->trans('Closed').$dateText
-                        : 'Active'//$this->trans('waitingForAction')
+                        : 'Last Action: '.$dateText
                     ).'</td></tr>';
             }
-        }
-
-        // Create description row
-        $v = $this->getFieldValue('description', 0);
-        if (!empty($v['value'])) {
-            $tf = $template->getField('description');
-            $v = $template->formatValueForDisplay($tf, $v);
-            $contentRow = '<tr><td class="prop-val" colspan="2">'.$v.'</td></tr>';
-        }
-
-        // Insert rows
-        $p = $pb[0];
-        $pos = strrpos($p, '<tbody>');
-        if ($pos !== false) {
-            $p = substr($p, $pos + 7);
-            $pos = strrpos($p, '</tbody>');
-            if ($pos !== false) {
-                $p = substr($p, 0, $pos);
-            }
-        } else {
-            $p = '';
-        }
-		
-        $rtl = empty($this->configService->get('rtl')) ? '' : ' drtl';
-
-			$filePlugin = new Files();
-			$files = $filePlugin->getData($data['id']);
+        }			
 			
-			$fileInfo = '<b><a class="bt item-action click" action="upload" uid="'.User::getId().'">Upload Consent Form</a></b>';
 			
-			foreach ($files['data'] as $file) {
-				$fileInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr>    <td class="obj" width="5%">     <img alt="Icon" class="file- file- file-pdf" src="/css/i/s.gif">   </td>    <td width="95%"><b><a class="bt item-action click" action="file" fid="'.$file['id'].'">'.$file['name'].'</a></b><br>        <span class="gr" title="'.$file['cdate'].'">Uploaded:' .Util\formatAgoTime($file['cdate']).'</span>    </td></tr></table>';
-			}
-			$contentItems = new ContentItems();
-			$items = $contentItems->getData($data['id']);
 			
-			$addressInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%">';
-			$familyMemberInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%">';
-			
-			foreach ($items['data'] as $item) {
-				if ($item['template_id'] == 289)
-				{
-					 $familyMemberInfo = $familyMemberInfo.'<tr>    <td class="obj" width="5%">        <img alt="icon" class="i16u icon-assessment-familymember" src="/css/i/s.gif">    </td>    <td width="95%"><b><a class="bt item-action click" myPid="'.$data['id'].'" action="editContent" templateId="289" myId="'.$item['id'].'">'.$item['name'].'</a></b><br>        <span class="gr" title="'.$item['cdate'].'">Updated:'. $item['ago_text'].'- <a class="bt item-action click" myName="Family Member" action="removeContent" templateId="289" myPid="'.$data['id'].'" myId="'.$item['id'].'">Remove</a></span>    </td></tr>';
-				}
-				if ($item['template_id'] == 311)
-				{
-					 $addressInfo = $addressInfo.'<tr>    <td class="obj" width="5%">        <img alt="icon" class="i16u icon-assessment-address" src="/css/i/s.gif">    </td>    <td width="95%"><b><a class="bt item-action click" action="editContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'">'.$item['name'].'</a></b><br>        <span class="gr" title="'.$item['cdate'].'">Updated:'. $item['ago_text'].'- <a class="bt item-action click" myName="Address" action="removeContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'">Remove</a></span>    </td></tr>';
-				}
-			}	
-			$familyMemberInfo = $familyMemberInfo.'<tr>    <td width="5%" class="obj"> <a class="bt item-action click" action="addContent" templateId="289" myPid="'.$data['id'].'">   <img alt="icon" class="i16u icon-plus"  action="addContent" templateId="289" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a>  </td>    <td width="95%"><b><a class="bt item-action click" action="addContent" templateId="289" myPid="'.$data['id'].'">Add Family Member</a></b></td></tr></table>';
-			$addressInfo = $addressInfo.'<tr>    <td width="5%" class="obj">     <a class="bt item-action click" action="addContent" templateId="311" myPid="'.$data['id'].'">   <img alt="icon" class="i16u icon-plus"  action="addContent" templateId="311" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a>   </td>    <td width="95%"><b><a class="bt item-action click" action="addContent" templateId="311" myPid="'.$data['id'].'">Add Address</a></b></td></tr></table>';
-			
-
 
         $pb[0] = '<table class="obj-preview'.$rtl.'"><tbody>'.
             $dateLines.
             $p.
             $ownerRow. '</tbody></table></td></tr><tr>'.
             $assigneeRow. '</tbody></table></td></tr>'.
-            $contentRow.
             '<tbody></table>';
         $pb[1] = 
             '<div width="100%">'.
 			'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr style="vertical-align:top"><td width="70%">'.	
 			$demographicsLine.trim($femaLine, " - ").'<br/>'.
-			trim($emailLine, " - ").
-			trim($addressLine, " - ").'<br/></td>'.
-			'<td width="30%" style="text-align:right;" align="right">'.$closureReason.'<b><a target="_new" href="get/?pdf='.$data['id'].'">Print Recovery Plan</a></b></td></tr></table>';
+			trim($emailLine.$addressLine, " - ").'<br/></td>'.
+			'<td width="30%" style="text-align:right;" align="right">'.$closureReason.'<a target="_new" href="get/?pdf='.$data['id'].'">Print Recovery Plan</a></td></tr></table>';
         
 		// Create description row
         $v = $this->getFieldValue('identified_unmet_needs', 0);
@@ -1110,14 +1109,13 @@ class Cases extends Object
             $ownerRow.'</tbody></table></td>'.
             $assigneeRow. '</tbody></table>'.
 			'<tr><td class="prop-key" style="width:15%" width="15%">Client Intake:</td><td width="35%" style="width:15%" class="prop-val">'.
-			'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr>    <td class="obj" width="5%">        <img alt="icon" class="i16u icon-assessment-client" src="/css/i/s.gif">    </td>    <td width="95%"><b><a class="bt item-action click" action="edit">'.$data['name'].'</a></b><br>        <span class="gr" title="'.$data['udate'].'">Last Updated:' .Util\formatAgoTime($data['udate']).'</span>    </td></tr></table></td>'.
+			'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr>    <td class="obj" width="5%">        <img alt="icon" class="i16u icon-assessment-client icon-padding" src="/css/i/s.gif">    </td>    <td width="95%"><a class="bt item-action click" action="edit">'.$data['name'].'</a></td></tr></table></td>'.
 			//'<ul class="clean"><li class="icon-padding icon-assessment-client" style="background-repeat:no-repeat !important"><a class="bt item-action click" action="edit" uid="'.User::getId().'">'.$data['name'].'</a></li></ul>
 			'<td class="prop-key" style="width:15%" width="15%">Consent Form:</td><td class="prop-val" width="35%">'.$fileInfo.'</td></tr>'.
 			'<tr><td class="prop-key" style="width:15%" width="15%">Family Members:</td><td width="35%" style="width:15%" class="prop-val">'.$familyMemberInfo.'</td>'.
 			'<td class="prop-key" style="width:15%" width="15%">Alternative Address:</td><td class="prop-val" width="35%">'.$addressInfo.'</td></tr>'.
 			'<tr><td class="prop-key" style="width:15%" width="15%">Special/At Risk Population:</td><td width="35%" style="width:15%" class="prop-val">'.$atRiskLine.'</td>'.
 			'<td class="prop-key" style="width:15%" width="15%">Identified Needs:</td><td class="prop-val" width="35%">'.$identifiedNeedsLine.'</td></tr>'.
-			$contentRow.
             '<tbody></table>';		
         $pb[3] = ''; 
             //'<table class="obj-preview'.$rtl.'"><tbody>'.

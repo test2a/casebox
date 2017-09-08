@@ -26,8 +26,16 @@ class ContentItems extends Base
         $s = new \Casebox\CoreBundle\Service\Search();
         $sr = $s->query($params);
         foreach ($sr['data'] as $d) {
-            $d['ago_text'] = Util\formatAgoTime($d['cdate']);
-            $d['user'] = @User::getDisplayName($d['cid']);
+			if ($d['udate'])
+			{
+			    $d['ago_text'] = Util\formatAgoTime($d['udate']);
+				$d['user'] = @User::getDisplayName($d['uid']);					
+			}
+			else
+			{
+			    $d['ago_text'] = Util\formatAgoTime($d['cdate']);
+				$d['user'] = @User::getDisplayName($d['cid']);	
+			}
             $rez['data'][] = $d;
         }
 
@@ -43,7 +51,7 @@ class ContentItems extends Base
     protected function getSolrParams()
     {
         $rez = [
-            'fl' => 'id,pid,name,template_id,cdate,cid',
+            'fl' => 'id,pid,name,template_id,cdate,cid,udate,uid',
             'sort' => 'cdate desc',
         ];
 

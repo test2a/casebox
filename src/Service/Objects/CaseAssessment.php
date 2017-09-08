@@ -252,11 +252,6 @@ class CaseAssessment extends Object
 				}
 			}
 			
-			if (!empty($p['data']['_clienthavefemanumber']['childs']['_femanumber']))
-			{
-				$caseSd['femanumber_s'] = $p['data']['_clienthavefemanumber']['childs']['_femanumber'];
-			}
-			
 			$case->updateSysData();
 			$solr = new Client();
 			$solr->updateTree(['id' => $caseId]);
