@@ -309,7 +309,7 @@ Ext.define('CB.ViewPort', {
     }
 
     ,toggleLeftRegion: function(b, e) {
-        if(b.pressed) {
+        if(App.mainLPanel.collapsed) {  //Changed DS
             App.mainLPanel.expand();
         } else {
             App.mainLPanel.collapse();
@@ -317,6 +317,7 @@ Ext.define('CB.ViewPort', {
     }
 
     ,onToggleFilterPanelClick: function(b, e) {
+		App.mainLPanel.expand(); //Added DS
         this.buttons.toggleFilterPanel.setPressed(b.pressed);
 
         App.mainLPanel.getLayout().setActiveItem(
