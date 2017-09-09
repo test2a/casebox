@@ -178,15 +178,15 @@
             this.removeAll(true);
 
             this.createMenu = r.menu;
-			var vxTabs = Ext.getCmp('vxTabs');
+			/*var vxTabs = Ext.getCmp('vxTabs');
 			if(vxTabs){
 				vxTabs.destroy();
-			}			
+			}*/			
 			var tabPanel = Ext.create('Ext.tab.Panel', {
 				stateEvents: ['tabchange'],
 				stateful:true,
 				autoScroll: false, 
-				id:'vxTabs',
+				itemId:'vxTabs',
 				listeners: { 
 				'tabchange': function(){
 					var a = this.getActiveTab();
