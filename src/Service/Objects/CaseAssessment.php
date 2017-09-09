@@ -134,7 +134,22 @@ class CaseAssessment extends Object
 				}
 			}
 
-
+			if (!empty($p['data']['_fulladdress']))
+			{
+				$results = $this->lookup($p['data']['_fulladdress']);
+				if ($results != null)
+				{
+					$p['data']['_latlon'] = $results['latitude'] .','.$results['longitude'];
+					$p['data']['full_address'] = $results['street'];//$results['full_address'];
+					$p['data']['_county'] = $results['county'];
+					$p['data']['_addressone'] = $results['street'];
+					$p['data']['_city'] = $results['city'];
+					$p['data']['_state'] = $results['state'];				
+					$p['data']['_locationtype'] = $results['location_type'];	
+				}
+			}
+				
+			
 			//Referrals
 			if (!empty($p['data']['_referraltype']) && !empty($objectId)) { //
 				if (!in_array($objectId, $caseSd['referrals_started']))
@@ -304,5 +319,71 @@ class CaseAssessment extends Object
         }
 		
     }	
+	
+    /**
+     * 
+     * http://www.andrew-kirkpatrick.com/2011/10/google-geocoding-api-with-php/
+	 *
+     */	
+	protected function lookup($string){
+ 
+	   $string = str_replace (" ", "+", urlencode($string));
+	   $details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
+	 
+	   $ch = curl_init();
+	   curl_setopt($ch, CURLOPT_URL, $details_url);
+	   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	   $response = json_decode(curl_exec($ch), true);
+	 
+	   // If Status Code is ZERO_RESULTS, OVER_QUERY_LIMIT, REQUEST_DENIED or INVALID_REQUEST
+	   if ($response['status'] != 'OK') {
+		return null;
+	   }
+	 
+	   //print_r($response);
+	   $geometry = $response['results'][0]['geometry'];
+	   
+	   $location = array();
+
+  foreach ($response['results'][0]['address_components'] as $component) {
+    switch ($component['types']) {
+      case in_array('street_number', $component['types']):
+        $location['street_number'] = $component['long_name'];
+      case in_array('route', $component['types']):
+        $location['street'] = $component['long_name'];
+      case in_array('sublocality', $component['types']):
+        $location['sublocality'] = $component['long_name'];
+      case in_array('locality', $component['types']):
+        $location['locality'] = $component['long_name'];
+      case in_array('administrative_area_level_2', $component['types']):
+        $location['admin_2'] = $component['long_name'];
+      case in_array('administrative_area_level_1', $component['types']):
+        $location['admin_1'] = $component['long_name'];
+      case in_array('postal_code', $component['types']):
+        $location['postal_code'] = $component['long_name'];
+      case in_array('country', $component['types']):
+        $location['country'] = $component['long_name'];
+    }
+
+  }
+	   
+	   
+	   
+		$array = array(
+			'longitude' => $geometry['location']['lng'],
+			'latitude' => $geometry['location']['lat'],
+			'location_type' => $geometry['location_type'],
+			'street_number' => $location['street_number'],
+			'street' => $location['street_number']. ' ' . $location['street'],
+			'city' => $location['locality'],	
+			'state' => $location['admin_1'],				
+			'full_address' => $response['results'][0]['formatted_address'],
+			'county' => $location['admin_2']
+		);
+	 
+		return $array;
+	 
+	}	
+	
 	
 }
