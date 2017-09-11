@@ -1447,6 +1447,7 @@ Ext.define('CB.browser.ViewContainer', {
 
     ,processSetOwnership: function(r, e) {
         if(r && r.success) {
+			App.fireEvent('objectchanged', this.folderProperties, this); //changed dsstoudt		
             this.onReloadClick();
         }
     }
@@ -1830,7 +1831,7 @@ Ext.define('CB.browser.ViewContainer', {
     }
 
 	,onAssignClientClick: function(b, e) {
-		CB_Tasks.setUserStatus({id: this.getSelection()[0].nid,userId: -1}, this.onItemChange, this);//assign click Apprio
+		CB_Tasks.setUserStatus({id: this.getSelection()[0].nid,userId: -1}, this.processSetOwnership, this);//assign click Apprio
 	}
 	
     ,onPermalinkClick: function(b, e) {

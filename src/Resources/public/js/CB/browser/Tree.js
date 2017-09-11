@@ -361,9 +361,9 @@ Ext.define('CB.browser.Tree', {
         if(n) {
             n.cascadeBy({
                 before: function(n){
-                    if (n.data.nid == data.pid) {
+                    //if (n.data.nid == data.pid || (data.pid == 150)) { //Added or Removed
                         this.store.reload({node: n});
-                    }
+                    //}
                 }
                 ,scope: this
             });
