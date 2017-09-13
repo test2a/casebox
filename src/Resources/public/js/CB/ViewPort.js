@@ -317,7 +317,10 @@ Ext.define('CB.ViewPort', {
     }
 
     ,onToggleFilterPanelClick: function(b, e) {
-		App.mainLPanel.expand(); //Added DS
+	if (b.pressed)
+	{
+		App.mainLPanel.expand(); //Added DS	
+	}
         this.buttons.toggleFilterPanel.setPressed(b.pressed);
 
         App.mainLPanel.getLayout().setActiveItem(
