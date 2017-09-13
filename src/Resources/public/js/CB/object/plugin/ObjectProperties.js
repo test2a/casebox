@@ -18,7 +18,7 @@ Ext.define('CB.object.plugin.ObjectProperties', {
         });
 
         this.callParent(arguments);
-	App.mainViewPort.on('objectsdeleted', this.onObjectsDeleted, this);
+
         this.enableBubble(['timespentclick', 'addtimespentclick']);
     }
 
@@ -37,9 +37,7 @@ Ext.define('CB.object.plugin.ObjectProperties', {
             this.html = html;
         }
     }
-	,onObjectsDeleted: function(r, e) {
-		App.fireEvent('objectchanged', this.params, this);
-	}
+
     ,attachEvents: function(){
         var a = this.getEl().query('a.click');
         Ext.each(
@@ -184,7 +182,18 @@ Ext.define('CB.object.plugin.ObjectProperties', {
 	        this.forUserPid = el.attributes.getNamedItem('myPid').value;
 	         this.forTemplateId = el.attributes.getNamedItem('templateId').value;
 	         this.myName =  el.attributes.getNamedItem('myName').value;
-	         App.mainViewPort.onDeleteObject({id:this.forUserId, pid: this.forUserPid, template_id:this.forTemplateId, name:this.myName});
+			 Ext.Msg.confirm(
+				L.DeleteConfirmation
+				,L.DeleteConfirmationMessage + ' "' + this.myName + '"?'
+				,function(btn){
+					if(btn === 'yes')
+					{
+						CB_Browser['delete'](this.forUserId, this.onItemChange, this);
+					}
+				}
+				,this
+			 );
+	         //App.mainViewPort.onDeleteObject({id:this.forUserId, pid: this.forUserPid, template_id:this.forTemplateId, name:this.myName});
 	     }
 	     ,onActionUploadClick: function(ev, el) {
 	     	 App.mainViewPort.fireEvent(
