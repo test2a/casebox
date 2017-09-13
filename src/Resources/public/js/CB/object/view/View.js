@@ -216,7 +216,10 @@
 			referralData.limit = 100;
 			var recoveryReferralData=[];		
 			recoveryReferralData.data = [];
-			recoveryReferralData.limit = 100;			
+			recoveryReferralData.limit = 100;
+			var recoveryCompletedData=[];		
+			recoveryCompletedData.data = [];
+			recoveryCompletedData.limit = 100;			
 			var recoveryData=[];		
 			recoveryData.data = [];		
 			recoveryData.limit = 100;			
@@ -242,14 +245,18 @@
 					   }
 					   if (referralMenu.indexOf(k.template_id) >=  0)
 					   {
-						   if (k.name.indexOf('[]') >= 0)
-						   {
-								referralData.data.push(k);   
-						   }
-						   else
-						   {
-								recoveryReferralData.data.push(k);
-						   }
+		 				if (k.name.indexOf(' -  [') >= 0)
+		 				{
+		 					referralData.data.push(k);   
+		 				}
+						else if (k.name.indexOf(' []') >= 0)
+						{
+							recoveryReferralData.data.push(k);
+						}
+		 				else
+		 				{
+							recoveryCompletedData.data.push(k);
+		 				}
 					   }
 					   if (recoveryMenu.indexOf(k.template_id) >=  0)
 					   {						   
@@ -376,16 +383,23 @@
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = referralMenu;	
 			//content.actions.add.setHidden(true);			
-			content.updateTitle('Started Client Referrals');
+			content.updateTitle('Client Referrals');
 			content.onLoadData(referralData);
 			c.add(content);
 			
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = referralMenu;	
 			//content.actions.add.setHidden(true);			
-			content.updateTitle('Completed Client Referrals');
+			content.updateTitle('Referrals Made');
 			content.onLoadData(recoveryReferralData);
 			c.add(content);
+		
+		 	content  = Ext.create('CBObjectPluginContentItems',{params: params})		
+			content.createMenu = referralMenu;	
+		 	//content.actions.add.setHidden(true);			
+		 	content.updateTitle('Completed Referrals');
+		 	content.onLoadData(recoveryCompletedData);
+		 	c.add(content);		
 
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = recoveryMenu;	
