@@ -936,6 +936,10 @@ class Cases extends Object
 			$contentRow = '';
 			$familyMemberCount = 0;
 			$addressCount = 0;
+			if (!isset($data['udate']))
+			{
+				$data['udate'] = $data['cdate'];
+			}
 			foreach ($items['data'] as $item) {
 				if ($item['template_id'] == 289)
 				{
@@ -969,7 +973,7 @@ class Cases extends Object
 			}
 			else
 			{
-				$familyMemberInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr><td width="95%"><table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " class="test" width="100%">'.$familyMemberInfo. '</table></td><td width="5%" class="obj" style="vertical-align:top;"><a class="bt item-action click" title="Add Family Member" action="addContent" templateId="289" myPid="'.$data['id'].'">   <img alt="Add Family Member" title="Add Family Member" class="i16u icon-plus"  action="addContent" templateId="289" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a></td></tr>'; 
+				$familyMemberInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px;width:100% "><tr><td width="95%"><table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " class="test" width="100%">'.$familyMemberInfo. '</table></td><td width="5%" class="obj" style="vertical-align:top;"><a class="bt item-action click" title="Add Family Member" action="addContent" templateId="289" myPid="'.$data['id'].'">   <img alt="Add Family Member" title="Add Family Member" class="i16u icon-plus"  action="addContent" templateId="289" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a></td></tr>'; 
 			}
 			if ($addressCount ==0)
 			{
@@ -977,7 +981,7 @@ class Cases extends Object
 			}	
 			else
 			{
-				$addressInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr><td width="95%"><table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " class="test" width="100%">'.$addressInfo. '</table></td><td width="5%" class="obj" style="vertical-align:top;"><a class="bt item-action click" title="Add Address" action="addContent" templateId="311" myPid="'.$data['id'].'">   <img alt="Add Address" title="Add Address" class="i16u icon-plus"  action="addContent" templateId="311" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a></td></tr>'; 				
+				$addressInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px;width:100% "><tr><td width="95%"><table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " class="test" width="100%">'.$addressInfo. '</table></td><td width="5%" class="obj" style="vertical-align:top;"><a class="bt item-action click" title="Add Address" action="addContent" templateId="311" myPid="'.$data['id'].'">   <img alt="Add Address" title="Add Address" class="i16u icon-plus"  action="addContent" templateId="311" myPid="'.$data['id'].'" src="/css/i/s.gif"> </a></td></tr>'; 				
 			}
 			
 			$familyMemberInfo = $familyMemberInfo . '</table>';
