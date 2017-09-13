@@ -200,9 +200,11 @@ class Instance
 			
 			$contentItems = new ContentItems();
 			$items = $contentItems->getData($p);
-			$femaNumber = 'N/A';
+			$femaNumber = $obj['data']['data']['_femanumber'];
 			
-			
+			if (empty($femaNumber)) {
+				$femaNumber = 'N/A';
+			}
 			
 			 foreach ($items['data'] as $item) {
 					if ($item['template_id'] == 607)
@@ -240,13 +242,6 @@ class Instance
 							'targetcompletiondate' =>  Util\formatMysqlDate($service['data']['data']['_targetcompletiondate'], Util\getOption('short_date_format')),
 							'comments' => str_replace('()','',trim($comments,','))
 						];	
-					} else if ($item['template_id'] == 1120)
-					{
-						$femaassessment = $objService->load($item);
-						if (!empty($femaassessment['data']['data']['_clienthavefemanumber']['childs']['_femanumber']))
-						{
-							$femaNumber = $femaassessment['data']['data']['_clienthavefemanumber']['childs']['_femanumber'];
-						}
 					}
 				}
 			$v = $obj['data']['data']['assigned'];
