@@ -947,13 +947,19 @@ class Cases extends Object
 					 $addressInfo = $addressInfo.'<tr><td class="obj" width="5%"><img alt="icon" class="i16u icon-assessment-address icon-padding" src="/css/i/s.gif">    </td>    <td width="90%"><a class="bt item-action click" action="editContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'">'.$item['name'].'</a></td><td width="5%" class="elips"><a class="bt item-action click" myName="Address" action="removeContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'"><span title="Remove Address" class="click icon-cross" myName="Address" action="removeContent" myPid="'.$data['id'].'" templateId="311" myId="'.$item['id'].'"></span></a></td><td width="5%" class="obj" style="background-color:white !important;"></td></tr>';
 					 $addressCount++;
 				}
+				if (isset($data['udate']) && isset($item['cdate']))
+				{
 				if (Util\getDatesDiff($data['udate'],$item['cdate']) > 0)
 				{
 					$data['udate'] = $item['cdate'];
-				}				
+				}
+				}
+				if (isset($data['udate']) && isset($item['udate']))
+				{				
 				if (Util\getDatesDiff($data['udate'],$item['udate']) > 0)
 				{
 					$data['udate'] = $item['udate'];
+				}
 				}
 			}
 			
