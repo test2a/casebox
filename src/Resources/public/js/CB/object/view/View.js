@@ -233,7 +233,7 @@
 					   {
 						   addressesData.data.push(k);
 					   }					   
-					   if (assessmentMenu.indexOf(k.template_id) >=  0)
+					   if (assessmentMenu.indexOf(k.template_id) >=  0 && k.template_id != 311)
 					   {
 						   assessmentData.data.push(k);
 						   assessmentMenu = assessmentMenu.replace(k.template_id + ',','');
