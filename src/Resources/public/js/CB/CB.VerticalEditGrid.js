@@ -780,6 +780,7 @@ Ext.define('CB.VerticalEditGrid', {
         switch(key) {
             //case e.ENTER:
 			case e.TAB:
+		    ed.grid.pressedSpecialKey = key;				
                 ed.completeEdit();
 
                 var pos = ed.grid.gainFocus((e.shiftKey)? 'previous' : 'next');
@@ -920,7 +921,10 @@ Ext.define('CB.VerticalEditGrid', {
         if(!this.syncRecordsWithHelper()) {
             this.getView().refresh();
         } else {
-			this.gainFocus('next');		
+	   if (!this.pressedSpecialKey)
+	   {
+		   this.gainFocus('next');	
+	   }	
             this.fireEvent('restorescroll', this);
         }
 
