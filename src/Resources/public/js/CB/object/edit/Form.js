@@ -303,6 +303,8 @@ Ext.define('CB.object.edit.Form', {
 				  var fieldType = this.grid.store.getAt(0).get('type');
 				  if (fieldType == 'H' || fieldType == 'date')
 				  {
+      					this.grid.getSelectionModel().select({row: 1, column: colIdx});
+		             		this.grid.getNavigationModel().setPosition(1, colIdx);					  
 					this.grid.editingPlugin.startEditByPosition({row: 1, column: colIdx});
 				  }
 				  else
