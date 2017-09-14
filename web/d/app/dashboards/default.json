@@ -1857,14 +1857,14 @@
   },
   "solr": {
     "server": "/solr/",
-    "core_name": "casebox",
+    "core_name": "harvey",
     "core_list": [
       "cms",
       "cms_log",
       "ecmrs",
       "ecmrs_log",
-      "ecmrsss",
-      "ecmrsss_log",
+      "default",
+      "default_log",
       "petescore",
       "petescore_log",
       "rmsdev",
