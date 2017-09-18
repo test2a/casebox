@@ -26,7 +26,7 @@ class ContentItems extends Base
         $s = new \Casebox\CoreBundle\Service\Search();
         $sr = $s->query($params);
         foreach ($sr['data'] as $d) {
-			if ($d['udate'])
+			if (isset($d['udate']))
 			{
 			    $d['ago_text'] = Util\formatAgoTime($d['udate']);
 				$d['user'] = @User::getDisplayName($d['uid']);					
