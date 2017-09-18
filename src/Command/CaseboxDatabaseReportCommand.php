@@ -100,7 +100,7 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			objects.id = tree.id
 			and 
 			tree.dstatus = 0
-			group by tree.template_id'
+			group by tree.template_id, case_managers.total, case_manager_supervisors.total'
         );
 
         if ($r = $res->fetch()) {
