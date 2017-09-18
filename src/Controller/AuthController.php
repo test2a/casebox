@@ -80,7 +80,7 @@ class AuthController extends Controller
                         	return $this->render('CaseboxCoreBundle:forms:authenticatorsetup.html.twig', $vars);                    	
                     	}
         			}
-
+		    $this->get('session')->remove('auth'); //remove user switch after two factor problem DS 9/16/17
                     return $this->redirectToRoute('app_core', $vars);
                 } else {
                     $this->addFlash('notice', $user);
@@ -133,10 +133,12 @@ class AuthController extends Controller
                     }
 
                     $user = unserialize($this->get('session')->get('auth'));
-                    $auth = $this->get('casebox_core.service_auth.two_step_auth')->authenticate(
-                        $user,
-                        $request->get('c')
-                    );
+		    if ($user instanceof UsersGroups) { // check if actually a user
+                    	$auth = $this->get('casebox_core.service_auth.two_step_auth')->authenticate(
+                        	$user,
+                        	$request->get('c')
+                    	);
+		    }
                 }
 
                 if (is_array($auth)) {
