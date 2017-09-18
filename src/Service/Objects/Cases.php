@@ -771,7 +771,7 @@ class Cases extends Object
         $rez = [
             // 'edit' => $canEdit
 			'assessments'=>array_values($sd['solr']['assessments_needed']),
-			'referrals'=>array_values(!empty($sd['solr']['referrals_started'])?$sd['solr']['referrals_started']:null),
+			'referrals'=>!empty($sd['solr']['referrals_started'])?array_values($sd['solr']['referrals_started']):null,
             'close' => $canEdit,
             'reopen' => ($isClosed && $isOwner)//,
             //'complete' => (!$isClosed && ($this->getUserStatus($userId) == static::$USERSTATUS_ONGOING)),
@@ -1074,9 +1074,8 @@ class Cases extends Object
 			
 			
 
-        $pb[0] = '<table class="obj-preview'.$rtl.'"><tbody>'.
+        $pb[0] = '<table class="obj-preview"><tbody>'.
             $dateLines.
-            $p.
             $ownerRow. '</tbody></table></td></tr><tr>'.
             $assigneeRow. '</tbody></table></td></tr>'.
             '<tbody></table>';
@@ -1114,7 +1113,7 @@ class Cases extends Object
         }
 		
 		$pb[2] = 
-            '<table class="obj-preview'.$rtl.'"><tbody>'.
+            '<table class="obj-preview"><tbody>'.
 			//'<tr class="prop-header"><th colspan="2" width="50%" style>Assigned Case Manager</th><th colspan="2" width="50%" style>Self Reported/Identified Population and Needs</th></tr>'.
             $ownerRow.'</tbody></table></td>'.
             $assigneeRow. '</tbody></table>'.
