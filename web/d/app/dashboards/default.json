@@ -1956,7 +1956,7 @@
   },
   "solr": {
     "server": "/solr/",
-    "core_name": "casebox",
+    "core_name": "harvey",
     "core_list": [
       "acme2",
       "acme2_log",
