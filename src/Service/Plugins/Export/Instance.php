@@ -217,7 +217,7 @@ class Instance
 						 $refferalSubTypeValue = empty($referralSubType) ? 'N/A' : $referralSubType->getHtmlSafeName();
 						 if (!empty($service['data']['data']['_provider']))
 						 {
-							$resource = $objService->load(['id' => $service['data']['data']['_provider']]);	
+							$resource = Objects::getCachedObject($service['data']['data']['_provider']);	
 						 }				
 						 else
 						 {
