@@ -89,7 +89,7 @@ class ContentItems extends Base
                 $rez['fq'][] = '!template_id:('.implode(' OR ', Util\toNumericArray($folderTemplates)).')';
             }
         }
-
+	$rez['rows'] = 200;
         if (!empty($config['sort'])) {
             $rez['sort'] = $config['sort'];
         }
