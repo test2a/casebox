@@ -215,9 +215,9 @@ class Instance
 						 $refferalTypeValue = empty($referralType) ? 'N/A' : $referralType->getHtmlSafeName();
 						 $referralSubType = Objects::getCachedObject($service['data']['data']['_referraltype']['childs']['_referralservice']);						 
 						 $refferalSubTypeValue = empty($referralSubType) ? 'N/A' : $referralSubType->getHtmlSafeName();
-						 if (!empty($service['data']['data']['_provider']))
+						 if (!empty($service['data']['data']['_provider']) && !empty(Objects::getCachedObject($service['data']['data']['_provider'])))
 						 {
-							$resource = Objects::getCachedObject($service['data']['data']['_provider']);	
+						    $resource = $objService->load(['id' => $service['data']['data']['_provider']]);		
 						 }				
 						 else
 						 {
