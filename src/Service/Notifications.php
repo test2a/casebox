@@ -149,12 +149,9 @@ class Notifications
 				$p['fq'] = ['report_dt:['.$p['startDate'].' TO '.$p['endDate'].']'];
 			}
 			
-Cache::get('symfony.container')->get('logger')->error(
-			's',
-			(array) $p['fq']
-		);
 			$p['id'] = '11-Admin';
 			$p['from'] = 'grid';
+			$p['skipSecurity'] = true;
 			$fq = $configuration['query'];
 
 			// check if fq is set and add it to result
@@ -188,12 +185,21 @@ Cache::get('symfony.container')->get('logger')->error(
 				{
 					$newcolumns[$r['report_dt']] = ["solr_column_name"=>$r['report_dt'],"title"=>substr($r['report_dt'],0,10),"width"=>100];
 					$record[$r['report_dt']] = $r[$t['solr_column_name']];
+					if (is_numeric($r[$t['solr_column_name']]))
+					{
+						$record['total'] = $record['total'] + $r[$t['solr_column_name']];
+					}
 				}
 				$records[]= $record;
 				}
 			}
+			$newcolumns['total'] = ["solr_column_name"=>'total',"title"=>'Total',"width"=>100];
 			unset($rez['data']);
-			$rez['data'] = $records;			
+			$total = [];
+			$total['number'] = $i++;
+			$total['title'] = 'Total';
+			$records[] = $total;
+			$rez['data'] = $records;		
 			$columns = $newcolumns;
 		 }
 		 else
