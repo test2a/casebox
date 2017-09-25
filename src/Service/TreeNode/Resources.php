@@ -151,7 +151,7 @@ class Resources extends Base
 				foreach ($sr['facets']->facet_fields->{'resourcetype_s'} as $k => $v) {
 					$r = [
 						'name' => $k.$this->renderCount($v),
-						'id' => $this->getId($k),
+						'id' => $this->getId(str_replace('/', '&&', $k)),
 						'iconCls' => 'icon-users',
 					];
 					$rez['data'][] = $r;
@@ -349,7 +349,7 @@ class Resources extends Base
         //$p['fq'][] = 'cid:'.User::getId();
 
         $user_id = $this->lastNode->id;
-        $p['fq'][] = 'resourcetype_s:('.str_replace(' ', '\ ', $user_id).')';
+        $p['fq'][] = 'resourcetype_s:('.str_replace('&&','/',str_replace(' ', '\ ', $user_id)).')';
 		$p['fl'] = 'id,providername_s,name,template_id,cdate,resourcetype_s,additionalinformation_s,streetaddress_s,city_s,state_s,zipcode_s,phones_s,qualification_s,website_s,hours_s,servicearea_s,zipcode_s';
         $s = new Search();
 
