@@ -19,6 +19,7 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
         $this
             ->setName('casebox:database:report')
             ->setDescription('Create Report')
+			->addOption('date', 'd', InputOption::VALUE_OPTIONAL, 'Reindex all items. Solr will be cleared and all records from tree table will be marked as updated.')
         ;
     }
 
@@ -31,7 +32,9 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
         // Bootstrap
         $system = new System();
         $system->bootstrap($container);
-
+		
+		$date = (!empty($input->getOption('date'))) ? $input->getOption('date') : date('Y-m-d', time());
+		echo('test'.$date);
 		//$user = $container->get('doctrine.orm.entity_manager')->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername('root');
 		
 		$session = $container->get('session');
@@ -50,29 +53,34 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
             'data' => 1,
         ];
         $session->set('user', $user);
-		
 
-
-
-		
-        $res = $dbs->query(
-            'select  
-			SUM(IF (DATE(tree.udate) = CURDATE() OR DATE(tree.cdate) = CURDATE(),1,0)) total_client_contact, 
-			SUM(IF (DATE(tree.cdate) = CURDATE(),1,0)) new_open_cases,
+		$sql = 'select  
+			(SELECT count(distinct(IF(template_id=141,id,pid))) FROM 
+			tree stree where template_id 
+            in (527,311,289,607,141,3114,1175,1120,656,
+            651,559,553,533,510,505,489,482,455,440,172) 
+			AND DATE(stree.cdate) = \''.$date.'\') total_client_contact, 
+			SUM(IF (DATE(tree.cdate) = \''.$date.'\',1,0)) new_open_cases,
 			SUM(IF (sys_data like \'%"assessments_completed":[]%\' and sys_data like \'%"case_status":"Active"%\',1,0) ) client_intake,
 			SUM(IF (sys_data like \'%"case_status":"Information Only"%\',1,0) ) information_only,
 			SUM(IF (sys_data not like \'%"assessments_completed":[]%\' and sys_data like \'%"case_status":"Active"%\',1,0) ) assessments_total,
-			SUM(IF (sys_data like \'%"case_status":"Closed"%\'and sys_data like \'%"closurereason_s":"Goals achieved"%\',1,0) ) closed_records_recovery_plan_complete,
-			SUM(IF (sys_data like \'%"case_status":"Closed"%\'and sys_data not like \'%"closurereason_s":"Goals achieved"%\',1,0) ) closed_records_recovery_plan_not_complete,
-			(select count(*) from tree where template_id =607 and dstatus = 0) referrals_total,
-			SUM(IF (data like \'%"_addresstype":323%\' AND (DATE(tree.udate) = CURDATE() OR DATE(tree.cdate) = CURDATE())    ,1,0) ) temporary_housing,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id and templates.name like \'%Assessment\' 
+			(SELECT COUNT(*) FROM objects where 
+      sys_data like \'%"case_status":"Closed"%\' 
+      and sys_data like \'%"closurereason_s":"Goals achieved"%\' and
+      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_recovery_plan_complete,
+			(SELECT COUNT(*) FROM objects where 
+      sys_data like \'%"case_status":"Closed"%\' 
+      and sys_data not like \'%"closurereason_s":"Goals achieved"%\' and
+      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\') ) closed_records_recovery_plan_not_complete,
+			(select count(*) from tree where template_id =607 and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_total,
+			SUM(IF (data like \'%"_addresstype":323%\' AND (DATE(tree.cdate) = \''.$date.'\')    ,1,0) ) temporary_housing,
+			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id AND (DATE(tree.cdate) = \''.$date.'\') and tree.template_id = templates.id and templates.name like \'%Assessment\' 
 			group by templates.name
 			limit 1,1) top_client_need,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id and templates.name like \'%Assessment\' 
+			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and (DATE(tree.cdate) = \''.$date.'\') and tree.template_id = templates.id and templates.name like \'%Assessment\' 
 			group by templates.name
 			limit 2,1) second_client_need,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id and templates.name like \'%Assessment\' 
+			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id AND (DATE(tree.cdate) = \''.$date.'\') and tree.template_id = templates.id and templates.name like \'%Assessment\' 
 			group by templates.name
 			limit 3,1) third_client_need,
 			SUM(IF (sys_data like \'%"fematier":"Tier 1%\',1,0) ) fema_tier_1,
@@ -81,17 +89,17 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			SUM(IF (sys_data like \'%"fematier":"Tier 4%\',1,0) ) fema_tier_4,
 			case_managers.total case_mamager_total,
 			case_manager_supervisors.total case_manager_supervisor_total,
-			case_manager_supervisors.total/case_managers.total as case_manager_to_supervisor_ratio,
-			count(*)/case_managers.total as case_manager_to_client_ratio
+			CONCAT(case_manager_supervisors.total,\'/\',case_managers.total) as case_manager_to_supervisor_ratio,
+			CONCAT(case_managers.total,\'/\',SUM(IF (DATE(tree.cdate) = \''.$date.'\',1,0))) as case_manager_to_client_ratio
 			from objects, 
 			tree,
 			(select 141 template_id, count(*) total from users_groups 
-			where users_groups.id in 
+			where enabled = 1 and users_groups.id in 
 			(select user_id from users_groups_association where group_id = 
 			(select id from users_groups where replace(users_groups.name,\'Managers\',\'Manager\') = \'Case Manager\'))) case_managers,
 			(select 141 template_id, count(*) total from users_groups 
-			where users_groups.id in 
-			(select user_id from users_groups_association where group_id = 
+			where enabled = 1 and users_groups.id in 
+			(select user_id from users_groups_association where group_id in
 			(select id from users_groups 
 			where replace(replace(users_groups.name,\'Managers\',\'Manager\'), \'Supervisors\',\'Supervisor\') = \'Case Manager Supervisor\'))) case_manager_supervisors
 			where 
@@ -100,11 +108,23 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			objects.id = tree.id
 			and 
 			tree.dstatus = 0
-			group by tree.template_id, case_managers.total, case_manager_supervisors.total'
+      and
+      tree.id in (SELECT distinct(IF(template_id=141,id,pid)) FROM 
+			tree stree where template_id 
+            in (527,311,289,607,141,3114,1175,1120,656,
+            651,559,553,533,510,505,489,482,455,440,172)
+            	AND DATE(stree.cdate) = \''.$date.'\') 
+			group by tree.template_id, case_managers.total, case_manager_supervisors.total';
+        
+		
+		$res = $dbs->query(
+            $sql
         );
+		//echo($sql);
 
         if ($r = $res->fetch()) {
-			$r['report_date']=date('Y-m-d', time()).'T00:00:00Z';
+				echo('hi' . $date);
+			$r['report_date']=$date.'T00:00:00Z';
 			$data = [
 				'pid' => 1204,
 				'title' => 'New FEMA Report',
@@ -120,10 +140,11 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 		
 		}
 		
+		//% of Clients Seeking Behavioral Health Referral  
+		//% of Clients who want to speak to someone about disaster related stress
+		//% of Clients seeking referral for relational stress or for safety issues
 		
-
-        $res = $dbs->query(
-            'select  
+		$sql = 'select  
 			COUNT(*) client_fema_registrations, 
 			SUM(IF (substring(sys_data, LOCATE(\'identified_unmet_needs_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'identified_unmet_needs_ss\', sys_data))-LOCATE(\'identified_unmet_needs_ss\', sys_data) ) like \'%FEMA%\',1,0)) fema_help,
 			SUM(IF (substring(sys_data, LOCATE(\'referralservice_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'referralservice_ss\', sys_data))-LOCATE(\'referralservice_ss\', sys_data) ) like \'%SBA%\',1,0)) sba_help,
@@ -131,28 +152,22 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			SUM(IF (substring(sys_data, LOCATE(\'at_risk_population_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'at_risk_population_ss\', sys_data))-LOCATE(\'at_risk_population_ss\', sys_data) ) like \'% English %\',1,0)) self_reported_limited_english,
 			SUM(IF (substring(sys_data, LOCATE(\'at_risk_population_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'at_risk_population_ss\', sys_data))-LOCATE(\'at_risk_population_ss\', sys_data) ) like \'%Children%\',1,0)) self_reported_children,
 			SUM(IF (substring(sys_data, LOCATE(\'at_risk_population_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'at_risk_population_ss\', sys_data))-LOCATE(\'at_risk_population_ss\', sys_data) ) like \'%Elderly%\',1,0)) self_reported_elderly,
-			SUM(IF (data like \'%"_gender":214%\' and data like \'%_headofhousehold":347%\',1,0) ) male_hoh,
-			SUM(IF (data like \'%"_gender":215%\' and data like \'%_headofhousehold":347%\',1,0) ) female_hoh,
-			SUM(IF (data not like \'%"_gender":215%\' and data not like \'%"_gender":214%\' and data like \'%_headofhousehold":347%\',1,0) ) other_hoh,
-			SUM(IF (data like \'%"_gender":214%\' and data not like \'%_headofhousehold":347%\',1,0) ) male_not_hoh,
-			SUM(IF (data like \'%"_gender":215%\' and data not like \'%_headofhousehold":347%\',1,0) ) female_not_hoh,
-			SUM(IF (data not like \'%"_gender":215%\' and data not like \'%"_gender":214%\' and data not like \'%_headofhousehold":347%\',1,0) ) other_not_hoh,
-			SUM(IF (substring(sys_data, LOCATE(\'at_risk_population_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'at_risk_population_ss\', sys_data))-LOCATE(\'at_risk_population_ss\', sys_data) ) like \'%Children%\' and data like \'%"_gender":214%\' and data like \'%"_maritalstatus":1037%\' and data like \'%_headofhousehold":347%\',1,0) ) single_male_hoh_under_18,
-			SUM(IF (substring(sys_data, LOCATE(\'at_risk_population_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'at_risk_population_ss\', sys_data))-LOCATE(\'at_risk_population_ss\', sys_data) ) like \'%Children%\' and data like \'%"_gender":215%\' and data like \'%"_maritalstatus":1037%\' and data like \'%_headofhousehold":347%\',1,0) ) single_female_hoh_under_18,
-			SUM(IF (data like \'%"_race":238%\',1,0) ) race_white,
+			SUM(IF (data like \'%"_gender":214%\' and data like \'%_headofhousehold":3108%\',1,0) ) male_hoh,
+			SUM(IF (data like \'%"_gender":215%\' and data like \'%_headofhousehold":3108%\',1,0) ) female_hoh,
+			SUM(IF (data not like \'%"_gender":215%\' and data not like \'%"_gender":214%\' and data like \'%_headofhousehold":3108%\',1,0) ) other_hoh,
+			SUM(IF (data like \'%"_gender":214%\' and data not like \'%_headofhousehold":3108%\',1,0) ) male_not_hoh,
+			SUM(IF (data like \'%"_gender":215%\' and data not like \'%_headofhousehold":3108%\',1,0) ) female_not_hoh,
+			SUM(IF (data not like \'%"_gender":215%\' and data not like \'%"_gender":214%\' and data not like \'%_headofhousehold":3108%\',1,0) ) other_not_hoh,
+			SUM(IF (substring(sys_data, LOCATE(\'at_risk_population_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'at_risk_population_ss\', sys_data))-LOCATE(\'at_risk_population_ss\', sys_data) ) like \'%Children%\' and data like \'%"_gender":214%\' and data like \'%"_maritalstatus":3108%\' and data like \'%_headofhousehold":347%\',1,0) ) single_male_hoh_under_18,
+			SUM(IF (substring(sys_data, LOCATE(\'at_risk_population_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'at_risk_population_ss\', sys_data))-LOCATE(\'at_risk_population_ss\', sys_data) ) like \'%Children%\' and data like \'%"_gender":215%\' and data like \'%"_maritalstatus":3108%\' and data like \'%_headofhousehold":347%\',1,0) ) single_female_hoh_under_18,
+			SUM(IF (data like \'%"_race":239%\',1,0) ) race_white,
 			SUM(IF (data like \'%"_race":236%\',1,0) ) race_black,
 			SUM(IF (data like \'%"_race":234%\',1,0) ) race_american_indian,
 			SUM(IF (data like \'%"_race":235%\',1,0) ) race_asian,
-			SUM(IF (data like \'%"_race":235%\',1,0) ) race_chinese,
-			SUM(IF (data like \'%"_race":1138%\',1,0) ) race_filipino,
-			SUM(IF (data like \'%"_race":1144%\',1,0) ) race_guamanian,
-			SUM(IF (data like \'%"_race":1140%\',1,0) ) race_japanese,
-			SUM(IF (data like \'%"_race":1141%\',1,0) ) race_korean,
 			SUM(IF (data like \'%"_race":1143%\',1,0) ) race_hawaiian,
-			SUM(IF (data like \'%"_race":1146%\',1,0) ) race_other_pacific,
-			SUM(IF (data like \'%"_race":1145%\',1,0) ) race_samoan,
-			SUM(IF (data like \'%"_race":1142%\',1,0) ) race_vietnamese,
-			SUM(IF (data like \'%"_race":240%\',1,0) ) race_refused,
+			SUM(IF (data like \'%"_race":1137%\',1,0) ) race_refused,
+			SUM(IF (data like \'%"_race":240%\',1,0) ) race_other,
+			SUM(IF (data like \'%"_race":241%\',1,0) ) race_undetermined,			
 			SUM(IF (data not like \'%"_race"%\',1,0) ) race_not_collected,
 			SUM(IF (sys_data like \'%"housingclientdamagerating_s":"Major"%\',1,0) ) home_damage_major,
 			SUM(IF (sys_data like \'%"housingclientdamagerating_s":"Minor"%\',1,0) ) home_damage_minor,
@@ -172,11 +187,11 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			SUM(IF (sys_data like \'%"healthhavehealthinsurance_s":"Yes"%\',1,0) ) insurance_have_insurance,
 			SUM(IF (sys_data like \'%"healthinsurancetype_s":"S-Chip%"%\',1,0) ) insurance_s_chip,
 			SUM(IF (sys_data like \'%"transportationreferralneeded_s":"Yes"%\',1,0) ) transportation_referral_needed,
-			SUM(IF (sys_data like \'%Childcare%\' AND sys_data like \'%"childassesmentreferralservice_s"%\',1,0) ) child_care_referral_needed,
+			SUM(IF (sys_data like \'%Childcare%\' AND sys_data like \'%"childassesmentreferralneeded_s"%\',1,0) ) child_care_referral_needed,
 			SUM(IF (sys_data like \'%"childassesmentfosterchildren_s":"Yes"%\',1,0) ) child_fostercare,
-			SUM(IF (sys_data like \'%Head Start%\' AND sys_data like \'%"childassesmentreferralservice_s"%\',1,0) ) child_headstart_referral_needed,
-			SUM(IF (sys_data like \'%child support%\' AND sys_data like \'%"childassesmentreferralservice_s"%\',1,0) ) child_support_referral_needed,
-			SUM(IF ((sys_data like \'%School District%\' OR sys_data like \'%school supplies%\') AND sys_data like \'%"childassesmentreferralservice_s"%\',1,0) ) child_education_support_needed,
+			SUM(IF (sys_data like \'%Head Start%\' AND sys_data like \'%"childassesmentreferralneeded_s"%\',1,0) ) child_headstart_referral_needed,
+			SUM(IF (sys_data like \'%child support%\' AND sys_data like \'%"childassesmentreferralneeded_s"%\',1,0) ) child_support_referral_needed,
+			SUM(IF ((sys_data like \'%School District%\' OR sys_data like \'%school supplies%\') AND sys_data like \'%"childassesmentreferralneeded_s"%\',1,0) ) child_education_support_needed,
 			SUM(IF (sys_data like \'%"foodreferralneeded_s":"Yes"%\',1,0) ) food_referral_needed,
 			SUM(IF (sys_data like \'%D-SNAP%\',1,0) ) dsnap_referral_needed,
 			SUM(IF (sys_data like \'%"clothingreferralneeded_s":"Yes"%\',1,0) ) clothing_referral_needed,
@@ -184,13 +199,13 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			SUM(IF (sys_data like \'%"seniorservicesreferralneeded_s":"Yes"%\',1,0) ) senior_referral_needed,
 			SUM(IF (sys_data like \'%"languagereferralneeded_s":"Yes"%\',1,0) ) language_referral_needed,
 			SUM(IF (sys_data like \'%"legalservicesreferralneeded_s":"Yes"%\',1,0) ) legal_referral_needed,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id and templates.name like \'%Assessment\' 
+			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id AND (DATE(tree.cdate) = \''.$date.'\') and templates.name like \'%Assessment\' 
 			group by templates.name
 			limit 1,1) top_client_need,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id and templates.name like \'%Assessment\' 
+			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id AND (DATE(tree.cdate) = \''.$date.'\') and templates.name like \'%Assessment\' 
 			group by templates.name
 			limit 2,1) second_client_need,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id and templates.name like \'%Assessment\' 
+			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id AND (DATE(tree.cdate) = \''.$date.'\') and templates.name like \'%Assessment\' 
 			group by templates.name
 			limit 3,1) third_client_need,
 			SUM(IF (sys_data like \'%"fematier":"Tier 1%\',1,0) ) fema_tier_1,
@@ -205,11 +220,18 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			objects.id = tree.id
 			and 
 			tree.dstatus = 0
-			group by tree.template_id'
+			AND DATE(tree.cdate) = \''.$date.'\'
+			group by tree.template_id';
+        		
+		
+		//echo($sql);
+		
+        $res = $dbs->query(
+            $sql
         );
 
         if ($r = $res->fetch()) {
-			$r['report_date']=date('Y-m-d', time()).'T00:00:00Z';
+			$r['report_date']=$date.'T00:00:00Z';
 			$data = [
 				'pid' => 1204,
 				'title' => 'New OHSEPR Daily Report',

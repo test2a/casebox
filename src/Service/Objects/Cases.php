@@ -264,7 +264,7 @@ class Cases extends Object
 				$solrData['county'] = $results['county'];
 				$solrData['street_s'] = $results['street'];
 				$solrData['city_s'] = $results['city'];
-				$solrData['state_s'] = $results['state'];		
+				$solrData['state_s'] = $results['state'];			
 			}
 		}
 		
@@ -332,7 +332,7 @@ class Cases extends Object
 		$array = array(
 			'longitude' => $geometry['location']['lng'],
 			'latitude' => $geometry['location']['lat'],
-			'street_number' => $location['street_number'],
+			'street_number' => isset($location['street_number'])?$location['street_number']:'N/A',
 			'street' => $location['street_number']. ' ' . $location['street'],
 			'city' => $location['locality'],	
 			'state' => $location['admin_1'],				
@@ -371,7 +371,7 @@ class Cases extends Object
 			'age',
 			'fematier',
             'headofhousehold',
-	'location_type'
+	     'location_type'
         ];
         foreach ($properties as $property) {
 			unset($sd[$property]);

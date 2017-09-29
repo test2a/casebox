@@ -648,7 +648,7 @@ class Notifications
         $rez = nl2br(Object::processAndFormatMessage($action['data']['comment']));
         $rez .= '<br /><hr />'.'To add a comment, reply to this email.<br />';
 
-        // <a href="#">Unsubscribe</a> (will not receive emails with new comments for ‚Äú' . $name . '‚Äù)';
+        // <a href="#">Unsubscribe</a> (will not receive emails with new comments for ì' . $name . 'î)';
         return $rez;
     }
 

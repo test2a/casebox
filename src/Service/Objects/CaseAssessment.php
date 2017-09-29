@@ -30,7 +30,7 @@ class CaseAssessment extends Object
             $p = $this->data;
         }
         
-        $this->unSetParamsFromData($p);
+        $this->unSetParamsFromData($p);  //up
         $this->data = $p;
         $this->setParamsFromData($p);
         return parent::update($p);
@@ -151,18 +151,64 @@ class CaseAssessment extends Object
 				
 			
 			//Referrals
-			if (!empty($p['data']['_referraltype']) && !empty($objectId)) { //
-				if (!in_array($objectId, $caseSd['referrals_started']))
+			if (!empty($p['data']['_referraltype'])) { //
+				if (!empty($objectId))
 				{
-					$caseSd['referrals_started'][] = $objectId;
-				}
-				if ($p['data']['_result'] != 595 && !empty($p['data']['_result']))
-				{
-					if (!in_array($objectId, $caseSd['referrals_completed']))
+				    if (isset($caseSd['referrals_started']))
 					{
-						$caseSd['referrals_completed'][] = $objectId;
+					if (!in_array($objectId, $caseSd['referrals_started']))
+					{
+						$caseSd['referrals_started'][] = $objectId;
+					}
+					}
+					if (isset($p['data']['_result']))
+					{
+					if ($p['data']['_result'] != 595 && !empty($p['data']['_result']))
+					{
+					    if (isset($caseSd['referrals_completed']))
+						{
+						if (!in_array($objectId, $caseSd['referrals_completed']))
+						{
+							$caseSd['referrals_completed'][] = $objectId;
+						}
+						}
+					}
 					}
 				}
+						 
+						 $referralType = Objects::getCachedObject($p['data']['_referraltype']['value']);	
+						 $refferalTypeValue = empty($referralType) ? 'N/A' : $referralType->getHtmlSafeName();
+						 $referralSubType = Objects::getCachedObject($p['data']['_referraltype']['childs']['_referralservice']);						 
+						 $refferalSubTypeValue = empty($referralSubType) ? 'N/A' : $referralSubType->getHtmlSafeName();
+						 
+						 $resullt = isset($p['data']['_result'])?Objects::getCachedObject($p['data']['_result']):null;						 
+						 $resulltValue = empty($resullt) ? 'N/A' : $resullt->getHtmlSafeName();
+						 						 
+						 $p['data']['_resultname'] = $resulltValue;					 
+						 $p['data']['_refferalservicename'] = $refferalSubTypeValue;
+						 $p['data']['_refferaltypename'] = $refferalTypeValue;
+						 $objService = new Objects();
+						 if (!empty($caseId) && !empty($case))
+						 {
+						    $location = Objects::getCachedObject($caseData['data']['_location_type']);
+						    $p['data']['_clientname'] = $case->getHtmlSafeName();
+						    $p['data']['_clientlocation'] = empty($location) ? '' : $location->getHtmlSafeName();
+						    $p['data']['_clientcounty'] = isset($caseSd['solr']['county'])?$caseSd['solr']['county']:'N/A';
+						 }				
+						 if (!empty($p['data']['_provider']) && !empty(Objects::getCachedObject($p['data']['_provider'])))
+						 {
+						    $resource = $objService->load(['id' => $p['data']['_provider']]);	
+						 	$p['data']['_resourcename'] = empty($resource) ? 'N/A' : $resource['data']['data']['_providername'];
+						    $p['data']['_resourcelocation'] = empty($resource) ? 'N/A' : $resource['data']['data']['_city'];
+						    //$p['data']['_resourcecounty'] = empty($resource) ? 'N/A' : $resource['data']['data']['_city'];					    	
+						 }		
+						 else
+						 {
+						 	$p['data']['_resourcename'] = 'Not Identified';
+						    $p['data']['_resourcelocation'] = '';
+						    //$p['data']['_resourcecounty'] = '';
+						 }		
+				
 			}
 			
 			//Assessments
@@ -251,7 +297,7 @@ class CaseAssessment extends Object
 									foreach ($v as $id) {
 										$obj = Objects::getCachedObject($id);	
 										$object = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
-										if (!in_array($object, caseSd[$sfn])) {	
+										if (!in_array($object, $caseSd[$sfn])) {	
 											$caseSd[$sfn][] = strval($object);	
 										}
 									}

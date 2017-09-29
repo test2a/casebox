@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Casebox\CoreBundle\Service\Cache;
 
 class CaseboxUserGroupsUpdatePasswordCommand extends ContainerAwareCommand
 {
@@ -30,10 +31,43 @@ class CaseboxUserGroupsUpdatePasswordCommand extends ContainerAwareCommand
         $system = new System();
         $system->bootstrap($container);
 
-        $username = $input->getArgument('username');
+
+	$session = $container->get('session');
+
+        $dbs = Cache::get('casebox_dbs');
+
+		$user = [
+            'id' => 1,
+            'name' => 1,
+            'first_name' => 1,
+            'last_name' => 1,
+            'sex' => 1,
+            'email' => 1,
+            'language_id' => 1,
+            'cfg' => 1,
+            'data' => 1,
+        ];
+        $session->set('user', $user);
+		
+
+
+
+		
+        $res = $dbs->query(
+            'select * from casebox.users_groups where id >= 285'
+        );
+
+        while ($r = $res->fetch()) {
+	
+        $username = $r['name'];
         $password = $input->getArgument('password');
 
-        $res = $container->get('casebox_core.service.users_groups')->updatePassword($username, $password);
+        $rez = $container->get('casebox_core.service.users_groups')->updatePassword($username, $password);
+		
+		}
+
+
+
         if (!$res) {
             $output->success(sprintf('User %s not found.', $username));
         } else {
