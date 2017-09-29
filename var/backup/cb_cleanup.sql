@@ -1,13 +1,13 @@
 delete from objects where id in (
 select id from tree where template_id 
-in (select id from templates where type like '%case%' or template_id in (140,3269,1205,1976)));
+in (select id from templates where type like '%case%' or template_id in (1598,3269,1205,1976)));
 
 delete from tree_info where id in (
 select id from tree where template_id 
-in (select id from templates where type like '%case%' or template_id in (140,3269,1205,1976)));
+in (select id from templates where type like '%case%' or template_id in (1598,3269,1205,1976)));
 
 delete from tree where template_id in 
-(select id from templates where type like '%case%' or template_id in (140,3269,1205,1976));
+(select id from templates where type like '%case%' or template_id in (1598,3269,1205,1976));
 
 delete from objects where id not in (select id from tree_info);
 
