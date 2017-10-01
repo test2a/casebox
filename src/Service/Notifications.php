@@ -184,8 +184,11 @@ class Notifications
 				foreach($rez['data'] as &$r)
 				{
 					$newcolumns[$r['report_dt']] = ["solr_column_name"=>$r['report_dt'],"title"=>substr($r['report_dt'],0,10),"width"=>100];
-					$record[$r['report_dt']] = $r[$t['solr_column_name']];
-					if (is_numeric($r[$t['solr_column_name']]))
+					if (isset($r[$t['solr_column_name']]))
+					{
+						$record[$r['report_dt']] = $r[$t['solr_column_name']];
+					}
+					if (isset($r[$t['solr_column_name']]) && is_numeric($r[$t['solr_column_name']]))
 					{
 						$record['total'] = $record['total'] + $r[$t['solr_column_name']];
 					}
@@ -648,7 +651,7 @@ class Notifications
         $rez = nl2br(Object::processAndFormatMessage($action['data']['comment']));
         $rez .= '<br /><hr />'.'To add a comment, reply to this email.<br />';
 
-        // <a href="#">Unsubscribe</a> (will not receive emails with new comments for ì' . $name . 'î)';
+        // <a href="#">Unsubscribe</a> (will not receive emails with new comments for ‚Äú' . $name . '‚Äù)';
         return $rez;
     }
 
