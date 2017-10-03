@@ -21,6 +21,7 @@ class SolrUpdateCommand extends ContainerAwareCommand
      */
     protected function configure()
     {
+        ini_set('memory_limit', '-1');
         $this
             ->setName('casebox:solr:update')
             ->setDescription('Update solr index.')
