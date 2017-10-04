@@ -151,6 +151,7 @@ class Notifications
 			
 			$p['id'] = '11-Admin';
 			$p['from'] = 'grid';
+			$p['rows'] = 1500;
 			$p['skipSecurity'] = true;
 			$fq = $configuration['query'];
 
@@ -209,6 +210,7 @@ class Notifications
 		 {
 			$p['id'] = '11-Admin';
 			$p['from'] = 'grid';
+			$p['rows'] = 1500;
 			$fq = $configuration['query'];
 
 			// check if fq is set and add it to result
