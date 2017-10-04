@@ -454,6 +454,7 @@ class Search extends Solr\Client
                 'facet.field',
                 'facet.query',
                 'facet.range',
+                'facet.limit',
                 'facet.range.start',
                 'facet.range.end',
                 'facet.range.gap',
