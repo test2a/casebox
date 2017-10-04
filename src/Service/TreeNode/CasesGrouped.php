@@ -154,6 +154,7 @@ class CasesGrouped extends Base
             $p['rows'] = 0;
             $p['facet'] = true;
             $p['facet.missing'] ='on';//true;
+	    $p['facet.limit'] =5000;
             $p['facet.field'] = [
                 '{!ex=task_u_assignee key=1assigned}task_u_assignee',
                 '{!ex=cid key=2cid}cid',
