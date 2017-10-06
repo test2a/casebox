@@ -32,9 +32,13 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
         // Bootstrap
         $system = new System();
         $system->bootstrap($container);
+		$locationFolder = 41491;
+		$countyFolder = 41490;
+		$regionFolder = 41500;
+		
 		
 		$date = (!empty($input->getOption('date'))) ? $input->getOption('date') : date('Y-m-d', time());
-		echo('test'.$date);
+		//echo('test'.$date);
 		//$user = $container->get('doctrine.orm.entity_manager')->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername('root');
 		
 		$session = $container->get('session');
@@ -54,11 +58,63 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
         ];
         $session->set('user', $user);
 
-		$sql = 'select  
+		$locs = $dbs->query(
+			'select
+				substring(data, LOCATE(\'"_locationcounty":\', data)+19, 
+				LOCATE(\'"\',data,LOCATE(\'"_locationcounty":\', data)+19)-
+				(LOCATE(\'"_locationcounty":\', data)+19)) locationcounty,
+				substring(data, LOCATE(\'"_locationregion":\', data)+19, 
+				LOCATE(\'"\',data,LOCATE(\'"_locationregion":\', data)+19)-
+				(LOCATE(\'"_locationregion":\', data)+19)) locationregion,
+				objects.id,name
+				from objects,tree where tree.id = objects.id
+				and tree.template_id = 3269
+				and dstatus = 0'
+		);
+		$locations = array();
+
+        while ($row = $locs->fetch()) { //START LOCATIONS
+			$locations[] = $row;
+			$this->runReport($row['name'], $row['id'], $date, $locationFolder,$dbs);
+		} //END LOCATIONS		
+		
+		//print_r($locations);
+		foreach($locations as $key => $value){
+		   $regions[$value['locationregion']][$key] = $value['id'];
+		   $counties[$value['locationcounty']][$key] = $value['id'];
+		   $all[] = $value['id'];
+		}
+
+		foreach($counties as $countyname => $locations) //START COUNTIES
+		{
+			//echo($countyname. implode(', ',$locations));
+			$this->runReport($countyname, implode(', ',$locations), $date, $countyFolder,$dbs);
+		} //END COUNTIES
+		//var_dump($newarray);		
+
+		foreach($regions as $regionname => $locations) //START REGIONS
+		{
+			//echo($regionname. implode(', ',$locations));
+			$this->runReport($regionname, implode(', ',$locations), $date, $regionFolder,$dbs);
+		} //END REGIONS
+		
+		$this->runReport('', implode(', ',$all), $date, 1204,$dbs);
+		
+        $output->success('command casebox:database:report');
+    }
+	
+	private function runReport($areaName, $locations, $date, $pid,$dbs)
+	{
+		
+$femasql = 'select  
 			(SELECT count(distinct(IF(template_id=141,id,pid))) FROM 
 			tree stree where template_id 
             in (527,311,289,607,141,3114,1175,1120,656,
             651,559,553,533,510,505,489,482,455,440,172) 
+			and IF(template_id=141,id,pid) in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))				
 			AND DATE(stree.cdate) = \''.$date.'\') total_client_contact, 
 			SUM(IF (DATE(tree.cdate) = \''.$date.'\',1,0)) new_open_cases,
 			SUM(IF (sys_data like \'%"assessments_completed":[]%\' and sys_data like \'%"case_status":"Active"%\',1,0) ) client_intake,
@@ -66,22 +122,170 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			SUM(IF (sys_data not like \'%"assessments_completed":[]%\' and sys_data like \'%"case_status":"Active"%\',1,0) ) assessments_total,
 			(SELECT COUNT(*) FROM objects where 
       sys_data like \'%"case_status":"Closed"%\' 
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
       and sys_data like \'%"closurereason_s":"Goals achieved"%\' and
       sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_recovery_plan_complete,
-			(SELECT COUNT(*) FROM objects where 
-      sys_data like \'%"case_status":"Closed"%\' 
-      and sys_data not like \'%"closurereason_s":"Goals achieved"%\' and
-      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\') ) closed_records_recovery_plan_not_complete,
-			(select count(*) from tree where template_id =607 and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_total,
+  (SELECT COUNT(*) FROM objects where
+      sys_data like \'%"case_status":"Closed"%\'
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
+      and sys_data like \'%"closurereason_s":"Partial goals met, transitioning to other service provider%\' and
+      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_transitioning,
+(SELECT COUNT(*) FROM objects where
+      sys_data like \'%"case_status":"Closed"%\'
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
+      and sys_data like \'%"closurereason_s":"Partial goals met, resources have been exhausted"%\' and
+      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_resources_exhaused,
+ (SELECT COUNT(*) FROM objects where
+      sys_data like \'%"case_status":"Closed"%\'
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
+      and sys_data like \'%"closurereason_s":"No longer able to contact client"%\' and
+      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_no_longer_able_to_contact,
+  (SELECT COUNT(*) FROM objects where
+      sys_data like \'%"case_status":"Closed"%\'
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
+      and sys_data like \'%"closurereason_s":"Disaster program deactivated"%\' and
+      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_deactivated,
+   (SELECT COUNT(*) FROM objects where
+      sys_data like \'%"case_status":"Closed"%\'
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
+      and sys_data like \'%"closurereason_s":"Client has withdrawn from case management"%\' and
+      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_withdrawn,   
+   (SELECT COUNT(*) FROM objects where
+      sys_data like \'%"case_status":"Closed"%\'
+			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
+      and sys_data like \'%"closurereason_s":"Client has moved out of service area"%\' and
+      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_moved, 
+			(select count(*) from tree where template_id =607 
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_total,
+			 (select count(*) from tree where template_id =607 and name like \'Behavioral Health%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_behavioral,   
+			 (select count(*) from tree where template_id =607 and name like \'Child%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_child,  
+			 (select count(*) from tree where template_id =607 and name like \'Clothing%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_clothing,  
+			 (select count(*) from tree where template_id =607 and name like \'Employment%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_employment,  
+			  (select count(*) from tree where template_id =607 and name like \'FEMA%\'
+						AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_fema,  
+			  (select count(*) from tree where template_id =607 and name like \'Financial%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_financial,  
+			  (select count(*) from tree where template_id =607 and name like \'Food%\'
+						AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_food,  
+			 (select count(*) from tree where template_id =607 and name like \'Furniture%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_furniture,                          
+			 (select count(*) from tree where template_id =607 and name like \'Health%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_health,                          
+			 (select count(*) from tree where template_id =607 and name like \'Housing%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_housing,                          
+			 (select count(*) from tree where template_id =607 and name like \'Language%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_language,                          
+			 (select count(*) from tree where template_id =607 and name like \'Legal Services%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_legal,                                                    
+			 (select count(*) from tree where template_id =607 and name like \'Senior Services%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_senior,                          
+			 (select count(*) from tree where template_id =607 and name like \'Transportation%\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_transportation,  			
 			SUM(IF (data like \'%"_addresstype":323%\' AND (DATE(tree.cdate) = \''.$date.'\')    ,1,0) ) temporary_housing,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id AND (DATE(tree.cdate) = \''.$date.'\') and tree.template_id = templates.id and templates.name like \'%Assessment\' 
-			group by templates.name
+			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
+			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
+			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			group by tree.name
 			limit 1,1) top_client_need,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and (DATE(tree.cdate) = \''.$date.'\') and tree.template_id = templates.id and templates.name like \'%Assessment\' 
-			group by templates.name
+			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
+			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
+			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			group by tree.name
 			limit 2,1) second_client_need,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id AND (DATE(tree.cdate) = \''.$date.'\') and tree.template_id = templates.id and templates.name like \'%Assessment\' 
-			group by templates.name
+			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
+			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
+			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			group by tree.name
 			limit 3,1) third_client_need,
 			SUM(IF (sys_data like \'%"fematier":"Tier 1%\',1,0) ) fema_tier_1,
 			SUM(IF (sys_data like \'%"fematier":"Tier 2%\',1,0) ) fema_tier_2,
@@ -95,11 +299,11 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			tree,
 			(select 141 template_id, count(*) total from users_groups 
 			where enabled = 1 and users_groups.id in 
-			(select user_id from users_groups_association where group_id = 
+			(select user_id from users_groups_association where DATE(cdate) <= \''.$date.'\' AND group_id in 
 			(select id from users_groups where replace(users_groups.name,\'Managers\',\'Manager\') = \'Case Manager\'))) case_managers,
 			(select 141 template_id, count(*) total from users_groups 
 			where enabled = 1 and users_groups.id in 
-			(select user_id from users_groups_association where group_id in
+			(select user_id from users_groups_association where DATE(cdate) <= \''.$date.'\' AND group_id in
 			(select id from users_groups 
 			where replace(replace(users_groups.name,\'Managers\',\'Manager\'), \'Supervisors\',\'Supervisor\') = \'Case Manager Supervisor\'))) case_manager_supervisors
 			where 
@@ -108,43 +312,21 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			objects.id = tree.id
 			and 
 			tree.dstatus = 0
-      and
+	  and
       tree.id in (SELECT distinct(IF(template_id=141,id,pid)) FROM 
 			tree stree where template_id 
             in (527,311,289,607,141,3114,1175,1120,656,
             651,559,553,533,510,505,489,482,455,440,172)
-            	AND DATE(stree.cdate) = \''.$date.'\') 
+            	AND DATE(stree.cdate) = \''.$date.'\'
+and IF(template_id=141,id,pid) in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))				
+				) 
 			group by tree.template_id, case_managers.total, case_manager_supervisors.total';
-        
-		
-		$res = $dbs->query(
-            $sql
-        );
-		//echo($sql);
-
-        if ($r = $res->fetch()) {
-				echo('hi' . $date);
-			$r['report_date']=$date.'T00:00:00Z';
-			$data = [
-				'pid' => 1204,
-				'title' => 'New FEMA Report',
-				'template_id' => 1205,
-				'path' => '/Test Event/Reports/',
-				'view' => 'edit',
-				'name' => 'New FEMA Daily Report',
-				'data' => $r,
-			];
 			
-			$objService = new Objects();
-			$newReferral =$objService->create($data);		
-		
-		}
-		
-		//% of Clients Seeking Behavioral Health Referral  
-		//% of Clients who want to speak to someone about disaster related stress
-		//% of Clients seeking referral for relational stress or for safety issues
-		
-		$sql = 'select  
+			
+	$ohseprsql = 'select  
 			COUNT(*) client_fema_registrations, 
 			SUM(IF (substring(sys_data, LOCATE(\'identified_unmet_needs_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'identified_unmet_needs_ss\', sys_data))-LOCATE(\'identified_unmet_needs_ss\', sys_data) ) like \'%FEMA%\',1,0)) fema_help,
 			SUM(IF (substring(sys_data, LOCATE(\'referralservice_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'referralservice_ss\', sys_data))-LOCATE(\'referralservice_ss\', sys_data) ) like \'%SBA%\',1,0)) sba_help,
@@ -187,6 +369,9 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			SUM(IF (sys_data like \'%"healthhavehealthinsurance_s":"Yes"%\',1,0) ) insurance_have_insurance,
 			SUM(IF (sys_data like \'%"healthinsurancetype_s":"S-Chip%"%\',1,0) ) insurance_s_chip,
 			SUM(IF (sys_data like \'%"transportationreferralneeded_s":"Yes"%\',1,0) ) transportation_referral_needed,
+			SUM(IF (sys_data like \'%"medicalreferralneeded_s":"Yes"%\',1,0) ) health_referral_needed,
+            SUM(IF (sys_data like \'%"medicalliketospeak_s":"Yes"%\',1,0) ) client_speak_to_someone,
+            SUM(IF (sys_data like \'%"medicalindistress_s":"Yes"%\',1,0) ) relational_stress,			
 			SUM(IF (sys_data like \'%Childcare%\' AND sys_data like \'%"childassesmentreferralneeded_s"%\',1,0) ) child_care_referral_needed,
 			SUM(IF (sys_data like \'%"childassesmentfosterchildren_s":"Yes"%\',1,0) ) child_fostercare,
 			SUM(IF (sys_data like \'%Head Start%\' AND sys_data like \'%"childassesmentreferralneeded_s"%\',1,0) ) child_headstart_referral_needed,
@@ -199,14 +384,32 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			SUM(IF (sys_data like \'%"seniorservicesreferralneeded_s":"Yes"%\',1,0) ) senior_referral_needed,
 			SUM(IF (sys_data like \'%"languagereferralneeded_s":"Yes"%\',1,0) ) language_referral_needed,
 			SUM(IF (sys_data like \'%"legalservicesreferralneeded_s":"Yes"%\',1,0) ) legal_referral_needed,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id AND (DATE(tree.cdate) = \''.$date.'\') and templates.name like \'%Assessment\' 
-			group by templates.name
+			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
+			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
+			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			group by tree.name
 			limit 1,1) top_client_need,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id AND (DATE(tree.cdate) = \''.$date.'\') and templates.name like \'%Assessment\' 
-			group by templates.name
+			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
+			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
+			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			group by tree.name
 			limit 2,1) second_client_need,
-			(SELECT REPLACE(templates.name,\'Assessment\',\'\') FROM   objects, tree, templates where objects.id = tree.id and tree.template_id = templates.id AND (DATE(tree.cdate) = \''.$date.'\') and templates.name like \'%Assessment\' 
-			group by templates.name
+			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
+			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
+			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			group by tree.name
 			limit 3,1) third_client_need,
 			SUM(IF (sys_data like \'%"fematier":"Tier 1%\',1,0) ) fema_tier_1,
 			SUM(IF (sys_data like \'%"fematier":"Tier 2%\',1,0) ) fema_tier_2,
@@ -220,32 +423,76 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 			objects.id = tree.id
 			and 
 			tree.dstatus = 0
+			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in (LOCATION_STUFF) 
 			AND DATE(tree.cdate) = \''.$date.'\'
-			group by tree.template_id';
-        		
+			group by tree.template_id';		
+				
 		
-		//echo($sql);
 		
-        $res = $dbs->query(
-            $sql
-        );
+			$res = $dbs->query(
+				str_replace("LOCATION_STUFF",$locations,$femasql)
+			);
+			if ($r = $res->fetch()) {
+				$id = null;
+				$sql2= 'select * from tree where template_id = 1205 and pid = '.$pid.' and (name like \'%'.$areaName.' - '.$date.'%\' or 
+							name like \'%'.$areaName.' - '.date("m/d/Y", strtotime($date)).'%\')';
+						//echo($sql2);
+						$rezz = $dbs->query(
+							$sql2
+						);
 
-        if ($r = $res->fetch()) {
-			$r['report_date']=$date.'T00:00:00Z';
-			$data = [
-				'pid' => 1204,
-				'title' => 'New OHSEPR Daily Report',
-				'template_id' => 1976,
-				'path' => '/Test Event/Reports/',
-				'view' => 'edit',
-				'name' => 'New OHSEPR Daily Report',
-				'data' => $r,
-			];
+						if ($rz = $rezz->fetch()) {
+							$id = $rz['id'];
+						}
+				$r['report_date']=$date.'T00:00:00Z';
+				$r['area'] = $areaName;
+				$data = [
+					'id' => is_null($id)?null:$id,
+					'pid' => $pid,//3286,
+					'title' => 'New FEMA Report',
+					'template_id' => 1205,
+					'path' => '/Test Event/Reports/Locations',
+					'view' => 'edit',
+					'name' => 'New FEMA Daily Report',
+					'data' => $r,
+					];
+				$objService = new Objects();
+				$newReferral =$objService->save(['data'=>$data]);
+				
+				//OHSEPR Location Report
+				$res = $dbs->query(
+					str_replace("LOCATION_STUFF",$locations,$ohseprsql)
+				);
 		
-			$objService = new Objects();
-			$newReferral =$objService->create($data);
-        }		
-		
-        $output->success('command casebox:database:report');
-    }
+				if ($r = $res->fetch()) {
+						$id = null;
+						$sql2= 'select * from tree where template_id = 1976 and pid = '.$pid.' and (name like \'%'.$areaName.' - '.$date.'%\' or 
+									name like \'%'.$areaName.' - '.date("m/d/Y", strtotime($date)).'%\')';
+									//echo($sql2);
+								$rezz = $dbs->query(
+									$sql2
+								);
+
+								if ($rz = $rezz->fetch()) {
+									$id = $rz['id'];
+								}
+					$r['report_date']=$date.'T00:00:00Z';
+					$r['area'] = $areaName;
+					$data = [
+						'id' => is_null($id)?null:$id,
+						'pid' => $pid,
+						'title' => 'New OHSEPR Daily Report',
+						'template_id' => 1976,
+						'path' => '/Test Event/Reports/Counties',
+						'view' => 'edit',
+						'name' => 'New OHSEPR Daily Report',
+						'data' => $r,
+						];
+					$objService = new Objects();
+					$newReferral =$objService->save(['data'=>$data]);
+				}			
+			}			
+	}
 }
