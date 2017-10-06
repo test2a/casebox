@@ -294,7 +294,7 @@ class Client extends Service
 
         $docs = true;
 
-        while (!empty($docs) && ($nolimit || ($indexedDocsCount < 200000))) {
+        while (!empty($docs) && ($nolimit || ($indexedDocsCount < 2000000))) {
             $docs = [];
 
             $res = $dbs->query($sql, $lastId);
