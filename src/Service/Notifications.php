@@ -219,7 +219,7 @@ class Notifications
 					$record['area_s'] = $area['area_s'];
 					foreach($rez['data'] as &$r)
 					{
-						if ($r['area_s'] == $area['area_s'] || $area == "All" )
+						if ((isset($r['area_s']) && $r['area_s'] == $area['area_s']) || $area == "All")
 						{
 							$record[$r['report_dt']] = "0";
 							if (isset($r[$t['solr_column_name']]))
@@ -228,7 +228,7 @@ class Notifications
 							}
 							if (isset($r[$t['solr_column_name']]) && is_numeric($r[$t['solr_column_name']]))
 							{
-								$record['areatotal'] = isset($record['areatotal'])?$record['areatotal']:0 + $r[$t['solr_column_name']];
+								$record['areatotal'] = isset($record['areatotal'])?$record['areatotal']+ $r[$t['solr_column_name']]:0 + $r[$t['solr_column_name']];
 							}
 						}
 						if (isset($r[$t['solr_column_name']]) && is_numeric($r[$t['solr_column_name']]))
