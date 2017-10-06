@@ -375,15 +375,6 @@ Ext.define('CB.browser.view.Grid', {
             }]
         });
 
-        //reset scroll on veiew refresh
-        this.grid.view.on(
-            'refresh'
-            ,function(view){
-                view.scrollTo(0, 0, false);
-            }
-            ,this
-        );
-
         Ext.apply(this, {
             title: L.Explorer
             ,header: false
