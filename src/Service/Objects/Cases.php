@@ -769,7 +769,7 @@ class Cases extends Object
 
         $rez = [
             // 'edit' => $canEdit
-			'assessments'=>array_values($sd['solr']['assessments_needed']),
+			'assessments'=>!empty($sd['solr']['assessments_needed'])?array_values($sd['solr']['assessments_needed']):null,
 			'referrals'=>!empty($sd['solr']['referrals_started'])?array_values($sd['solr']['referrals_started']):null,
             'close' => $canEdit,
             'reopen' => ($isClosed && $isOwner)//,
