@@ -124,26 +124,32 @@ class Notifications
          	$p['fq'] = ['team_i:'.$p['teamId']];	
          }
          
-		 if ($p['reportId'] == "2728" || $p['reportId'] == "2729")
+		 if (strpos($configuration['title'], 'FEMA') !== false || strpos($configuration['title'], 'OHSEPR') !== false)
 		 {
 			if (empty($p['startDate']) && empty($p['endDate']))
 			{
 				$p['fq'] = ['report_dt:[NOW-7DAY/DAY TO NOW]'];	
+				$begin = new \DateTime( date("Y-m-d") );
+				$end = new \Datetime( strtotime("-1 week +1 day") );
 			}
 			else
 			{
 				if (empty($p['startDate'])) {
+					$begin = new \DateTime( date("Y-m-d") );
 					$p['startDate'] = '*';
 				}
 				else
 				{
+					$begin = new \DateTime( $p['startDate'] );
 					$p['startDate'] = $p['startDate'] . 'T00:00:00.000Z';
 				}
 				if (empty($p['endDate'])) {
 					$p['endDate'] = '*';
+					$end = new \Datetime( strtotime("-1 week +1 day") );
 				}
 				else
 				{
+					$end = new \Datetime( $p['endDate'] );
 					$p['endDate'] = $p['endDate'] . 'T00:00:00.000Z';
 				}				
 				$p['fq'] = ['report_dt:['.$p['startDate'].' TO '.$p['endDate'].']'];
@@ -175,34 +181,71 @@ class Notifications
 
 			$newcolumns['number'] = ["solr_column_name"=>'number',"title"=>'#',"width"=>100];
 			$newcolumns['title'] = ["solr_column_name"=>'title',"title"=>'Title',"width"=>200];
-			$i = 1;
-			foreach($columns as $t)
+			//$begin = new \DateTime( '2010-05-01' );
+			//$end = new \Datetime( '2010-05-10' );
+
+			$interval = \DateInterval::createFromDateString('1 day');
+			$end->modify( '+1 day' ); 
+			$period = new \DatePeriod($begin, $interval, $end);
+			foreach ( $period as $dt )
 			{
-				if ($t['solr_column_name'] !== 'report_dt') {
-				$record = [];
-				$record['number'] =  $i++;
-				$record['title'] = $t['title'];
-				foreach($rez['data'] as &$r)
+				$newcolumns[$dt->format( "Y-m-d" ).'T00:00:00Z'] = ["solr_column_name"=>$dt->format( "Y-m-d" ).'T00:00:00Z',"title"=>substr($dt->format( "Y-m-d" ),0,10),"width"=>100];						
+			}
+						
+			if(isset($configuration['groupField']))
+			{
+				$newcolumns['area_s'] = ["solr_column_name"=>'area_s',"title"=>'Area',"width"=>200];	
+					$out = array();
+					foreach ($rez['data'] as $row) {
+						$out[$row['area_s']] = $row;
+					}
+					$areas = array_values($out); // only required if you mind the new array being assoc
+			}
+			else
+			{
+				$areas = ["All"];
+			}
+			foreach($areas as $area)
+			{
+				$record['areatotal'] = 0;
+				$record['total']  = 0;
+				$i = 1;
+				foreach($columns as $t)
 				{
-					$newcolumns[$r['report_dt']] = ["solr_column_name"=>$r['report_dt'],"title"=>substr($r['report_dt'],0,10),"width"=>100];
-					if (isset($r[$t['solr_column_name']]))
+					if ($t['solr_column_name'] !== 'report_dt' && $t['solr_column_name'] !== 'area_s') {
+					$record = [];
+					$record['number'] =  $i++;		
+					$record['title'] = $t['title'];
+					$record['area_s'] = $area['area_s'];
+					foreach($rez['data'] as &$r)
 					{
-						$record[$r['report_dt']] = $r[$t['solr_column_name']];
+						if ($r['area_s'] == $area['area_s'] || $area == "All" )
+						{
+							$record[$r['report_dt']] = "0";
+							if (isset($r[$t['solr_column_name']]))
+							{
+								$record[$r['report_dt']] = $r[$t['solr_column_name']];
+							}
+							if (isset($r[$t['solr_column_name']]) && is_numeric($r[$t['solr_column_name']]))
+							{
+								$record['areatotal'] = isset($record['areatotal'])?$record['areatotal']:0 + $r[$t['solr_column_name']];
+							}
+						}
+						if (isset($r[$t['solr_column_name']]) && is_numeric($r[$t['solr_column_name']]))
+						{
+							$record['total'] = isset($record['total'])?$record['total'] + $r[$t['solr_column_name']]:$r[$t['solr_column_name']];
+						}
 					}
-					if (isset($r[$t['solr_column_name']]) && is_numeric($r[$t['solr_column_name']]))
-					{
-						$record['total'] = $record['total'] + $r[$t['solr_column_name']];
+					$records[]= $record;
 					}
 				}
-				$records[]= $record;
-				}
+			}
+			if ($area != "All")
+			{
+				$newcolumns['areatotal'] = ["solr_column_name"=>'areatotal',"title"=>'Area Total',"width"=>100];
 			}
 			$newcolumns['total'] = ["solr_column_name"=>'total',"title"=>'Total',"width"=>100];
 			unset($rez['data']);
-			$total = [];
-			$total['number'] = $i++;
-			$total['title'] = 'Total';
-			$records[] = $total;
 			$rez['data'] = $records;		
 			$columns = $newcolumns;
 		 }
@@ -234,7 +277,7 @@ class Notifications
         }
 		
 		$rez['title'] = $configuration['title'];
-		$rez['groupField'] = $configuration['groupField'];
+		$rez['groupField'] = isset($configuration['groupField'])?$configuration['groupField']:null;
 		$rez['columns'] = $columns;
 		$rez['colTitles'] = $colTitles;
 		$rez['colOrder'] = $colOrder;
