@@ -496,8 +496,10 @@ class Search extends Solr\Client
 
         if (!empty($rez)) {
             $rez['facet'] = 'true';
-
-            if (empty($rez['facet.mincount'])) {
+			
+			$rez['facet.limit'] = 300; //Changing from default 100 to 300
+            
+			if (empty($rez['facet.mincount'])) {
                 $rez['facet.mincount'] = 1;
             }
 
