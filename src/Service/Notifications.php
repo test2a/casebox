@@ -114,7 +114,10 @@ class Notifications
             foreach ($configuration['DC'] as $colName => $col) {
                 if (@$col['hidden'] !== true) {
                     $columns[$colName] = $col;
-					$fl[] = $col['solr_column_name'];
+                    if (isset($col['solr_column_name']))
+                    {
+			$fl[] = $col['solr_column_name'];
+		    }			
                 }
             }
         }
