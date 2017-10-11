@@ -240,7 +240,7 @@ Ext.define('CB.ViewPort', {
             })
 
             ,toggleNotificationsReports: new Ext.Action({
-                tooltip: L.Notifications
+                tooltip: 'Reports'
                 ,itemId: 'toggleNotificationsReports'
                 // ,enableToggle: true
                 ,iconCls: 'im-assignment'
