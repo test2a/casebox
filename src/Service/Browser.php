@@ -674,17 +674,21 @@ class Browser
 			$this->setCustomIcons($rez['data']);
 		}
 
-		if (empty($rez['DC'])) {
-            $rez['DC'] = $p['DC'];
-        }				
-		
-        if (empty($rez['DC'])) {
-            $rez['DC'] = [
+	if (empty($rez['DC'])) 
+		{
+			if (isset($p['DC'])
+			{
+            	$rez['DC'] = $p['DC'];
+            }
+            else
+            {
+            	$rez['DC'] = [
                 'name' => [
                     'solr_column_name' => "name",
                     'idx' => 0,
                 ],
-            ];
+            	];
+            }
         }
 
         return $rez;
