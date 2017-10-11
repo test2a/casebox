@@ -676,7 +676,7 @@ class Browser
 
 	if (empty($rez['DC'])) 
 		{
-			if (isset($p['DC'])
+			if (isset($p['DC']))
 			{
             	$rez['DC'] = $p['DC'];
             }
