@@ -271,9 +271,18 @@ class Notifications
 
 		$colTitles = [];
         $colOrder = [];
-        foreach ($columns as $name => $col) {
+	$configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+	foreach ($columns as $name => $col) {
             $colTitles[] = empty($defaultColumns[$name]) ? @Util\coalesce($col['title'], $name) : $defaultColumns[$name]['title'];
             $colOrder[] = $name;
+	    if (strpos($name, 'config_') !== false)
+            {
+		$configValue = $configService->get(str_replace('config_','',$name));
+            	foreach($rez['data'] as &$r)
+		{
+			$r[$name] = $configValue;
+		}
+            }           		
         }
 		
 		$rez['title'] = $configuration['title'];
