@@ -125,6 +125,13 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
+      and sys_data not like \'%"closurereason_s":"Goals achieved"%\' and
+      sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_no_recovery_plan,			
+			(SELECT COUNT(*) FROM objects where 
+      sys_data like \'%"case_status":"Closed"%\' 
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
       and sys_data like \'%"closurereason_s":"Goals achieved"%\' and
       sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_recovery_plan_complete,
   (SELECT COUNT(*) FROM objects where
