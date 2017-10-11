@@ -11,6 +11,9 @@ use Casebox\CoreBundle\Service\Objects\Plugins\ContentItems;
 use Symfony\Component\DependencyInjection\Container;
 use Casebox\CoreBundle\Service\Notifications;
 use Dompdf\Dompdf;
+use Casebox\CoreBundle\Service\DataModel\FilesContent;
+use Casebox\CoreBundle\Service\DataModel\Files;
+use ZipArchive;
 
 class Instance
 {
@@ -111,7 +114,206 @@ class Instance
     public function getCSV($p)
     {
          $rez = [];
-		if($p['reportId'])
+		 $rez = $this->getCSVContent($p);
+		 	
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.csv');
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        echo implode("\n", $rez);
+    }
+    
+  public function getExport($p)
+    {
+    	$configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+        $zipname = $configService->get('files_dir').DIRECTORY_SEPARATOR.time().'.pdf';//.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.time().'.pdf';
+		$zip = new ZipArchive;
+		$zip->open($zipname, ZipArchive::CREATE);
+    	$reports = new Notifications();
+			$res = $reports->getReport($p);
+			array_unshift($res['data'], $res['colTitles']);
+			$records = $res['data'];
+       		$rez[] = implode(',', array_shift($records));
+		$count = 0;
+        foreach ($records as &$r) {
+            	$record = [];
+            	foreach ($res['colOrder'] as $t) {
+                	$t = strip_tags($r[$t]);
+
+                	if (!empty($t) && !is_numeric($t)) {
+                    $t = str_replace(
+                        [
+                            '"',
+                            "\n",
+                            "\r",
+                        ],
+                        [
+                            '""',
+                            '\n',
+                            '\r',
+                        ],
+                        $t
+                    );
+                    $t = '"'.$t.'"';
+                }
+                $record[] = $t;
+            }
+
+            $rez[] = implode(',', $record);
+        if ($count < 100)
+        {
+        $clientId = $r['id'];
+    	$filePlugin = new \Casebox\CoreBundle\Service\Objects\Plugins\Files();
+		$files = $filePlugin->getData($clientId);
+			
+		foreach ($files['data'] as $file) {
+			$fileId = $file['id'];
+		}		
+		
+		$r = Files::read($fileId);
+		if (!empty($r)) {
+            $content = FilesContent::read($r['content_id']);
+			$file = $configService->get('files_dir').$content['path'].DIRECTORY_SEPARATOR.$content['id'];
+			$zip->addFile($file, $clientId.'consentform.pdf');
+		}			
+		
+		$export = new Instance();
+		
+		$html = $export->getPDFContent($clientId);
+		//echo($html);
+		
+		$dompdf = new Dompdf();
+		$dompdf->loadHtml($html);
+		$dompdf->setPaper('A4', 'landscape');
+		$dompdf->render();
+		$recoveryPlan = $dompdf->output();
+		
+		$zip->addFromString($clientId.'recoveryplan.pdf',$recoveryPlan);
+		  } //count less than 100
+		  $count++;
+		}
+		$zip->addFromString('records.csv',implode("\n", $rez));
+				$zip->close();
+
+        header('Content-Type: application/zip; charset=utf-8');
+        header('Content-Disposition: attachment; filename='.date('Y-m-d_Hi').'.zip');
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        readfile($zipname);
+        exit(0);
+    }
+	
+	public function getPDF($p)
+	{
+		
+		$container = Cache::get('symfony.container');
+		$twig = $container->get('twig');
+		$configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+        // Check if object id is numeric
+        if (is_numeric($p)) {		
+        	$html = $this->getPDFContent($p);
+        }
+		else
+		{
+			if(isset($p['reportId']))
+			{
+			if ($p['reportId'] === 2727)
+			{
+				$this->getExport($p);
+			} 
+			}
+			$reports = new Notifications();
+			$res = $reports->getReport($p);
+			array_unshift($res['data'], $res['colTitles']);
+			$records = $res['data'];
+       		$rez[] = implode(',', array_shift($records));
+
+        	foreach ($records as &$r) {
+            	$record = [];
+            	foreach ($res['colOrder'] as $t) {
+                	$t = strip_tags($r[$t]);
+
+                	if (!empty($t) && !is_numeric($t)) {
+                    $t = str_replace(
+                        [
+                            '"',
+                            "\n",
+                            "\r",
+                        ],
+                        [
+                            '""',
+                            '\n',
+                            '\r',
+                        ],
+                        $t
+                    );
+                    $t = '"'.$t.'"';
+                }
+                $record[] = $t;
+            }
+
+            $rez[] = implode(',', $record);
+        	}	
+			
+			date_default_timezone_set("America/New_York");
+
+			$vars = [
+				'title' => $res['title'],
+				'columnTitle'=> $res['columns'],
+				'services'=>$records,
+				'currentDate'=> date("m/d/Y") .  ' ' .  date("h:i:sa")
+			];
+			$html = $twig->render('CaseboxCoreBundle:email:reports.html.twig', $vars);		
+		}
+		$dompdf = new Dompdf();
+		$dompdf->loadHtml($html);
+
+		// (Optional) Setup the paper size and orientation
+		$dompdf->setPaper('A4', 'landscape');
+
+		// Render the HTML as PDF
+		$dompdf->render();
+		$dompdf->stream('recovery_plan'.$p, array("Attachment" => false));
+
+		exit(0);
+	}
+
+    public function getHTML($p)
+    {
+        $rez = [];
+        $records = $this->getData($p);
+
+        $rez[] = '<th>'.implode('</th><th>', array_shift($records)).'</th>';
+
+        foreach ($records as $r) {
+            $record = [];
+            foreach ($r as $t) {
+                $t = strip_tags($t);
+                $record[] = $t;
+            }
+            $rez[] = '<td>'.implode('</td><td>', $record).'</td>';
+        }
+
+        header('Content-Type: text/html; charset=utf-8');
+        header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.html');
+        header("Pragma: no-cache");
+        header("Expires: 0");
+        echo '<!DOCTYPE html>
+            <html>
+            <header>
+                <meta http-equiv="content-type" content="text/html; charset=utf-8" >
+            </header>
+            <body>
+            <table border="1" style="border-collapse: collapse">
+            <tr>';
+        echo implode("</tr>\n<tr>", $rez);
+        echo '</tr></table></body></html>';
+    }
+    
+    public function getCSVContent($p)
+    {
+    	$rez = [];
+    	if($p['reportId'])
 		{
 			$reports = new Notifications();
 			$res = $reports->getReport($p);
@@ -179,28 +381,22 @@ class Instance
             $rez[] = implode(',', $record);
         }
 		}
-		
-        header('Content-Type: text/csv; charset=utf-8');
-        header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.csv');
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        echo implode("\n", $rez);
+		return $rez;
     }
-	
-	public function getPDF($p)
-	{
-		$container = Cache::get('symfony.container');
+    
+        public function getPDFContent($p)
+    {
+    	$container = Cache::get('symfony.container');
 		$twig = $container->get('twig');
-		$configService = Cache::get('symfony.container')->get('casebox_core.service.config');
-        // Check if object id is numeric
-        if (is_numeric($p)) {		
+		$configService = Cache::get('symfony.container')->get('casebox_core.service.config');	
+        	$services = null;
 			$objService = new Objects();
 			$obj = $objService->load(['id' => $p]);
 			//print_r($obj['data']['data']['sys_data']);
 			
 			$contentItems = new ContentItems();
 			$items = $contentItems->getData($p);
-			$femaNumber = $obj['data']['data']['_femanumber'];
+			$femaNumber = isset($obj['data']['data']['_femanumber'])?$obj['data']['data']['_femanumber']:null;
 			
 			if (empty($femaNumber)) {
 				$femaNumber = 'N/A';
@@ -244,7 +440,7 @@ class Instance
 						];	
 					}
 				}
-			$v = $obj['data']['data']['assigned'];
+			$v = isset($obj['data']['data']['assigned'])?$obj['data']['data']['assigned']:null;
 			
 			if (empty($v)) {
 				$assigned = 'N/A';
@@ -269,98 +465,7 @@ class Instance
 					$services,
 			];
 			$html = $twig->render('CaseboxCoreBundle:email:recovery-plan.html.twig', $vars);
-        }
-		else
-		{
-		$reports = new Notifications();
-			$res = $reports->getReport($p);
-			array_unshift($res['data'], $res['colTitles']);
-			$records = $res['data'];
-       		$rez[] = implode(',', array_shift($records));
-
-        	foreach ($records as &$r) {
-            	$record = [];
-            	foreach ($res['colOrder'] as $t) {
-                	$t = strip_tags($r[$t]);
-
-                	if (!empty($t) && !is_numeric($t)) {
-                    $t = str_replace(
-                        [
-                            '"',
-                            "\n",
-                            "\r",
-                        ],
-                        [
-                            '""',
-                            '\n',
-                            '\r',
-                        ],
-                        $t
-                    );
-                    $t = '"'.$t.'"';
-                }
-                $record[] = $t;
-            }
-
-            $rez[] = implode(',', $record);
-        	}	
-			
-			date_default_timezone_set("America/New_York");
-
-			$vars = [
-				'title' => $res['title'],
-				'columnTitle'=> $res['columns'],
-				'services'=>$records,
-				'currentDate'=> date("m/d/Y") .  ' ' .  date("h:i:sa")
-			];
-			$html = $twig->render('CaseboxCoreBundle:email:reports.html.twig', $vars);
-		}
-		
-		//echo ($html);
-		//return;
-		// instantiate and use the dompdf class
-		$dompdf = new Dompdf();
-		$dompdf->loadHtml($html);
-
-		// (Optional) Setup the paper size and orientation
-		$dompdf->setPaper('A4', 'landscape');
-
-		// Render the HTML as PDF
-		$dompdf->render();
-		$dompdf->stream('recovery_plan'.$p, array("Attachment" => false));
-
-		exit(0);
-	}
-
-    public function getHTML($p)
-    {
-        $rez = [];
-        $records = $this->getData($p);
-
-        $rez[] = '<th>'.implode('</th><th>', array_shift($records)).'</th>';
-
-        foreach ($records as $r) {
-            $record = [];
-            foreach ($r as $t) {
-                $t = strip_tags($t);
-                $record[] = $t;
-            }
-            $rez[] = '<td>'.implode('</td><td>', $record).'</td>';
-        }
-
-        header('Content-Type: text/html; charset=utf-8');
-        header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.html');
-        header("Pragma: no-cache");
-        header("Expires: 0");
-        echo '<!DOCTYPE html>
-            <html>
-            <header>
-                <meta http-equiv="content-type" content="text/html; charset=utf-8" >
-            </header>
-            <body>
-            <table border="1" style="border-collapse: collapse">
-            <tr>';
-        echo implode("</tr>\n<tr>", $rez);
-        echo '</tr></table></body></html>';
+		return $html;
     }
+    
 }
