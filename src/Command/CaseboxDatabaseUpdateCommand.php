@@ -50,8 +50,7 @@ class CaseboxDatabaseUpdateCommand extends ContainerAwareCommand
         $session->set('user', $user);
 		
         $res = $dbs->query(
-            'select * from objects, tree where tree.id = objects.id 
-			and tree.template_id = 607 and tree.id >= 18934'
+            'select * from tree where template_id in(1205,1976) and pid = 41491'
         );
         /*
                 $res = $dbs->query(
@@ -69,13 +68,30 @@ class CaseboxDatabaseUpdateCommand extends ContainerAwareCommand
 			echo ($objectId.',');
 
 			$obj = $objService->load($r);
-			$obj['data']['UPDATE_FIELD'] = 2;
-			
-			/*$obj['data']['data']['_street'] = $obj['data']['data']['_street'];
-			$obj['data']['data']['_city'] = $obj['data']['data']['_city'];
-			$obj['data']['data']['_state'] = $obj['data']['data']['_state'];
-			$obj['data']['data']['_zip'] = $obj['data']['data']['_zip'];*/
-			$obj = $objService->save($obj);
+			echo ($obj['data']['data']['area']);
+			$sqql = 
+			$locs = $dbs->query(
+				'select
+					substring(data, LOCATE(\'"_locationcounty":\', data)+19, 
+					LOCATE(\'"\',data,LOCATE(\'"_locationcounty":\', data)+19)-
+					(LOCATE(\'"_locationcounty":\', data)+19)) locationcounty,
+					substring(data, LOCATE(\'"_locationregion":\', data)+19, 
+					LOCATE(\'"\',data,LOCATE(\'"_locationregion":\', data)+19)-
+					(LOCATE(\'"_locationregion":\', data)+19)) locationregion,
+					objects.id,name
+					from objects,tree where tree.id = objects.id
+					and tree.template_id = 3269
+					and dstatus = 0
+					and name = \''.$obj['data']['data']['area'].'\'
+					order by locationregion, name'
+			);
+			if ($rz = $locs->fetch()) {
+						echo ($obj['data']['data']['area']);
+				$id = $rz['id'];
+				$obj['data']['data']['area'] = $rz['locationregion'].'-'.$rz['name'];
+				$obj = $objService->save($obj);
+			}
+
 			//break;
 		}
 		
