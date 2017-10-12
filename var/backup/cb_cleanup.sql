@@ -20,6 +20,7 @@ delete from favorites;
 delete from action_log;
 delete from files;
 delete from file_previews;
+delete from files_content;
 
 
 delete from users_groups_association where user_id in (select id from users_groups where id not in (1,2,22,34,30,315));
