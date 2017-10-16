@@ -210,7 +210,8 @@ Ext.define('CB.plugin.DisplayColumns', {
                     // column.id = rez.length;
                     column.dataIndex = key;
                     // column.stateId = key;
-                    column.header = Ext.valueFrom(column.header, column.title);
+                    //translate real time if available
+                    column.header = Ext.valueFrom(column.header, Ext.valueFrom(L[column.title],column.title));
 
                     //no need to specify custom renderer for date fields
                     //just set its type to date and specify desired format
