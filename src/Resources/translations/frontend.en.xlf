@@ -3243,11 +3243,11 @@
             </trans-unit>	
             <trans-unit id="3170">
                 <source>Reports</source>
-                <target>Informes</target>
+                <target>Reports</target>
             </trans-unit>   
             <trans-unit id="3171">
                 <source>Dashboard</source>
-                <target>Tablero</target>
+                <target>Dashboard</target>
             </trans-unit>               		
 		</body>
     </file>
