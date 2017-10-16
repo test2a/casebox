@@ -202,7 +202,7 @@
             <trans-unit id="661">
                 <source>Action</source>
                 <target>Acción</target>
-                    <note> from old Casebox (Action means a letter to court, a decision, i.e. any document) </note>
+                    <note> from old ECMRS (Action means a letter to court, a decision, i.e. any document) </note>
             </trans-unit>
             <trans-unit id="667">
                 <source>Active2</source>
@@ -1374,7 +1374,7 @@
             </trans-unit>
             <trans-unit id="1061">
                 <source>SearchCaseBox</source>
-                <target>Buscar en CaseBox</target>
+                <target>Buscar en ECMRS</target>
             </trans-unit>
             <trans-unit id="1062">
                 <source>SearchFiles</source>
@@ -1651,7 +1651,7 @@
             </trans-unit>
             <trans-unit id="1162">
                 <source>MyCaseBox</source>
-                <target>Mi CaseBox</target>
+                <target>Mi ECMRS</target>
             </trans-unit>
             <trans-unit id="1163">
                 <source>Recent</source>
@@ -2206,7 +2206,7 @@
             <trans-unit id="2816">
                 <source>Tree</source>
                 <target>Árbol</target>
-                    <note> All the data in Casebox resides in one big Tree (thats how we call the left Panel) </note>
+                    <note> All the data in ECMRS resides in one big Tree (thats how we call the left Panel) </note>
             </trans-unit>
             <trans-unit id="2817">
                 <source>Overview</source>
@@ -3213,6 +3213,42 @@
                 <source>Print</source>
                 <target>Print</target>
             </trans-unit>
+ 			<trans-unit id="3163">
+                <source>Overdue</source>
+                <target>Atrasado</target>
+            </trans-unit>
+            <trans-unit id="3164">
+                <source>Active</source>
+                <target>Activo</target>
+            </trans-unit>
+            <trans-unit id="3165">
+                <source>Closed</source>
+                <target>Cerrado</target>
+            </trans-unit>
+            <trans-unit id="3166">
+                <source>Pending</source>
+                <target>Pendiente</target>
+            </trans-unit>	
+            <trans-unit id="3167">
+                <source>Created</source>
+                <target>Creado</target>
+            </trans-unit>
+            <trans-unit id="3168">
+                <source>caseStatus5</source>
+                <target>Sólo información</target>
+            </trans-unit>			
+            <trans-unit id="3169">
+                <source>Information Only</source>
+                <target>Sólo información</target>
+            </trans-unit>	
+            <trans-unit id="3170">
+                <source>Reports</source>
+                <target>Informes</target>
+            </trans-unit>   
+            <trans-unit id="3171">
+                <source>Dashboard</source>
+                <target>Tablero</target>
+            </trans-unit>                     
         </body>
     </file>
 </xliff>

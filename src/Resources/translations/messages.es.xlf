@@ -56,7 +56,7 @@
             </trans-unit>
             <trans-unit id="27">
                 <source>Casebox_notifications</source>
-                <target>Casebox notificaciones</target>
+                <target>ECMRS notificaciones</target>
             </trans-unit>
             <trans-unit id="28">
                 <source>casebox_new_notifications</source>
@@ -356,7 +356,7 @@
             </trans-unit>
             <trans-unit id="137">
                 <source>CaseBoxNotification</source>
-                <target>CaseBox notificación</target>
+                <target>ECMRS notificación</target>
             </trans-unit>
             <trans-unit id="138">
                 <source>aboutNewCase</source>
@@ -516,11 +516,11 @@
             </trans-unit>
             <trans-unit id="2763">
                 <source>EmailNotFound</source>
-                <target>La dirección de correo electrónico especificada no está registrada en CaseBox</target>
+                <target>La dirección de correo electrónico especificada no está registrada en ECMRS</target>
             </trans-unit>
             <trans-unit id="2764">
                 <source>UsernameNotFound</source>
-                <target>Nombre de usuario especificado no está registrado en CaseBox</target>
+                <target>Nombre de usuario especificado no está registrado en ECMRS</target>
             </trans-unit>
             <trans-unit id="2765">
                 <source>UserHasNoMail</source>
@@ -528,7 +528,7 @@
             </trans-unit>
             <trans-unit id="2773">
                 <source>MailRecoverSubject</source>
-                <target>CaseBox recuperación de la contraseña</target>
+                <target>ECMRS recuperación de la contraseña</target>
             </trans-unit>
             <trans-unit id="2774">
                 <source>RecoverMessageSent</source>
@@ -544,7 +544,7 @@
             </trans-unit>
             <trans-unit id="2778">
                 <source>PasswordChangedMsg</source>
-                <target>La contraseña se ha modificado correctamente. Ahora usted puede acceder a CaseBox con la nueva contraseña.</target>
+                <target>La contraseña se ha modificado correctamente. Ahora usted puede acceder a ECMRS con la nueva contraseña.</target>
             </trans-unit>
             <trans-unit id="2779">
                 <source>aboutTaskOverdue</source>
@@ -838,7 +838,7 @@
             </trans-unit>
             <trans-unit id="3018">
                 <source>OpenInCasebox</source>
-                <target>Open in CaseBox</target>
+                <target>Open in ECMRS</target>
             </trans-unit>
             <trans-unit id="3020">
                 <source>ActionLog</source>
@@ -886,7 +886,7 @@
             </trans-unit>
             <trans-unit id="3090">
                 <source>MailInviteSubject</source>
-                <target>[Casebox] {creatorFullName} ({creatorEmail}) ivited you to {projectTitle}</target>
+                <target>ECMRS User Creation</target>
             </trans-unit>
             <trans-unit id="3101">
                 <source>status_changed</source>

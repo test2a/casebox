@@ -3240,7 +3240,15 @@
             <trans-unit id="3169">
                 <source>Information Only</source>
                 <target>Information Only</target>
-            </trans-unit>			
+            </trans-unit>	
+            <trans-unit id="3170">
+                <source>Reports</source>
+                <target>Informes</target>
+            </trans-unit>   
+            <trans-unit id="3171">
+                <source>Dashboard</source>
+                <target>Tablero</target>
+            </trans-unit>               		
 		</body>
     </file>
 </xliff>
