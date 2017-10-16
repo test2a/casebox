@@ -268,7 +268,7 @@
 			}			
 			
 			var c= Ext.create('Ext.panel.Panel', {
-				title: 'Facesheet',
+				title: L.Facesheet,
 				layout: {
 					align: 'stretch',
 					type: 'vbox'
@@ -294,7 +294,7 @@
 			// Assessments
 
 			c= Ext.create('Ext.panel.Panel', {
-				title: 'Assessments' + ' [' +assessmentData.data.length+']',
+				title: L.Assessments + ' [' +assessmentData.data.length+']',
 				layout: {
 					align: 'stretch',
 					type: 'vbox'
@@ -320,7 +320,7 @@
 					tbdAssessmentData[a].template_id = templateId;
 					tbdAssessmentData[a].name = templateName;
 					tbdAssessmentData[a].pid = r.data.objectProperties.data.id;
-					tbdAssessmentData[a].ago_text = 'to be created';
+					tbdAssessmentData[a].ago_text = L.ToBeCreated;
 					tbdAssessmentData[a].user = '';
 					tbdAssessmentData[a].id = null;
 					//rez += '<img class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
@@ -329,13 +329,13 @@
 				tbdAssessments.limit = 100;			
 				content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 				content.createMenu = assessmentMenu;	
-				content.updateTitle('Client Assessments to be completed');
+				content.updateTitle(L.ClientAssessmentsNeeded);
 				content.onLoadData(tbdAssessments);			
 				c.add(content);
 			}			
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = assessmentMenu;	
-			content.updateTitle('Client Assessments completed');
+			content.updateTitle(L.ClientAssessmentsCompleted);
 			content.onLoadData(assessmentData);
 			c.add(content);
 			items.push(c);			
@@ -343,7 +343,7 @@
 			// Recovery
 
 			c= Ext.create('Ext.panel.Panel', {
-				title: 'Referrals/Recovery' + ' [' +recoveryReferralData.data.length+']',
+				title: L.Referrals + '/' + L.Recovery + ' [' +recoveryReferralData.data.length+']',
 				layout: {
 					align: 'stretch',
 					type: 'vbox'
@@ -367,7 +367,7 @@
 					tbdRecoveryData[a].template_id = templateId;
 					tbdRecoveryData[a].name = templateName;
 					tbdRecoveryData[a].pid = r.data.objectProperties.data.id;
-					tbdRecoveryData[a].ago_text = 'to be created';
+					tbdRecoveryData[a].ago_text = L.ToBeCreated;
 					tbdRecoveryData[a].user = '';
 					tbdRecoveryData[a].id = null;
 					//rez += '<img class="i16u ' + iconCls + '" src="/css/i/s.gif">'+templateName +'';
@@ -375,7 +375,7 @@
 				tbdRecovery.data =tbdRecoveryData;
 				content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 				content.createMenu = recoveryMenu;				
-				content.updateTitle('Client Recovery to be completed');
+				content.updateTitle(L.ClientRecoveryNeeded);
 				content.onLoadData(tbdRecovery);			
 				c.add(content);
 			}			
@@ -383,33 +383,33 @@
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = referralMenu;	
 			//content.actions.add.setHidden(true);			
-			content.updateTitle('Client Referrals');
+			content.updateTitle(L.ClientReferrals);
 			content.onLoadData(referralData);
 			c.add(content);
 			
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = referralMenu;	
 			//content.actions.add.setHidden(true);			
-			content.updateTitle('Referrals Made');
+			content.updateTitle(L.ReferralsMade);
 			content.onLoadData(recoveryReferralData);
 			c.add(content);
 		
 		 	content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = referralMenu;	
 		 	//content.actions.add.setHidden(true);			
-		 	content.updateTitle('Completed Referrals');
+		 	content.updateTitle(L.CompletedReferrals);
 		 	content.onLoadData(recoveryCompletedData);
 		 	c.add(content);		
 
 			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
 			content.createMenu = recoveryMenu;	
-			content.updateTitle('Recovery Notes');
+			content.updateTitle(L.RecoveryNotes);
 			content.onLoadData(recoveryData);
 			
  			c.add(content);
  			content  = Ext.create('CBObjectPluginContentItems',{params: params})		
  			content.createMenu = taskMenu;	
- 			content.updateTitle('Client Tasks');
+ 			content.updateTitle(L.ClientTasks);
 
  			content.onLoadData(r.data.tasks);
  			c.add(content);
@@ -419,7 +419,7 @@
 			// Timeline
 
 			c= Ext.create('Ext.panel.Panel', {
-				title: 'Timeline',
+				title: L.Timeline,
 				layout: {
 					align: 'stretch',
 					type: 'vbox'

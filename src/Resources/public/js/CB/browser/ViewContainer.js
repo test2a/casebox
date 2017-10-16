@@ -97,7 +97,7 @@ Ext.define('CB.browser.ViewContainer', {
             })
 
 			,assignClient: new Ext.Action({
-			 text: 'Assign to yourself'
+			 text: L.AssignToYourself
 			 ,scope: this
 			 ,handler: this.onAssignClientClick
 			 })
@@ -157,14 +157,14 @@ Ext.define('CB.browser.ViewContainer', {
 
             ,contextExport: new Ext.Action({
                 iconCls: 'i-table-export'
-                ,text: 'Export Records'
+                ,text: L.ExportRecords
                 ,scope: this
                 ,handler: this.onExportClick
             })
 			
             ,pdfExport: new Ext.Action({
                 iconCls: 'i-book-open'
-                ,text: 'Print Recovery Plan'
+                ,text: L.PrintRecoveryPlan
                 ,scope: this
                 ,handler: this.onPdfExportClick
             })			
@@ -1701,7 +1701,7 @@ Ext.define('CB.browser.ViewContainer', {
             });
 
             this.setOwnerItem = new Ext.menu.Item({
-                text: 'Set Assignee'
+                text: L.SetAssignee
                 ,hideOnClick: false
                 ,menu: getMenuUserItems(
                     this.onSetOwnerClick

@@ -3248,7 +3248,195 @@
             <trans-unit id="3171">
                 <source>Dashboard</source>
                 <target>Dashboard</target>
-            </trans-unit>               		
+            </trans-unit>    
+            <trans-unit id="3172">
+                <source>ClientID</source>
+                <target>Client ID</target>
+            </trans-unit>    
+            <trans-unit id="3173">
+                <source>AssignedCM</source>
+                <target>Assigned CM</target>
+            </trans-unit> 
+            <trans-unit id="3174">
+                <source>FEMATier</source>
+                <target>FEMA Tier</target>
+            </trans-unit> 
+            <trans-unit id="3175">
+                <source>IntakeRepresentative</source>
+                <target>Intake Representative</target>
+            </trans-unit> 
+            <trans-unit id="3176">
+                <source>AssignToYourself</source>
+                <target>Assign to Yourself</target>
+            </trans-unit> 
+            <trans-unit id="3177">
+                <source>ExportRecords</source>
+                <target>Export Records</target>
+            </trans-unit> 
+            <trans-unit id="3178">
+                <source>PrintRecoveryPlan</source>
+                <target>Print Recovery Plan</target>
+            </trans-unit> 
+            <trans-unit id="3179">
+                <source>SetAssignee</source>
+                <target>Set Assignee</target>
+            </trans-unit>     
+            <trans-unit id="3180">
+                <source>Facesheet</source>
+                <target>Facesheet</target>
+            </trans-unit>  
+            <trans-unit id="3181">
+                <source>Assessments</source>
+                <target>Assessments</target>
+            </trans-unit>   
+            <trans-unit id="3182">
+                <source>Referrals</source>
+                <target>Referrals</target>
+            </trans-unit> 
+            <trans-unit id="3183">
+                <source>Recovery</source>
+                <target>Recovery</target>
+            </trans-unit>     
+            <trans-unit id="3184">
+                <source>Timeline</source>
+                <target>Timeline</target>
+            </trans-unit>        
+            <trans-unit id="3185">
+                <source>TaskStatus</source>
+                <target>Task Status</target>
+            </trans-unit>       
+            <trans-unit id="3186">
+                <source>DueDate</source>
+                <target>Due Date</target>
+            </trans-unit>        
+            <trans-unit id="3187">
+                <source>ClientAssessmentsNeeded</source>
+                <target>Client Assessments to be completed</target>
+            </trans-unit>       
+            <trans-unit id="3188">
+                <source>ClientAssessmentsCompleted</source>
+                <target>Client Assessments completed</target>
+            </trans-unit>       
+            <trans-unit id="3189">
+                <source>ToBeCreated</source>
+                <target>to be created</target>
+            </trans-unit>       
+            <trans-unit id="3190">
+                <source>ClientRecoveryNeeded</source>
+                <target>Client Recovery to be completed</target>
+            </trans-unit>       
+            <trans-unit id="3191">
+                <source>ClientReferrals</source>
+                <target>Client Referrals</target>
+            </trans-unit>                                                                   
+            <trans-unit id="3192">
+                <source>ReferralsMade</source>
+                <target>Referrals Made</target>
+            </trans-unit>       
+            <trans-unit id="3193">
+                <source>CompletedReferrals</source>
+                <target>Completed Referrals</target>
+            </trans-unit>  
+            <trans-unit id="3194">
+                <source>RecoveryNotes</source>
+                <target>Recovery Notes</target>
+            </trans-unit> 
+            <trans-unit id="3195">
+                <source>ClientTasks</source>
+                <target>Client Tasks</target>
+            </trans-unit>   
+            <trans-unit id="3196">
+                <source>TotalRecords</source>
+                <target>Total Records</target>
+            </trans-unit>  
+			<trans-unit id="3197">
+                <source>SelectReport</source>
+                <target>Select Report</target>
+            </trans-unit>   
+            <trans-unit id="3198">
+                <source>ReportFrom</source>
+                <target>From</target>
+            </trans-unit>  
+			<trans-unit id="3199">
+                <source>ReportTo</source>
+                <target>To</target>
+            </trans-unit> 
+            <trans-unit id="3200">
+                <source>PrintReport</source>
+                <target>Print Report</target>
+            </trans-unit>  
+			<trans-unit id="3201">
+                <source>ExportReport</source>
+                <target>Export Report</target>
+            </trans-unit>   
+			<trans-unit id="3202">
+                <source>ResourceId</source>
+                <target>Resource ID</target>
+            </trans-unit>       
+			<trans-unit id="3203">
+                <source>ResourceAgency</source>
+                <target>Resource/Agency</target>
+            </trans-unit>      
+			<trans-unit id="3204">
+                <source>ResourceType</source>
+                <target>Type of Resource</target>
+            </trans-unit>      
+			<trans-unit id="3205">
+                <source>AdditionalInformation</source>
+                <target>Additional Information/Services Provided</target>
+            </trans-unit>      
+			<trans-unit id="3206">
+                <source>Street</source>
+                <target>Street/Address</target>
+            </trans-unit>
+			<trans-unit id="3207">
+                <source>City</source>
+                <target>City</target>
+            </trans-unit>  
+			<trans-unit id="3208">
+                <source>State</source>
+                <target>State</target>
+            </trans-unit>  
+			<trans-unit id="3209">
+                <source>Zipcode</source>
+                <target>Zipcode</target>
+            </trans-unit>  
+			<trans-unit id="3210">
+                <source>Eligibility</source>
+                <target>Eligibility Qualifications</target>
+            </trans-unit>   
+			<trans-unit id="3211">
+                <source>Hours</source>
+                <target>Hours of Operation</target>
+            </trans-unit> 
+			<trans-unit id="3212">
+                <source>ServiceArea</source>
+                <target>Service Area</target>
+            </trans-unit>     
+			<trans-unit id="3213">
+                <source>FacilityName</source>
+                <target>Facility Name</target>
+            </trans-unit>    
+			<trans-unit id="3214">
+                <source>FacilityType</source>
+                <target>Type of Location</target>
+            </trans-unit>    
+ 			<trans-unit id="3215">
+                <source>County</source>
+                <target>County</target>
+            </trans-unit>    
+ 			<trans-unit id="3216">
+                <source>SessionAboutToExpire</source>
+                <target>Your Session is About to Expire</target>
+            </trans-unit>  
+ 			<trans-unit id="3217">
+                <source>SessionExpireMessage</source>
+                <target>Your session will expire in one minute. Would you like to continue your session?</target>
+            </trans-unit> 
+ 			<trans-unit id="3218">
+                <source>RequiredFieldsMessage</source>
+                <target>Please fix required fields and resubmit</target>
+            </trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                		
 		</body>
     </file>
 </xliff>

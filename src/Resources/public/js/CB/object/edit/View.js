@@ -108,7 +108,7 @@ Ext.define('CB.object.edit.View', {
 		var rez = this.editForm.isValid();	
 		if (!rez)
 		{
-		  Ext.Msg.alert(L.Error, 'Please fix required fields and resubmit');
+		  Ext.Msg.alert(L.Error, L.RequiredFieldsMessage);
 		  return false;
 		}
 		this.editForm.save(this.onAfterConfirming, this);

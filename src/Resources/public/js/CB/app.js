@@ -31,8 +31,8 @@ Ext.onReady(function(){
         console.log('sessionAboutToTimeoutPromptTask');
 
         Ext.Msg.confirm(
-            'Your Session is About to Expire',
-            'Your session will expire in ' + App.GRACE_PERIOD_BEFORE_EXPIRING_SESSION_IN_MIN + ' minute(s). Would you like to continue your session?',
+            L.SessionIsAboutToExpire,
+            L.SessionExpireMessage,
             function (btn, text) {
 
                 if (btn == App.BTN_YES) {

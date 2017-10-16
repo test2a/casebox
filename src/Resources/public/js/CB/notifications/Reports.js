@@ -24,7 +24,7 @@ Ext.define('CB.notifications.Reports', {
 			,queryMode: 'local'
 			,displayField: 'name'
 			,valueField: 'nid'
-            ,emptyText: 'Select Report'
+            ,emptyText: L.SelectReport
             ,labelWidth: 'auto'
             ,style: 'margin-right: 10px'
 			,listeners:{
@@ -55,7 +55,7 @@ Ext.define('CB.notifications.Reports', {
 		var newDate = new Date(myDate.getTime() - (60*60*24*7*1000));
 		this.startDate = new Ext.form.Date({
 			xtype: 'datefield',
-			fieldLabel: 'From',
+			fieldLabel: L.ReportFrom,
 			labelStyle:'text-align:right',
 			name: 'fromDate',
 			itemId: 'fromDate',
@@ -70,7 +70,7 @@ Ext.define('CB.notifications.Reports', {
 		
 		this.endDate = new Ext.form.Date({
 			xtype: 'datefield',
-			fieldLabel: 'To',
+			fieldLabel: L.ReportTo,
 			labelStyle:'text-align:right',
 			name: 'endDate',
 			itemId: 'endDate',
@@ -136,7 +136,7 @@ Ext.define('CB.notifications.Reports', {
                 ,iconCls: 'im-download'
                 ,scope: this
 				,hidden: true				
-				,tooltip: 'Export Report'
+				,tooltip: L.ExportReport
                 ,handler: this.onExportClick
             })			
 
@@ -146,7 +146,7 @@ Ext.define('CB.notifications.Reports', {
                 ,iconCls: 'icon-print'
                 ,scope: this
 				,hidden: true				
-				,tooltip: 'Print Report'
+				,tooltip: L.PrintReport
                 ,handler: this.onPrintClick
             })			
 			
@@ -290,7 +290,7 @@ Ext.define('CB.notifications.Reports', {
 			dockedItems: [{
 				dock: 'top',
 				xtype: 'toolbar',
-				title: 'Toal Records',
+				title: L.TotalRecords,
 				items: [{
 					text: 'Total Records: ' + reportData.data.length,
 					enableToggle: false,
