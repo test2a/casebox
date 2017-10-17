@@ -69,7 +69,7 @@ class Resources extends Base
         }
         switch ($id) {
             case 'Resources':
-                return 'Resources';
+                return $this->trans('Resources');
             case 2:
                 return $this->trans('AssignedToMe');
             case 3:
@@ -109,7 +109,7 @@ class Resources extends Base
         return [
             'data' => [
                 [
-                    'name' => 'Resources'.$count,
+                    'name' => $this->trans('Resources').$count,
                     'id' => $this->getId('Resources'),
                     'iconCls' => 'icon-users',
                     'cls' => 'tree-header',

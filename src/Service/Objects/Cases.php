@@ -843,7 +843,7 @@ class Cases extends Object
 		}
 		else
 		{
-			$demographicsLine = $demographicsLine . "Gender not collected" . " - ";
+			$demographicsLine = $demographicsLine . $this->trans('GenderNotCollected') . " - ";
 		}		
 		if (!empty($sd['solr']['race'])) {
 			$demographicsLine = $demographicsLine . $sd['solr']['race'] . " - ";
@@ -854,30 +854,30 @@ class Cases extends Object
 		}
 		
 		if (!empty($sd['solr']['closurereason_s'])) {
-			$closureReason = '<b>Record Closed</br>' . $sd['solr']['closurereason_s'] .'</b><br/>';
+			$closureReason = '<b>'.$this->trans('RecordClosed').'</br>' . $sd['solr']['closurereason_s'] .'</b><br/>';
 		}		
 		
 		if (!empty($sd['solr']['headofhousehold'])) {
 			if ($sd['solr']['headofhousehold'] == "No")
 			{
-				$addressLine = $addressLine . 'Not Head of Household - ';	
+				$addressLine = $addressLine . $this->trans('Not') . ' ' . $this->trans('HeadOfHousehold') . ' - ';	
 			}
 			else if ($sd['solr']['headofhousehold'] == "Yes")
 			{
-				$addressLine = $addressLine . 'Head of Household - ';	
+				$addressLine = $addressLine . $this->trans('HeadOfHousehold') .' - ';	
 			}
 			else
 			{
-				$addressLine = $addressLine . 'Unknown Head of Household - ';	
+				$addressLine = $addressLine . $this->trans('Unknown') . ' ' . $this->trans('HeadOfHousehold') .' - ';	
 			}
 		}		
 
 		if (!empty($sd['solr']['femanumber_s'])) {
-			$femaLine = $femaLine . 'FEMA #' . $sd['solr']['femanumber_s'] . " - ";
+			$femaLine = $femaLine . $this->trans('FEMANumber') . $sd['solr']['femanumber_s'] . " - ";
 		}	
 		else
 		{
-			$femaLine = $femaLine . "FEMA # Not Collected - ";
+			$femaLine = $femaLine . $this->trans('FEMANotCollected') ." - ";
 		}
 
 		if (!empty($sd['solr']['fematier'])) {
@@ -897,7 +897,7 @@ class Cases extends Object
 		}
 		else
 		{
-			$emailLine = "Email not collected" . " - ";
+			$emailLine = $this->trans('EmailNotCollected') . " - ";
 		}		
 		
 		if (!empty($sd['solr']['phonenumber_s'])) {
@@ -913,7 +913,7 @@ class Cases extends Object
 		}
 		else
 		{
-			$addressLine = $addressLine. "No address listed" . " - ";
+			$addressLine = $addressLine. $this->trans('NoAddressListed') . " - ";
 		}
 		if (!empty($sd['solr']['county'])) {
 			$addressLine = $addressLine . $sd['solr']['county']. " - ";
@@ -922,7 +922,7 @@ class Cases extends Object
 			$filePlugin = new Files();
 			$files = $filePlugin->getData($data['id']);
 			
-			$fileInfo = '<a class="bt item-action click" action="upload" uid="'.User::getId().'">Upload Consent Form</a>';
+			$fileInfo = '<a class="bt item-action click" action="upload" uid="'.User::getId().'">'. $this->trans('Upload') . ' ' . $this->trans('ConsentForm') .'</a>';
 			
 			foreach ($files['data'] as $file) {
 				$fileInfo = '<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr><tr><td class="obj" width="5%"><img alt="icon" class="i16u icon-assessment-familymember file-pdf icon-padding" src="/css/i/s.gif"></td><td width="90%"><a class="bt item-action click" action="file" fid="'.$file['id'].'">'.$file['name'].'</a></td></tr></table>';
@@ -968,7 +968,7 @@ class Cases extends Object
 			
 			if ($familyMemberCount ==0)
 			{
-				$familyMemberInfo = $familyMemberInfo.'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr> <td></td> <td width="100%"><a class="bt item-action click" action="addContent" templateId="289" myPid="'.$data['id'].'">Add Family Member</a></td></tr>';
+				$familyMemberInfo = $familyMemberInfo.'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr> <td></td> <td width="100%"><a class="bt item-action click" action="addContent" templateId="289" myPid="'.$data['id'].'">'.$this->trans('AddFamilyMember').'</a></td></tr>';
 			}
 			else
 			{
@@ -976,7 +976,7 @@ class Cases extends Object
 			}
 			if ($addressCount ==0)
 			{
-				$addressInfo = $addressInfo.'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr><td></td> <td width="100%"><a class="bt item-action click" action="addContent" templateId="311" myPid="'.$data['id'].'">Add Address</a></td></tr>';
+				$addressInfo = $addressInfo.'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; "><tr><td></td> <td width="100%"><a class="bt item-action click" action="addContent" templateId="311" myPid="'.$data['id'].'">'.$this->trans('AddAddress').'</a></td></tr>';
 			}	
 			else
 			{
@@ -1014,7 +1014,9 @@ class Cases extends Object
                 @Cache::get('session')->get('user')['cfg']['timezone']
             );
 
-            $ownerRow = '<tr><td class="prop-key" width="15%" style="width:15%">Intake Representative:</td><td width="35%">'.
+            $ownerRow = '<tr><td class="prop-key" width="15%" style="width:15%">'.$this->trans(
+                    'IntakeRepresentative'
+                ).':</td><td width="35%">'.
                 '<table  style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%" class="prop-val people"><tbody>'.
                 '<tr><td class="user"><img alt="User Photo" class="photo32" src="'.
                 $coreUri.'photo/'.$v.'.jpg?32='.$userService->getPhotoParam($v).
@@ -1027,15 +1029,15 @@ class Cases extends Object
         $v = $this->getFieldValue('assigned', 0);
 		if (empty($v['value'])) {
 			$assigneeRow .= '<td class="prop-key" width="15%" style="width:15%">'.$this->trans(
-                    'Case Manager'
+                    'CaseManager'
                 ).':</td><td width="35%"><table  style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%" class="prop-val"><tbody><tr><td>'.
 				'<a class="bt item-action click" action="assign" uid="'.User::getId().
-				'">Assign client to me</a></td>';
+				'">' . $this->trans('AssignClientToMe') .'</a></td>';
 		}
         else // (!empty($v['value'])) {
 			{
             $assigneeRow .= '<td class="prop-key" width="15%" style="width:15%">'.$this->trans(
-                    'Case Manager'
+                    'CaseManager'
                 ).':</td><td width="35%"><table class="prop-val people"><tbody>';
             $v = Util\toNumericArray($v['value']);
 
@@ -1065,7 +1067,7 @@ class Cases extends Object
                     '<p class="gr" title="'.$cdt.'">'.(
                     $completed
                         ? $this->trans('Closed').$dateText
-                        : 'Last Action: '.$dateText
+                        : $this->trans('LastAction').': '.$dateText
                     ).'</td></tr>';
             }
         }			
@@ -1083,7 +1085,7 @@ class Cases extends Object
 			'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr style="vertical-align:top"><td width="70%">'.	
 			$demographicsLine.trim($femaLine, " - ").'<br/>'.
 			trim($emailLine.$addressLine, " - ").'<br/></td>'.
-			'<td width="30%" style="text-align:right;" align="right">'.$closureReason.'<a target="_new" href="get/?pdf='.$data['id'].'">Print Recovery Plan</a></td></tr></table>';
+			'<td width="30%" style="text-align:right;" align="right">'.$closureReason.'<a target="_new" href="get/?pdf='.$data['id'].'">' . $this->trans('PrintRecoveryPlan') .'</a></td></tr></table>';
         
 		// Create description row
         $v = $this->getFieldValue('identified_unmet_needs', 0);
@@ -1116,14 +1118,14 @@ class Cases extends Object
 			//'<tr class="prop-header"><th colspan="2" width="50%" style>Assigned Case Manager</th><th colspan="2" width="50%" style>Self Reported/Identified Population and Needs</th></tr>'.
             $ownerRow.'</tbody></table></td>'.
             $assigneeRow. '</tbody></table>'.
-			'<tr><td class="prop-key" style="width:15%" width="15%">Client Intake:</td><td width="35%" style="width:15%" class="prop-val">'.
+			'<tr><td class="prop-key" style="width:15%" width="15%">' . $this->trans('ClientIntake') .':</td><td width="35%" style="width:15%" class="prop-val">'.
 			'<table style="border: 0px; border-collapse: collapse; margin: 0px; padding: 0px; " width="100%"><tr>    <td class="obj" width="5%">        <img alt="icon" class="i16u icon-assessment-client icon-padding" src="/css/i/s.gif">    </td>    <td width="95%"><a class="bt item-action click" action="edit">'.$data['name'].'</a></td></tr></table></td>'.
 			//'<ul class="clean"><li class="icon-padding icon-assessment-client" style="background-repeat:no-repeat !important"><a class="bt item-action click" action="edit" uid="'.User::getId().'">'.$data['name'].'</a></li></ul>
-			'<td class="prop-key" style="width:15%" width="15%">Consent Form:</td><td class="prop-val" width="35%">'.$fileInfo.'</td></tr>'.
-			'<tr><td class="prop-key" style="width:15%" width="15%">Family Members:</td><td width="35%" style="width:15%" class="prop-val">'.$familyMemberInfo.'</td>'.
-			'<td class="prop-key" style="width:15%" width="15%">Alternative Address:</td><td class="prop-val" width="35%">'.$addressInfo.'</td></tr>'.
-			'<tr><td class="prop-key" style="width:15%" width="15%">Special/At Risk Population:</td><td width="35%" style="width:15%" class="prop-val">'.$atRiskLine.'</td>'.
-			'<td class="prop-key" style="width:15%" width="15%">Identified Needs:</td><td class="prop-val" width="35%">'.$identifiedNeedsLine.'</td></tr>'.
+			'<td class="prop-key" style="width:15%" width="15%">' . $this->trans('ConsentForm') .':</td><td class="prop-val" width="35%">'.$fileInfo.'</td></tr>'.
+			'<tr><td class="prop-key" style="width:15%" width="15%">' . $this->trans('FamilyMembers') .':</td><td width="35%" style="width:15%" class="prop-val">'.$familyMemberInfo.'</td>'.
+			'<td class="prop-key" style="width:15%" width="15%">' . $this->trans('AlternativeAddress') .':</td><td class="prop-val" width="35%">'.$addressInfo.'</td></tr>'.
+			'<tr><td class="prop-key" style="width:15%" width="15%">' . $this->trans('SpeicalAtRiskPopulation') .':</td><td width="35%" style="width:15%" class="prop-val">'.$atRiskLine.'</td>'.
+			'<td class="prop-key" style="width:15%" width="15%">' . $this->trans('IdentifiedNeeds') .':</td><td class="prop-val" width="35%">'.$identifiedNeedsLine.'</td></tr>'.
             '<tbody></table>';		
         $pb[3] = ''; 
             //'<table class="obj-preview'.$rtl.'"><tbody>'.

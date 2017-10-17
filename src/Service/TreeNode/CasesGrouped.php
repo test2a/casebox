@@ -72,21 +72,21 @@ class CasesGrouped extends Base
         }
         switch ($id) {
             case 'cases':
-                return 'Clients';
+                return $this->trans('Clients');
             case 2:
-                return 'My Clients';
+                return $this->trans('MyClients');
             case 3:
-                return 'Unassigned';
+                return $this->trans('Unassigned');
             case 4:
-                return 'Created';
+                return $this->trans('CreatedByMe');
             case 5:
-                return 'Active';
+                return $this->trans('Active');
             case 6:
-                return 'Closed';
+                return $this->trans('Closed');
             case 7:
-                return 'Information Only';				
+                return $this->trans('InformationOnly');				
             case 'assignee':
-                return 'Intake Represenative';
+                return $this->trans('IntakeRepresenative');
             default:
                 if (substr($id, 0, 3) == 'au_') {
                     return User::getDisplayName(substr($id, 3));
@@ -115,7 +115,7 @@ class CasesGrouped extends Base
         return [
             'data' => [
                 [
-                    'name' => 'Clients'.$count,
+                    'name' => $this->trans('Clients').$count,
                     'id' => $this->getId('cases'),
                     'iconCls' => 'icon-case',
                     'cls' => 'tree-header',
@@ -164,8 +164,8 @@ class CasesGrouped extends Base
 
             if (!empty($sr['facets']->facet_fields->{'1assigned'}->_empty_)) {
                 $rez['data'][] = [
-                    'name' => 'Unassigned'.$this->renderCount(
-                            $sr['facets']->facet_fields->{'1assigned'}->_empty_                        ),
+                    'name' => $this->trans('Unassigned').$this->renderCount(
+                            $sr['facets']->facet_fields->{'1assigned'}->_empty_),
                     'id' => $this->getId(3),
                     'iconCls' => 'icon-task-user-status0',
                     'has_childs' => true,
@@ -174,7 +174,7 @@ class CasesGrouped extends Base
             
           if (!empty($sr['facets']->facet_fields->{'1assigned'}->{$userId})) {
                 $rez['data'][] = [
-                    'name' => 'My Clients'.$this->renderCount(
+                    'name' => $this->trans('MyClients').$this->renderCount(
                             $sr['facets']->facet_fields->{'1assigned'}->{$userId}
                         ),
                     'id' => $this->getId(2),
@@ -184,7 +184,7 @@ class CasesGrouped extends Base
             }    
             if (!empty($sr['facets']->facet_fields->{'2cid'}->{$userId})) {
                 $rez['data'][] = [
-                    'name' => 'Created By Me'.$this->renderCount(
+                    'name' => $this->trans('CreatedByMe').$this->renderCount(
                             $sr['facets']->facet_fields->{'2cid'}->{$userId}
                         ),
                     'id' => $this->getId(4),
@@ -233,7 +233,7 @@ class CasesGrouped extends Base
             $rez = ['data' => []];
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'2'})) {
                 $rez['data'][] = [
-                    'name' => 'Active'.$this->renderCount(
+                    'name' => $this->trans('Active').$this->renderCount(
                             $sr['facets']->facet_fields->{'0task_status'}->{'2'}
                         ),
                     'id' => $this->getId(5),
@@ -242,7 +242,7 @@ class CasesGrouped extends Base
             }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'3'})) {
                 $rez['data'][] = [
-                    'name' => 'Closed'.$this->renderCount(
+                    'name' => $this->trans('Closed').$this->renderCount(
                             $sr['facets']->facet_fields->{'0task_status'}->{'3'}
                         ),
                     'id' => $this->getId(6),
@@ -251,7 +251,7 @@ class CasesGrouped extends Base
             }
             if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'5'})) {
                 $rez['data'][] = [
-                    'name' => 'Information Only'.$this->renderCount(
+                    'name' => $this->trans('InformationOnly').$this->renderCount(
                             $sr['facets']->facet_fields->{'0task_status'}->{'5'}
                         ),
                     'id' => $this->getId(7),
@@ -261,7 +261,7 @@ class CasesGrouped extends Base
             // Add assignee node if there are any created cases already added to result
             if (($this->lastNode->id == 4) && !empty($rez['data'])) {
                 $rez['data'][] = [
-                    'name' => 'Intake Representative',
+                    'name' => $this->trans('IntakeRepresenative'),
                     'id' => $this->getId('assignee'),
                     'iconCls' => 'icon-folder',
                     'has_childs' => true,
