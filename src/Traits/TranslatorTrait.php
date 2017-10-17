@@ -22,6 +22,7 @@ trait TranslatorTrait
     {
         /** @var Translator $translator */
         $translator = Cache::get('symfony.container')->get('translator');
+        $translator->setLocale(Cache::get('symfony.request')->getLocale()); //Apprio
         $translated = $translator->trans($name);
 
         return $translated;
