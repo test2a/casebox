@@ -530,7 +530,7 @@
 						}
 
 						var rez = '<div class="dIB fs12 ' + Ext.valueFrom(values.statusCls, '') + '"">' +
-							L[values.status] + '</div>';
+							values.status + '</div>';
 
 						return rez;
 					}

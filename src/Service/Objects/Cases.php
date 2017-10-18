@@ -854,7 +854,7 @@ class Cases extends Object
 		}
 		
 		if (!empty($sd['solr']['closurereason_s'])) {
-			$closureReason = '<b>'.$this->trans('RecordClosed').'</br>' . $sd['solr']['closurereason_s'] .'</b><br/>';
+			$closureReason = '<b>'. $sd['solr']['closurereason_s'] .'</b><br/>';
 		}		
 		
 		if (!empty($sd['solr']['headofhousehold'])) {

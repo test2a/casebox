@@ -294,10 +294,10 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
 			group by tree.name
 			limit 3,1) third_client_need,
-			SUM(IF (sys_data like \'%"fematier":"Tier 1%\',1,0) ) fema_tier_1,
-			SUM(IF (sys_data like \'%"fematier":"Tier 2%\',1,0) ) fema_tier_2,
-			SUM(IF (sys_data like \'%"fematier":"Tier 3%\',1,0) ) fema_tier_3,
-			SUM(IF (sys_data like \'%"fematier":"Tier 4%\',1,0) ) fema_tier_4,
+			SUM(IF ((sys_data like \'%"fematier":"Tier 1%\') AND DATE(tree.cdate) = \''.$date.'\',1,0) ) fema_tier_1,
+			SUM(IF (sys_data like \'%"fematier":"Tier 2%\' AND DATE(tree.cdate) = \''.$date.'\',1,0) ) fema_tier_2,
+			SUM(IF (sys_data like \'%"fematier":"Tier 3%\' AND DATE(tree.cdate) = \''.$date.'\',1,0) ) fema_tier_3,
+			SUM(IF (sys_data like \'%"fematier":"Tier 4%\' AND DATE(tree.cdate) = \''.$date.'\',1,0) ) fema_tier_4,
 			case_managers.total case_mamager_total,
 			case_manager_supervisors.total case_manager_supervisor_total,
 			CONCAT(case_manager_supervisors.total,\'/\',case_managers.total) as case_manager_to_supervisor_ratio,
