@@ -313,7 +313,7 @@ class Instance
     public function getCSVContent($p)
     {
     	$rez = [];
-    	if($p['reportId'])
+    	if(isset($p['reportId']))
 		{
 			$reports = new Notifications();
 			$res = $reports->getReport($p);
@@ -324,7 +324,14 @@ class Instance
         	foreach ($records as &$r) {
             	$record = [];
             	foreach ($res['colOrder'] as $t) {
-                	$t = strip_tags($r[$t]);
+			if (isset($r[$t]))
+			{
+				$t = strip_tags($r[$t]);
+			}
+			else
+			{
+				$t = '';
+			}
 
                 	if (!empty($t) && !is_numeric($t)) {
                     $t = str_replace(
