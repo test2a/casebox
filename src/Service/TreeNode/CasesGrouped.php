@@ -86,7 +86,7 @@ class CasesGrouped extends Base
             case 7:
                 return $this->trans('InformationOnly');				
             case 'assignee':
-                return $this->trans('IntakeRepresenative');
+                return $this->trans('IntakeRepresentative');
             default:
                 if (substr($id, 0, 3) == 'au_') {
                     return User::getDisplayName(substr($id, 3));
@@ -261,7 +261,7 @@ class CasesGrouped extends Base
             // Add assignee node if there are any created cases already added to result
             if (($this->lastNode->id == 4) && !empty($rez['data'])) {
                 $rez['data'][] = [
-                    'name' => $this->trans('IntakeRepresenative'),
+                    'name' => $this->trans('IntakeRepresentative'),
                     'id' => $this->getId('assignee'),
                     'iconCls' => 'icon-folder',
                     'has_childs' => true,

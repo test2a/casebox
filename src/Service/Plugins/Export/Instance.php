@@ -401,7 +401,10 @@ class Instance
 			if (empty($femaNumber)) {
 				$femaNumber = 'N/A';
 			}
-			
+			if (!empty($obj['data']['data']['_location_type']) && !empty(Objects::getCachedObject($obj['data']['data']['_location_type'])))
+			{
+				$location = $objService->load(['id' => $obj['data']['data']['_location_type']]);
+			}
 			 foreach ($items['data'] as $item) {
 					if ($item['template_id'] == 607)
 					{
@@ -432,7 +435,7 @@ class Instance
 							'referraltype' => $refferalTypeValue,
 							'referralsubtype' => $refferalSubTypeValue,
 							'resourceagencyname' => empty($resource) ? 'N/A' : $resource['data']['data']['_providername'],
-							'resourceagencycontactinformation' => empty($resource) ? 'N/A' : $resource['data']['data']['_streetaddress']. ' ' .$resource['data']['data']['_city']. ' ' .$resource['data']['data']['_state']. ' ' .$resource['data']['data']['_zipcode']. ' ' .$resource['data']['data']['phonenumbers'],
+							'resourceagencycontactinformation' => empty($resource) ? 'N/A' : $resource['data']['data']['_streetaddress']. ' ' .$resource['data']['data']['_city']. ' ' .$resource['data']['data']['_state']. ' ' .$resource['data']['data']['_zipcode']. ' ' .$resource['data']['data']['_phonenumbers'],
 							'pointofcontact' => empty($resource) ? 'N/A' : $resource['data']['data']['_pointofcontact'],
 							'referralappointmentdatetime' =>Util\formatMysqlDate($service['data']['data']['_appointmentdate'], Util\getOption('short_date_format')). ' ' . $service['data']['data']['_appointmenttime'],
 							'targetcompletiondate' =>  Util\formatMysqlDate($service['data']['data']['_targetcompletiondate'], Util\getOption('short_date_format')),
@@ -454,7 +457,7 @@ class Instance
 				'client_lastname' => $obj['data']['data']['_lastname'],
 				'client_firstname' => $obj['data']['data']['_firstname'],			
 				'disaster_declaration_number' => $configService->get('disaster_declaration_number'),
-				'disaster_site_address' => $configService->get('disaster_site_address'),
+				'disaster_site_address' => empty($location)?'N/A': $location['data']['data']['_locationname'] .' - '.$location['data']['data']['_locationaddress'].' '.$location['data']['data']['_locationcity'] ,
 				'cm_phone' => $configService->get('disaster_phone_number'),
 				'cm_assigned' => $assigned,
 				'cm_phone' =>$configService->get('disaster_phone_number'),

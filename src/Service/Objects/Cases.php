@@ -232,6 +232,7 @@ class Cases extends Object
 			'task_u_ongoing',
 			'lat_lon',
 			'county',
+        	'county_s',
 			'street_s',
 			'city_s',
 			'state_s',
@@ -261,7 +262,7 @@ class Cases extends Object
 			{
 				$solrData['lat_lon'] = $results['latitude'] .','.$results['longitude'];
 				$solrData['full_address'] = $results['street'];//$results['full_address'];
-				$solrData['county'] = $results['county'];
+				$solrData['county_s'] = $results['county'];
 				$solrData['street_s'] = $results['street'];
 				$solrData['city_s'] = $results['city'];
 				$solrData['state_s'] = $results['state'];			
@@ -382,6 +383,16 @@ class Cases extends Object
 					$arr = explode(" -", $obj->getHtmlSafeName(), 2);
 					$first = $arr[0];
 					$sd[$property] = $first;
+				}
+				elseif ($property == 'location_type')
+				{
+					if (!empty($obj))
+					{
+						$objService = new Objects();
+						$location = $objService->load(['id' => $this->getFieldValue('_' . $property, 0)['value']]);
+						$sd['county'] = empty($location)?'N/A': $location['data']['data']['_locationcounty'];
+					}
+					$sd[$property] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
 				}
 				else
 				{
