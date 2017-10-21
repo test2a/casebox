@@ -172,7 +172,7 @@ class Cases extends Object
      * and store it in sys_data under "solr" property
      */
     protected function collectSolrData()
-    {
+    {    
         parent::collectSolrData();
 
         $d = &$this->data;
@@ -232,7 +232,7 @@ class Cases extends Object
 			'task_u_ongoing',
 			'lat_lon',
 			'county',
-        	'county_s',
+			'county_s',
 			'street_s',
 			'city_s',
 			'state_s',
@@ -255,19 +255,16 @@ class Cases extends Object
 			}
 		}
 		
-		if (!empty($sd['full_address']))
+		/* Can safely delete after synced up */
+		$objService = new Objects();
+		$myloc = Objects::getCachedObject($this->getFieldValue('_location_type', 0)['value']);
+		if (!empty($myloc))
 		{
-			$results = $this->lookup($sd['full_address']);
-			if ($results != null)
-			{
-				$solrData['lat_lon'] = $results['latitude'] .','.$results['longitude'];
-				$solrData['full_address'] = $results['street'];//$results['full_address'];
-				$solrData['county_s'] = $results['county'];
-				$solrData['street_s'] = $results['street'];
-				$solrData['city_s'] = $results['city'];
-				$solrData['state_s'] = $results['state'];			
-			}
-		}
+		$location = $objService->load(['id' => $this->getFieldValue('_location_type', 0)['value']]);		
+		$solrData['county'] = empty($location)?'N/A': $location['data']['data']['_locationcounty'];
+		}		
+		/* End safe delete */
+		
 		
         if (!empty($sd['task_d_closed'])) {
             $solrData['task_ym_closed'] = str_replace('-', '', substr($sd['task_d_closed'], 2, 5));
@@ -328,13 +325,11 @@ class Cases extends Object
 
   }
 	   
-	   
-	   
 		$array = array(
 			'longitude' => $geometry['location']['lng'],
 			'latitude' => $geometry['location']['lat'],
-			'street_number' => isset($location['street_number'])?$location['street_number']:'N/A',
-			'street' => $location['street_number']. ' ' . $location['street'],
+			'street_number' => isset($location['street_number'])?$location['street_number']:'',
+			'street' => isset($location['street'])?$location['street']:'',
 			'city' => $location['locality'],	
 			'state' => $location['admin_1'],				
 			'full_address' => $response['results'][0]['formatted_address'],
@@ -360,8 +355,6 @@ class Cases extends Object
 
         $sd = &$p['sys_data'];
 		
-		unset($sd['full_address']);
-		
 		// Select only required properties for result
         $properties = [
             'race',
@@ -386,14 +379,14 @@ class Cases extends Object
 				}
 				elseif ($property == 'location_type')
 				{
-					if (!empty($obj))
+				    if (!empty($obj))
 					{
 						$objService = new Objects();
-						$location = $objService->load(['id' => $this->getFieldValue('_' . $property, 0)['value']]);
+						$location = $objService->load(['id' => $this->getFieldValue('_' . $property, 0)['value']]);		
 						$sd['county'] = empty($location)?'N/A': $location['data']['data']['_locationcounty'];
-					}
+					}	
 					$sd[$property] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
-				}
+				}								
 				else
 				{
 					$sd[$property] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
@@ -418,11 +411,35 @@ class Cases extends Object
 				}
 			}
         }
-		$sd['full_address'] = '';
 		
-        if ($this->getFieldValue('_fulladdress', 0)['value'] != null) {
-         $sd['full_address'] = $this->getFieldValue('_fulladdress', 0)['value'];
-        }		
+		if (!isset($sd['full_address']))
+		{
+			$sd['full_address'] = null;
+		}
+		
+        if ($this->getFieldValue('_fulladdress', 0)['value'] != $sd['full_address']) {
+			unset($sd['lat_lon']);
+			unset($sd['county_s']);
+			unset($sd['street_s']);
+			unset($sd['city_s']);
+			unset($sd['state_s']);
+			unset($sd['full_address']);
+			$sd['full_address'] = $this->getFieldValue('_fulladdress', 0)['value'];
+        }			
+		
+		if (!empty($sd['full_address']) && empty($sd['lat_lon']))
+		{
+			$results = $this->lookup($sd['full_address']);
+			if ($results != null)
+			{
+				$sd['lat_lon'] = $results['latitude'] .','.$results['longitude'];
+				//$sd['full_address'] = $results['street'];//$results['full_address'];
+				$sd['county_s'] = $results['county'];
+				$sd['street_s'] = $results['street_number']. ' ' . $results['street'];
+				$sd['city_s'] = $results['city'];
+				$sd['state_s'] = $results['state'];			
+			}	
+		}		
 		
         $sd['task_due_date'] = $this->getFieldValue('due_date', 0)['value'];
         $sd['task_due_time'] = $this->getFieldValue('due_time', 0)['value'];
@@ -478,12 +495,22 @@ class Cases extends Object
 				$assessments_reported[] = $assessment;
 			}
 		 }		
-				
-		$sd['assessments_reported'] = $assessments_reported;
 		
-		//$sd['assessments_completed'] = array_intersect($assessments_reported, $sd['assessments_completed']);
-		
-		$sd['assessments_needed'] = array_diff($assessments_reported, $sd['assessments_completed']);
+		//Start Checks for null
+		if (!empty($assessments_reported))
+		{			
+			$sd['assessments_reported'] = $assessments_reported;
+			
+			//$sd['assessments_completed'] = array_intersect($assessments_reported, $sd['assessments_completed']);
+			
+			$sd['assessments_needed'] = array_diff($assessments_reported, $sd['assessments_completed']);
+		}
+		else
+		{
+			$sd['assessments_reported'] = null;
+			$sd['assessments_needed'] = null;
+		}
+		//End Checks for Null
 		
         $assigned = Util\toNumericArray($this->getFieldValue('assigned', 0)['value']);
 	
@@ -536,7 +563,7 @@ class Cases extends Object
         $sd['task_status'] = $status;
 		$sd['case_status'] = $this->trans('caseStatus'.$status, '');
     }
-
+    
     /**
      * Mark the task active
      * @return void

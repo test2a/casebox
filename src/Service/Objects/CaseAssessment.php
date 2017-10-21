@@ -71,7 +71,7 @@ class CaseAssessment extends Object
 
 					if (!empty($f['solr_column_name'])) {	
 						$sfn = $f['solr_column_name']; // Solr field name
-						if (substr($f['solr_column_name'], -3) === '_ss')
+						if (substr($f['solr_column_name'], -3) === '_ss' && isset($caseSd[$sfn]) && isset($this->data['data'][$f['name']]))
 							{
 							    $v = $this->data['data'][$f['name']];  // May need to verify this works
 							    if ($v == null)
@@ -82,11 +82,18 @@ class CaseAssessment extends Object
 								if ($v != null)
 								{
 									$v = is_array($v) ? @$v['value'] : $v;
-									$v = Util\toNumericArray($v);
-									foreach ($v as $id) {
-										$obj = Objects::getCachedObject($id);	
-										$object = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
-										$caseSd[$sfn] = array_diff($caseSd[$sfn], [$object]);
+									if (!is_numeric($v) && !is_array($v))
+									{
+										$caseSd[$sfn] = array_diff($caseSd[$sfn], [$v]);
+									}
+									else
+									{
+										$v = Util\toNumericArray($v);
+										foreach ($v as $id) {
+											$obj = Objects::getCachedObject($id);	
+											$object = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+											$caseSd[$sfn] = array_diff($caseSd[$sfn], [$object]);
+										}
 									}
 								}
 							}
@@ -293,12 +300,19 @@ class CaseAssessment extends Object
 								$objects = [];
 								foreach ($values as $v) {
 									$v = is_array($v) ? @$v['value'] : $v;
-									$v = Util\toNumericArray($v);
-									foreach ($v as $id) {
-										$obj = Objects::getCachedObject($id);	
-										$object = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
-										if (!in_array($object, $caseSd[$sfn])) {	
-											$caseSd[$sfn][] = strval($object);	
+									if ((!is_numeric($v)) && !is_array($v))
+									{
+										$caseSd[$sfn][] = $v;
+									}
+									else
+									{
+										$v = Util\toNumericArray($v);
+										foreach ($v as $id) {
+											$obj = Objects::getCachedObject($id);	
+											$object = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+											if (!in_array($object, $caseSd[$sfn])) {	
+												$caseSd[$sfn][] = strval($object);	
+											}
 										}
 									}
 								}
