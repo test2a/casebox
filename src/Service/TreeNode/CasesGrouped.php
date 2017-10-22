@@ -102,7 +102,7 @@ class CasesGrouped extends Base
         $p['fq'] = $this->fq;
         //$p['fq'][] = 'task_u_all:'.User::getId();
         $p['fq'][] = 'task_status:(1 OR 2 OR 3 OR 5)';
-        $p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s';
+        $p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s,assignee_s';
 		$p['rows'] = 0;
 
         $s = new Search();
@@ -141,7 +141,7 @@ class CasesGrouped extends Base
     {
         $userId = User::getId();
         $p = $this->requestParams;
-		$p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s';
+		$p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s,assignee_s';
         $p['fq'] = $this->fq;
         //$p['fq'][] = 'task_u_all:'.$userId;
         $p['fq'][] = 'task_status:(1 OR 2 OR 3 OR 5)';
@@ -216,7 +216,7 @@ class CasesGrouped extends Base
         } else {
             $p['fq'][] = '-task_u_assignee:[* TO *]';
         }
-		$p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s';
+		$p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s,assignee_s';
         if (@$this->requestParams['from'] == 'tree') {
             $s = new Search();
 
@@ -287,7 +287,7 @@ class CasesGrouped extends Base
         $userId = User::getId();
         $p = $this->requestParams;
         $p['fq'] = $this->fq;
-		$p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s';
+		$p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s,assignee_s';
 
         $parent = $this->lastNode->parent;
 
@@ -384,7 +384,7 @@ class CasesGrouped extends Base
 
         $user_id = substr($this->lastNode->id, 3);
         $p['fq'][] = 'task_u_ongoing:'.$user_id;
-		$p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s';
+		$p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s,assignee_s';
         $s = new Search();
 
         $sr = $s->query($p);
