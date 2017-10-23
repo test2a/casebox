@@ -114,7 +114,7 @@ class CaseAssessment extends Object
     {
 		$caseId = $p['pid'];
 		$templateId = $p['template_id'];
-		$objectId = $p['id'];
+		$objectId = isset($p['id'])?$p['id']:null;
         
 		if ($caseId) {
             $case = Objects::getCachedObject($caseId);    
@@ -149,7 +149,7 @@ class CaseAssessment extends Object
 					$p['data']['_latlon'] = $results['latitude'] .','.$results['longitude'];
 					$p['data']['full_address'] = $results['street'];//$results['full_address'];
 					$p['data']['_county'] = $results['county'];
-					$p['data']['_addressone'] = $results['street'];
+					$p['data']['_addressone'] = $results['street_number']. ' ' . $results['street'];
 					$p['data']['_city'] = $results['city'];
 					$p['data']['_state'] = $results['state'];				
 					$p['data']['_locationtype'] = $results['location_type'];	
@@ -433,8 +433,8 @@ class CaseAssessment extends Object
 			'longitude' => $geometry['location']['lng'],
 			'latitude' => $geometry['location']['lat'],
 			'location_type' => $geometry['location_type'],
-			'street_number' => $location['street_number'],
-			'street' => $location['street_number']. ' ' . $location['street'],
+			'street_number' => isset($location['street_number'])?$location['street_number']:'',
+			'street' => isset($location['street'])?$location['street']:'',
 			'city' => $location['locality'],	
 			'state' => $location['admin_1'],				
 			'full_address' => $response['results'][0]['formatted_address'],
