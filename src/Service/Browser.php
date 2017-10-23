@@ -629,7 +629,7 @@ class Browser
 
 		if (!empty($p['DC'])) {
             foreach ($p['DC'] as $dctitle => $dc) {
-				$fieldName=	$dc['solr_column_name'];
+				$fieldName=	isset($dc['solr_column_name'])?$dc['solr_column_name']:null;
 				if (!empty($fieldName))
 				{
 					$p['fl'] .= ','.$fieldName;	
@@ -665,7 +665,7 @@ class Browser
         $p['skipSecurity'] = true;
         $rez = $search->query($p);
 
-		if ($p['source'] == "template")
+		if (!empty($p['source']) && $p['source'] == "template")
 		{
 			$this->setCustomTemplateIcons($rez['data']);
 		}
