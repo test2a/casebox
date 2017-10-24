@@ -176,6 +176,23 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
       and sys_data like \'%"closurereason_s":"Client has moved out of service area"%\' and
       sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_moved, 
+         (SELECT COUNT(*) FROM objects, tree where
+         tree.id = objects.id and 
+         dstatus = 0 and 
+      sys_data like \'%"case_status":"Closed"%\'
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF) AND
+			DATE(SUBSTRING(sys_data,LOCATE(\'"task_d_closed":"\', sys_data)+17,10)) <= DATE(\''.$date.'\'))
+      		 total_closed_cases, 
+         (SELECT COUNT(*) FROM objects, tree where tree.id = objects.id
+         and sys_data not like \'%"case_status":"Closed"%\'
+         and dstatus = 0
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF) AND
+			DATE(tree.cdate) <= DATE(\''.$date.'\'))
+      		 total_open_cases,       		 
 			(select count(*) from tree where template_id =607 
 			AND tree.pid in (select id from objects 
             where substring(data, LOCATE(\'"_location_type":\', data)+18, 
@@ -349,6 +366,16 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			SUM(IF (data not like \'%"_gender":215%\' and data not like \'%"_gender":214%\' and data not like \'%_headofhousehold":3108%\',1,0) ) other_not_hoh,
 			SUM(IF (substring(sys_data, LOCATE(\'at_risk_population_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'at_risk_population_ss\', sys_data))-LOCATE(\'at_risk_population_ss\', sys_data) ) like \'%Children%\' and data like \'%"_gender":214%\' and data like \'%"_maritalstatus":3108%\' and data like \'%_headofhousehold":347%\',1,0) ) single_male_hoh_under_18,
 			SUM(IF (substring(sys_data, LOCATE(\'at_risk_population_ss\', sys_data), LOCATE(\']\',sys_data,LOCATE(\'at_risk_population_ss\', sys_data))-LOCATE(\'at_risk_population_ss\', sys_data) ) like \'%Children%\' and data like \'%"_gender":215%\' and data like \'%"_maritalstatus":3108%\' and data like \'%_headofhousehold":347%\',1,0) ) single_female_hoh_under_18,
+			SUM(IF (data like \'%"_hispanicorigin":3104%\',1,0) ) ethnicity_spanishanother,
+			SUM(IF (data like \'%"_hispanicorigin":3103%\',1,0) ) ethnicity_cuban,
+			SUM(IF (data like \'%"_hispanicorigin":3102%\',1,0) ) ethnicity_puertorican,
+			SUM(IF (data like \'%"_hispanicorigin":3101%\',1,0) ) ethnicity_chicano,
+			SUM(IF (data like \'%"_hispanicorigin":3100%\',1,0) ) ethnicity_mexicanamerican,
+			SUM(IF (data like \'%"_hispanicorigin":3099%\',1,0) ) ethnicity_mexican,
+			SUM(IF (data like \'%"_ethnicity":232%\',1,0) ) ethnicity_declined,
+			SUM(IF (data like \'%"_ethnicity":231%\',1,0) ) ethnicity_undetermined,			
+			SUM(IF (data like \'%"_ethnicity":229%\',1,0) ) ethnicity_nothispanic,			
+			SUM(IF (sys_data like \'%"ethnicity":"Hispanic or Latino"%\',1,0) ) ethnicity_hispanic,			
 			SUM(IF (data like \'%"_race":239%\',1,0) ) race_white,
 			SUM(IF (data like \'%"_race":236%\',1,0) ) race_black,
 			SUM(IF (data like \'%"_race":234%\',1,0) ) race_american_indian,
@@ -369,8 +396,8 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			SUM(IF (sys_data like \'%Client does not know insurance status%\',1,0) ) home_doesntknow_insurance,
 			SUM(IF (sys_data like \'%Client was insured but does not have insurance policy information%\',1,0) ) home_doesnthave_insurance,
 			SUM(IF (sys_data like \'%Client was uninsured%\',1,0) ) home_uninsured,
-			AVG(IF (sys_data like \'%financialannualincometotal_i%\',substring(sys_data, LOCATE(\'financialannualincometotal_i\',sys_data)+30,LOCATE(\',\', substring(sys_data, LOCATE(\'financialannualincometotal_i\',sys_data)+31))),0)) financial_income_level,
-			AVG(IF (sys_data like \'%financialpercentageoffederalpoverylevel_f%\',substring(sys_data, LOCATE(\'financialpercentageoffederalpoverylevel_f\',sys_data)+43,LOCATE(\',\', substring(sys_data, LOCATE(\'financialpercentageoffederalpoverylevel_f\',sys_data)+44))),0)) financial_federal_poverty_level,
+			TRUNCATE(AVG(IF (sys_data like \'%financialannualincometotal_i%\',substring(sys_data, LOCATE(\'financialannualincometotal_i\',sys_data)+30,LOCATE(\',\', substring(sys_data, LOCATE(\'financialannualincometotal_i\',sys_data)+31))),0)),2) financial_income_level,
+			TRUNCATE(AVG(IF (sys_data like \'%financialpercentageoffederalpoverylevel_f%\',substring(sys_data, LOCATE(\'financialpercentageoffederalpoverylevel_f\',sys_data)+43,LOCATE(\',\', substring(sys_data, LOCATE(\'financialpercentageoffederalpoverylevel_f\',sys_data)+44))),0)),2) financial_federal_poverty_level,
 			SUM(IF (sys_data like \'%"employmentreferralneeded_s":"Yes"%\',1,0) ) employment_referral_needed,
 			SUM(IF (sys_data like \'%"healthinsurancelostdisaster_s":"Yes"%\',1,0) ) insurance_lost_to_disaster,
 			SUM(IF (sys_data like \'%"healthhavehealthinsurance_s":"Yes"%\',1,0) ) insurance_have_insurance,
@@ -436,7 +463,8 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			AND DATE(tree.cdate) = \''.$date.'\'
 			group by tree.template_id';		
 				
-		
+			//echo(str_replace("LOCATION_STUFF",$locations,$femasql));
+			
 		
 			$res = $dbs->query(
 				str_replace("LOCATION_STUFF",$locations,$femasql)
