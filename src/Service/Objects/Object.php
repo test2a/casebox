@@ -1266,7 +1266,11 @@ class Object
     protected function fieldsArraySorter($a, $b)
     {
         if ($a['name'] == $b['name']) { //ordering duplicates by index
-            if ($a['idx'] < $b['idx']) {
+			if (!isset($a['idx']) || !isset($b['idx']))
+			{
+				return 0;
+			}
+			  elseif ($a['idx'] < $b['idx']) {
                 return -1;
             } elseif ($a['idx'] > $b['idx']) {
                 return 1;
