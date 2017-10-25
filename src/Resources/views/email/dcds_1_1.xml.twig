@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClientDataSet 
+    xmlns="http://www.clientdatastandard.org/dcds/schema/1.1"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.clientdatastandard.org/dcds/schema/1.1 http://www.clientdatastandard.org/dcds/schema/1.1" 
+    dataSourceName="ECMRS" generationStamp="{{generationStamp}}" schemaVersion="1.1" taxonomyVersion="2009-06-11T00:38:50" generatorApp="ECMRS" generatorVendor="Apprio">
+	{% if clients %}
+    <Clients>
+        {% for client in clients %}	
+        <Client sourceAgencyID="{{agencyId}}" sourceAgencyName="{{agencyName}}">
+            <ID effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.id}}</ID>
+            <FirstName effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._firstname|slice(1, 50)}}</FirstName>
+            <MiddleName effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._middlename|slice(1, 50)}}</MiddleName>
+            <LastName effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._lastname|slice(1, 50)}}</LastName>
+            <Suffix effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._suffix|slice(1, 10)}}</Suffix>
+            <Alias effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._alias|slice(1, 50)}}</Alias>
+            {% if client.addresses %}
+			<Addresses>
+                {% for address in client.addresses %}
+				<Address effective="{{address.cdate}}" updated="{{address.cdate}}">
+                    <ID>{{address.id}}</ID>
+                    <DisasterAffected>true</DisasterAffected>
+                    <Line1>{{address.data._addressone|slice(1, 50)}}</Line1>
+                    <Line2>{{address.data._addresstwo|slice(1, 50)}}</Line2>
+                    <City>{{address.data._city|slice(1, 50)}}</City>
+                    <County>{{address.data._county|slice(1, 50)}}</County>
+                    <State>{{address.data._state}}</State>
+                    <ZipCode>{{address.zipcode|default('99999')}}</ZipCode>
+                </Address>
+				{% endfor %}				
+            </Addresses>
+			{% endif %}			
+            <BestPhone effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._phonenumber|slice(1, 50)}}</BestPhone>
+            <OtherPhone effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._otherphonenumber|slice(1, 50)}}</OtherPhone>
+            <AltContactBestPhone effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.alternatecontactphonenumber|slice(1, 50)}}</AltContactBestPhone>
+            <AltContactOtherPhone effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.alternatecontactotherphonenumber|slice(1, 50)}}</AltContactOtherPhone>
+            <VerificationDocumentation effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._verificationdocumentation|slice(1, 50)}}</VerificationDocumentation>
+            <DateOfBirth effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.birthdate|default('1900-01-01')}}</DateOfBirth>
+            <Gender effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.gender|default('Undetermined')}}</Gender>
+            <Ethnicity effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.ethnicity|default('Undetermined')}}</Ethnicity>
+            <Race effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.race|default('Undetermined')}}</Race>
+            <RaceOther effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._race.childs._otherrace|slice(1, 50)}}</RaceOther>
+            <PreferredLanguage effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.primarylanguage|default('Undetermined')}}</PreferredLanguage>
+            <PreferredLanguageOther effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.data._primarylanguage.childs._otherlanguage|slice(1, 50)}}</PreferredLanguageOther>
+            <EnglishSpeaker effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.englishspeaker|default('Undetermined')}}</EnglishSpeaker>
+            <PreDisasterLivingSituation effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.predisasterliving|default('Undetermined')}}</PreDisasterLivingSituation>
+            <DamageAssessment effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.clientdamagerating|default('Undetermined')}}</DamageAssessment>
+            <DamageAssessmentOther effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.clientdamageratingother|slice(1, 50)}}</DamageAssessmentOther>
+            <SpecialNeeds effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.identified_unmet_needs|slice(1, 255)}}</SpecialNeeds>
+            <DisasterName effective="{{client.cdate}}" updated="{{client.cdate}}">{{disasterName}}</DisasterName>
+            <DisasterEventDate effective="{{client.cdate}}" updated="{{client.cdate}}">{{disasterEventDate|date("Y-m-d")}}</DisasterEventDate>
+            <IncidentDRONumber effective="{{client.cdate}}" updated="{{client.cdate}}">{{disasterDRONumber}}</IncidentDRONumber>
+            <FEMARegistrationNumber effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.femanumber|default('111111111')}}</FEMARegistrationNumber>
+            <DateReleaseSigned effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.datereleasesigned|default('1900-01-01')}}</DateReleaseSigned>
+            <Cases>
+                <Case effective="{{client.cdate}}" updated="{{client.cdate}}" sourceAgencyID="{{agencyId}}" sourceAgencyName="{{agencyName}}">
+                    <ID>{{client.id}}</ID>
+                    <CaseManagerID>{{client.casemanagerid}}</CaseManagerID>
+                    <CaseManagerName>{{client.casemanagername}}</CaseManagerName>
+                    <CaseManagerPhone>{{cm_phone}}</CaseManagerPhone>
+                    <CaseManagerEmail>{{client.casemanageremail}}</CaseManagerEmail>
+                    <Narrative>{{client.narrative|slice(1, 255)}}</Narrative>
+                </Case>
+            </Cases>
+			{% if client.services %}
+			<ServicesNeeded>
+                {% for service in client.services %}			
+					<ServiceNeeded effective="{{service.cdate}}" updated="{{service.cdate}}" sourceAgencyID="{{agencyId}}" sourceAgencyName="{{agencyName}}">
+						<ID>{{service.id}}</ID>
+						<ServiceName>{{service.data._refferalservicename}}</ServiceName>
+						<ServiceCode>{{service.data._refferaltypename}}</ServiceCode>
+						<ServiceDescription>{{service.description|slice(1, 255)}}</ServiceDescription>
+					</ServiceNeeded>
+				{% endfor %}
+            </ServicesNeeded>
+            {% endif %}
+			{% if client.servicesprovided %}			
+			<ServicesProvided>
+                {% for service in client.servicesprovided %}					
+					<ServiceProvided effective="{{service.cdate}}" updated="{{service.cdate}}" sourceAgencyID="{{agencyId}}" sourceAgencyName="{{agencyName}}">
+						<ID>{{service.id}}</ID>
+						<ServiceName>{{service.data._refferalservicename}}</ServiceName>
+						<ServiceCode>{{service.data._refferaltypename}}</ServiceCode>
+						<ServiceDescription>{{service.description|slice(1, 255)}}</ServiceDescription>
+						<ServiceNeededID>{{service.id}}</ServiceNeededID>
+					</ServiceProvided>
+				{% endfor %}					
+            </ServicesProvided>
+			{% endif %}
+			{% if client.referrals %}
+            <Referrals>
+                {% for referral in client.referrals %}				
+					<Referral effective="{{referral.cdate}}" updated="{{referral.cdate}}" sourceAgencyID="{{agencyId}}" sourceAgencyName="{{agencyName}}">
+						<ID>{{referral.id}}</ID>
+						<ResourceName>{{referral.data._resourcename}}</ResourceName>
+						<ReferralCode>{{referral.code}}</ReferralCode>
+						<ReferralDescription>{{referral.description|slice(1, 255)}}</ReferralDescription>
+						<ServiceNeededID>{{referral.id}}</ServiceNeededID>
+					</Referral>
+				{% endfor %}						
+            </Referrals>
+			{% endif %}
+        </Client>
+	{% endfor %}		
+    </Clients>
+    <Households>
+		{% for client in clients %}	
+        <Household>
+            <ID effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.id}}</ID>
+            <HohClientID effective="{{client.cdate}}" updated="{{client.cdate}}">{{client.id}}</HohClientID>
+			<Members>
+				<Member effective="{{client.cdate}}" updated="{{client.cdate}}">
+					<ClientID>{{client.id}}</ClientID>
+					<RelationshipToHoh>Self</RelationshipToHoh>
+				</Member>
+			</Members>
+        </Household>
+	{% endfor %}		
+    </Households>
+{% endif %}	
+</ClientDataSet>

@@ -113,8 +113,23 @@ class Instance
      */
     public function getCSV($p)
     {
-         $rez = [];
-		 $rez = $this->getCSVContent($p);
+    	if(isset($p['reportId']))
+    	{
+    		if ($p['reportId'] === 2727)
+    		{
+    			$xml = $this->getXML($p);
+    			header('Content-Type: text/xml; charset=utf-8');
+    			header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.xml');
+    			header("Pragma: no-cache");
+    			header("Expires: 0");
+    			echo $xml;
+    	
+    			exit(0);
+    		}
+    	}        
+    	
+    	$rez = [];
+		$rez = $this->getCSVContent($p);
 		 	
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.csv');
@@ -122,6 +137,182 @@ class Instance
         header("Expires: 0");
         echo implode("\n", $rez);
     }
+
+    public function getXML($p)
+    {
+    	$container = Cache::get('symfony.container');
+    	$twig = $container->get('twig');
+    	$configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+    	$objService = new Objects();
+    	$reports = new Notifications();
+    	$res = $reports->getReport($p);
+    	array_unshift($res['data'], $res['colTitles']);
+    	$records = $res['data'];
+    	$rez[] = implode(',', array_shift($records));
+    	$clients = [];
+    	foreach ($records as &$r) {
+    		$obj = $objService->load($r);
+    		$clientId = $obj['data']['id'];
+    		//print_r($obj['data']['data']['sys_data']);
+    		$obj['data']['cdate'] = Util\dateMysqlToISO($obj['data']['cdate']);
+    		$contentItems = new ContentItems();
+    		$items = $contentItems->getData($clientId);
+    		$filePlugin = new \Casebox\CoreBundle\Service\Objects\Plugins\Files();
+    		$files = $filePlugin->getData($clientId);
+    
+    		$femaNumber = isset($obj['data']['data']['_femanumber'])?str_replace('-','',$obj['data']['data']['_femanumber']):null;
+    			
+    		if (!empty($femaNumber)) {
+    			if(!preg_match('/^[1-9]\d{9}$/', femaNumber))
+    				$femaNumber = null;
+    		}
+    		$obj['data']['femanumber'] = $femaNumber;
+    
+    
+    		// Select only required properties for result
+    		$properties = [
+    				'race',
+    				'gender',
+    				'maritalstatus',
+    				'ethnicity',
+    				'language',
+    				'fematier',
+    				'headofhousehold',
+    			 'location_type',
+    			 'primarylanguage',
+    			 'englishspeaker'
+    		];
+    		foreach ($properties as $property) {
+    			unset($obj['data'][$property]);
+    			if (!empty($obj['data']['data']['_' . $property])) {
+    				$objn = Objects::getCachedObject((is_array($obj['data']['data']['_' . $property])?$obj['data']['data']['_' . $property]['value']:$obj['data']['data']['_' . $property]));
+    				$obj['data'][$property] = empty($objn ) ? '' : $objn ->getHtmlSafeName();
+    			}
+    		}
+    		if ($obj['data']['data']['_birthdate'] != null) {
+    			$obj['data']['birthdate'] = substr($obj['data']['data']['_birthdate'],0,10);
+    		}
+    			
+    		$arrayproperties = [
+    				'at_risk_population',
+    				'identified_unmet_needs'
+    		];
+    		$obj['data']['identified_unmet_needs'] = '';
+    		foreach ($arrayproperties as $property) {
+    			$values = !empty($obj['data']['data'][$property])?$obj['data']['data'][$property]:null;
+    			if ($values != null) {
+    				$values = Util\toNumericArray($values);
+    				foreach ($values as $v) {
+    					$objss = Objects::getCachedObject($v);
+    					$obj['data']['identified_unmet_needs'] .= empty($objss) ? '' : ','.str_replace('Yes - ','',$objss->getHtmlSafeName());
+    				}
+    			}
+    		}
+    		$caseManagerId = !empty($obj['data']['data']['assigned'])?$obj['data']['data']['assigned']:$obj['data']['cid'];
+    		$obj['data']['casemanagerid'] = $caseManagerId;
+    		$obj['data']['casemanagername'] = User::getDisplayName($caseManagerId);
+    		$obj['data']['casemanageremail'] = User::getEmail($caseManagerId);
+    		$obj['data']['identified_unmet_needs'] = trim($obj['data']['identified_unmet_needs'],',');
+    		$obj['data']['disastername'] = $configService->get('disaster_declaration_number');
+    			
+    		$location = isset($obj['data']['data']['_location_type'])?$obj['data']['data']['_femanumber']:null;
+    		if (!empty($obj['data']['data']['_fulladdress']))
+    		{
+    			$addresscomponents = explode(",", $obj['data']['data']['_fulladdress']);
+    			$address = [];
+    			$address['data']['id'] = $clientId;
+    			$address['data']['cdate'] = Util\dateMysqlToISO($obj['data']['cdate']);
+    			$address['data']['zipcode'] = '99999';
+    			$address['data']['data']['_addresstwo'] = $obj['data']['data']['_addresstwo'];
+    			array_pop($addresscomponents);
+    			$address['data']['data']['_state'] = trim(array_pop($addresscomponents));
+    			$address['data']['data']['_city'] = trim(array_pop($addresscomponents));
+    			$address['data']['data']['_addressone'] = join(' ', $addresscomponents);
+    			$obj['data']['addresses'][] = $address['data'];
+    		}
+    		$obj['data']['narrative'] = '';
+    
+    		foreach ($files['data'] as $file) { //consent form signed
+    			$obj['data']['datereleasesigned'] = substr($file['cdate'],0,10);
+    		}
+    			
+    		foreach ($items['data'] as $item) {
+    			if ($item['template_id'] == 311) //address
+    			{
+    				$address = $objService->load($item);
+    				$address['data']['cdate'] = Util\dateMysqlToISO($address['data']['cdate']);
+    				$address['data']['zipcode'] = '99999';
+    				$addresscomponents = explode(",", $address['data']['data']['_fulladdress']);
+    				array_pop($addresscomponents);
+    				$address['data']['data']['_state'] = trim(array_pop($addresscomponents));
+    				$address['data']['data']['_city'] = trim(array_pop($addresscomponents));
+    				$address['data']['data']['_addressone'] = join(' ', $addresscomponents);
+    				$obj['data']['addresses'][] = $address['data'];
+    			}
+    			elseif ($item['template_id'] == 289) //family member
+    			{
+    				$fm = $objService->load($item);
+    				if (isset($fm['data']['data']['_alternatecontact']['childs']['_bestphonenumber']))
+    				{
+    					$obj['data']['alternatecontactphonenumber'] = $fm['data']['data']['_alternatecontact']['childs']['_bestphonenumber'];
+    				}
+    				if (isset($fm['data']['data']['_alternatecontact']['childs']['_otherphonenumber']))
+    				{
+    					$obj['data']['alternatecontactotherphonenumber'] = $fm['data']['data']['_alternatecontact']['childs']['_otherphonenumber'];
+    				}
+    			}
+    			elseif ($item['template_id'] ==440) //Housing
+    			{
+    				$fm = $objService->load($item);
+    				$properties = [
+    						'clientdamagerating',
+    						'predisasterliving'
+    				];
+    				foreach ($properties as $property) {
+    					unset($obj['data'][$property]);
+    					if ($fm['data']['data']['_' . $property] != null) {
+    						$objn = Objects::getCachedObject((is_array($fm['data']['data']['_' . $property])?$fm['data']['data']['_' . $property]['value']:$fm['data']['data']['_' . $property]));
+    						$obj['data'][$property] = empty($objn ) ? '' :  str_replace('Room Apartment','Room, Apartment',$objn ->getHtmlSafeName());
+    					}
+    				}
+    				if (isset($fm['data']['data']['_clientdamagerating']['childs']['_otherdamageassessment']))
+    				{
+    					$obj['data']['clientdamageratingother'] = $fm['data']['data']['_clientdamagerating']['childs']['_otherdamageassessment'];
+    				}
+    			}
+    			elseif ($item['template_id'] ==527) //Casenote
+    			{
+    				$fm = $objService->load($item);
+    				$obj['data']['narrative'] .= '['.$fm['data']['cdate']. '] '.$fm['data']['data']['_casenote'];
+    			}
+    			elseif ($item['template_id'] ==607) //referral
+    			{
+    				$fm = $objService->load($item);
+    				$fm['data']['cdate'] = Util\dateMysqlToISO($fm['data']['cdate']);
+    				$fm['data']['description'] = (isset($fm['data']['data']['_associatedneed'])?$fm['data']['data']['_associatedneed'].' ':'') . (isset($fm['data']['data']['_associatedneed'])?$fm['data']['data']['_associatedgoal'].' ':'');
+    				$obj['data']['services'][] = $fm['data'];
+    				if (isset($fm['data']['data']['_provider']))
+    				{
+    					$obj['data']['referrals'][] = $fm['data'];
+    				}
+    			}
+    		}
+    		$clients[] = $obj['data'];
+    	}
+    	$vars = [
+    			'clients' => $clients,
+    			'disasterEventDate' => $configService->get('disaster_date'),
+    			'disasterName' => $configService->get('disaster_name'),
+    			'generationStamp' => date('Y-m-d\TH:i:s\Z'),
+    			'agencyId' => !empty($configService->get('agency_id'))?$configService->get('agency_id'):'262626',
+    			'agencyName' => !empty($configService->get('agency_name'))?$configService->get('agency_name'):'OHSEPR',
+    			'caseManagerEmail' => !empty($configService->get('agency_name'))?$configService->get('disaster_email'):'OHSEPR',
+    			'disasterDRONumber' => $configService->get('disaster_deron_number'),
+    			'cm_phone' =>$configService->get('disaster_phone_number'),
+    	];
+    	$html = $twig->render('CaseboxCoreBundle:email:dcds_1_1.xml.twig', $vars);
+    	return $html;
+    }    
     
   public function getExport($p)
     {
@@ -431,20 +622,22 @@ class Instance
 						 }	 
 						 //$resourceValue = empty($resource) ? 'N/A' : $resource->getHtmlSafeName();
 						 //print_r($service);
+						 if (!empty($service['data']['data']['_commentgroup']))
+						 {
 							foreach ($service['data']['data']['_commentgroup'] as $key) {
 								 $comments = $comments. $key['childs']['_comments'] . ' ('.Util\formatMysqlDate($key['childs']['_commentdate'], Util\getOption('short_date_format')).'),';
 							}
 							$comments = trim($comments,',') .$service['data']['data']['_commentgroup']['childs']['_comments']. ' ('.Util\formatMysqlDate($service['data']['data']['_commentgroup']['childs']['_commentdate'], Util\getOption('short_date_format')).'),';
-							
+						 }
 						 $services[] = [
-							'associatedneed' => $service['data']['data']['_associatedneed'],
-							'associatedgoal' => $service['data']['data']['_associatedgoal'],			
+							'associatedneed' => !empty($service['data']['data']['_associatedneed'])?$service['data']['data']['_associatedneed']:'',
+							'associatedgoal' => !empty($service['data']['data']['_associatedgoal'])?$service['data']['data']['_associatedgoal']:'',			
 							'referraltype' => $refferalTypeValue,
 							'referralsubtype' => $refferalSubTypeValue,
 							'resourceagencyname' => empty($resource) ? 'N/A' : $resource['data']['data']['_providername'],
-							'resourceagencycontactinformation' => empty($resource) ? 'N/A' : $resource['data']['data']['_streetaddress']. ' ' .$resource['data']['data']['_city']. ' ' .$resource['data']['data']['_state']. ' ' .$resource['data']['data']['_zipcode']. ' ' .$resource['data']['data']['_phonenumbers'],
-							'pointofcontact' => empty($resource) ? 'N/A' : $resource['data']['data']['_pointofcontact'],
-							'referralappointmentdatetime' =>Util\formatMysqlDate($service['data']['data']['_appointmentdate'], Util\getOption('short_date_format')). ' ' . $service['data']['data']['_appointmenttime'],
+							'resourceagencycontactinformation' => empty($resource) ? 'N/A' : (!empty($resource['data']['data']['_streetaddress'])?$resource['data']['data']['_streetaddress']:''). ' ' .(!empty($resource['data']['data']['_city'])?$resource['data']['data']['_city']:''). ' ' .(!empty($resource['data']['data']['_state'])?$resource['data']['data']['_state']:''). ' ' .(!empty($resource['data']['data']['_zipcode'])?$resource['data']['data']['_zipcode']:''). ' ' .(!empty($resource['data']['data']['_phonenumbers'])?$resource['data']['data']['_phonenumbers']:''),
+							'pointofcontact' => (empty($resource) || empty($resource['data']['data']['_pointofcontact']))? 'N/A' : $resource['data']['data']['_pointofcontact'],
+							'referralappointmentdatetime' =>(!empty($service['data']['data']['_appointmentdate'])?Util\formatMysqlDate($service['data']['data']['_appointmentdate'], Util\getOption('short_date_format')):''). ' ' . (!empty($service['data']['data']['_appointmenttime'])?$service['data']['data']['_appointmenttime']:''),
 							'targetcompletiondate' =>  Util\formatMysqlDate($service['data']['data']['_targetcompletiondate'], Util\getOption('short_date_format')),
 							'comments' => str_replace('()','',trim($comments,','))
 						];	
