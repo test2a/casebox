@@ -163,7 +163,7 @@ class Instance
     		$femaNumber = isset($obj['data']['data']['_femanumber'])?str_replace('-','',$obj['data']['data']['_femanumber']):null;
     			
     		if (!empty($femaNumber)) {
-    			if(!preg_match('/^[1-9]\d{9}$/', femaNumber))
+    			if(!preg_match('/^[1-9]\d{9}$/', $femaNumber))
     				$femaNumber = null;
     		}
     		$obj['data']['femanumber'] = $femaNumber;
