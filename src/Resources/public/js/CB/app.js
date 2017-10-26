@@ -31,7 +31,7 @@ Ext.onReady(function(){
         console.log('sessionAboutToTimeoutPromptTask');
 
         Ext.Msg.confirm(
-            L.SessionIsAboutToExpire,
+            L.SessionAboutToExpire,
             L.SessionExpireMessage,
             function (btn, text) {
 
