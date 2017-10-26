@@ -75,7 +75,7 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 
         while ($row = $locs->fetch()) { //START LOCATIONS
 			$locations[] = $row;
-			$this->runReport($row['name'], $row['id'], $date, $locationFolder,$dbs);
+			//$this->runReport($row['name'], $row['id'], $date, $locationFolder,$dbs);
 		} //END LOCATIONS		
 		
 		//print_r($locations);
@@ -88,7 +88,7 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 		foreach($counties as $countyname => $locations) //START COUNTIES
 		{
 			//echo($countyname. implode(', ',$locations));
-			$this->runReport($countyname, implode(', ',$locations), $date, $countyFolder,$dbs);
+			//$this->runReport($countyname, implode(', ',$locations), $date, $countyFolder,$dbs);
 		} //END COUNTIES
 		//var_dump($newarray);		
 
@@ -108,7 +108,7 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 		
 $femasql = 'select  
 			(SELECT count(distinct(IF(template_id=141,id,pid))) FROM 
-			tree stree where template_id 
+			tree stree where stree.dstatus = 0 and template_id 
             in (527,311,289,607,141,3114,1175,1120,656,
             651,559,553,533,510,505,489,482,455,440,172) 
 			and IF(template_id=141,id,pid) in (select id from objects 
@@ -183,10 +183,34 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF) AND
+			DATE(SUBSTRING(sys_data,LOCATE(\'"task_d_closed":"\', sys_data)+17,10)) = DATE(\''.$date.'\'))
+      		 closed_cases, 
+         (SELECT COUNT(*) FROM objects, tree where
+         tree.id = objects.id and 
+         dstatus = 0 and 
+      sys_data like \'%"case_status":"Closed"%\'
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF) AND
 			DATE(SUBSTRING(sys_data,LOCATE(\'"task_d_closed":"\', sys_data)+17,10)) <= DATE(\''.$date.'\'))
-      		 total_closed_cases, 
+      		 total_closed_cases,
          (SELECT COUNT(*) FROM objects, tree where tree.id = objects.id
-         and sys_data not like \'%"case_status":"Closed"%\'
+         and dstatus = 0
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF) AND
+			DATE(tree.cdate) <= DATE(\''.$date.'\'))
+      		 total_cases,    	
+         (SELECT COUNT(*) FROM objects, tree where tree.id = objects.id
+         and sys_data like \'%"case_status":"Information Only"%\'
+         and dstatus = 0
+	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF) AND
+			DATE(tree.cdate) <= DATE(\''.$date.'\'))
+      		 total_information_only_cases,   			 
+         (SELECT COUNT(*) FROM objects, tree where tree.id = objects.id
+         and sys_data like \'%"case_status":"Active"%\'
          and dstatus = 0
 	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
