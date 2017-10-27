@@ -100,7 +100,7 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 		
 		$this->runReport('', implode(', ',$all), $date, 1204,$dbs);
 		
-        $output->success('command casebox:database:report');
+        $output->success('command casebox:database:report for '. $date);
     }
 	
 	private function runReport($areaName, $locations, $date, $pid,$dbs)
@@ -322,7 +322,7 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
 			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
 			order by count(*) desc
-			limit 1,1) top_client_need,
+			limit 0,1) top_client_need,
 			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
 			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
 			AND (DATE(tree.cdate) = \''.$date.'\')
@@ -332,7 +332,7 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
 			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
 			order by count(*) desc			
-			limit 2,1) second_client_need,
+			limit 1,1) second_client_need,
 			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
 			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
 			AND (DATE(tree.cdate) = \''.$date.'\')
@@ -342,7 +342,7 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
 			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
 			order by count(*) desc			
-			limit 3,1) third_client_need,
+			limit 2,1) third_client_need,
 			SUM(IF ((sys_data like \'%"fematier":"Tier 1%\') AND DATE(tree.cdate) = \''.$date.'\',1,0) ) fema_tier_1,
 			SUM(IF (sys_data like \'%"fematier":"Tier 2%\' AND DATE(tree.cdate) = \''.$date.'\',1,0) ) fema_tier_2,
 			SUM(IF (sys_data like \'%"fematier":"Tier 3%\' AND DATE(tree.cdate) = \''.$date.'\',1,0) ) fema_tier_3,
@@ -459,7 +459,7 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
 			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
 			order by count(*) desc
-			limit 1,1) top_client_need,
+			limit 0,1) top_client_need,
 			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
 			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
 			AND (DATE(tree.cdate) = \''.$date.'\')
@@ -469,7 +469,7 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
 			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
 			order by count(*) desc			
-			limit 2,1) second_client_need,
+			limit 1,1) second_client_need,
 			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
 			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
 			AND (DATE(tree.cdate) = \''.$date.'\')
@@ -479,7 +479,7 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
 			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
 			order by count(*) desc			
-			limit 3,1) third_client_need,
+			limit 2,1) third_client_need,
 			SUM(IF (sys_data like \'%"fematier":"Tier 1%\',1,0) ) fema_tier_1,
 			SUM(IF (sys_data like \'%"fematier":"Tier 2%\',1,0) ) fema_tier_2,
 			SUM(IF (sys_data like \'%"fematier":"Tier 3%\',1,0) ) fema_tier_3,
