@@ -116,10 +116,15 @@ $femasql = 'select
 LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 (LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))				
 			AND DATE(stree.cdate) = \''.$date.'\') total_client_contact, 
-			SUM(IF (DATE(tree.cdate) = \''.$date.'\',1,0)) new_open_cases,
-			SUM(IF (sys_data like \'%"assessments_completed":[]%\' and sys_data like \'%"case_status":"Active"%\',1,0) ) client_intake,
-			SUM(IF (sys_data like \'%"case_status":"Information Only"%\',1,0) ) information_only,
-			SUM(IF (sys_data not like \'%"assessments_completed":[]%\' and sys_data like \'%"case_status":"Active"%\',1,0) ) assessments_total,
+			SUM(IF (DATE(tree.cdate) = \''.$date.'\' and sys_data not like \'%"case_status":"Information Only"%\',1,0)) new_open_cases,
+			SUM(IF (DATE(tree.cdate) = \''.$date.'\',1,0)) client_intake,
+			SUM(IF (DATE(tree.cdate) = \''.$date.'\' and sys_data like \'%"case_status":"Information Only"%\',1,0)) information_only,
+			(select count(*) from tree where tree.name like \'%Assessment\'
+			AND tree.pid in (select id from objects 
+            where substring(data, LOCATE(\'"_location_type":\', data)+18, 
+			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
+			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
+			and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') assessments_total,
 			(SELECT COUNT(*) FROM objects where 
       sys_data like \'%"case_status":"Closed"%\' 
 	  			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
@@ -174,7 +179,7 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			and substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF)
-      and sys_data like \'%"closurereason_s":"Client has moved out of service area"%\' and
+      and sys_data like \'%"closurereason_s":"Client has moved out of service area%\' and
       sys_data like CONCAT(\'%task_d_closed":"\',\''.$date.'\',\'%\')) closed_records_moved, 
          (SELECT COUNT(*) FROM objects, tree where
          tree.id = objects.id and 
@@ -308,32 +313,35 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
 			and name not like \'%-  []%\' and dstatus = 0 AND DATE(tree.cdate) = \''.$date.'\') referrals_transportation,  			
 			SUM(IF (data like \'%"_addresstype":323%\' AND (DATE(tree.cdate) = \''.$date.'\')    ,1,0) ) temporary_housing,
-			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
-			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
-			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
+			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
+			AND (DATE(tree.cdate) = \''.$date.'\')
 			AND tree.pid in (select id from objects 
             where substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
-			group by tree.name
+			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
+			order by count(*) desc
 			limit 1,1) top_client_need,
-			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
-			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
-			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
+			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
+			AND (DATE(tree.cdate) = \''.$date.'\')
 			AND tree.pid in (select id from objects 
             where substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
-			group by tree.name
+			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
+			order by count(*) desc			
 			limit 2,1) second_client_need,
-			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
-			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
-			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
+			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
+			AND (DATE(tree.cdate) = \''.$date.'\')
 			AND tree.pid in (select id from objects 
             where substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
-			group by tree.name
+			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
+			order by count(*) desc			
 			limit 3,1) third_client_need,
 			SUM(IF ((sys_data like \'%"fematier":"Tier 1%\') AND DATE(tree.cdate) = \''.$date.'\',1,0) ) fema_tier_1,
 			SUM(IF (sys_data like \'%"fematier":"Tier 2%\' AND DATE(tree.cdate) = \''.$date.'\',1,0) ) fema_tier_2,
@@ -442,32 +450,35 @@ LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			SUM(IF (sys_data like \'%"seniorservicesreferralneeded_s":"Yes"%\',1,0) ) senior_referral_needed,
 			SUM(IF (sys_data like \'%"languagereferralneeded_s":"Yes"%\',1,0) ) language_referral_needed,
 			SUM(IF (sys_data like \'%"legalservicesreferralneeded_s":"Yes"%\',1,0) ) legal_referral_needed,
-			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
-			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
-			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
+			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
+			AND (DATE(tree.cdate) = \''.$date.'\')
 			AND tree.pid in (select id from objects 
             where substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
-			group by tree.name
+			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
+			order by count(*) desc
 			limit 1,1) top_client_need,
-			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
-			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
-			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
+			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
+			AND (DATE(tree.cdate) = \''.$date.'\')
 			AND tree.pid in (select id from objects 
             where substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
-			group by tree.name
+			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
+			order by count(*) desc			
 			limit 2,1) second_client_need,
-			(SELECT REPLACE(tree.name,\'Assessment\',\'\') FROM   objects, tree where objects.id = tree.id 
-			and (data like \'%_referralneeded":686%\' OR data like \'%"_referralneeded":{"value":686,"%\')
-			AND (DATE(tree.cdate) = \''.$date.'\') and tree.name like \'%Assessment\' 
+			(SELECT SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1) FROM   objects, tree where objects.id = tree.id 
+			AND tree.template_id = 607 and tree.name not like \'%-  []%\' and dstatus = 0 
+			AND (DATE(tree.cdate) = \''.$date.'\')
 			AND tree.pid in (select id from objects 
             where substring(data, LOCATE(\'"_location_type":\', data)+18, 
 			LOCATE(\'"\',data,LOCATE(\'"_location_type":\', data)+18)-
 			(LOCATE(\'"_location_type":\', data)+18)) in(LOCATION_STUFF))
-			group by tree.name
+			group by SUBSTR(tree.name, 1, LOCATE(\'-\', tree.name) - 1)
+			order by count(*) desc			
 			limit 3,1) third_client_need,
 			SUM(IF (sys_data like \'%"fematier":"Tier 1%\',1,0) ) fema_tier_1,
 			SUM(IF (sys_data like \'%"fematier":"Tier 2%\',1,0) ) fema_tier_2,
