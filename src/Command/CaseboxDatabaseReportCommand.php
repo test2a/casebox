@@ -37,7 +37,7 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 		$regionFolder = 41500;
 		
 		
-		$date = (!empty($input->getOption('date'))) ? $input->getOption('date') : date('Y-m-d', time());
+		$date = (!empty($input->getOption('date'))) ? $input->getOption('date') : date('Y-m-d', time() - 60 * 60 * 24);
 		//echo('test'.$date);
 		//$user = $container->get('doctrine.orm.entity_manager')->getRepository('CaseboxCoreBundle:UsersGroups')->findUserByUsername('root');
 		
@@ -88,7 +88,7 @@ class CaseboxDatabaseReportCommand extends ContainerAwareCommand
 		foreach($counties as $countyname => $locations) //START COUNTIES
 		{
 			//echo($countyname. implode(', ',$locations));
-			//$this->runReport($countyname, implode(', ',$locations), $date, $countyFolder,$dbs);
+			$this->runReport($countyname, implode(', ',$locations), $date, $countyFolder,$dbs);
 		} //END COUNTIES
 		//var_dump($newarray);		
 
