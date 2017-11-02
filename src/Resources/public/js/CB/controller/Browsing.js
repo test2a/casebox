@@ -303,11 +303,11 @@ Ext.define('CB.controller.Browsing', {
 
         if(query.substr(0,1) === '#') {
             query = query.substr(1).trim();
-            if(!isNaN(query)) {
+        }
+        if(!isNaN(query)) {
                 // this.locateObject(query);
                 this.openObjectWindowById(query);
                 return;
-            }
         }
 
         this.VC.setParams({
@@ -500,14 +500,31 @@ Ext.define('CB.controller.Browsing', {
         CB_Objects.getBasicInfoForId(
             id
             ,function(r, e) {
-                if(!r || (r.success !== true)) {
+                if(!r || (r.success !== true)) { //true always comes back...Apprio DS
                     Ext.Msg.alert(
                         L.Error
                         ,L.RecordIdNotFound.replace('{id}', '#' + r.id)
                     );
                     return;
                 }
-                App.windowManager.openObjectWindow(r.data);
+				if (r.data.case_id == r.id)
+				{
+					this.VC.setParams({
+	    			query: r.id
+	    			,facets:'general'
+	    			,from:'grid'
+	    			,id:'10-cases'
+	    			,limit:50
+	    			,page:1
+	    			,query:null
+	    			,path:'1/10-cases/' + r.id
+					,descendants: false
+					});
+				}
+				else
+				{
+					App.windowManager.openObjectWindow(r.data);
+				}
             }
             ,this
         );
