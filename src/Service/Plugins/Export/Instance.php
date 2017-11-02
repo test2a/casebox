@@ -289,7 +289,7 @@ class Instance
     			{
     				$fm = $objService->load($item);
     				$fm['data']['cdate'] = Util\dateMysqlToISO($fm['data']['cdate']);
-    				$fm['data']['description'] = (isset($fm['data']['data']['_associatedneed'])?$fm['data']['data']['_associatedneed'].' ':'') . (isset($fm['data']['data']['_associatedneed'])?$fm['data']['data']['_associatedgoal'].' ':'');
+    				//$fm['data']['description'] = ;
     				$obj['data']['services'][] = $fm['data'];
     				if (isset($fm['data']['data']['_provider']))
     				{
@@ -630,8 +630,6 @@ class Instance
 							$comments = trim($comments,',') .$service['data']['data']['_commentgroup']['childs']['_comments']. ' ('.Util\formatMysqlDate($service['data']['data']['_commentgroup']['childs']['_commentdate'], Util\getOption('short_date_format')).'),';
 						 }
 						 $services[] = [
-							'associatedneed' => !empty($service['data']['data']['_associatedneed'])?$service['data']['data']['_associatedneed']:'',
-							'associatedgoal' => !empty($service['data']['data']['_associatedgoal'])?$service['data']['data']['_associatedgoal']:'',			
 							'referraltype' => $refferalTypeValue,
 							'referralsubtype' => $refferalSubTypeValue,
 							'resourceagencyname' => empty($resource) ? 'N/A' : $resource['data']['data']['_providername'],
