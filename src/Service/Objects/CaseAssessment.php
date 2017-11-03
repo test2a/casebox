@@ -136,7 +136,10 @@ class CaseAssessment extends Object
 					$caseData['data']['_fematier'] = $femaTier;
 					$caseSd['fematier_i'] = $femaTier;
 					$obj = Objects::getCachedObject($femaTier);	
-					$caseSd['fematier'] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
+					$arr = explode(" -", $obj->getHtmlSafeName(), 2);
+					$first = $arr[0];
+					$caseSd['fematier'] = $first;
+					//$caseSd['fematier'] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
 					$case->updateCustomData();
 				}
 			}
