@@ -52,6 +52,9 @@ class JavascriptService
      */
     public function getDefault()
     {
+    	$configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+    	$googlePlacesApi = $configService->get('google-places-api');
+    	$googleAnalyticsApi = $configService->get('google-analytics-api');    	
         $scripts = [
             'header' => [
                 'leaflet' => [
@@ -60,6 +63,12 @@ class JavascriptService
                 'progress' => [
                     'inline' => "window.name = '0fe6c741a69ef4b56882f0e';function setProgress(label, percentage) {document.getElementById('loading-msg').innerHTML = label + '…';document.getElementById('lpt').style.width = percentage;}",
                 ],
+            	'analytics' => [
+           			'src' => 'https://www.googletagmanager.com/gtag/js?id='.(!empty($googleAnalyticsApi)?$googleAnalyticsApi:'UA-109157936-1').'',
+            	],
+            	'analyticsi' => [
+            		'inline' => 'window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag(\'js\', new Date());gtag(\'config\', \''.(!empty($googleAnalyticsApi)?$googleAnalyticsApi:'UA-109157936-1').'\');'
+            	],            		
             ],
             'footer' => [
                 'progress-30' => [
@@ -98,6 +107,9 @@ class JavascriptService
                 'locale' => [
                     'src' => '/min/locale/{{ app.request.locale }}.js',
                 ],
+                'maps' => [
+                	'src' => 'https://maps.googleapis.com/maps/api/js?key='.(!empty($googlePlacesApi)?$googlePlacesApi:'AIzaSyDagGV4e4blxYoYPheCP-9hxblzbm-QaOs').'&libraries=places'
+            	],
             ],
         ];
 
