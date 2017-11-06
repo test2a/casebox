@@ -235,6 +235,7 @@ class Cases extends Object
 			'county_s',
 			'street_s',
 			'city_s',
+			'zipcode_s',		
 			'state_s',
 			'location_type',
             'at_risk_population_ss',
@@ -333,7 +334,8 @@ class Cases extends Object
 			'city' => $location['locality'],	
 			'state' => $location['admin_1'],				
 			'full_address' => $response['results'][0]['formatted_address'],
-			'county' => $location['admin_2']
+			'county' => $location['admin_2'],
+			'postal_code' => isset($location['postal_code'])?$location['postal_code']:''			
 		);
 	 
 		return $array;
@@ -423,6 +425,7 @@ class Cases extends Object
 			unset($sd['street_s']);
 			unset($sd['city_s']);
 			unset($sd['state_s']);
+			unset($sd['zipcode_s']);		
 			unset($sd['full_address']);
 			$sd['full_address'] = $this->getFieldValue('_fulladdress', 0)['value'];
         }			
@@ -437,6 +440,7 @@ class Cases extends Object
 				$sd['county_s'] = $results['county'];
 				$sd['street_s'] = $results['street_number']. ' ' . $results['street'];
 				$sd['city_s'] = $results['city'];
+				$sd['zipcode_s'] = $results['postal_code'];				
 				$sd['state_s'] = $results['state'];			
 			}	
 		}		
