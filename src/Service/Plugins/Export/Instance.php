@@ -625,9 +625,12 @@ class Instance
 						 if (!empty($service['data']['data']['_commentgroup']))
 						 {
 							foreach ($service['data']['data']['_commentgroup'] as $key) {
+							if (!empty($key['childs']))
+								{
 								 $comments = $comments. $key['childs']['_comments'] . ' ('.Util\formatMysqlDate($key['childs']['_commentdate'], Util\getOption('short_date_format')).'),';
+								 }
 							}
-							$comments = trim($comments,',') .$service['data']['data']['_commentgroup']['childs']['_comments']. ' ('.Util\formatMysqlDate($service['data']['data']['_commentgroup']['childs']['_commentdate'], Util\getOption('short_date_format')).'),';
+							$comments = trim($comments,',') .(!empty($service['data']['data']['_commentgroup']['childs']['_comments'])?$service['data']['data']['_commentgroup']['childs']['_comments']:''). ' ('.(!empty($service['data']['data']['_commentgroup']['childs']['_commentdate'])?Util\formatMysqlDate($service['data']['data']['_commentgroup']['childs']['_commentdate'], Util\getOption('short_date_format')):'').'),';
 						 }
 						 $services[] = [
 							'referraltype' => $refferalTypeValue,
@@ -636,7 +639,7 @@ class Instance
 							'resourceagencycontactinformation' => empty($resource) ? 'N/A' : (!empty($resource['data']['data']['_streetaddress'])?$resource['data']['data']['_streetaddress']:''). ' ' .(!empty($resource['data']['data']['_city'])?$resource['data']['data']['_city']:''). ' ' .(!empty($resource['data']['data']['_state'])?$resource['data']['data']['_state']:''). ' ' .(!empty($resource['data']['data']['_zipcode'])?$resource['data']['data']['_zipcode']:''). ' ' .(!empty($resource['data']['data']['_phonenumbers'])?$resource['data']['data']['_phonenumbers']:''),
 							'pointofcontact' => (empty($resource) || empty($resource['data']['data']['_pointofcontact']))? 'N/A' : $resource['data']['data']['_pointofcontact'],
 							'referralappointmentdatetime' =>(!empty($service['data']['data']['_appointmentdate'])?Util\formatMysqlDate($service['data']['data']['_appointmentdate'], Util\getOption('short_date_format')):''). ' ' . (!empty($service['data']['data']['_appointmenttime'])?$service['data']['data']['_appointmenttime']:''),
-							'targetcompletiondate' =>  Util\formatMysqlDate($service['data']['data']['_targetcompletiondate'], Util\getOption('short_date_format')),
+							'targetcompletiondate' =>  !empty($service['data']['data']['_targetcompletiondate'])?Util\formatMysqlDate($service['data']['data']['_targetcompletiondate'], Util\getOption('short_date_format')):null,
 							'comments' => str_replace('()','',trim($comments,','))
 						];	
 					}
