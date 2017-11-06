@@ -3433,14 +3433,22 @@
                 <source>SessionExpireMessage</source>
                 <target>Your session will expire in one minute. Would you like to continue your session?</target>
             </trans-unit> 
- 			<trans-unit id="3218">
+ 	    <trans-unit id="3218">
                 <source>RequiredFieldsMessage</source>
                 <target>Please fix required fields and resubmit</target>
             </trans-unit>       
- 			<trans-unit id="3219">
+ 	    <trans-unit id="3219">
                 <source>Website</source>
                 <target>Website</target>
-            </trans-unit>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       		
+            </trans-unit>   
+ 	    <trans-unit id="3220">
+                <source>caseStatus6</source>
+                <target>Transferred</target>
+            </trans-unit>   	
+ 	    <trans-unit id="3221">
+                <source>Transferred</source>
+                <target>Transferred</target>
+            </trans-unit>   			
 		</body>
     </file>
 </xliff>
