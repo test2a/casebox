@@ -326,6 +326,7 @@ class Instance
 			$records = $res['data'];
        		$rez[] = implode(',', array_shift($records));
 		$count = 0;
+		$objService = new Objects();
         foreach ($records as &$r) {
             	$record = [];
             	foreach ($res['colOrder'] as $t) {
@@ -380,6 +381,25 @@ class Instance
 		$recoveryPlan = $dompdf->output();
 		
 		$zip->addFromString($clientId.'recoveryplan.pdf',$recoveryPlan);
+		$data = [
+				'pid' => $clientId,
+				'title' => 'Case Note',
+				'template_id' => 527,
+				'path' => 'Tree/System/Clients',
+				'view' => 'edit',
+				'name' => 'New Case Note',
+				'data' => [
+						'_entrydate' => date('Y-m-d\TH:i:s\Z'),
+						'_casenote' => 'Transfer from Export',
+						'_notetype' => [
+								'value'=>603,
+								'childs' =>[
+										'_transferlocation' => 'Harris County'
+								]
+						]
+				],
+		];
+		$newNote =$objService->create($data);
 		  } //count less than 100
 		  $count++;
 		}
@@ -655,6 +675,11 @@ class Instance
 			}
 			
 			$vars = [
+				'client_name' => $obj['data']['data']['_firstname'] . ' ' . $obj['data']['data']['_lastname'],
+				'client_address' => !empty($obj['data']['data']['_fulladdress'])?$obj['data']['data']['_fulladdress']:'',
+				'client_email' =>!empty($obj['data']['data']['_emailaddress'])?$obj['data']['data']['_emailaddress']:'',
+				'client_phonenumber' =>!empty($obj['data']['data']['_phonenumber'])?$obj['data']['data']['_phonenumber']:'',
+				'client_secondaryphonenumber' => !empty($obj['data']['data']['_otherphonenumber'])?$obj['data']['data']['_otherphonenumber']:'',
 				'client_lastname' => $obj['data']['data']['_lastname'],
 				'client_firstname' => $obj['data']['data']['_firstname'],			
 				'disaster_declaration_number' => $configService->get('disaster_declaration_number'),

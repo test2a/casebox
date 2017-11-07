@@ -30,6 +30,8 @@ class Cases extends Object
     public static $STATUS_PENDING = 4;
 	
 	public static $STATUS_INFORMATION = 5;
+	
+	public static $STATUS_TRANSFERRED = 6;	
 
     public static $USERSTATUS_NONE = 0;
 
@@ -221,6 +223,7 @@ class Cases extends Object
             'fematier',			
 			'full_address',
 			'task_d_closed',
+        	'transferred_dt',
 			'assessments_reported',
 			'assessments_needed',
 			'assessments_completed',
@@ -532,6 +535,7 @@ class Cases extends Object
 		 if ($clientStatus == 1578)
 		 {
 			 unset($sd['task_d_closed']);
+			 unset($sd['transferred_dt']);
 			 $status = static::$STATUS_ACTIVE;	
 		 }
 		 else if ($clientStatus == 1579)
@@ -545,8 +549,17 @@ class Cases extends Object
 		 else if ($clientStatus == 1577)
 		 {
 			 unset($sd['task_d_closed']);
+			 unset($sd['transferred_dt']);
 			 $status = static::$STATUS_INFORMATION;
 		 }
+		 else if ($clientStatus == 504)
+		 {
+		 	if (empty($sd['transferred_dt']))
+		 	{
+		 		$sd['transferred_dt'] = date('Y-m-d\TH:i:s\Z');
+		 	}
+		 	$status = static::$STATUS_TRANSFERRED;
+		 }		 
 		}
 		else
 		{
@@ -620,6 +633,23 @@ class Cases extends Object
 		$this->updateSysData();
     }
 
+    /**
+     * Mark the task as transferred
+     * @return void
+     */
+    public function markTransferred()
+    {
+    	$d = &$this->data;
+    	$sd = &$d['sys_data'];
+    
+    	$sd['task_status'] = static::$STATUS_TRANSFERRED;
+    	$sd['transferred_dt'] = date('Y-m-d\TH:i:s\Z');
+    	$sd['case_status'] = $this->trans('caseStatus'.static::$STATUS_TRANSFERRED, '');
+    	$d['data']['_clientstatus'] = 604;
+    	$this->updateCustomData();
+    	$this->updateSysData();
+    }    
+    
     /**
      * Mark the task as closed and update into db
      * @return void
@@ -704,7 +734,12 @@ class Cases extends Object
 				
             case static::$STATUS_INFORMATION:
                 $rez .= ' case-status-information';
-                break;				
+                break;	
+                
+            case static::$STATUS_TRANSFERRED:
+                $rez .= ' case-status-transferred';
+                break;
+                
         }
 
         return $rez;
@@ -1045,6 +1080,13 @@ class Cases extends Object
                 Util\formatAgoTime($sd['task_d_closed']).'</td></tr>';
         }
 
+        if (!empty($sd['transferred_dt'])) {
+        	$dateLines .= '<tr><td class="prop-key">'.
+        			$this->trans('Transferred').':</td><td>'.
+        			Util\formatAgoTime($sd['transferred_dt']).'</td></tr>';
+        }
+        
+        
         // Create owner row
         $v = $this->getOwner();
         if (!empty($v)) {
@@ -1088,10 +1130,16 @@ class Cases extends Object
             foreach ($v as $id) {
                 $un = User::getDisplayName($id);
                 $completed = !empty($sd['task_d_closed']);
+                $transferred = !empty($sd['transferred_dt']);
 
                 $cdt = ''; //completed date title
                 $dateText = '';
 
+                if ($transferred) {
+                	$tdt = Util\formatMysqlDate($sd['transferred_dt'], $dateFormat);
+                	$tdateText = ': '.Util\formatAgoTime($sd['transferred_dt']);
+                }
+                
                 if ($completed) {
                     $cdt = Util\formatMysqlDate($sd['task_d_closed'], $dateFormat);
                     $dateText = ': '.Util\formatAgoTime($sd['task_d_closed']);
@@ -1107,6 +1155,10 @@ class Cases extends Object
                     ($completed ? '<img class="done icon icon-tick-circle" src="/css/i/s.gif" />' : "").
                     '</div></td><td>'.$un.''.
                     '<p class="gr" title="'.$cdt.'">'.(
+                    $transferred
+                        ? $this->trans('Transferred').$tdateText.'<br/>'
+                        : ''
+                    ).(
                     $completed
                         ? $this->trans('Closed').$dateText
                         : $this->trans('LastAction').': '.$dateText

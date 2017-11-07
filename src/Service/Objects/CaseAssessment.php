@@ -130,7 +130,7 @@ class CaseAssessment extends Object
 				{
 					$case->markClosed();
 				}
-				if ($p['data']['_notetype']['value'] == 523) //close note
+				if ($p['data']['_notetype']['value'] == 523) //FEMA tier
 				{
 					$femaTier = $p['data']['_notetype']['childs']['_fematier'];
 					$caseData['data']['_fematier'] = $femaTier;
@@ -142,6 +142,10 @@ class CaseAssessment extends Object
 					//$caseSd['fematier'] = empty($obj) ? '' : str_replace('Yes - ','',$obj->getHtmlSafeName());
 					$case->updateCustomData();
 				}
+				if ($p['data']['_notetype']['value'] == 603) //transfer note
+				{
+					$case->markTransferred();
+				}				
 			}
 
 			if (!empty($p['data']['_fulladdress']))
@@ -154,7 +158,8 @@ class CaseAssessment extends Object
 					$p['data']['_county'] = $results['county'];
 					$p['data']['_addressone'] = $results['street_number']. ' ' . $results['street'];
 					$p['data']['_city'] = $results['city'];
-					$p['data']['_state'] = $results['state'];				
+					$p['data']['_state'] = $results['state'];	
+					$p['data']['_zip'] = $results['postal_code'];					
 					$p['data']['_locationtype'] = $results['location_type'];	
 				}
 			}
@@ -441,7 +446,8 @@ class CaseAssessment extends Object
 			'city' => $location['locality'],	
 			'state' => $location['admin_1'],				
 			'full_address' => $response['results'][0]['formatted_address'],
-			'county' => $location['admin_2']
+			'county' => $location['admin_2'],
+			'postal_code' => isset($location['postal_code'])?$location['postal_code']:''		
 		);
 	 
 		return $array;

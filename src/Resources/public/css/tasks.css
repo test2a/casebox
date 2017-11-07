@@ -25,6 +25,7 @@ a.btn-task-complete { font-size: 12px; color: white; font-weight: bold}
 .case-status-active{ background-color: #637626; color: white}
 .case-status-closed{ background-color: #c00000; color: white}
 .case-status-information{ background-color: yellow; color: black}
+.case-status-transferred{ background-color: orange; color: black}
 
 
 .task-status00{ border-radius: 6px; -moz-border-radius: 6px; -webkit-border-radius: 6px; background-color: #D36E01; color: white; padding: 2px 5px} /*pending, not completed*/

@@ -101,7 +101,7 @@ class CasesGrouped extends Base
         $p = $this->requestParams;
         $p['fq'] = $this->fq;
         //$p['fq'][] = 'task_u_all:'.User::getId();
-        $p['fq'][] = 'task_status:(1 OR 2 OR 3 OR 5)';
+        $p['fq'][] = 'task_status:(1 OR 2 OR 3 OR 5 OR 6)';
         $p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s,assignee_s';
 		$p['rows'] = 0;
 
@@ -144,7 +144,7 @@ class CasesGrouped extends Base
 		$p['fl'] = 'id,fematier,name,cdate,case_status,cid,uid,udate,firstname_s,lastname_s,assignee_s';
         $p['fq'] = $this->fq;
         //$p['fq'][] = 'task_u_all:'.$userId;
-        $p['fq'][] = 'task_status:(1 OR 2 OR 3 OR 5)';
+        $p['fq'][] = 'task_status:(1 OR 2 OR 3 OR 5 OR 6)';
 		if (!isset($p['sort'])) {
 			$p['sort'][0]['property'] = 'id';    
 			$p['sort'][0]['direction'] = 'desc';                       
