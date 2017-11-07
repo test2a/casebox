@@ -235,25 +235,43 @@
     
     <br/>
     
+	  <table width="100%" cellpadding="0" cellspacing="0" border="1"
+	           style="color:000;border-collapse: collapse;border-spacing: 0;padding: 0;text-align: left;vertical-align: top;">
+	        <tr style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;background: #deecfd;">
+	         				<th>Name</th>
+	                        <th>Address</th>
+	                        <th>Email Address</th>
+	                        <th>Phone Number</th>
+	                        <th>Secondary Phone Number</th>	
+ 	                    	<th>FEMA Registration Number</th>                             
+	            </tr>
+	        	<tr style="color: #000000;padding: 0;text-align: left;vertical-align: top;">
+	         				<td>{{client_name}}</td>
+	                        <td>{{client_address}}</td>
+	                        <td>{{client_email}}</td>
+	                        <td>{{client_phonenumber}}</td>
+	                        <td>{{client_secondaryphonenumber}}</td>
+ 	                    	<td>{{fema_registration_number}}</td>  
+	            </tr>                 
+	    </table>
+    <br/>
         <table width="100%" cellpadding="0" cellspacing="0" border="1"
            style="color:000;border-collapse: collapse;border-spacing: 0;padding: 0;text-align: left;vertical-align: top;">
         <tr style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;background: #deecfd;">
          				<th>Case Manager</th>
                         <th>DR – Disaster Declaration</th>
-                        <th>ID Number</th>
+                        <th>Client ID</th>
                         <th>CM Telephone Number</th>
                         <th>Client Plan Creation Date</th>
-                        <th>IDCM Site Address</th>
-                        <th>FEMA Registration Number</th>
+                        <th>IDCM Site Address</th>                  
             </tr>
         	<tr style="color: #000000;padding: 0;text-align: left;vertical-align: top;">
          				<td>{{cm_assigned}}</td>
                         <td>{{disaster_declaration_number}}</td>
-                        <td>{{client_id}}</td>
+                       	<td>{{client_id}}</td>
                         <td>{{cm_phone}}</td>
                         <td>{{plan_creation_date}}</td>
-                        <td>{{disaster_site_address}}</td>
-                        <td>{{fema_registration_number}}</td>
+                        <td>{{disaster_site_address}}</td>                     
             </tr>                 
     </table>
     
