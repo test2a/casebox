@@ -567,7 +567,10 @@ class Cases extends Object
 			$d['_clientstatus'] = 1578;
 			$status = static::$STATUS_ACTIVE;	
 		}
-
+		if (!empty($sd['transferred_dt']))
+		{
+			$status = static::$STATUS_TRANSFERRED;
+		}
         /*if (!empty($sd['task_d_closed'])) {
             $status = static::$STATUS_CLOSED;
 
