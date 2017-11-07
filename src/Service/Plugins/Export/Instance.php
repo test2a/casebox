@@ -676,7 +676,7 @@ class Instance
 			
 			$vars = [
 				'client_name' => $obj['data']['data']['_firstname'] . ' ' . $obj['data']['data']['_lastname'],
-				'client_address' => !empty($obj['data']['data']['_fulladdress'])?$obj['data']['data']['_fulladdress']:'',
+				'client_address' => !empty($obj['data']['data']['_fulladdress'])?str_replace(", United States","",$obj['data']['data']['_fulladdress']):'',
 				'client_email' =>!empty($obj['data']['data']['_emailaddress'])?$obj['data']['data']['_emailaddress']:'',
 				'client_phonenumber' =>!empty($obj['data']['data']['_phonenumber'])?$obj['data']['data']['_phonenumber']:'',
 				'client_secondaryphonenumber' => !empty($obj['data']['data']['_otherphonenumber'])?$obj['data']['data']['_otherphonenumber']:'',

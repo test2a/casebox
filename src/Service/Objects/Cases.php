@@ -986,7 +986,7 @@ class Cases extends Object
 		}		
 		
 		if (!empty($sd['solr']['full_address'])) {
-			$addressLine = $addressLine . $sd['solr']['full_address']. " - ";
+			$addressLine = $addressLine . str_replace(", United States","",$sd['solr']['full_address']) . (!empty($sd['solr']['zipcode_s'])?' '. $sd['solr']['zipcode_s']:''). " - ";
 		}
 		else
 		{
