@@ -585,6 +585,32 @@ class Cases extends Object
     }
     
     /**
+     * Geocode client
+     * @return void
+     */    
+    public function geocode()
+    {
+    	$d = &$this->data;
+    	$sd = &$d['sys_data'];
+    	//echo($sd['full_address']);
+    	if (!empty($sd['full_address']))
+    	{
+    		$results = $this->lookup($sd['full_address']);
+    		if ($results != null)
+    		{
+    			$sd['lat_lon'] = $results['latitude'] .','.$results['longitude'];
+    			//$sd['full_address'] = $results['street'];//$results['full_address'];
+    			$sd['county_s'] = $results['county'];
+    			$sd['street_s'] = $results['street_number']. ' ' . $results['street'];
+    			$sd['city_s'] = $results['city'];
+    			$sd['zipcode_s'] = $results['postal_code'];
+    			$sd['state_s'] = $results['state'];
+    		}
+    		$this->updateSysData();
+    	}
+    }    
+    
+    /**
      * Mark the task active
      * @return void
      */
@@ -995,8 +1021,11 @@ class Cases extends Object
 		{
 			$addressLine = $addressLine. $this->trans('NoAddressListed') . " - ";
 		}
-		if (!empty($sd['solr']['county'])) {
-			$addressLine = $addressLine . $sd['solr']['county']. " - ";
+		if (!empty($sd['solr']['county_s'])) {
+			$addressLine = $addressLine . $sd['solr']['county_s']. " - ";
+		}
+		elseif (!empty($sd['solr']['county'])) {
+			$addressLine = $addressLine . ' Registered County:'.$sd['solr']['county']. " - ";
 		}
 
 			$filePlugin = new Files();
