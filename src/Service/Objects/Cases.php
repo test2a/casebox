@@ -569,7 +569,7 @@ class Cases extends Object
 		}
 		if (!empty($sd['transferred_dt']))
 		{
-			$status = static::$STATUS_TRANSFERRED;
+		$status = static::$STATUS_TRANSFERRED;
 		}
         /*if (!empty($sd['task_d_closed'])) {
             $status = static::$STATUS_CLOSED;
@@ -583,32 +583,6 @@ class Cases extends Object
         $sd['task_status'] = $status;
 		$sd['case_status'] = $this->trans('caseStatus'.$status, '');
     }
-    
-    /**
-     * Geocode client
-     * @return void
-     */    
-    public function geocode()
-    {
-    	$d = &$this->data;
-    	$sd = &$d['sys_data'];
-    	//echo($sd['full_address']);
-    	if (!empty($sd['full_address']))
-    	{
-    		$results = $this->lookup($sd['full_address']);
-    		if ($results != null)
-    		{
-    			$sd['lat_lon'] = $results['latitude'] .','.$results['longitude'];
-    			//$sd['full_address'] = $results['street'];//$results['full_address'];
-    			$sd['county_s'] = $results['county'];
-    			$sd['street_s'] = $results['street_number']. ' ' . $results['street'];
-    			$sd['city_s'] = $results['city'];
-    			$sd['zipcode_s'] = $results['postal_code'];
-    			$sd['state_s'] = $results['state'];
-    		}
-    		$this->updateSysData();
-    	}
-    }    
     
     /**
      * Mark the task active
@@ -702,7 +676,32 @@ class Cases extends Object
     {
         return ($this->getStatus() == static::$STATUS_CLOSED);
     }
-
+	
+    /**
+     * Geocode client
+     * @return void
+     */    
+    public function geocode()
+    {
+    	$d = &$this->data;
+    	$sd = &$d['sys_data'];
+    	//echo($sd['full_address']);
+    	if (!empty($sd['full_address']))
+    	{
+    		$results = $this->lookup($sd['full_address']);
+    		if ($results != null)
+    		{
+    			$sd['lat_lon'] = $results['latitude'] .','.$results['longitude'];
+    			//$sd['full_address'] = $results['street'];//$results['full_address'];
+    			$sd['county_s'] = $results['county'];
+    			$sd['street_s'] = $results['street_number']. ' ' . $results['street'];
+    			$sd['city_s'] = $results['city'];
+    			$sd['zipcode_s'] = $results['postal_code'];
+    			$sd['state_s'] = $results['state'];
+    		}
+    		$this->updateSysData();
+    	}
+    }    
     /**
      * Get task status
      * @return int
@@ -990,8 +989,8 @@ class Cases extends Object
 			$femaLine = $femaLine . $sd['solr']['fematier'] . " - ";
 		}				
 		
-		if (!empty($sd['solr']['birthdate_dt'])) {
-			$demographicsLine = $demographicsLine . Util\formatMysqlDate($sd['solr']['birthdate_dt'], Util\getOption('short_date_format')) . " - ";
+		if (!empty($sd['solr']['clientage_i'])) {
+			$demographicsLine = $demographicsLine . $sd['solr']['clientage_i'] . " yrs old - ";
 		}
 		
 		if (!empty($sd['solr']['language'])) {

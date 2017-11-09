@@ -7,7 +7,17 @@
     #outlook a {
         padding: 0
     }
-
+tr.noBorder td {
+  border: 0;
+}
+tr.aBorder td {
+  border: 1;
+  border: thin solid black;
+}
+tr.aBorder th {
+  border: 1;
+  border: thin solid black;
+}
     body {
         margin: 0;
         min-width: 100%;
@@ -274,63 +284,61 @@
                         <td>{{disaster_site_address}}</td>                     
             </tr>                 
     </table>
-    
+         <br/>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0"
+           style="color:000;border-collapse: collapse;border-spacing: 0;padding: 0;text-align: left;vertical-align: top;">   
     {% for service in services %}
-        <br/>
-      <table width="100%" cellpadding="0" cellspacing="0" border="1"
-           style="color:000;border-collapse: collapse;border-spacing: 0;padding: 0;text-align: left;vertical-align: top;">
-        <tr style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;background: #deecfd;font-family: 'Source Sans Pro', sans-serif;">
+        <tr class="aBorder" style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;background: #deecfd;font-family: 'Source Sans Pro', sans-serif;">
          <th colspan="2">Recovery Plan Development</th>
             </tr>	
-            <tr>
+            <tr class="aBorder">
          				<th style="background: #deecfd;" width="30%">Referral Type</th>
                         <td width="70%">{{service.referraltype}}</td>      
             </tr>             
-      	    <tr>
+      	    <tr class="aBorder">
          				<th style="background: #deecfd;">Referral Sub Type</th>
                         <td>{{service.referralsubtype}}</td>      
             </tr>       						
-            <tr>
+            <tr class="aBorder">
          				<th style="background: #deecfd;">Resource Agency Name</th>
                         <td>{{service.resourceagencyname}}</td>      
             </tr>   
-            <tr>
+            <tr class="aBorder">
          				<th style="background: #deecfd;">Resource Agency Contact Information</th>
                         <td>{{service.resourceagencycontactinformation}}</td>      
             </tr>               
-        	<tr>
+        	<tr class="aBorder">
          				<th style="background: #deecfd;">Point of Contact</th>
                         <td>{{service.pointofcontact}}</td>      
             </tr>     
-     		<tr>
+     		<tr class="aBorder">
          				<th style="background: #deecfd;">Referral Appointment Date/Time</th>
                         <td>{{service.referralappointmentdatetime}}</td>      
             </tr> 
-     		<tr>
+     		<tr class="aBorder">
          				<th style="background: #deecfd;">Target Completion Date</th>
                         <td>{{service.targetcompletiondate}}</td>      
             </tr>         
-     		<tr>
+     		<tr class="aBorder">
          				<th style="background: #deecfd;">Comments</th>
                         <td>{{service.comments}}</td>      
-            </tr>                                                                               
-    </table>
+            </tr>        
+           <tr class="noBorder"><td colspan="2">&nbsp;</td></tr>			
     {% endfor %}
-    
-    <br/><br/><br/>
-    
-    <table width="100%" cellpadding="0" cellspacing="0" border="0"
-           style="color:000;border-collapse: collapse;border-spacing: 0;padding: 0;text-align: left;vertical-align: top;">
-        <tr style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;font-family: 'Source Sans Pro', sans-serif;">
+    <tr class="noBorder"><td colspan="2">&nbsp;</td></tr>		<tr class="noBorder"><td colspan="2">&nbsp;</td></tr>		<tr class="noBorder"><td colspan="2">&nbsp;</td></tr>		
+
+        <tr class="noBorder" style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;font-family: 'Source Sans Pro', sans-serif;">
                   <td width="48%">_____________________________________________________________</td><td>______________________</td>
             </tr>  
-        <tr style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;font-family: 'Source Sans Pro', sans-serif;">
+        <tr class="noBorder" style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;font-family: 'Source Sans Pro', sans-serif;">
          <td>Case Manager Signature</td><td>Date and Time</td>
             </tr>   
-            <tr<td colspan="2">&nbsp;</td></tr>
-                             <tr style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;font-family: 'Source Sans Pro', sans-serif;">
+            <tr class="noBorder"><td colspan="2">&nbsp;</td></tr>
+                             <tr class="noBorder" style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;font-family: 'Source Sans Pro', sans-serif;">
                   <td width="48%">_____________________________________________________________<br/>Client Signature</td><td>______________________<br/>Date and Time</td>
-            </tr>                                                                                                                           
+            </tr>          
+            <tr class="noBorder"><td colspan="2">&nbsp;</td></tr>		
+ <tr class="noBorder"><td colspan="2">&nbsp;</td></tr>			
     </table>
     <br/>
 </div>
