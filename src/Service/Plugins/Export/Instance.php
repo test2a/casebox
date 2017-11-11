@@ -362,16 +362,16 @@ class Instance
 			$fileId = $file['id'];
 		}		
 		
-		$r = Files::read($fileId);
-		if (!empty($r)) {
-            $content = FilesContent::read($r['content_id']);
+		$fid = Files::read($fileId);
+		if (!empty($fid)) {
+            $content = FilesContent::read($fid['content_id']);
 			$file = $configService->get('files_dir').$content['path'].DIRECTORY_SEPARATOR.$content['id'];
 			$zip->addFile($file, $clientId.'consentform.pdf');
 		}			
 		
 		$export = new Instance();
 		
-		$html = $export->getPDFContent($clientId);
+		$html = $export->getPDFContent($clientId,$r['zipcode_s']);
 		//echo($html);
 		
 		$dompdf = new Dompdf();
@@ -399,7 +399,7 @@ class Instance
 						]
 				],
 		];
-		$newNote =$objService->create($data);
+		//$newNote =$objService->create($data);
 		  } //count less than 100
 		  $count++;
 		}
@@ -602,7 +602,7 @@ class Instance
 		return $rez;
     }
     
-        public function getPDFContent($p)
+        public function getPDFContent($p, $zipcode="")
     {
     	$container = Cache::get('symfony.container');
 		$twig = $container->get('twig');
@@ -676,7 +676,7 @@ class Instance
 			
 			$vars = [
 				'client_name' => $obj['data']['data']['_firstname'] . ' ' . $obj['data']['data']['_lastname'],
-				'client_address' => !empty($obj['data']['data']['_fulladdress'])?str_replace(", United States","",$obj['data']['data']['_fulladdress']):'',
+				'client_address' => (!empty($obj['data']['data']['_fulladdress'])?str_replace(", United States","",$obj['data']['data']['_fulladdress']):''). ' ' . $zipcode, //will replace with real zipcode after refactor
 				'client_email' =>!empty($obj['data']['data']['_emailaddress'])?$obj['data']['data']['_emailaddress']:'',
 				'client_phonenumber' =>!empty($obj['data']['data']['_phonenumber'])?$obj['data']['data']['_phonenumber']:'',
 				'client_secondaryphonenumber' => !empty($obj['data']['data']['_otherphonenumber'])?$obj['data']['data']['_otherphonenumber']:'',
