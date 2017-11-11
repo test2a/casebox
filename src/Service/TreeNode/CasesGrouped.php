@@ -84,7 +84,9 @@ class CasesGrouped extends Base
             case 6:
                 return $this->trans('Closed');
             case 7:
-                return $this->trans('InformationOnly');				
+                return $this->trans('InformationOnly');		
+            case 8:
+            	return $this->trans('Transferred');
             case 'assignee':
                 return $this->trans('IntakeRepresentative');
             default:
@@ -257,7 +259,16 @@ class CasesGrouped extends Base
                     'id' => $this->getId(7),
                     'iconCls' => 'icon-information-white',
                 ];
-            }			
+            }		
+            if (!empty($sr['facets']->facet_fields->{'0task_status'}->{'6'})) {
+            	$rez['data'][] = [
+            		'name' => $this->trans('Transferred').$this->renderCount(
+            				$sr['facets']->facet_fields->{'0task_status'}->{'6'}
+            			),
+     				'id' => $this->getId(8),
+     				'iconCls' => 'icon-trigger-arrow-right',
+            	];
+            }           
             // Add assignee node if there are any created cases already added to result
             if (($this->lastNode->id == 4) && !empty($rez['data'])) {
                 $rez['data'][] = [
@@ -268,7 +279,7 @@ class CasesGrouped extends Base
                 ];
             }
         } else {
-            $p['fq'][] = 'task_status:(1 OR 2 OR 3 OR 5)';
+            $p['fq'][] = 'task_status:(1 OR 2 OR 3 OR 5 OR 6)';
 
             $s = new Search();
             $rez = $s->query($p);
@@ -313,6 +324,9 @@ class CasesGrouped extends Base
                 break;
             case 7:
                 $p['fq'][] = 'task_status:5';
+                break;
+            case 8:
+                $p['fq'][] = 'task_status:6';
                 break;
 			case 'assignee':
                 return $this->getAssigneeUsers();
