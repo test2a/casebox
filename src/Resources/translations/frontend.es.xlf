@@ -3440,7 +3440,115 @@
  			<trans-unit id="3219">
                 <source>Website</source>
                 <target>Sitio Web</target>
-            </trans-unit>                                                                                                                                                                  
+            </trans-unit>       
+ 	    	<trans-unit id="3220">
+                <source>caseStatus6</source>
+                <target>Transferido</target>
+            </trans-unit>   	
+ 	    	<trans-unit id="3221">
+                <source>Transferred</source>
+                <target>Transferido</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3222">
+                <source>RecoveryPlan</source>
+                <target>Plan de recuperación</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3223">
+                <source>Name</source>
+                <target>Nombre</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3224">
+                <source>Address</source>
+                <target>Dirección</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3225">
+                <source>PhoneNumber</source>
+                <target>Número de teléfono</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3226">
+                <source>SecondaryPhoneNumber</source>
+                <target>Numero de telefono secundario</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3227">
+                <source>FEMARegistrationNumber</source>
+                <target>Número de registro de FEMA</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3228">
+                <source>CaseManager</source>
+                <target>Administrador de casos</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3229">
+                <source>EmailAddress</source>
+                <target>Dirección de correo electrónico</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3230">
+                <source>DisasterDeclaration</source>
+                <target>DR - Declaración de Desastre</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3231">
+                <source>ClientID</source>
+                <target>Identificación del cliente</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3232">
+                <source>CMTelephoneNumber</source>
+                <target>Número de teléfono de CM</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3233">
+                <source>ClientPlanCreationDate</source>
+                <target>Fecha de creación del plan de cliente</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3234">
+                <source>IDCMSiteAddress</source>
+                <target>Dirección del sitio de IDCM</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3235">
+                <source>RecoveryPlanDevelopment</source>
+                <target>Desarrollo del plan de recuperación</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3236">
+                <source>ReferralType</source>
+                <target>Tipo de referencia</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3237">
+                <source>ReferralSubType</source>
+                <target>Subtipo de referencia</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3238">
+                <source>ResourceAgencyName</source>
+                <target>Nombre de la agencia de recursos</target>
+            </trans-unit>                                                               
+   	    	<trans-unit id="3239">
+                <source>ResourceAgencyContactInformation</source>
+                <target>Información de contacto de la agencia de recursos</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3240">
+                <source>PointOfContact</source>
+                <target>Punto de contacto</target>
+            </trans-unit>  
+  	    	<trans-unit id="3241">
+                <source>ReferralAppointmentDateTime</source>
+                <target>Fecha/hora de cita de referencia</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3242">
+                <source>TargetCompletionDate</source>
+                <target>Fecha límite de finalización</target>
+            </trans-unit>         
+ 	    	<trans-unit id="3243">
+                <source>Comments</source>
+                <target>Comentarios</target>
+            </trans-unit>     
+ 	    	<trans-unit id="3244">
+                <source>CaseManagerSignature</source>
+                <target>Firma Administrador de casos</target>
+            </trans-unit>     
+ 	    	<trans-unit id="3245">
+                <source>ClientSignature</source>
+                <target>Firma del cliente</target>
+            </trans-unit>  
+ 	    	<trans-unit id="3246">
+                <source>DateTime</source>
+                <target>Fecha y hora</target>
+            </trans-unit>                                                                                                                                                                                                                                               
         </body>
     </file>
 </xliff>

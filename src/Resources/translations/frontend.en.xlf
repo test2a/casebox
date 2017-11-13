@@ -3433,22 +3433,122 @@
                 <source>SessionExpireMessage</source>
                 <target>Your session will expire in one minute. Would you like to continue your session?</target>
             </trans-unit> 
- 	    <trans-unit id="3218">
+ 	   	 	<trans-unit id="3218">
                 <source>RequiredFieldsMessage</source>
                 <target>Please fix required fields and resubmit</target>
             </trans-unit>       
- 	    <trans-unit id="3219">
+ 	    	<trans-unit id="3219">
                 <source>Website</source>
                 <target>Website</target>
             </trans-unit>   
- 	    <trans-unit id="3220">
+ 	    	<trans-unit id="3220">
                 <source>caseStatus6</source>
                 <target>Transferred</target>
             </trans-unit>   	
- 	    <trans-unit id="3221">
+ 	    	<trans-unit id="3221">
                 <source>Transferred</source>
                 <target>Transferred</target>
-            </trans-unit>   			
+            </trans-unit> 
+ 	    	<trans-unit id="3222">
+                <source>RecoveryPlan</source>
+                <target>Recovery Plan</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3223">
+                <source>Name</source>
+                <target>Name</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3224">
+                <source>Address</source>
+                <target>Address</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3225">
+                <source>PhoneNumber</source>
+                <target>Phone Number</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3226">
+                <source>SecondaryPhoneNumber</source>
+                <target>Secondary Phone Number</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3227">
+                <source>FEMARegistrationNumber</source>
+                <target>FEMA Registration Number</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3228">
+                <source>CaseManager</source>
+                <target>Case Manager</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3229">
+                <source>EmailAddress</source>
+                <target>Email Address</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3230">
+                <source>DisasterDeclaration</source>
+                <target>DR - Disaster Declaration</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3231">
+                <source>ClientID</source>
+                <target>Client ID</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3232">
+                <source>CMTelephoneNumber</source>
+                <target>CM Telephone Number</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3233">
+                <source>ClientPlanCreationDate</source>
+                <target>Client Plan Creation Date</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3234">
+                <source>IDCMSiteAddress</source>
+                <target>IDCM Site Address</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3235">
+                <source>RecoveryPlanDevelopment</source>
+                <target>Recovery Plan Development</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3236">
+                <source>ReferralType</source>
+                <target>Referral Type</target>
+            </trans-unit>       
+ 	    	<trans-unit id="3237">
+                <source>ReferralSubType</source>
+                <target>Referral Sub Type</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3238">
+                <source>ResourceAgencyName</source>
+                <target>Resource Agency Name</target>
+            </trans-unit>                                                               
+   	    	<trans-unit id="3239">
+                <source>ResourceAgencyContactInformation</source>
+                <target>Resource Agency Contact Information</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3240">
+                <source>PointOfContact</source>
+                <target>Point of Contact</target>
+            </trans-unit>  
+  	    	<trans-unit id="3241">
+                <source>ReferralAppointmentDateTime</source>
+                <target>Referral Appointment Date/Time</target>
+            </trans-unit>   
+ 	    	<trans-unit id="3242">
+                <source>TargetCompletionDate</source>
+                <target>Target Completion Date</target>
+            </trans-unit>         
+ 	    	<trans-unit id="3243">
+                <source>Comments</source>
+                <target>Comments</target>
+            </trans-unit>     
+ 	    	<trans-unit id="3244">
+                <source>CaseManagerSignature</source>
+                <target>Case Manager Signature</target>
+            </trans-unit>     
+ 	    	<trans-unit id="3245">
+                <source>ClientSignature</source>
+                <target>Client Signature</target>
+            </trans-unit>  
+ 	    	<trans-unit id="3246">
+                <source>DateTime</source>
+                <target>Date And Time</target>
+            </trans-unit>                       			
 		</body>
     </file>
 </xliff>

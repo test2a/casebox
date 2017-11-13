@@ -233,7 +233,7 @@ tr.aBorder th {
                                 style="border-collapse: collapse !important;word-break: normal;text-align: center;vertical-align: top;position: relative;margin: 0;padding: 0px;padding-bottom: 0px;font-size: 18px;line-height: 30px;color: #ffffff;font-family: 'Source Sans Pro', sans-serif;font-weight: normal;"
                                 align="left" valign="top">
                                 <div style="display: inline-block;">
-                                    IDCM RECOVERY PLAN – {{client_lastname}}, {{client_firstname}}
+                                    {{ 'RecoveryPlan' | trans({}, "frontend", app.request.locale) }} – {{client_lastname}}, {{client_firstname}}
                                 </div>
                             </td>
                         </tr>
@@ -248,12 +248,12 @@ tr.aBorder th {
 	  <table width="100%" cellpadding="0" cellspacing="0" border="1"
 	           style="color:000;border-collapse: collapse;border-spacing: 0;padding: 0;text-align: left;vertical-align: top;">
 	        <tr style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;background: #deecfd;">
-	         				<th>Name</th>
-	                        <th>Address</th>
-	                        <th>Email Address</th>
-	                        <th>Phone Number</th>
-	                        <th>Secondary Phone Number</th>	
- 	                    	<th>FEMA Registration Number</th>                             
+	         				<th>{{ 'Name' | trans({}, "frontend", app.request.locale) }}</th>
+	                        <th>{{ 'Address' | trans({}, "frontend", app.request.locale) }}</th>
+	                        <th>{{ 'EmailAddress' | trans({}, "frontend", app.request.locale) }}</th>
+	                        <th>{{ 'PhoneNumber' | trans({}, "frontend", app.request.locale) }}</th>
+	                        <th>{{ 'SecondaryPhoneNumber' | trans({}, "frontend", app.request.locale) }}</th>	
+ 	                    	<th>{{ 'FEMARegistrationNumber' | trans({}, "frontend", app.request.locale) }}</th>                             
 	            </tr>
 	        	<tr style="color: #000000;padding: 0;text-align: left;vertical-align: top;">
 	         				<td>{{client_name}}</td>
@@ -268,12 +268,12 @@ tr.aBorder th {
         <table width="100%" cellpadding="0" cellspacing="0" border="1"
            style="color:000;border-collapse: collapse;border-spacing: 0;padding: 0;text-align: left;vertical-align: top;">
         <tr style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;background: #deecfd;">
-         				<th>Case Manager</th>
-                        <th>DR – Disaster Declaration</th>
-                        <th>Client ID</th>
-                        <th>CM Telephone Number</th>
-                        <th>Client Plan Creation Date</th>
-                        <th>IDCM Site Address</th>                  
+         				<th>{{ 'CaseManager' | trans({}, "frontend", app.request.locale) }}</th>
+                        <th>{{ 'DisasterDeclaration' | trans({}, "frontend", app.request.locale) }}</th>
+                        <th>{{ 'ClientID' | trans({}, "frontend", app.request.locale) }}</th>
+                        <th>{{ 'CMTelephoneNumber' | trans({}, "frontend", app.request.locale) }}</th>
+                        <th>{{ 'ClientPlanCreationDate' | trans({}, "frontend", app.request.locale) }}</th>
+                        <th>{{ 'IDCMSiteAddress' | trans({}, "frontend", app.request.locale) }}</th>                  
             </tr>
         	<tr style="color: #000000;padding: 0;text-align: left;vertical-align: top;">
          				<td>{{cm_assigned}}</td>
@@ -289,38 +289,38 @@ tr.aBorder th {
            style="color:000;border-collapse: collapse;border-spacing: 0;padding: 0;text-align: left;vertical-align: top;">   
     {% for service in services %}
         <tr class="aBorder" style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;background: #deecfd;font-family: 'Source Sans Pro', sans-serif;">
-         <th colspan="2">Recovery Plan Development</th>
+         <th colspan="2">{{ 'RecoveryPlanDevelopment' | trans({}, "frontend", app.request.locale) }}</th>
             </tr>	
             <tr class="aBorder">
-         				<th style="background: #deecfd;" width="30%">Referral Type</th>
+         				<th style="background: #deecfd;" width="30%">{{ 'ReferralType' | trans({}, "frontend", app.request.locale) }}</th>
                         <td width="70%">{{service.referraltype}}</td>      
             </tr>             
       	    <tr class="aBorder">
-         				<th style="background: #deecfd;">Referral Sub Type</th>
+         				<th style="background: #deecfd;">{{ 'ReferralSubType' | trans({}, "frontend", app.request.locale) }}</th>
                         <td>{{service.referralsubtype}}</td>      
             </tr>       						
             <tr class="aBorder">
-         				<th style="background: #deecfd;">Resource Agency Name</th>
+         				<th style="background: #deecfd;">{{ 'ResourceAgencyName' | trans({}, "frontend", app.request.locale) }}</th>
                         <td>{{service.resourceagencyname}}</td>      
             </tr>   
             <tr class="aBorder">
-         				<th style="background: #deecfd;">Resource Agency Contact Information</th>
+         				<th style="background: #deecfd;">{{ 'ResourceAgencyContactInformation' | trans({}, "frontend", app.request.locale) }}</th>
                         <td>{{service.resourceagencycontactinformation}}</td>      
             </tr>               
         	<tr class="aBorder">
-         				<th style="background: #deecfd;">Point of Contact</th>
+         				<th style="background: #deecfd;">{{ 'PointOfContact' | trans({}, "frontend", app.request.locale) }}</th>
                         <td>{{service.pointofcontact}}</td>      
             </tr>     
      		<tr class="aBorder">
-         				<th style="background: #deecfd;">Referral Appointment Date/Time</th>
+         				<th style="background: #deecfd;">{{ 'ReferralAppointmentDateTime' | trans({}, "frontend", app.request.locale) }}</th>
                         <td>{{service.referralappointmentdatetime}}</td>      
             </tr> 
      		<tr class="aBorder">
-         				<th style="background: #deecfd;">Target Completion Date</th>
+         				<th style="background: #deecfd;">{{ 'TargetCompletionDate' | trans({}, "frontend", app.request.locale) }}</th>
                         <td>{{service.targetcompletiondate}}</td>      
             </tr>         
      		<tr class="aBorder">
-         				<th style="background: #deecfd;">Comments</th>
+         				<th style="background: #deecfd;">{{ 'Comments' | trans({}, "frontend", app.request.locale) }}</th>
                         <td>{{service.comments}}</td>      
             </tr>        
            <tr class="noBorder"><td colspan="2">&nbsp;</td></tr>			
@@ -331,11 +331,11 @@ tr.aBorder th {
                   <td width="48%">_____________________________________________________________</td><td>______________________</td>
             </tr>  
         <tr class="noBorder" style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;font-family: 'Source Sans Pro', sans-serif;">
-         <td>Case Manager Signature</td><td>Date and Time</td>
+         <td>{{ 'CaseManagerSignature' | trans({}, "frontend", app.request.locale) }}</td><td>{{ 'DateTime' | trans({}, "frontend", app.request.locale) }}</td>
             </tr>   
             <tr class="noBorder"><td colspan="2">&nbsp;</td></tr>
                              <tr class="noBorder" style="padding: 0;font-weight:normal;text-align: left;vertical-align: top;font-family: 'Source Sans Pro', sans-serif;">
-                  <td width="48%">_____________________________________________________________<br/>Client Signature</td><td>______________________<br/>Date and Time</td>
+                  <td width="48%">_____________________________________________________________<br/>{{ 'ClientSignature' | trans({}, "frontend", app.request.locale) }}</td><td>______________________<br/>{{ 'DateTime' | trans({}, "frontend", app.request.locale) }}</td>
             </tr>          
             <tr class="noBorder"><td colspan="2">&nbsp;</td></tr>		
  <tr class="noBorder"><td colspan="2">&nbsp;</td></tr>			
