@@ -742,6 +742,7 @@ class UsersGroups
 
         $user->setSalt($salt);
         $user->setPassword($encodedPass);
+        $user->setRecoverHash(null); //DSTOUDT/APPRIO GET RID OF Recovery Hash so as to not ask user to reset
 
         $em->flush();
 
