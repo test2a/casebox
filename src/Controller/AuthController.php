@@ -61,8 +61,20 @@ class AuthController extends Controller
                     // Check two step auth
                     $auth = $this->get('casebox_core.service_auth.two_step_auth')->authenticate($user, $request->get('c'));
 					
-        			if (!$user->getSystem() && !$user->getDdate()) {
-                    	if (is_array($auth)) {
+                    
+                    if ($user->getRecoverHash() != null) //require password change
+                    {
+                    	$vars = [
+                    			'coreName' => $coreName,
+                    			'action' => $action,
+                    			'token' => $user->getRecoverHash(),
+                    	];
+                    	$this->get('casebox_core.service_auth.authentication')->logout();
+                    	return $this->render('CaseboxCoreBundle:forms:reset-password.html.twig', $vars);
+                    }
+                    
+        			if (!$user->getSystem() && !$user->getDdate()) { //isn't a system user and isn't exempt from 2Factor
+                    	if (is_array($auth)) { //Send to 2 Factor - we have the configuration for it
                         	$this->get('session')->set('auth', serialize($user));
                         	
                         	return $this->render('CaseboxCoreBundle:forms:authenticator.html.twig', $vars);
