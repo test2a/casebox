@@ -1065,10 +1065,6 @@
                 <source>RecordClosed</source>
                 <target>Record Closed</target>
             </trans-unit>            
-           <trans-unit id="3199">
-                <source>SpecialAtRiskPopulation</source>
-                <target>Special/At Risk Population</target>
-            </trans-unit>  
            <trans-unit id="3200">
                 <source>AddFamilyMember</source>
                 <target>Add Family Member</target>

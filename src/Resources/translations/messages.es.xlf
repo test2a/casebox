@@ -1060,10 +1060,6 @@
            <trans-unit id="3198">
                 <source>RecordClosed</source>
                 <target>Registro cerrado</target>
-            </trans-unit>  
-           <trans-unit id="3199">
-                <source>SpecialAtRiskPopulation</source>
-                <target>Población Especial / En Peligro</target>
             </trans-unit>       
            <trans-unit id="3200">
                 <source>AddFamilyMember</source>
