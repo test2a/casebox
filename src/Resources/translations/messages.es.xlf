@@ -1062,7 +1062,7 @@
                 <target>Registro cerrado</target>
             </trans-unit>  
            <trans-unit id="3199">
-                <source>SpeicalAtRiskPopulation</source>
+                <source>SpecialAtRiskPopulation</source>
                 <target>Población Especial / En Peligro</target>
             </trans-unit>       
            <trans-unit id="3200">

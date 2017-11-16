@@ -1249,7 +1249,7 @@ class Cases extends Object
 			'<td class="prop-key" style="width:15%" width="15%">' . $this->trans('ConsentForm') .':</td><td class="prop-val" width="35%">'.$fileInfo.'</td></tr>'.
 			'<tr><td class="prop-key" style="width:15%" width="15%">' . $this->trans('FamilyMembers') .':</td><td width="35%" style="width:15%" class="prop-val">'.$familyMemberInfo.'</td>'.
 			'<td class="prop-key" style="width:15%" width="15%">' . $this->trans('AlternativeAddress') .':</td><td class="prop-val" width="35%">'.$addressInfo.'</td></tr>'.
-			'<tr><td class="prop-key" style="width:15%" width="15%">' . $this->trans('SpeicalAtRiskPopulation') .':</td><td width="35%" style="width:15%" class="prop-val">'.$atRiskLine.'</td>'.
+			'<tr><td class="prop-key" style="width:15%" width="15%">' . $this->trans('SpecialAtRiskPopulation') .':</td><td width="35%" style="width:15%" class="prop-val">'.$atRiskLine.'</td>'.
 			'<td class="prop-key" style="width:15%" width="15%">' . $this->trans('IdentifiedNeeds') .':</td><td class="prop-val" width="35%">'.$identifiedNeedsLine.'</td></tr>'.
             '<tbody></table>';		
         $pb[3] = ''; 
