@@ -33,8 +33,8 @@
           "to": "NOW/DAY%2B1DAY",
           "field": "cdate",
           "type": "time",
-          "fromDateObj": "2016-09-28T06:00:32.935Z",
-          "toDateObj": "2017-09-28T06:00:32.936Z",
+          "fromDateObj": "2016-11-17T03:41:08.764Z",
+          "toDateObj": "2017-11-17T03:41:08.764Z",
           "mandate": "must",
           "active": true,
           "alias": "",
@@ -64,7 +64,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
             "custom": "&fq=template_id:607&fq=dstatus:0"
           },
@@ -108,7 +108,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
             "custom": "&fq=template_id:607&fq=resourcename_s:\"Not Identified\""
           },
@@ -152,7 +152,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
             "custom": "&fq=template_id:289&fq=dstatus:0"
           },
@@ -196,7 +196,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
             "custom": "&fq=appointment_dt:[* TO NOW]&fq=dstatus:0&fq=template_id:607"
           },
@@ -280,11 +280,11 @@
       ]
     },
     {
-      "title": "Events",
-      "height": "250px",
+      "title": "Locations",
+      "height": "150px",
       "editable": true,
       "collapse": false,
-      "collapsable": false,
+      "collapsable": true,
       "panels": [
         {
           "span": 4,
@@ -296,7 +296,104 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=clientlocation_s&facet.limit=10&facet.missing=true&f.clientlocation_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=location_type&facet.limit=10000&facet.missing=true&f.location_type.facet.sort=count",
+            "custom": ""
+          },
+          "mode": "count",
+          "field": "location_type",
+          "stats_field": "",
+          "decimal_points": 0,
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10000,
+          "sortBy": "count",
+          "order": "descending",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "logAxis": false,
+          "arrangement": "horizontal",
+          "chart": "table",
+          "counter_pos": "above",
+          "exportSize": 10000,
+          "lastColor": "",
+          "spyable": true,
+          "show_queries": true,
+          "chartColors": [
+            "#7EB26D",
+            "#EAB839",
+            "#6ED0E0",
+            "#EF843C",
+            "#E24D42",
+            "#1F78C1",
+            "#BA43A9",
+            "#705DA0",
+            "#508642",
+            "#CCA300",
+            "#447EBC",
+            "#C15C17",
+            "#890F02",
+            "#0A437C",
+            "#6D1F62",
+            "#584477",
+            "#B7DBAB",
+            "#F4D598",
+            "#70DBED",
+            "#F9BA8F",
+            "#F29191",
+            "#82B5D8",
+            "#E5A8E2",
+            "#AEA2E0",
+            "#629E51",
+            "#E5AC0E",
+            "#64B0C8",
+            "#E0752D",
+            "#BF1B00",
+            "#0A50A1",
+            "#962D82",
+            "#614D93",
+            "#9AC48A",
+            "#F2C96D",
+            "#65C5DB",
+            "#F9934E",
+            "#EA6460",
+            "#5195CE",
+            "#D683CE",
+            "#806EB7",
+            "#3F6833",
+            "#967302",
+            "#2F575E",
+            "#99440A",
+            "#58140C",
+            "#052B51",
+            "#511749",
+            "#3F2B5B",
+            "#E0F9D7",
+            "#FCEACA",
+            "#CFFAFF",
+            "#F9E2D2",
+            "#FCE2DE",
+            "#BADFF4",
+            "#F9D9F9",
+            "#DEDAF7"
+          ],
+          "title": "Client Locations - All"
+        },
+        {
+          "span": 4,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0
+            ],
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=clientlocation_s&facet.limit=10&facet.missing=true&f.clientlocation_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
             "custom": "&fq=template_id:607&fq=dstatus:0"
           },
           "mode": "count",
@@ -381,7 +478,7 @@
             "#F9D9F9",
             "#DEDAF7"
           ],
-          "title": "Client Location"
+          "title": "Client Locations - Top 10"
         },
         {
           "span": 4,
@@ -393,7 +490,113 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=refferaltypename_s&facet.limit=16&facet.missing=true&f.refferaltypename_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=locationregion_s&facet.limit=10&facet.missing=true&f.locationregion_s.facet.sort=count",
+            "custom": ""
+          },
+          "mode": "count",
+          "field": "locationregion_s",
+          "stats_field": "",
+          "decimal_points": 0,
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "sortBy": "count",
+          "order": "descending",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "logAxis": false,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "above",
+          "exportSize": 10000,
+          "lastColor": "",
+          "spyable": true,
+          "show_queries": true,
+          "chartColors": [
+            "#7EB26D",
+            "#EAB839",
+            "#6ED0E0",
+            "#EF843C",
+            "#E24D42",
+            "#1F78C1",
+            "#BA43A9",
+            "#705DA0",
+            "#508642",
+            "#CCA300",
+            "#447EBC",
+            "#C15C17",
+            "#890F02",
+            "#0A437C",
+            "#6D1F62",
+            "#584477",
+            "#B7DBAB",
+            "#F4D598",
+            "#70DBED",
+            "#F9BA8F",
+            "#F29191",
+            "#82B5D8",
+            "#E5A8E2",
+            "#AEA2E0",
+            "#629E51",
+            "#E5AC0E",
+            "#64B0C8",
+            "#E0752D",
+            "#BF1B00",
+            "#0A50A1",
+            "#962D82",
+            "#614D93",
+            "#9AC48A",
+            "#F2C96D",
+            "#65C5DB",
+            "#F9934E",
+            "#EA6460",
+            "#5195CE",
+            "#D683CE",
+            "#806EB7",
+            "#3F6833",
+            "#967302",
+            "#2F575E",
+            "#99440A",
+            "#58140C",
+            "#052B51",
+            "#511749",
+            "#3F2B5B",
+            "#E0F9D7",
+            "#FCEACA",
+            "#CFFAFF",
+            "#F9E2D2",
+            "#FCE2DE",
+            "#BADFF4",
+            "#F9D9F9",
+            "#DEDAF7"
+          ],
+          "title": "Regions"
+        }
+      ]
+    },
+    {
+      "title": "Events",
+      "height": "250px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": false,
+      "panels": [
+        {
+          "span": 4,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0
+            ],
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=refferaltypename_s&facet.limit=16&facet.missing=true&f.refferaltypename_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
             "custom": "&fq=template_id:607&fq=dstatus:0"
           },
           "mode": "count",
@@ -490,7 +693,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=referralservicename_s&facet.limit=1000&facet.missing=true&f.referralservicename_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=referralservicename_s&facet.limit=1000&facet.missing=true&f.referralservicename_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
             "custom": "&fq=template_id:607&fq=dstatus:0"
           },
           "mode": "count",
@@ -576,6 +779,103 @@
             "#DEDAF7"
           ],
           "title": "Referral Services"
+        },
+        {
+          "span": 4,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0
+            ],
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=referralservicename_s&facet.limit=10&facet.missing=true&f.referralservicename_s.facet.sort=count&fq=dstatus:0&fq=template_id:607",
+            "custom": "&fq=dstatus:0&fq=template_id:607"
+          },
+          "mode": "count",
+          "field": "referralservicename_s",
+          "stats_field": "",
+          "decimal_points": 0,
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "sortBy": "count",
+          "order": "descending",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "logAxis": false,
+          "arrangement": "horizontal",
+          "chart": "bar",
+          "counter_pos": "above",
+          "exportSize": 10000,
+          "lastColor": "",
+          "spyable": true,
+          "show_queries": true,
+          "chartColors": [
+            "#7EB26D",
+            "#EAB839",
+            "#6ED0E0",
+            "#EF843C",
+            "#E24D42",
+            "#1F78C1",
+            "#BA43A9",
+            "#705DA0",
+            "#508642",
+            "#CCA300",
+            "#447EBC",
+            "#C15C17",
+            "#890F02",
+            "#0A437C",
+            "#6D1F62",
+            "#584477",
+            "#B7DBAB",
+            "#F4D598",
+            "#70DBED",
+            "#F9BA8F",
+            "#F29191",
+            "#82B5D8",
+            "#E5A8E2",
+            "#AEA2E0",
+            "#629E51",
+            "#E5AC0E",
+            "#64B0C8",
+            "#E0752D",
+            "#BF1B00",
+            "#0A50A1",
+            "#962D82",
+            "#614D93",
+            "#9AC48A",
+            "#F2C96D",
+            "#65C5DB",
+            "#F9934E",
+            "#EA6460",
+            "#5195CE",
+            "#D683CE",
+            "#806EB7",
+            "#3F6833",
+            "#967302",
+            "#2F575E",
+            "#99440A",
+            "#58140C",
+            "#052B51",
+            "#511749",
+            "#3F2B5B",
+            "#E0F9D7",
+            "#FCEACA",
+            "#CFFAFF",
+            "#F9E2D2",
+            "#FCE2DE",
+            "#BADFF4",
+            "#F9D9F9",
+            "#DEDAF7"
+          ],
+          "title": "Top 10 Referral Services"
         }
       ]
     },
@@ -596,7 +896,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=resourcename_s&facet.limit=10&facet.missing=true&f.resourcename_s.facet.sort=count&fq=template_id:607&fq=dstatus:0&fq=!resourcename_s:\"Not Identified\"",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=resourcename_s&facet.limit=10&facet.missing=true&f.resourcename_s.facet.sort=count&fq=template_id:607&fq=dstatus:0&fq=!resourcename_s:\"Not Identified\"",
             "custom": "&fq=template_id:607&fq=dstatus:0&fq=!resourcename_s:\"Not Identified\""
           },
           "mode": "count",
@@ -693,7 +993,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=resourcelocation_s&facet.limit=100&facet.missing=true&f.resourcelocation_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=resourcelocation_s&facet.limit=100&facet.missing=true&f.resourcelocation_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
             "custom": "&fq=template_id:607&fq=dstatus:0"
           },
           "mode": "count",
@@ -790,7 +1090,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=resultname_s&facet.limit=10&facet.missing=true&f.resultname_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=resultname_s&facet.limit=10&facet.missing=true&f.resultname_s.facet.sort=count&fq=template_id:607&fq=dstatus:0",
             "custom": "&fq=template_id:607&fq=dstatus:0"
           },
           "mode": "count",
@@ -896,7 +1196,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&rows=0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=associatedgoal_s&facet.limit=100",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&rows=0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=associatedgoal_s&facet.limit=100",
             "custom": "&fq=template_id:607"
           },
           "field": "associatedgoal_s",
@@ -927,7 +1227,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=provider_ss&facet.limit=3&facet.missing=true&f.provider_ss.facet.sort=count",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=provider_ss&facet.limit=3&facet.missing=true&f.provider_ss.facet.sort=count",
             "custom": ""
           },
           "mode": "count",
@@ -1024,7 +1324,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=case_status&facet.limit=10&facet.missing=true&f.case_status.facet.sort=count",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=case_status&facet.limit=10&facet.missing=true&f.case_status.facet.sort=count",
             "custom": ""
           },
           "mode": "count",
@@ -1121,7 +1421,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=clientage_i&facet.limit=10&facet.missing=true&f.clientage_i.facet.sort=count",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=clientage_i&facet.limit=10&facet.missing=true&f.clientage_i.facet.sort=count",
             "custom": ""
           },
           "mode": "count",
@@ -1228,8 +1528,8 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=500",
-            "basic_query": "q=*%3A*&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=500",
+            "basic_query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]",
             "custom": "&fq=template_id:607&fq=dstatus:0"
           },
           "size": 100,
@@ -1253,8 +1553,6 @@
           "important_fields": [
             "_version_",
             "acl_count",
-            "associatedgoal_s",
-            "associatedneed_s",
             "case_id",
             "cdate",
             "cid",
@@ -1273,6 +1571,7 @@
             "pid",
             "pids",
             "referralservicename_s",
+            "referraltype_s",
             "refferaltypename_s",
             "resourcename_s",
             "resultname_s",
@@ -1306,14 +1605,6 @@
           "title": "Clients"
         }
       ]
-    },
-    {
-      "title": "",
-      "height": "150px",
-      "editable": true,
-      "collapse": false,
-      "collapsable": true,
-      "panels": []
     }
   ],
   "editable": true,
@@ -1345,14 +1636,14 @@
     "server": "/solr/",
     "core_name": "harvey",
     "core_list": [
-      "acme2",
-      "acme2_log",
+      "atlanta",
+      "atlanta_log",
       "casebox",
       "casebox_log",
       "harvey",
       "harvey_log"
     ],
-    "global_params": ""
+    "global_params": "&fq=dstatus:0"
   },
   "username": "guest"
 }
