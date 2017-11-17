@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Casebox\CoreBundle\Service\Cache;
 
-class CaseboxUserGroupsDeactivateCommand extends ContainerAwareCommand
+class CaseboxUserGroupsResetCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
