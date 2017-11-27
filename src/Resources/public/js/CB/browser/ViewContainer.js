@@ -832,7 +832,8 @@ Ext.define('CB.browser.ViewContainer', {
      * @return activated component
      */
     ,setActiveView: function(indexOrName, viewParams) {
-        var layout = this.cardContainer.getLayout()
+    	this.viewToolbar.setVisible(false);        
+    	var layout = this.cardContainer.getLayout()
             ,rez = null;
 
         if(Ext.isNumeric(indexOrName)) {

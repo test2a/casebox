@@ -255,7 +255,7 @@ Ext.define('CB.ViewPort', {
                 tooltip: L.Dashboard
                 ,itemId: 'toggleNotifications'
                 // ,enableToggle: true
-                ,iconCls: 'im-external'
+                ,iconCls: 'im-sort'
                 ,cls: 'numbersButton'
                 ,text: ''
                 ,scale: 'large'
@@ -350,7 +350,22 @@ Ext.define('CB.ViewPort', {
     }
 
     ,onToggleNotificationsViewClick: function(b, e) {
-        window.open('/d/index.html');
+		var VC = App.explorer;
+		var AV = VC.getActiveView();	
+		if (AV.title != null)
+		{
+			if (AV.title !== 'Charts')
+			{
+				VC.onCardItemChangeClick({
+				viewIndex: 2});	
+				VC.viewToolbar.setVisible(true);
+			}
+			else
+			{
+				VC.onCardItemChangeClick({
+				viewIndex: 0});	
+			}	
+		}
     }
 	
     ,onToggleNotificationsReportsClick: function(b, e) {
