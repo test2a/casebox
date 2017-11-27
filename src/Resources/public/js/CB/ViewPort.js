@@ -166,7 +166,7 @@ Ext.define('CB.ViewPort', {
             ,items: [
                 this.breadcrumb
                 ,this.searchField
-                //,this.buttons.toggleNotificationsView  //Dumbing down Apprio
+                ,this.buttons.toggleNotificationsView  //Dumbing down Apprio
 				,this.buttons.toggleNotificationsReports				
                 ,{
                     scale: 'large'
