@@ -3211,7 +3211,7 @@
             </trans-unit>
             <trans-unit id="3162">
                 <source>Print</source>
-                <target>Print</target>
+                <target>Imprimir</target>
             </trans-unit>
  			<trans-unit id="3163">
                 <source>Overdue</source>
@@ -3267,7 +3267,7 @@
             </trans-unit> 
             <trans-unit id="3176">
                 <source>AssignToYourself</source>
-                <target>Asignarte a ti mismo</target>
+                <target>Asignar a si mismo</target>
             </trans-unit> 
             <trans-unit id="3177">
                 <source>ExportRecords</source>
@@ -3548,7 +3548,7 @@
  	    	<trans-unit id="3246">
                 <source>DateTime</source>
                 <target>Fecha y hora</target>
-            </trans-unit>                                                                                                                                                                                                                                               
+            </trans-unit>
         </body>
     </file>
 </xliff>
