@@ -115,14 +115,16 @@ class Instance
     {
     	if(isset($p['reportId']))
     	{
-    		if ($p['reportId'] === 2727)
+    		if ($p['reportId'] === 7442)
     		{
-    			$xml = $this->getXML($p);
-    			header('Content-Type: text/xml; charset=utf-8');
-    			header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.xml');
+    			ini_set('memory_limit', '1024M');
+    			$rez = [];
+    			$rez = $this->getFullExport($p);
+        		header('Content-Type: text/csv; charset=utf-8');
+        		header('Content-Disposition: attachment; filename=Exported_Results_'.date('Y-m-d_Hi').'.csv');
     			header("Pragma: no-cache");
     			header("Expires: 0");
-    			echo $xml;
+    			echo implode("\n", $rez);
     	
     			exit(0);
     		}
@@ -138,6 +140,259 @@ class Instance
         echo implode("\n", $rez);
     }
 
+    public function getFullExport($p)
+    {
+    	$container = Cache::get('symfony.container');
+    	$twig = $container->get('twig');
+    	$configService = Cache::get('symfony.container')->get('casebox_core.service.config');
+    	$objService = new Objects();
+    	$reports = new Notifications();
+    	$res = $reports->getReport($p);
+    	array_unshift($res['data'], $res['colTitles']);
+    	$records = $res['data'];
+    	$rez[] = implode(',', array_shift($records));
+    	$clients = [];
+    	foreach ($records as &$r) {
+    		$obj = $objService->load($r);
+    		$clientId = $obj['data']['id'];
+    		$r['id'] = $clientId;
+    		//print_r($obj['data']['data']['sys_data']);
+    		$contentItems = new ContentItems();
+    		$items = $contentItems->getData($clientId);
+    		$filePlugin = new \Casebox\CoreBundle\Service\Objects\Plugins\Files();
+    		$files = $filePlugin->getData($clientId);
+    		
+    		// Select only required properties for result
+    		$properties = [
+    				'primarylanguage',
+    				'englishspeaker',
+    				'addresstype'
+    		];
+    		foreach ($properties as $property) {
+    			unset($r[$property]);
+    			if (!empty($obj['data']['data']['_' . $property])) {
+    				$objn = Objects::getCachedObject((is_array($obj['data']['data']['_' . $property])?$obj['data']['data']['_' . $property]['value']:$obj['data']['data']['_' . $property]));
+    				$r[$property] = empty($objn ) ? '' : $objn ->getHtmlSafeName();
+    			}
+    		}
+    		 
+    		$caseManagerId = !empty($obj['data']['data']['assigned'])?$obj['data']['data']['assigned']:$obj['data']['cid'];
+    		$r['casemanagerid'] = 333;//$caseManagerId;
+    		$r['task_u_assignee'] = 333;//User::getDisplayName($caseManagerId);
+    		$r['casemanageremail'] = User::getEmail($caseManagerId);
+    		$r['alias'] = isset($obj['data']['data']['_alias'])?$obj['data']['data']['_alias']:'';
+    		$r['suffix'] = isset($obj['data']['data']['_suffix'])?$obj['data']['data']['_suffix']:'';
+    		$r['clientage'] = isset($obj['data']['data']['_clientage'])? (string) $obj['data']['data']['_clientage']:'';
+    		foreach ($files['data'] as $file) { //consent form signed
+    			$r['datereleasesigned'] = substr($file['cdate'],0,10);
+    		}
+    		
+    		$r['casenote'] = '';
+    		$familyMemberCount=1;
+    		$referralCount=1;
+    		foreach ($items['data'] as $item) {
+    			if ($item['template_id'] == 311) //address
+    			{
+    				$address = $objService->load($item);
+    				$properties = [
+    						'addresstype'
+    				];
+    				foreach ($properties as $property) {
+    					unset($r['postaddresstype_s']);
+    					if (!empty($address['data']['data']['_' . $property])) {
+    						$objn = Objects::getCachedObject((is_array($address['data']['data']['_' . $property])?$address['data']['data']['_' . $property]['value']:$address['data']['data']['_' . $property]));
+    						$r['postaddresstype_s'] = empty($objn ) ? '' : $objn ->getHtmlSafeName();
+    					}
+    				}
+    				//$r['postaddresstype_s'] = 'hey';// $address['data']['data']['_addresstype'];
+    				$r['postzipcode_s'] = isset($address['data']['data']['_zip'])?$address['data']['data']['_zip']:'';
+    				$r['poststate_s'] = isset($address['data']['data']['_state'])?$address['data']['data']['_state']:'';
+    				$r['postcity_s'] = isset($address['data']['data']['_city'])?$address['data']['data']['_city']:'';
+    				$r['postaddressone_s'] = isset($address['data']['data']['_addressone'])?$address['data']['data']['_addressone']:'';
+    				$r['postaddresstwo_s'] = isset($address['data']['data']['_addresstwo'])?$address['data']['data']['_addresstwo']:'';
+    				$r['postcounty_s'] = isset($address['data']['data']['_county'])?$address['data']['data']['_county']:'';
+    				$r['postlatlon_s'] = isset($address['data']['data']['_latlon'])?$address['data']['data']['_latlon']:'';
+    			}
+    			elseif ($item['template_id'] == 289) //family member
+    			{
+    				$fm = $objService->load($item);
+    				if (isset($fm['data']['data']['_firstname']))
+    				{
+    					$properties = [
+    							'relationship',
+    							'gender',
+    							'race',
+    							'ethnicity',
+    							'alternatecontact'
+    					];
+    					foreach ($properties as $property) {
+    						unset($r['fm_'.$property.$familyMemberCount]);
+    						if (!empty($fm['data']['data']['_' . $property])) {
+    							$objn = Objects::getCachedObject((is_array($fm['data']['data']['_' . $property])?$fm['data']['data']['_' . $property]['value']:$fm['data']['data']['_' . $property]));
+    							$r['fm_'.$property.$familyMemberCount] = empty($objn ) ? '' : $objn ->getHtmlSafeName();
+    						}
+    					}
+    					
+    					
+    					$r['fm_firstname'.$familyMemberCount] = $fm['data']['data']['_firstname'];
+    					$r['fm_lastname'.$familyMemberCount] = $fm['data']['data']['_lastname'];
+    					$r['fm_middlename'.$familyMemberCount] = isset($fm['data']['data']['_middlename'])?$fm['data']['data']['_middlename']:'';
+    					$r['fm_age'.$familyMemberCount] = isset($fm['data']['data']['_age'])?(string) $fm['data']['data']['_age']:'';
+    					//$r['fm_relationship'.$familyMemberCount] = $fm['data']['data']['_relationship'];
+    					//$r['fm_gender'.$familyMemberCount] = $fm['data']['data']['_gender'];
+    					//$r['fm_race'.$familyMemberCount] = $fm['data']['data']['_race'];
+    					//$r['fm_ethnicity'.$familyMemberCount] = $fm['data']['data']['_ethnicity'];
+    					
+    					//$r['fm_alternatecontact'.$familyMemberCount] = $fm['data']['data']['_alternatecontact'];
+    					
+    					
+    					if (isset($fm['data']['data']['_alternatecontact']['childs']['_bestphonenumber']))
+    					{
+    						$r['fm_alternatecontactbestphonenumber'.$familyMemberCount] = $fm['data']['data']['_alternatecontact']['childs']['_bestphonenumber'];
+    					}
+    					if (isset($fm['data']['data']['_alternatecontact']['childs']['_otherphonenumber']))
+    					{
+    						$r['fm_alternatecontactotherphonenumber'.$familyMemberCount] = $fm['data']['data']['_alternatecontact']['childs']['_otherphonenumber'];
+    					}
+    					$familyMemberCount++;
+    				}
+    			}
+    			elseif ($item['template_id'] ==527) //Casenote
+    			{
+    				$fm = $objService->load($item);
+    				$r['casenote'] .= (isset($fm['data']['cdate'])?'['.$fm['data']['cdate']. '] ':'').(isset($fm['data']['data']['_casenote'])?$fm['data']['data']['_casenote']:'');
+    			}
+    			elseif ($item['template_id'] == 607)
+    			{
+    				$comments = '';
+    				$service = $objService->load($item);
+    				if (isset($service['data']['uid']) && $service['data']['uid'] != 1)
+    				{
+    					$referralType = Objects::getCachedObject($service['data']['data']['_referraltype']['value']);
+    					$refferalTypeValue = empty($referralType) ? 'N/A' : $referralType->getHtmlSafeName();
+    					$referralSubType = Objects::getCachedObject($service['data']['data']['_referraltype']['childs']['_referralservice']);
+    					$result = empty($service['data']['data']['_result'])?'':Objects::getCachedObject($service['data']['data']['_result']);
+    					$refferalSubTypeValue = empty($referralSubType) ? 'N/A' : $referralSubType->getHtmlSafeName();
+    					if (!empty($service['data']['data']['_provider']) && !empty(Objects::getCachedObject($service['data']['data']['_provider'])))
+    					{
+    						$resource = $objService->load(['id' => $service['data']['data']['_provider']]);
+    					}
+    					else
+    					{
+    						unset($resource);
+    					}
+    					//$resourceValue = empty($resource) ? 'N/A' : $resource->getHtmlSafeName();
+    					//print_r($service);
+    					if (!empty($service['data']['data']['_commentgroup']))
+    					{
+    						foreach ($service['data']['data']['_commentgroup'] as $key) {
+    							if (!empty($key['childs']))
+    							{
+    								$comments = $comments. $key['childs']['_comments'] . (isset($key['childs']['_commentdate'])?' ('.Util\formatMysqlDate($key['childs']['_commentdate'], Util\getOption('short_date_format')):'').'),';
+    							}
+    						}
+    						$comments = trim($comments,',') .(!empty($service['data']['data']['_commentgroup']['childs']['_comments'])?$service['data']['data']['_commentgroup']['childs']['_comments']:''). ' ('.(!empty($service['data']['data']['_commentgroup']['childs']['_commentdate'])?Util\formatMysqlDate($service['data']['data']['_commentgroup']['childs']['_commentdate'], Util\getOption('short_date_format')):'').'),';
+    					}
+    					$r['_referraldate'.$referralCount]  = isset($service['data']['data']['_referraldate'])?$service['data']['data']['_referraldate']:'';
+    					$r['_referraltypename'.$referralCount] = $refferalTypeValue;
+    					$r['_refferalservicename'.$referralCount] = $refferalSubTypeValue;
+    					$r['_provider'.$referralCount] = empty($service['data']['data']['_provider'])?'':$service['data']['data']['_provider'];
+    					$r['_resourcename'.$referralCount] = empty($resource) ? 'N/A' : $resource['data']['data']['_providername'];
+    					$r['_providercontact'.$referralCount] = empty($resource) ? 'N/A' : (!empty($resource['data']['data']['_streetaddress'])?$resource['data']['data']['_streetaddress']:''). ' ' .(!empty($resource['data']['data']['_city'])?$resource['data']['data']['_city']:''). ' ' .(!empty($resource['data']['data']['_state'])?$resource['data']['data']['_state']:''). ' ' .(!empty($resource['data']['data']['_zipcode'])?$resource['data']['data']['_zipcode']:''). ' ' .(!empty($resource['data']['data']['_phonenumbers'])?$resource['data']['data']['_phonenumbers']:'');
+    					$r['_appointmentdate'.$referralCount] = (!empty($service['data']['data']['_appointmentdate'])?Util\formatMysqlDate($service['data']['data']['_appointmentdate'], Util\getOption('short_date_format')):'');
+    					$r['_appointmenttime'.$referralCount] = (!empty($service['data']['data']['_appointmenttime'])?$service['data']['data']['_appointmenttime']:'');
+    					$r['_comments'.$referralCount] = str_replace('()','',trim($comments,','));
+    					$r['_resultname'.$referralCount] = empty($result) ? '' : $result->getHtmlSafeName();
+    					$referralCount++;
+    /*		Cache::get('symfony.container')->get('logger')->error(
+			'sup',
+			$r
+		);	*/
+    				}
+    			}
+    			else {
+    				if ($item['template_id'] ==440) //Housing
+    				{
+    					$fm = $objService->load($item);
+    					$properties = [
+    							'clientdamagerating',
+    							'predisasterliving'
+    					];
+    					foreach ($properties as $property) {
+    						unset($obj['data'][$property]);
+    						if (isset($fm['data']['data']['_' . $property]))
+    						{
+    						if ($fm['data']['data']['_' . $property] != null) {
+    							$objn = Objects::getCachedObject((is_array($fm['data']['data']['_' . $property])?$fm['data']['data']['_' . $property]['value']:$fm['data']['data']['_' . $property]));
+    							$obj['data'][$property] = empty($objn ) ? '' :  str_replace('Room Apartment','Room, Apartment',$objn ->getHtmlSafeName());
+    						}    							
+    						}
+    					}
+    					if (isset($fm['data']['data']['_clientdamagerating']['childs']['_otherdamageassessment']))
+    					{
+    						$obj['data']['clientdamageratingother'] = $fm['data']['data']['_clientdamagerating']['childs']['_otherdamageassessment'];
+    					}
+    				}
+    				$assessment = $objService->load ( $item );
+    				$assessmentData = $objService->getPreview ( $assessment ['data'] ['id'] );
+    				$r[$assessment ['data'] ['template_id']] = str_replace ( '<td class="prop-val">', ':',
+    						str_replace('</tbody></table>','',
+    								str_replace('<br />','',
+    										str_replace('</td>','',
+    												str_replace('</tr>',"\n",
+    														str_replace('<ul class="clean"><li class="icon-padding fa fa-sticky-note fa-fl">','',
+    																str_replace('</li></ul>','',str_replace('<tr><td class="prop-key">','',
+    																		str_replace('<table class="obj-preview"><tbody>','',$assessmentData[0])))))))));
+    		
+    			}
+    		}
+    	}
+    		foreach ($records as &$r) {
+    			$record = [];
+    			foreach ($res['colOrder'] as $t) {
+    				if (isset($r[$t]))
+    				{
+    					if (is_string($r[$t]))
+    					{
+    						$t = strip_tags($r[$t]);
+    					}
+    					else
+    					{
+    					$t = '';
+    					}
+    				}
+    				else
+    				{
+    					$t = '';
+    				}
+    		
+    				if (!empty($t) && !is_numeric($t)) {
+    					$t = str_replace(
+    							[
+    									'"',
+    									"\n",
+    									"\r",
+    							],
+    							[
+    									'""',
+    									'\n',
+    									'\r',
+    							],
+    							$t
+    							);
+    					$t = '"'.$t.'"';
+    				}
+    				$record[] = $t;
+    			}
+    		
+    			$rez[] = implode(',', $record);
+    		}
+    	return $rez;
+    }    
+    
+    
+    
+    
     public function getXML($p)
     {
     	$container = Cache::get('symfony.container');
