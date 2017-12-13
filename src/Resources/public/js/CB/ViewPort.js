@@ -255,6 +255,7 @@ Ext.define('CB.ViewPort', {
                 tooltip: L.Dashboard
                 ,itemId: 'toggleNotifications'
                 // ,enableToggle: true
+		,hidden:(!App.loginData.manage) //permissions for viewing reports/charts    
                 ,iconCls: 'im-sort'
                 ,cls: 'numbersButton'
                 ,text: ''
