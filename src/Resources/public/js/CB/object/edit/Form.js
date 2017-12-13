@@ -420,7 +420,14 @@ Ext.define('CB.object.edit.Form', {
         if(!this._isDirty) {
             return;
         }
-
+	
+	var rez = this.isValid();	//check if valid before saving from main page
+	if (!rez)
+	{
+		Ext.Msg.alert(L.Error, L.RequiredFieldsMessage);
+		return false;
+	}
+	    
         this.readValues();
 
         if(callback) {
