@@ -58,7 +58,7 @@ Ext.define('CB.FilterPanel', {
                     facet = Ext.create('CB.facet.' + type, {
                         modeToggle: Ext.valueFrom(value.boolMode, true)
                         ,facetId: key
-                        ,title: value.title
+                        ,title: Ext.valueFrom(L[value.title],value.title)
                         ,f: Ext.isEmpty(value.f) ? key: value.f
                         ,manualPeriod: value.manualPeriod
                         ,defaultSort: value.sort
