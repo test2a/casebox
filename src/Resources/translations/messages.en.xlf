@@ -1073,6 +1073,10 @@
                 <source>caseStatus6</source>
                 <target>Transferred</target>
             </trans-unit>   		
+            <trans-unit id="3203">
+                <source>Resources</source>
+                <target>Resources</target>
+            </trans-unit>						
 		</body>
     </file>
 </xliff>

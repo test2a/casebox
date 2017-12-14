@@ -2858,7 +2858,7 @@
             </trans-unit>
             <trans-unit id="3059">
                 <source>GridDDMgs</source>
-                <target><![CDATA[Drop files here to upload to current folder<br />or drop over a row to upload into that element]]></target>
+                <target><![CDATA[Navigate clients/resources using the tree to the left<br />or search for a client in the search box above]]></target>
             </trans-unit>
             <trans-unit id="3060">
                 <source>GridEmptyText</source>
@@ -3548,7 +3548,71 @@
  	    	<trans-unit id="3246">
                 <source>DateTime</source>
                 <target>Date And Time</target>
-            </trans-unit>                       			
+            </trans-unit>    
+ 	    	<trans-unit id="3247">
+                <source>Location</source>
+                <target>Location</target>
+            </trans-unit>			
+ 	    	<trans-unit id="3248">
+                <source>Status</source>
+                <target>Status</target>
+            </trans-unit>
+ 	    	<trans-unit id="3249">
+                <source>County</source>
+                <target>County</target>
+            </trans-unit>	
+			<trans-unit id="3250">
+                <source>Gender</source>
+                <target>Gender</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3251">
+                <source>AtRiskPopulation</source>
+                <target>At Risk Population</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3252">
+                <source>IdentifiedNeeds</source>
+                <target>Identified Needs</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3253">
+                <source>AssessmentsNeeded</source>
+                <target>Assessments Needed</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3254">
+                <source>AssessmentsComplete</source>
+                <target>Assessments Complete</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3255">
+                <source>Services</source>
+                <target>Services</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3256">
+                <source>ReferralsNeeded</source>
+                <target>Referrals Needed</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3257">
+                <source>Language</source>
+                <target>Language</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3258">
+                <source>MaritalStatus</source>
+                <target>Marital Status</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3259">
+                <source>HeadOfHousehold</source>
+                <target>Head of Household</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3260">
+                <source>Creator</source>
+                <target>Creator</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3261">
+                <source>ClientRace</source>
+                <target>Client Race</target>
+            </trans-unit>		
+ 	    	<trans-unit id="3262">
+                <source>Ethnicity</source>
+                <target>Ethnicity</target>
+            </trans-unit>			
 		</body>
     </file>
 </xliff>

@@ -1711,7 +1711,7 @@
             </trans-unit>
             <trans-unit id="1178">
                 <source>Rename</source>
-                <target>Rebautizar</target>
+                <target>Renombrar</target>
             </trans-unit>
             <trans-unit id="1179">
                 <source>Expand</source>
@@ -2858,11 +2858,11 @@
             </trans-unit>
             <trans-unit id="3059">
                 <source>GridDDMgs</source>
-                <target><![CDATA[Drop files here to upload to current folder<br />or drop over a row to upload into that element]]></target>
+                <target><![CDATA[Navegue por los clientes / recursos usando el árbol a la izquierda<br />o busque un cliente en el cuadro de búsqueda de arriba]]></target>
             </trans-unit>
             <trans-unit id="3060">
                 <source>GridEmptyText</source>
-                <target><![CDATA[<h3>Drop files here</h3> or use "New" button]]></target>
+                <target><![CDATA[<h3>Navegue por los clientes / recursos usando el árbol a la izquierda </ h3> o busque un cliente en el cuadro de búsqueda de arriba]]></target>
             </trans-unit>
             <trans-unit id="3061">
                 <source>NoResultsFound</source>
@@ -3083,7 +3083,7 @@
             </trans-unit>
             <trans-unit id="3128">
                 <source>Star</source>
-                <target>Star</target>
+                <target>Favorito</target>
             </trans-unit>
             <trans-unit id="3129">
                 <source>SetStarNameMsg</source>
@@ -3251,11 +3251,11 @@
             </trans-unit>        
             <trans-unit id="3172">
                 <source>ClientID</source>
-                <target>Identificación del cliente</target>
+                <target>Número de cliente</target>
             </trans-unit>    
             <trans-unit id="3173">
                 <source>AssignedCM</source>
-                <target>CM asignado</target>
+                <target>MC asignado</target>
             </trans-unit> 
             <trans-unit id="3174">
                 <source>FEMATier</source>
@@ -3549,6 +3549,70 @@
                 <source>DateTime</source>
                 <target>Fecha y hora</target>
             </trans-unit>
-        </body>
+ 	    	<trans-unit id="3247">
+                <source>Location</source>
+                <target>Ubicación</target>
+            </trans-unit>			
+ 	    	<trans-unit id="3248">
+                <source>Status</source>
+                <target>Estado</target>
+            </trans-unit>
+ 	    	<trans-unit id="3249">
+                <source>County</source>
+                <target>Condado</target>
+            </trans-unit>	
+			<trans-unit id="3250">
+                <source>Gender</source>
+                <target>Sexo</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3251">
+                <source>AtRiskPopulation</source>
+                <target>Población en riesgo</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3252">
+                <source>IdentifiedNeeds</source>
+                <target>Necesidades Identificadas</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3253">
+                <source>AssessmentsNeeded</source>
+                <target>Evaluaciones necesitadas</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3254">
+                <source>AssessmentsComplete</source>
+                <target>Evaluaciones completadas</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3255">
+                <source>Services</source>
+                <target>Servicios</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3256">
+                <source>ReferralsNeeded</source>
+                <target>Referimientos necesitados</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3257">
+                <source>Language</source>
+                <target>Idioma</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3258">
+                <source>MaritalStatus</source>
+                <target>Estado marital</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3259">
+                <source>HeadOfHousehold</source>
+                <target>Cabeza de familia</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3260">
+                <source>Creator</source>
+                <target>Creador</target>
+            </trans-unit>	
+ 	    	<trans-unit id="3261">
+                <source>ClientRace</source>
+                <target>Raza del cliente</target>
+            </trans-unit>		
+ 	    	<trans-unit id="3262">
+                <source>Ethnicity</source>
+                <target>Grupo etnico</target>
+            </trans-unit>				
+		</body>
     </file>
 </xliff>

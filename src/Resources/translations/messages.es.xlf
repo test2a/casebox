@@ -947,7 +947,7 @@
             </trans-unit>       
            <trans-unit id="3169">
                 <source>Unassigned</source>
-                <target>Sin asignar</target>
+                <target>No Asignado</target>
             </trans-unit>       
            <trans-unit id="3170">
                 <source>CreatedByMe</source>
@@ -1068,7 +1068,19 @@
            <trans-unit id="3200">
                 <source>AddFamilyMember</source>
                 <target>Añadir un miembro de la familia</target>
-            </trans-unit>                                          
+            </trans-unit>
+           <trans-unit id="3201">
+                <source>caseStatus6</source>
+                <target>Transferido</target>
+            </trans-unit>   					
+            <trans-unit id="3202">
+                <source>Favorites</source>
+                <target>Favoritos</target>
+            </trans-unit>			
+            <trans-unit id="3203">
+                <source>Resources</source>
+                <target>Recursos</target>
+            </trans-unit>				
         </body>
     </file>
 </xliff>
