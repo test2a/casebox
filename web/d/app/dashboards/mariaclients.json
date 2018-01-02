@@ -1,5 +1,5 @@
 {
-  "title": "Harvey Client Dashboard",
+  "title": "Maria Client Dashboard",
   "services": {
     "query": {
       "idQueue": [
@@ -33,8 +33,8 @@
           "to": "NOW/DAY%2B1DAY",
           "field": "cdate",
           "type": "time",
-          "fromDateObj": "2016-10-20T18:44:49.960Z",
-          "toDateObj": "2017-10-20T18:44:49.960Z",
+          "fromDateObj": "2016-12-29T00:37:21.295Z",
+          "toDateObj": "2017-12-29T00:37:21.295Z",
           "mandate": "must",
           "active": true,
           "alias": "",
@@ -64,7 +64,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
@@ -108,7 +108,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
             "custom": "&fq=case_status:Closed&fq=dstatus:0&fq=template_id:141"
           },
@@ -152,7 +152,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
             "custom": "&fq=template_id:289&fq=dstatus:0"
           },
@@ -196,9 +196,9 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
-            "custom": "&fq=gender:Male&fq=dstatus:0&fq=template_id:141"
+            "custom": "&fq=gender:Hombre&fq=dstatus:0&fq=template_id:141"
           },
           "style": {
             "font-size": "10pt"
@@ -215,7 +215,7 @@
           "stats_type": "mean",
           "stats_field": "",
           "stats_decimal_points": 0,
-          "title": "Males"
+          "title": "Hombres"
         },
         {
           "span": 2,
@@ -227,9 +227,9 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
-            "custom": "&fq=gender:Female&fq=dstatus:0&fq=template_id:141"
+            "custom": "&fq=gender:Mujer&fq=dstatus:0&fq=template_id:141"
           },
           "style": {
             "font-size": "10pt"
@@ -246,7 +246,7 @@
           "stats_type": "mean",
           "stats_field": "",
           "stats_decimal_points": 0,
-          "title": "Females"
+          "title": "Mujers"
         },
         {
           "span": 2,
@@ -258,7 +258,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
             "custom": "&fq=template_id:141&fq=dstatus:0&fq=at_risk_population_is:[* TO *]"
           },
@@ -358,7 +358,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=location_type&facet.limit=100&facet.missing=true&f.location_type.facet.sort=count",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=location_type&facet.limit=100&facet.missing=true&f.location_type.facet.sort=count",
             "custom": ""
           },
           "mode": "count",
@@ -455,7 +455,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=county&facet.limit=100&facet.missing=true&f.county.facet.sort=count&fq=template_id:141&fq=dstatus:0&county:[* TO *]",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=county&facet.limit=100&facet.missing=true&f.county.facet.sort=count&fq=template_id:141&fq=dstatus:0&county:[* TO *]",
             "custom": "&fq=template_id:141&fq=dstatus:0&county:[* TO *]"
           },
           "mode": "count",
@@ -540,7 +540,7 @@
             "#F9D9F9",
             "#DEDAF7"
           ],
-          "title": "Client Home County"
+          "title": "Client Home Division"
         }
       ]
     },
@@ -561,7 +561,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=maritalstatus&facet.limit=10&facet.missing=true&f.maritalstatus.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=maritalstatus&facet.limit=10&facet.missing=true&f.maritalstatus.facet.sort=count&fq=template_id:141&fq=dstatus:0",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
@@ -658,7 +658,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=race&facet.limit=10&facet.missing=true&f.race.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=race&facet.limit=10&facet.missing=true&f.race.facet.sort=count&fq=template_id:141&fq=dstatus:0",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
@@ -755,7 +755,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=ethnicity&facet.limit=10&facet.missing=true&f.ethnicity.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=ethnicity&facet.limit=10&facet.missing=true&f.ethnicity.facet.sort=count&fq=template_id:141&fq=dstatus:0",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
@@ -861,7 +861,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=referralservice_ss&facet.limit=10&facet.missing=true&f.referralservice_ss.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=referralservice_ss&facet.limit=10&facet.missing=true&f.referralservice_ss.facet.sort=count&fq=template_id:141&fq=dstatus:0",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
@@ -958,7 +958,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=referralservice_ss&facet.limit=100&facet.missing=true&f.referralservice_ss.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=referralservice_ss&facet.limit=100&facet.missing=true&f.referralservice_ss.facet.sort=count&fq=template_id:141&fq=dstatus:0",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
@@ -1055,7 +1055,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=assignee_s&facet.limit=10&facet.missing=true&f.assignee_s.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=assignee_s&facet.limit=1000&facet.missing=true&f.assignee_s.facet.sort=count&fq=template_id:141&fq=dstatus:0",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
@@ -1065,7 +1065,7 @@
           "exclude": [],
           "missing": false,
           "other": false,
-		"size": 1000,
+          "size": 1000,
           "sortBy": "count",
           "order": "descending",
           "style": {
@@ -1161,7 +1161,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=fematier&facet.limit=12&facet.missing=true&f.fematier.facet.sort=count&fq=dstatus:0&fq=template_id:141",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=fematier&facet.limit=12&facet.missing=true&f.fematier.facet.sort=count&fq=dstatus:0&fq=template_id:141",
             "custom": "&fq=dstatus:0&fq=template_id:141"
           },
           "mode": "count",
@@ -1263,7 +1263,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=identified_unmet_needs_ss&facet.limit=100&facet.missing=true&f.identified_unmet_needs_ss.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=identified_unmet_needs_ss&facet.limit=100&facet.missing=true&f.identified_unmet_needs_ss.facet.sort=count&fq=template_id:141&fq=dstatus:0",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
@@ -1360,7 +1360,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=at_risk_population_ss&facet.limit=10&facet.missing=true&f.at_risk_population_ss.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=at_risk_population_ss&facet.limit=10&facet.missing=true&f.at_risk_population_ss.facet.sort=count&fq=template_id:141&fq=dstatus:0",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
@@ -1466,7 +1466,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=provider_ss&facet.limit=3&facet.missing=true&f.provider_ss.facet.sort=count",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=provider_ss&facet.limit=3&facet.missing=true&f.provider_ss.facet.sort=count",
             "custom": ""
           },
           "mode": "count",
@@ -1563,7 +1563,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=case_status&facet.limit=10&facet.missing=true&f.case_status.facet.sort=count",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=case_status&facet.limit=10&facet.missing=true&f.case_status.facet.sort=count&fq=dstatus:0&fq=template_id:141",
             "custom": "&fq=dstatus:0&fq=template_id:141"
           },
           "mode": "count",
@@ -1660,7 +1660,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=clientage_i&facet.limit=10&facet.missing=true&f.clientage_i.facet.sort=count&fq=dstatus:0&fq=template_id:141",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=clientage_i&facet.limit=10&facet.missing=true&f.clientage_i.facet.sort=count&fq=dstatus:0&fq=template_id:141",
             "custom": "&fq=dstatus:0&fq=template_id:141"
           },
           "mode": "count",
@@ -1766,7 +1766,7 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=gender&facet.limit=10&facet.missing=true&f.gender.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=gender&facet.limit=10&facet.missing=true&f.gender.facet.sort=count&fq=template_id:141&fq=dstatus:0",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
@@ -1852,6 +1852,136 @@
             "#DEDAF7"
           ],
           "title": "Gender"
+        },
+        {
+          "span": 8,
+          "editable": true,
+          "type": "bettermap",
+          "loadingEditor": false,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0
+            ],
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&rows=1000&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&sort=id asc",
+            "custom": "&fq=template_id:141&fq=lat_lon:[* TO *]"
+          },
+          "size": 1000,
+          "spyable": true,
+          "lat_start": "",
+          "lat_end": "",
+          "lon_start": "",
+          "lon_end": "",
+          "field": "lat_lon",
+          "show_queries": true,
+          "title": "Map",
+          "tooltip": "full_address"
+        }
+      ]
+    },
+    {
+      "title": "Housing Type",
+      "height": "250px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
+          "span": 4,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0
+            ],
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=addresstype_i&facet.limit=20&facet.missing=true&f.addresstype_i.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "custom": "&fq=template_id:141&fq=dstatus:0"
+          },
+          "mode": "count",
+          "field": "addresstype_i",
+          "stats_field": "",
+          "decimal_points": 0,
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 20,
+          "sortBy": "count",
+          "order": "descending",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "logAxis": false,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "above",
+          "exportSize": 10000,
+          "lastColor": "",
+          "spyable": true,
+          "show_queries": true,
+          "chartColors": [
+            "#7EB26D",
+            "#EAB839",
+            "#6ED0E0",
+            "#EF843C",
+            "#E24D42",
+            "#1F78C1",
+            "#BA43A9",
+            "#705DA0",
+            "#508642",
+            "#CCA300",
+            "#447EBC",
+            "#C15C17",
+            "#890F02",
+            "#0A437C",
+            "#6D1F62",
+            "#584477",
+            "#B7DBAB",
+            "#F4D598",
+            "#70DBED",
+            "#F9BA8F",
+            "#F29191",
+            "#82B5D8",
+            "#E5A8E2",
+            "#AEA2E0",
+            "#629E51",
+            "#E5AC0E",
+            "#64B0C8",
+            "#E0752D",
+            "#BF1B00",
+            "#0A50A1",
+            "#962D82",
+            "#614D93",
+            "#9AC48A",
+            "#F2C96D",
+            "#65C5DB",
+            "#F9934E",
+            "#EA6460",
+            "#5195CE",
+            "#D683CE",
+            "#806EB7",
+            "#3F6833",
+            "#967302",
+            "#2F575E",
+            "#99440A",
+            "#58140C",
+            "#052B51",
+            "#511749",
+            "#3F2B5B",
+            "#E0F9D7",
+            "#FCEACA",
+            "#CFFAFF",
+            "#F9E2D2",
+            "#FCE2DE",
+            "#BADFF4",
+            "#F9D9F9",
+            "#DEDAF7"
+          ],
+          "title": "Address Types"
         }
       ]
     },
@@ -1873,8 +2003,8 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq:template_id:141&dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=500",
-            "basic_query": "q=*%3A*&fq:template_id:141&dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]",
+            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=500",
+            "basic_query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]",
             "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "size": 100,
@@ -1904,14 +2034,17 @@
           "important_fields": [
             "_version_",
             "acl_count",
-            "assessments_needed",
+            "addressone_s",
+            "addresstype_i",
+            "annualincometotal_i",
+            "assessments_completed",
             "assessments_reported",
             "assignee_s",
             "at_risk_population_is",
             "at_risk_population_ss",
-            "birthdate_dt",
             "case_id",
             "case_status",
+            "casenote_ss",
             "cdate",
             "cid",
             "clientage_i",
@@ -1919,37 +2052,83 @@
             "county",
             "doc_id",
             "dstatus",
-            "emailaddress_s",
             "englishspeaker_i",
+            "entrydate_dt",
             "ethnicity",
             "ethnicity_i",
+            "femaclienthavefemanumber_s",
             "femanumber_s",
+            "femareferralneeded_s",
             "fematier",
             "fematier_i",
+            "financial_carinsurance_s",
+            "financial_carinsurancepost_s",
+            "financial_carpayment_s",
+            "financial_carpaymentpost_s",
+            "financial_foodpost_s",
+            "financial_gasoline_s",
+            "financial_gasolinepost_s",
+            "financial_rent_s",
+            "financial_rentpost_s",
+            "financialassessmentdate_dt",
+            "financialearnedIncome_f",
+            "financialevaluationdate_dt",
+            "financialfamilysize_i",
+            "financialincomereceived_s",
+            "financialloseemploymentdisaster_s",
+            "financialmonthlyincome_i",
+            "financialreferralneeded_s",
+            "financialssdi_f",
+            "financialssi_f",
+            "financialtotalExpenses_i",
+            "financialtotalmonthlyamount_f",
+            "financialunemploymentinsurance_f",
+            "financialveteransdisability_f",
             "firstname_s",
+            "foodreferralneeded_s",
             "full_address",
             "fulladdress_s",
             "gender",
             "gender_i",
             "headofhousehold",
             "headofhousehold_i",
+            "hispanicorigin_i",
+            "housingclientdamagerating_s",
+            "housingreferralneeded_s",
+            "iabenefit_i",
             "id",
-            "cdate",
+            "identified_unmet_needs_is",
+            "identified_unmet_needs_ss",
+            "last_action_tdt",
             "lastname_s",
             "location_i",
             "location_type",
             "maritalstatus",
             "maritalstatus_i",
+            "maxgrant_i",
+            "medicalassessment_dt",
+            "medicalindistress_s",
+            "medicalliketospeak_s",
+            "medicalreferralneeded_s",
             "name",
+            "notetype_s",
             "ntsc",
             "oid",
+            "onadenied_i",
+            "onareceived_i",
+            "otherneedsassistance_i",
             "path",
             "phonenumber_s",
             "pid",
             "pids",
+            "predisasterassistance_ss",
+            "predisasterliving_s",
             "primarylanguage_i",
             "race",
             "race_i",
+            "referrals_needed",
+            "referrals_started",
+            "referralservice_ss",
             "security_set_id",
             "sort_name",
             "sort_path",
@@ -1960,6 +2139,8 @@
             "task_u_ongoing",
             "template_id",
             "template_type",
+            "udate",
+            "uid",
             "verificationdocumentation_s",
             "ym1"
           ],
@@ -2012,12 +2193,16 @@
   },
   "solr": {
     "server": "/solr/",
-    "core_name": "harvey",
+    "core_name": "maria",
     "core_list": [
+      "atlanta",
+      "atlanta_log",
       "casebox",
       "casebox_log",
       "harvey",
-      "harvey_log"
+      "harvey_log",
+      "maria",
+      "maria_log"
     ],
     "global_params": "&fq=dstatus:0"
   },

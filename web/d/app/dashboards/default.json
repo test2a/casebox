@@ -895,7 +895,7 @@
               0
             ],
             "query": "q=*%3A*&fq:template_id:141&dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=referralservice_ss&facet.limit=10&facet.missing=true&f.referralservice_ss.facet.sort=count&fq=template_id:141&fq=dstatus:0",
-            "custom": "&fq=template_id:141&fq=dstatus:0&fq=!referralservice_ss:*Other*"
+            "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
           "field": "referralservice_ss",
@@ -979,7 +979,7 @@
             "#F9D9F9",
             "#DEDAF7"
           ],
-          "title": "Top 10 Referral Services (Excluding Other)"
+          "title": "Top 10 Referral Services"
         },
         {
           "span": 4,
@@ -1098,7 +1098,7 @@
           "exclude": [],
           "missing": false,
           "other": false,
-          "size": 10,
+		  "size": 1000,
           "sortBy": "count",
           "order": "descending",
           "style": {
