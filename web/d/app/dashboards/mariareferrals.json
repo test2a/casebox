@@ -33,8 +33,8 @@
           "to": "NOW/DAY%2B1DAY",
           "field": "cdate",
           "type": "time",
-          "fromDateObj": "2016-11-17T03:41:08.764Z",
-          "toDateObj": "2017-11-17T03:41:08.764Z",
+          "fromDateObj": "2017-01-16T21:17:10.064Z",
+          "toDateObj": "2018-01-16T21:17:10.065Z",
           "mandate": "must",
           "active": true,
           "alias": "",
@@ -185,37 +185,6 @@
           "stats_type": "mean",
           "stats_field": "",
           "stats_decimal_points": 0
-        },
-        {
-          "span": 3,
-          "editable": true,
-          "type": "hits",
-          "loadingEditor": false,
-          "queries": {
-            "mode": "all",
-            "ids": [
-              0
-            ],
-            "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
-            "basic_query": "",
-            "custom": "&fq=appointment_dt:[* TO NOW]&fq=dstatus:0&fq=template_id:607"
-          },
-          "style": {
-            "font-size": "10pt"
-          },
-          "arrangement": "horizontal",
-          "chart": "total",
-          "counter_pos": "above",
-          "donut": false,
-          "tilt": false,
-          "labels": true,
-          "spyable": false,
-          "show_queries": false,
-          "show_stats": false,
-          "stats_type": "mean",
-          "stats_field": "",
-          "stats_decimal_points": 0,
-          "title": "Past Appointment Dates"
         }
       ]
     },
@@ -381,7 +350,7 @@
             "#F9D9F9",
             "#DEDAF7"
           ],
-          "title": "Disaster Survivor Locations - All"
+          "title": "Disaster Survivor Intake by Location - All"
         },
         {
           "span": 4,
@@ -478,7 +447,7 @@
             "#F9D9F9",
             "#DEDAF7"
           ],
-          "title": "Disaster Survivor Locations - Top 10"
+          "title": "Disaster Survivor Referrals by Location - Top 10"
         },
         {
           "span": 4,
@@ -575,7 +544,7 @@
             "#F9D9F9",
             "#DEDAF7"
           ],
-          "title": "Regions"
+          "title": "Number of Client Registration Locations by Branch"
         }
       ]
     },
@@ -1185,30 +1154,7 @@
       "editable": true,
       "collapse": false,
       "collapsable": true,
-      "panels": [
-        {
-          "span": 12,
-          "editable": true,
-          "type": "tagcloud",
-          "loadingEditor": false,
-          "queries": {
-            "mode": "all",
-            "ids": [
-              0
-            ],
-            "query": "q=*%3A*&fq=dstatus:0&wt=json&rows=0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=associatedgoal_s&facet.limit=100",
-            "custom": "&fq=template_id:607"
-          },
-          "field": "associatedgoal_s",
-          "size": 100,
-          "alignment": "vertical and horizontal",
-          "fontScale": 1,
-          "ignoreStopWords": false,
-          "spyable": true,
-          "show_queries": true,
-          "title": "Associated Goal"
-        }
-      ]
+      "panels": []
     },
     {
       "title": "Referrals",
@@ -1556,7 +1502,6 @@
             "case_id",
             "cdate",
             "cid",
-            "clientcounty_s",
             "clientlocation_s",
             "clientname_s",
             "content",
@@ -1573,12 +1518,14 @@
             "referralservicename_s",
             "referraltype_s",
             "refferaltypename_s",
+            "resourcelocation_s",
             "resourcename_s",
             "resultname_s",
             "security_set_id",
             "sort_name",
             "sort_path",
             "system",
+            "targetcompletion_dt",
             "template_id",
             "template_type",
             "udate",
@@ -1640,6 +1587,8 @@
       "atlanta_log",
       "casebox",
       "casebox_log",
+      "harvey",
+      "harvey_log",
       "maria",
       "maria_log"
     ],
