@@ -33,7 +33,8 @@
     "symfony/doctrine-bridge": "^3.0",
     "sensio/framework-extra-bundle": "^3.0.2",
     "kwi/urllinker": "@dev",
-    "dompdf/dompdf": "dev-master"
+    "dompdf/dompdf": "dev-master",
+    "firebase/php-jwt": "^5.0"
   },
   "repositories": [
         {
