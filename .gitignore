@@ -6,7 +6,6 @@ var/files/*/
 !var/logs/.gitkeep
 !var/files/.gitkeep
 composer.phar
-composer.lock
 vendor/
 build/
 web/bundles/
