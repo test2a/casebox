@@ -44,7 +44,7 @@
         }
     ],
   "require-dev": {
-    "caseboxdev/core-bundle": "^1.8",
+    "caseboxdev/core-bundle": "^1.8.1",
     "caseboxdev/rpc-bundle": "@dev",
     "caseboxdev/rest-bundle": "@dev",
     "phpunit/phpunit": "^5.2.12",

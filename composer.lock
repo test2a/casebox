@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "148f702eaa117c3c62e94f9918921769",
+    "content-hash": "1faa8a0806cc17ab2f0d22e343b886fa",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2310,16 +2310,16 @@
     "packages-dev": [
         {
             "name": "caseboxdev/core-bundle",
-            "version": "1.8",
+            "version": "1.8.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/apprio/casebox-core.git",
-                "reference": "7225339f4abcaa92770f8e289c17a15767de15d2"
+                "reference": "ba78f87031276576d6046cd68554a4f3cebd0583"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/apprio/casebox-core/zipball/7225339f4abcaa92770f8e289c17a15767de15d2",
-                "reference": "7225339f4abcaa92770f8e289c17a15767de15d2",
+                "url": "https://api.github.com/repos/apprio/casebox-core/zipball/ba78f87031276576d6046cd68554a4f3cebd0583",
+                "reference": "ba78f87031276576d6046cd68554a4f3cebd0583",
                 "shasum": ""
             },
             "require": {
@@ -2395,9 +2395,9 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/apprio/casebox-core/tree/1.8"
+                "source": "https://github.com/apprio/casebox-core/tree/v1.8"
             },
-            "time": "2018-09-17T16:36:08+00:00"
+            "time": "2018-10-29T14:41:44+00:00"
         },
         {
             "name": "caseboxdev/rest-bundle",
