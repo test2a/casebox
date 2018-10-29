@@ -1602,7 +1602,7 @@
           "show_queries": false,
           "maxNumCalcTopFields": 20,
           "calcTopFieldValuesFromAllData": false,
-          "title": "Clients"
+          "title": "Disaster Survivors"
         }
       ]
     }

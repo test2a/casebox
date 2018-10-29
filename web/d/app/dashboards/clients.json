@@ -78,7 +78,7 @@
           "tilt": false,
           "labels": true,
           "spyable": false,
-          "title": "Total Clients Entered",
+          "title": "Total Disaster Survivors Entered",
           "show_queries": false,
           "metrics": [
             {
@@ -136,7 +136,7 @@
             "enable": true,
             "interval": 15
           },
-          "title": "Total Closed Clients",
+          "title": "Total Closed Disaster Survivors",
           "show_stats": false,
           "stats_type": "mean",
           "stats_field": "",

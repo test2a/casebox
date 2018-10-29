@@ -34,7 +34,8 @@
     "sensio/framework-extra-bundle": "^3.0.2",
     "kwi/urllinker": "@dev",
     "dompdf/dompdf": "dev-master",
-    "firebase/php-jwt": "^5.0"
+    "firebase/php-jwt": "^5.0",
+    "koolphp/koolreport": "^2.0"
   },
   "repositories": [
         {
