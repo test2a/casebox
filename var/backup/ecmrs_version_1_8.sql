@@ -1,4 +1,4 @@
---- ECMRS Version 1.8
+-- ECMRS Version 1.8
 -- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: casebox
