@@ -2310,7 +2310,7 @@
     "packages-dev": [
         {
             "name": "caseboxdev/core-bundle",
-            "version": "1.8.1",
+            "version": "1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/apprio/casebox-core.git",
