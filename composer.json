@@ -36,7 +36,7 @@
     "dompdf/dompdf": "dev-master",
     "firebase/php-jwt": "^5.0",
     "koolphp/koolreport": "^2.0",
-    "caseboxdev/core-bundle": "1.8.3",
+    "caseboxdev/core-bundle": "@dev",
     "caseboxdev/rpc-bundle": "@dev",
     "caseboxdev/rest-bundle": "@dev",
     "satooshi/php-coveralls": "^2.0"
