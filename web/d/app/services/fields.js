@@ -52,7 +52,15 @@ function (angular, _, config) {
       } else {
         fieldApi = '/schema/fields';
       }
-
+	
+	  if (dashboard.current.solr.core_name === "")
+	  {
+	  	var request = $http({}); //maybe here at some point can get dashboard stuff?
+		return request.then(function(p) {
+	        var mapping = {};	
+	        return mapping;
+	      });
+	  }
       var request = $http({
         // Get all fields in Solr core
         url: dashboard.current.solr.server + dashboard.current.solr.core_name + fieldApi,

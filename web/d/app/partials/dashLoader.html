@@ -1,7 +1,9 @@
+<li><a bs-tooltip="'Home'" data-placement="bottom" href='#/dashboard'><i class='icon-home'></i></a></li>
 <!-- This file is responsible for nav bar of the dashboard -->
 <li class="dropdown" bs-tooltip="'Collections'" data-placement="bottom" style="padding-top:5px;" ng-show="dashboard.current.loader.dropdown_collections"><select class="span2" ng-model="dashboard.current.solr.core_name" ng-change="dashboard.refresh()" ng-options="c as c for c in dashboard.current.solr.core_list"></select></li>
-
-<li><a bs-tooltip="'Goto saved default'" data-placement="bottom" href='#/dashboard'><i class='icon-home'></i></a></li>
+<li ng-repeat="link in dashboard.current.menu" class="pointer">
+	<a bs-tooltip="'{{link.title}}'" data-placement="bottom" href="{{link.url}}">{{link.title}}</a>
+</li>
 <!-- New menu -->
 <li class="dropdown" bs-tooltip="'New'" data-placement="bottom" ng-show="showDropdown('new')" >
   <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -89,3 +91,4 @@
 </li>
 <!-- Configure menu -->
 <li ng-show="dashboard.current.editable "bs-tooltip="'Configure dashboard'" data-placement="bottom"><a href='#' bs-modal="'app/partials/dasheditor.html'"><i class='icon-cog pointer'></i></a></li>
+`

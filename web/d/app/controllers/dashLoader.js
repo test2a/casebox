@@ -7,7 +7,7 @@ function (angular, _) {
 
   var module = angular.module('kibana.controllers');
 
-  module.controller('dashLoader', function($scope, $http, timer, dashboard, alertSrv) {
+  module.controller('dashLoader', function($scope, $location, $http, timer, dashboard, alertSrv) {
     $scope.loader = dashboard.current.loader;
 
     $scope.init = function() {
@@ -27,6 +27,15 @@ function (angular, _) {
         core_name: $scope.config.solr_core,
         time_field: $scope.config.timefield
       };
+    };
+    
+    $scope.getMenuLinks = function() {
+      
+      	  $scope.dashmenu = $scope.dashmenu || {};    	
+    	  $scope.dashmenu.links = [];
+	      var link = {};
+	      link.title = $location.host();
+	      $scope.dashmenu.links.push(link);
     };
     
     $scope.showDropdown = function(type) {

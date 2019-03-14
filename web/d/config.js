@@ -32,7 +32,7 @@ function (Settings) {
      * @type {String}
      */
     solr: "/solr/",
-    solr_core: "cms",
+    solr_core: "casebox",
     timefield: 'cdate',
 
     /**

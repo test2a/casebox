@@ -21,12 +21,13 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
     // A hash of defaults to use when loading a dashboard
     var _dash = {
       title: "",
-      style: "dark",
+      style: "light",
       editable: true,
       failover: false,
       panel_hints: true,
       rows: [],
       services: {},
+      menu: [],
       loader: {
         dropdown_collections: false,
         save_gist: true,
@@ -68,6 +69,10 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
 
     $rootScope.$on('$routeChangeSuccess',function(){
       // Clear the current dashboard to prevent reloading
+      if (self.current)
+      {
+      	self.last = self.current;
+      }
       self.current = {};
       self.indices = [];
       route();
@@ -96,7 +101,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
           self.script_load(_id);
           break;
         default:
-          self.file_load('default.json');
+          self.file_load('ecmrs.json');
         }
 
       // No dashboard in the URL
@@ -110,7 +115,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
           self.dash_load(dashboard);
         // No? Ok, grab default.json, its all we have now
         } else {
-          self.file_load('default.json');
+          self.file_load('ecmrs.json');
         }
       }
     };
@@ -198,7 +203,11 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
       if(dashboard.index.interval === 'none') {
         self.indices = [dashboard.index.default];
       }
-
+	  if (dashboard.menu.length === 0)
+	  {
+	  	dashboard.menu = [];
+	  	dashboard.menu = self.last.menu;
+	  }
       self.current = _.clone(dashboard);
 
       // Ok, now that we've setup the current dashboard, we can inject our services
@@ -216,6 +225,27 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
 
       return true;
     };
+    
+    this.report_load = function(dashboard) {
+      // Cancel all timers
+
+      // update browser window/tab title to reflect current dashboard's title
+      document.title = 'dashboard.title';
+      
+      self.current = _.clone(dashboard);
+      $.ajax({
+        url: dashboard,
+        success: function(data) {
+			var elem = angular.element(data);
+			angular.element(document.getElementById("ajaxRequestDiv")).append(elem);
+			$scope.PageName = "MyPage"; 
+			$scope.Data = data; 
+			$compile(elem)($scope);
+          
+        }
+      });
+      return true;
+    };    
 
     this.gist_id = function(string) {
       if(self.is_gist(string)) {
