@@ -55,7 +55,7 @@ function (angular, _, config) {
 	
 	  if (dashboard.current.solr.core_name === "")
 	  {
-	  	var request = $http({}); //maybe here at some point can get dashboard stuff?
+	  	var request = $http({method: 'GET',url: 'index.html'}); //maybe here at some point can get dashboard stuff?
 		return request.then(function(p) {
 	        var mapping = {};	
 	        return mapping;
