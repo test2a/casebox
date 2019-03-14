@@ -59,11 +59,31 @@ function (angular, $, _, appLevelRequire) {
     }
   };
 
+	app.controller('ReportController', function($scope, $routeParams, $compile) {
+		var dashboard = ($routeParams.dash)?$routeParams.dash:'';//'/c/tribbles/report/AccountRepDailyReport/';
+		dashboard = ($routeParams.rd)?dashboard+'?reportDateInput='+$routeParams.rd:dashboard;//'/c/tribbles/report/AccountRepDailyReport/';
+		      $.ajax({
+		        url: dashboard,// + (reportDate)?'?reportDateInput='+reportDate:'',
+		        success: function(data) {
+					var elem = angular.element(data);
+					angular.element(document.getElementById("ajaxRequestDiv")).append(elem);
+					$scope.PageName = "Report"; 
+					$scope.Data = data; 
+					$compile(elem)($scope);
+		          
+		        }
+		      });
+	});
+
   app.config(function ($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide) {
     $routeProvider
-      .when('/dashboard', {
-        templateUrl: 'app/partials/dashboard.html',
+      .when('/menu', {
+        templateUrl: 'app/partials/menu.html',
       })
+      .when('/report', {
+        templateUrl: 'app/partials/report.html',
+        controller: 'ReportController'
+      })      
       .when('/dashboard/:kbnType/:kbnId', {
         templateUrl: 'app/partials/dashboard.html',
       })
@@ -71,7 +91,7 @@ function (angular, $, _, appLevelRequire) {
         templateUrl: 'app/partials/dashboard.html'
       })
       .otherwise({
-        redirectTo: 'dashboard'
+        redirectTo: 'menu'
       });
     // this is how the internet told me to dynamically add modules :/
     register_fns.controller = $controllerProvider.register;
