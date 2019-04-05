@@ -1,5 +1,5 @@
 {
-  "title": "Harvey Client Dashboard",
+  "title": "DR4407 Client Dashboard",
   "services": {
     "query": {
       "idQueue": [
@@ -33,8 +33,8 @@
           "to": "NOW/DAY%2B1DAY",
           "field": "cdate",
           "type": "time",
-          "fromDateObj": "2017-01-06T23:55:08.655Z",
-          "toDateObj": "2018-01-06T23:55:08.656Z",
+          "fromDateObj": "2017-01-11T16:09:06.499Z",
+          "toDateObj": "2018-01-11T16:09:06.499Z",
           "mandate": "must",
           "active": true,
           "alias": "",
@@ -198,7 +198,7 @@
             ],
             "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
-            "custom": "&fq=gender:Male&fq=dstatus:0&fq=template_id:141"
+            "custom": "&fq=gender:Hombre&fq=dstatus:0&fq=template_id:141"
           },
           "style": {
             "font-size": "10pt"
@@ -215,7 +215,7 @@
           "stats_type": "mean",
           "stats_field": "",
           "stats_decimal_points": 0,
-          "title": "Males"
+          "title": "Hombres"
         },
         {
           "span": 2,
@@ -229,7 +229,7 @@
             ],
             "query": "q=*%3A*&fq=dstatus:0&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&wt=json&rows=0\n",
             "basic_query": "",
-            "custom": "&fq=gender:Female&fq=dstatus:0&fq=template_id:141"
+            "custom": "&fq=gender:Mujer&fq=dstatus:0&fq=template_id:141"
           },
           "style": {
             "font-size": "10pt"
@@ -246,7 +246,7 @@
           "stats_type": "mean",
           "stats_field": "",
           "stats_decimal_points": 0,
-          "title": "Females"
+          "title": "Mujers"
         },
         {
           "span": 2,
@@ -349,7 +349,7 @@
       "collapsable": true,
       "panels": [
         {
-          "span": 8,
+          "span": 5,
           "editable": true,
           "type": "terms",
           "loadingEditor": false,
@@ -446,6 +446,103 @@
           "title": "Client Registration Location"
         },
         {
+          "span": 3,
+          "editable": true,
+          "type": "terms",
+          "loadingEditor": false,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0
+            ],
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=location_type_s&facet.limit=10&facet.missing=true&f.location_type_s.facet.sort=count",
+            "custom": ""
+          },
+          "mode": "count",
+          "field": "location_type_s",
+          "stats_field": "",
+          "decimal_points": 0,
+          "exclude": [],
+          "missing": false,
+          "other": false,
+          "size": 10,
+          "sortBy": "count",
+          "order": "descending",
+          "style": {
+            "font-size": "10pt"
+          },
+          "donut": false,
+          "tilt": false,
+          "labels": true,
+          "logAxis": false,
+          "arrangement": "horizontal",
+          "chart": "pie",
+          "counter_pos": "above",
+          "exportSize": 10000,
+          "lastColor": "",
+          "spyable": true,
+          "show_queries": true,
+          "chartColors": [
+            "#7EB26D",
+            "#EAB839",
+            "#6ED0E0",
+            "#EF843C",
+            "#E24D42",
+            "#1F78C1",
+            "#BA43A9",
+            "#705DA0",
+            "#508642",
+            "#CCA300",
+            "#447EBC",
+            "#C15C17",
+            "#890F02",
+            "#0A437C",
+            "#6D1F62",
+            "#584477",
+            "#B7DBAB",
+            "#F4D598",
+            "#70DBED",
+            "#F9BA8F",
+            "#F29191",
+            "#82B5D8",
+            "#E5A8E2",
+            "#AEA2E0",
+            "#629E51",
+            "#E5AC0E",
+            "#64B0C8",
+            "#E0752D",
+            "#BF1B00",
+            "#0A50A1",
+            "#962D82",
+            "#614D93",
+            "#9AC48A",
+            "#F2C96D",
+            "#65C5DB",
+            "#F9934E",
+            "#EA6460",
+            "#5195CE",
+            "#D683CE",
+            "#806EB7",
+            "#3F6833",
+            "#967302",
+            "#2F575E",
+            "#99440A",
+            "#58140C",
+            "#052B51",
+            "#511749",
+            "#3F2B5B",
+            "#E0F9D7",
+            "#FCEACA",
+            "#CFFAFF",
+            "#F9E2D2",
+            "#FCE2DE",
+            "#BADFF4",
+            "#F9D9F9",
+            "#DEDAF7"
+          ],
+          "title": "Location Type"
+        },
+        {
           "span": 4,
           "editable": true,
           "type": "terms",
@@ -540,7 +637,7 @@
             "#F9D9F9",
             "#DEDAF7"
           ],
-          "title": "Client Home County"
+          "title": "Client Home Division"
         }
       ]
     },
@@ -1854,6 +1951,39 @@
           "title": "Gender"
         },
         {
+          "span": 8,
+          "editable": true,
+          "type": "bettermap",
+          "loadingEditor": false,
+          "queries": {
+            "mode": "all",
+            "ids": [
+              0
+            ],
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&rows=1000&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&sort=id asc",
+            "custom": "&fq=template_id:141&fq=lat_lon:[* TO *]"
+          },
+          "size": 1000,
+          "spyable": true,
+          "lat_start": "",
+          "lat_end": "",
+          "lon_start": "",
+          "lon_end": "",
+          "field": "lat_lon",
+          "show_queries": true,
+          "title": "Map",
+          "tooltip": "full_address"
+        }
+      ]
+    },
+    {
+      "title": "Housing Type",
+      "height": "250px",
+      "editable": true,
+      "collapse": false,
+      "collapsable": true,
+      "panels": [
+        {
           "span": 4,
           "editable": true,
           "type": "terms",
@@ -1863,17 +1993,17 @@
             "ids": [
               0
             ],
-            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=closurereason_s&facet.limit=100&facet.missing=true&f.closurereason_s.facet.sort=count",
-            "custom": ""
+            "query": "q=*%3A*&fq=dstatus:0&wt=json&fq=cdate:[NOW/DAY-365DAY%20TO%20NOW/DAY%2B1DAY]&facet=true&facet.field=addresstypeprimary_s&facet.limit=20&facet.missing=true&f.addresstypeprimary_s.facet.sort=count&fq=template_id:141&fq=dstatus:0",
+            "custom": "&fq=template_id:141&fq=dstatus:0"
           },
           "mode": "count",
-          "field": "closurereason_s",
+          "field": "addresstypeprimary_s",
           "stats_field": "",
           "decimal_points": 0,
           "exclude": [],
           "missing": false,
           "other": false,
-          "size": 100,
+          "size": 20,
           "sortBy": "count",
           "order": "descending",
           "style": {
@@ -1884,7 +2014,7 @@
           "labels": true,
           "logAxis": false,
           "arrangement": "horizontal",
-          "chart": "bar",
+          "chart": "pie",
           "counter_pos": "above",
           "exportSize": 10000,
           "lastColor": "",
@@ -1948,7 +2078,7 @@
             "#F9D9F9",
             "#DEDAF7"
           ],
-          "title": "Closure Reason"
+          "title": "Address Types"
         }
       ]
     }
@@ -1980,16 +2110,10 @@
   },
   "solr": {
     "server": "/solr/",
-    "core_name": "harvey",
+    "core_name": "dr4407",
     "core_list": [
-      "atlanta",
-      "atlanta_log",
-      "casebox",
-      "casebox_log",
-      "harvey",
-      "harvey_log",
-      "maria",
-      "maria_log"
+      "dr4407",
+      "dr4407_log"
     ],
     "global_params": "&fq=dstatus:0"
   },
