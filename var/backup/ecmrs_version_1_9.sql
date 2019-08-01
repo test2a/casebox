@@ -607,7 +607,6 @@ CREATE TABLE `notifications` (
 
 LOCK TABLES `notifications` WRITE;
 /*!40000 ALTER TABLE `notifications` DISABLE KEYS */;
-INSERT INTO `notifications` VALUES (1,246803,531779,'531779','create','2019-02-27 20:56:35',NULL,1,561,0,0),(2,246803,531781,'531781','update','2019-02-27 20:57:58',NULL,1,561,0,0),(3,246839,531913,'531913','create','2019-06-13 19:22:00',NULL,1,561,0,0),(4,246839,531914,'531914','update','2019-06-13 19:22:20',NULL,1,561,0,0),(5,246839,531914,'531914','update','2019-06-13 19:22:20',NULL,1,563,0,0);
 /*!40000 ALTER TABLE `notifications` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -706,7 +705,6 @@ CREATE TABLE `rpt_clients` (
 
 LOCK TABLES `rpt_clients` WRITE;
 /*!40000 ALTER TABLE `rpt_clients` DISABLE KEYS */;
-INSERT INTO `rpt_clients` VALUES (246753,'Test','PE235.3535','Test','1','214',NULL,NULL,'Active','Tier 1','123 Fake Road, York, PA, USA','235325','1500','325-355-3555',NULL,'123 Fake Road, York, PA, USA',NULL,NULL,'246762','2018-08-31 13:02:13','2019-04-05 18:34:27'),(246763,'John','Jack','Johnson','558','214','Baltimore County','21244','Active','Tier 4','2270 Rolling Run Drive, Baltimore, MD, USA','123456789','1498','(382)492-4244',NULL,'2270 Rolling Run Drive, Baltimore, MD, USA',NULL,NULL,'246761','2018-08-31 13:58:54','2018-09-24 14:12:31'),(246802,'Pretend','P','Person',NULL,'214',NULL,NULL,'Active','Tier 2','1600 Pennsylvania Avenue Northwest, Washington, DC, USA','REGISTER','246760','(555)555-5555',NULL,'1600 Pennsylvania Avenue Northwest, Washington, DC, USA',NULL,NULL,'246752','2019-01-24 15:59:05','2019-01-24 17:11:48'),(246803,'Jim',NULL,'Jimmerson','561','214',NULL,NULL,'Active','Tier 3','1600 Pennsylvania Avenue, West Sacramento, CA, USA','123456789','1497','(555)555-5555',NULL,'1600 Pennsylvania Avenue, West Sacramento, CA, USA',NULL,NULL,'246761','2019-02-27 20:56:35','2019-02-27 20:57:58'),(246822,'Fix',NULL,'Test',NULL,'214',NULL,NULL,'Active','Tier 2','1600 Pennsylvania Avenue Northwest, Washington, DC, USA','123456789','3151','(555)555-5555',NULL,'1600 Pennsylvania Avenue Northwest, Washington, DC, USA',NULL,NULL,'246752','2019-04-05 17:00:41',NULL);
 /*!40000 ALTER TABLE `rpt_clients` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -742,7 +740,6 @@ CREATE TABLE `rpt_dependents` (
 
 LOCK TABLES `rpt_dependents` WRITE;
 /*!40000 ALTER TABLE `rpt_dependents` DISABLE KEYS */;
-INSERT INTO `rpt_dependents` VALUES (246805,'Jane','Jimmerson','215',NULL,'3180','Relationship Not Entered','39','229','239',246803,NULL,'{\"_firstname\":\"Jane\",\"_lastname\":\"Jimmerson\",\"_age\":39,\"_gender\":215,\"_relationship\":3180,\"_ethnicity\":229,\"_race\":239,\"_alternatecontact\":687}','{\"wu\":[],\"solr\":{\"content\":\"Jane\\nJimmerson\\n39\\n215\\n3180\\n229\\n239\\n687\\n\",\"familymemberfirstname_s\":\"Jane\",\"familymemberlastname_s\":\"Jimmerson\",\"clientage_i\":39,\"familymemberethnicity_i\":229,\"familymemberrace_i\":239,\"alternatecontact_s\":687},\"lastAction\":{\"type\":\"create\",\"time\":\"2019-02-27T20:58:55Z\",\"users\":{\"1\":\"531782\"}}}');
 /*!40000 ALTER TABLE `rpt_dependents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -772,7 +769,6 @@ CREATE TABLE `rpt_locations` (
 
 LOCK TABLES `rpt_locations` WRITE;
 /*!40000 ALTER TABLE `rpt_locations` DISABLE KEYS */;
-INSERT INTO `rpt_locations` VALUES (246752,'Test','Test','Test',NULL,NULL,'Test','Test'),(246761,'Denver Medical Center','Rehab Center','Denver','CO',NULL,'Denver','United States'),(246762,'Georgetown Hospital','Hospital','Washington','DC',NULL,'NW','United States');
 /*!40000 ALTER TABLE `rpt_locations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -798,7 +794,6 @@ CREATE TABLE `rpt_notes` (
 
 LOCK TABLES `rpt_notes` WRITE;
 /*!40000 ALTER TABLE `rpt_notes` DISABLE KEYS */;
-INSERT INTO `rpt_notes` VALUES (246798,246763,'{\"_entrydate\":\"2018-11-07T05:49:00.000Z\",\"_notetype\":1836,\"_casenote\":\"Testing to see how this appears\"}','{\"wu\":[],\"solr\":{\"content\":\"2018-11-07T05:49:00.000Z\\n1836\\nTesting to see how this appears\\n\",\"casenote_ss\":\"Testing to see how this appears\"},\"lastAction\":{\"type\":\"create\",\"time\":\"2018-11-07T05:50:21Z\",\"users\":{\"1\":\"531722\"}}}'),(246817,246803,'{\"_entrydate\":\"2019-03-23T15:11:00.000Z\",\"_notetype\":{\"value\":246807,\"childs\":{\"_followuptype\":246809}},\"_casenote\":\"211 Referred us to Jim Jimmerson, we conducted intake and they are now in the system. This fulfills follow up action note entered 3\\/22\\/19.\"}','{\"wu\":[],\"solr\":{\"content\":\"246809\\n2019-03-23T15:11:00.000Z\\n246807\\n211 Referred us to Jim Jimmerson, we conducted intake and they are now in the system. This fulfills follow up action note entered 3\\/22\\/19.\\n\",\"casenote_ss\":\"211 Referred us to Jim Jimmerson, we conducted intake and they are now in the system. This fulfills follow up action note entered 3\\/22\\/19.\"},\"lastAction\":{\"type\":\"create\",\"time\":\"2019-03-23T15:12:10Z\",\"users\":{\"1\":\"531844\"}}}');
 /*!40000 ALTER TABLE `rpt_notes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -829,7 +824,6 @@ CREATE TABLE `rpt_referrals` (
 
 LOCK TABLES `rpt_referrals` WRITE;
 /*!40000 ALTER TABLE `rpt_referrals` DISABLE KEYS */;
-INSERT INTO `rpt_referrals` VALUES (246755,'Child','IDCM Worker Advocacy','Not Identified','2018-08-31 13:03:25',NULL,'{\"_referraltype\":{\"value\":\"1359\",\"childs\":{\"_referralservice\":62816}},\"_resultname\":\"N\\/A\",\"_refferalservicename\":\"IDCM Worker Advocacy\",\"_refferaltypename\":\"Child\",\"_clientname\":\"Test, Test \",\"_clientlocation\":\"Test - Test\",\"_clientcounty\":\"Test\",\"_resourcename\":\"Not Identified\",\"_resourcelocation\":\"\"}','{\"wu\":[],\"solr\":{\"content\":\"62816\\nIDCM Worker Advocacy\\nChild\\nTest, Test \\nTest - Test\\nTest\\nNot Identified\\nN\\/A\\n1359\\n\",\"referralservicename_s\":\"IDCM Worker Advocacy\",\"refferaltypename_s\":\"Child\",\"clientname_s\":\"Test, Test \",\"clientlocation_s\":\"Test - Test\",\"clientcounty_s\":\"Test\",\"resourcename_s\":\"Not Identified\",\"resultname_s\":\"N\\/A\",\"referraltype_s\":1359},\"lastAction\":{\"type\":\"create\",\"time\":\"2018-08-31T13:03:25Z\",\"users\":{\"1\":\"531461\"}}}',246753),(246757,'Clothing','Clothing and Other Personal Items','Not Identified','2018-08-31 13:10:45',NULL,'{\"_referraltype\":{\"value\":\"1397\",\"childs\":{\"_referralservice\":62844}},\"_resultname\":\"N\\/A\",\"_refferalservicename\":\"Clothing and Other Personal Items\",\"_refferaltypename\":\"Clothing\",\"_clientname\":\"Test, Test \",\"_clientlocation\":\"Test - Test\",\"_clientcounty\":\"Test\",\"_resourcename\":\"Not Identified\",\"_resourcelocation\":\"\"}','{\"wu\":[],\"solr\":{\"content\":\"62844\\nClothing and Other Personal Items\\nClothing\\nTest, Test \\nTest - Test\\nTest\\nNot Identified\\nN\\/A\\n1397\\n\",\"referralservicename_s\":\"Clothing and Other Personal Items\",\"refferaltypename_s\":\"Clothing\",\"clientname_s\":\"Test, Test \",\"clientlocation_s\":\"Test - Test\",\"clientcounty_s\":\"Test\",\"resourcename_s\":\"Not Identified\",\"resultname_s\":\"N\\/A\",\"referraltype_s\":1397},\"lastAction\":{\"type\":\"create\",\"time\":\"2018-08-31T13:10:45Z\",\"users\":{\"1\":\"531481\"}}}',246753);
 /*!40000 ALTER TABLE `rpt_referrals` ENABLE KEYS */;
 UNLOCK TABLES;
 
