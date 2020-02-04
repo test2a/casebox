@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/apprio/casebox-core.git",
-                "reference": "17c6f7aa650eb17f6a6e2d49a8347e3cb5b991a8"
+                "reference": "1784cc3a8e8a7ea9ddbc090a1ab6f209fbaee461"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/apprio/casebox-core/zipball/17c6f7aa650eb17f6a6e2d49a8347e3cb5b991a8",
-                "reference": "17c6f7aa650eb17f6a6e2d49a8347e3cb5b991a8",
+                "url": "https://api.github.com/repos/apprio/casebox-core/zipball/1784cc3a8e8a7ea9ddbc090a1ab6f209fbaee461",
+                "reference": "1784cc3a8e8a7ea9ddbc090a1ab6f209fbaee461",
                 "shasum": ""
             },
             "require": {
@@ -93,9 +93,9 @@
                 "symfony"
             ],
             "support": {
-                "source": "https://github.com/apprio/casebox-core/tree/V1.9"
+                "source": "https://github.com/apprio/casebox-core/tree/V1.9.0"
             },
-            "time": "2020-02-04T21:59:21+00:00"
+            "time": "2020-02-04T22:38:38+00:00"
         },
         {
             "name": "caseboxdev/rest-bundle",
