@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/apprio/casebox-core.git",
-                "reference": "5d1eaeb03ea268f93f348e1ac0cf923455c13596"
+                "reference": "21c911b1e1e13dedc59138b5a1dc2cb447d39003"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/apprio/casebox-core/zipball/5d1eaeb03ea268f93f348e1ac0cf923455c13596",
-                "reference": "5d1eaeb03ea268f93f348e1ac0cf923455c13596",
+                "url": "https://api.github.com/repos/apprio/casebox-core/zipball/21c911b1e1e13dedc59138b5a1dc2cb447d39003",
+                "reference": "21c911b1e1e13dedc59138b5a1dc2cb447d39003",
                 "shasum": ""
             },
             "require": {
