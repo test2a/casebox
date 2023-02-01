@@ -33,7 +33,7 @@
     "symfony/doctrine-bridge": "^3.0",
     "sensio/framework-extra-bundle": "^3.0.2",
     "kwi/urllinker": "@dev",
-    "dompdf/dompdf": "1.2.1",
+    "dompdf/dompdf": "2.0.2",
     "firebase/php-jwt": "^5.0",
     "koolphp/koolreport": "^2.0",
     "caseboxdev/core-bundle": "@dev",
